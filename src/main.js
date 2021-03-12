@@ -22,7 +22,7 @@ Vue.config.productionTip = false
 
 moment.locale('zh-cn')
 
-Vue.use(NUI)
+// Vue.use(NUI)
 Vue.use(VueAwesome)
 Vue.use(ECharts)
 
