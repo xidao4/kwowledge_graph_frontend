@@ -18,7 +18,7 @@ pipeline {
                 label 'master'
             }
             steps{
-                sh "cp dist /root/vue/ -f"
+                sh "cp dist /root/vue/ -rf"
                 sh "cp Dockerfile /root/vue/ -f"
                 sh "cd /root/vue"
                 sh "ls"
