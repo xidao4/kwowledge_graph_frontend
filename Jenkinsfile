@@ -9,6 +9,7 @@ pipeline {
             }
             steps {
                 echo 'yarn config'
+                sh 'yarn config set registry https://registry.npm.taobao.org'
                 sh 'yarn install'
                 sh 'yarn build'
             }
@@ -18,13 +19,9 @@ pipeline {
                 label 'master'
             }
             steps{
-                sh "cp dist /root/vue/ -rf"
-                sh "cp Dockerfile /root/vue/ -f"
-                sh "cd /root/vue"
-                sh "ls"
                 sh "docker build . -t frontend-coin:${BUILD_ID}"
                 sh "if (docker ps -a |grep frontend-coin) then (docker stop frontend-coin && docker rm frontend-coin) fi"
-                sh "docker run -p 8080:80 --name frontend-coin -v /log:/log -d frontend-coin:${BUILD_ID}"
+                sh "docker run -p 8080:80 --name frontend-coin -d frontend-coin:${BUILD_ID}"
             }
         }
     }
