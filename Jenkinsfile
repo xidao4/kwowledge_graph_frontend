@@ -9,9 +9,6 @@ pipeline {
             }
             steps {
                 echo 'yarn config'
-                sh 'yarn config set ignore-engines true'
-                sh 'yarn config set registry https://registry.npm.taobao.org'
-                sh 'yarn config set "chromedriver_cdnurl" "https://npm.taobao.org/mirrors/chromedriver"'
                 sh 'yarn install'
                 sh 'yarn build'
             }
