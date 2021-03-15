@@ -3,8 +3,12 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import moment from 'moment'
+import Antd from 'ant-design-vue';
+import 'ant-design-vue/dist/antd.css';
 import VueAwesome from './components/VueAwesome'
 import ECharts from './components/ECharts'
+
+Vue.use(Antd);
 
 Vue.config.productionTip = false;
 
@@ -22,7 +26,7 @@ Vue.config.productionTip = false
 
 moment.locale('zh-cn')
 
-Vue.use(NUI)
+// Vue.use(NUI)
 Vue.use(VueAwesome)
 Vue.use(ECharts)
 
