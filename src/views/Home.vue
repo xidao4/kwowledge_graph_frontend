@@ -16,10 +16,19 @@
         实体
       </h3>
       <div id="tagList">
-        <a-tag color="pink" v-for="node in nodes" :key="node" style="margin-bottom: 8px">
+        <a-tag color="pink" v-for="node in nodes" :key="node" style="margin-bottom: 8px;cursor: pointer" @click="changeNode">
           {{node}}
         </a-tag>
-        <a-tag color="blue">
+        <a-modal
+          title="修改节点"
+          :visible="changeNodeVisible"
+          @ok="handleOk"
+          @cancel="handleCancel"
+        >
+          hi
+        </a-modal>
+
+        <a-tag color="blue" style="cursor: pointer">
           增加节点
         </a-tag>
       </div>
@@ -34,6 +43,7 @@ export default {
   name: 'Home',
   data() {
     return {
+      changeNodeVisible: false,
       headers: {
         authorization: 'authorization-text',
       },
@@ -58,6 +68,15 @@ export default {
 
   },
   methods: {
+    changeNode(){
+      this.changeNodeVisible=true
+    },
+    handleOk(e) {
+      this.changeNodeVisible=false
+    },
+    handleCancel(e) {
+      this.changeNodeVisible=false
+    },
     handleChange(info) {
       if (info.file.status !== 'uploading') {
         console.log(info.file, info.fileList);
