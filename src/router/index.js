@@ -1,14 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import UserGraph from '../views/graph/UserGraph'
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'UserGraph',
+    component: UserGraph,
+
   }
 ];
 

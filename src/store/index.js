@@ -18,6 +18,13 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
 }, {})
 
 const store = new Vuex.Store({
+    state: {
+         colorList: {
+            pink: {
+                key: '粉色', color: '#FFB8C6'
+            }
+        }
+    },
     modules:{
 
     },

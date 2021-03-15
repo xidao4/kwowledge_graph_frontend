@@ -1,35 +1,12 @@
 <template>
-  <div>
-    <div id="up">
-      <a-upload
-        name="file"
-        :multiple="true"
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-        :headers="headers"
-        @change="handleChange"
-      >
-        <a-button> <a-icon type="upload" /> Click to Upload </a-button>
-      </a-upload>
-    </div>
-    <div id="tagContainer">
-      <h3 style="margin-bottom: 16px;margin-bottom: 5px;text-align: center">
-        实体
-      </h3>
-      <div id="tagList">
-        <a-tag color="pink" v-for="node in nodes" :key="node" style="margin-bottom: 8px">
-          {{node}}
-        </a-tag>
-        <a-tag color="blue">
-          增加节点
-        </a-tag>
-      </div>
-    </div>
-  </div>
+  <a-layout>
+    <a-layout-content>
 
+    </a-layout-content>
+  </a-layout>
 </template>
 
 <script>
-
 export default {
   name: 'Home',
   data() {
@@ -55,6 +32,7 @@ export default {
     };
   },
   components: {
+    ALayoutSider
 
   },
   methods: {
