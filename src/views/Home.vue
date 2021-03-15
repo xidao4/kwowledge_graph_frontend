@@ -12,35 +12,17 @@
       </a-upload>
     </div>
     <div id="tagContainer">
-      <h4 style="margin-bottom: 16px;margin-bottom: 5px;text-align: center">
+      <h3 style="margin-bottom: 16px;margin-bottom: 5px;text-align: center">
         实体
-      </h4>
-      <a-tag color="pink">
-        节点1
-      </a-tag>
-      <a-tag color="red">
-        节点2
-      </a-tag>
-      <a-tag color="blue">
-        节点略略略略略
-      </a-tag>
-      <a-tag color="blue">
-        节点略略略略略
-      </a-tag>
-      <a-tag color="blue">
-        节点略略略略略
-      </a-tag>
-      <a-tag color="blue">
-        节点略略略略略
-      </a-tag>
-      <a-tag color="blue">
-        节点略略略略略
-      </a-tag>
-      <a-tag color="blue">
-        节点略略略略略
-      </a-tag>
-
-
+      </h3>
+      <div id="tagList">
+        <a-tag color="pink" v-for="node in nodes" :key="node" style="margin-bottom: 8px">
+          {{node}}
+        </a-tag>
+        <a-tag color="blue">
+          增加节点
+        </a-tag>
+      </div>
     </div>
   </div>
 
@@ -55,6 +37,21 @@ export default {
       headers: {
         authorization: 'authorization-text',
       },
+      nodes: [
+        '节点1',
+        '节点2',
+        '节点略略略略略1',
+        '节点啦啦啦2',
+        '吧啦吧啦吧啦3',
+        '吧啦吧啦吧啦4',
+        '节点略略略略略5',
+        '节点略略略略略6',
+        '节点略略略略略7',
+        '节点略略略略略8',
+        '节点略略略略略9',
+        '节点啦啦啦10',
+        '节点啦啦啦11',
+      ]
     };
   },
   components: {
@@ -79,12 +76,15 @@ export default {
 #up{
   /*margin-top: 30px;*/
   width: 30%;
+  height: 160px;
   margin:0 auto;
   padding-top: 30px;
 }
 #tagContainer{
-  position: absolute;
-  margin-top: 60px;
   width: 100%;
+}
+#tagList{
+  width: 65%;
+  margin: 0 auto;
 }
 </style>
