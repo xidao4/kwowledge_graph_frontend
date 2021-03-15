@@ -2,6 +2,7 @@
   <a-layout>
     <a-layout-content>
 
+
     </a-layout-content>
   </a-layout>
 </template>
@@ -11,6 +12,7 @@ export default {
   name: 'Home',
   data() {
     return {
+      changeNodeVisible: false,
       headers: {
         authorization: 'authorization-text',
       },
@@ -36,6 +38,15 @@ export default {
 
   },
   methods: {
+    changeNode(){
+      this.changeNodeVisible=true
+    },
+    handleOk(e) {
+      this.changeNodeVisible=false
+    },
+    handleCancel(e) {
+      this.changeNodeVisible=false
+    },
     handleChange(info) {
       if (info.file.status !== 'uploading') {
         console.log(info.file, info.fileList);
