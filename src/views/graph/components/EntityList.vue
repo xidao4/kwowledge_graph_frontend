@@ -4,7 +4,7 @@
             实体
         </h3>
         <div class="tagList">
-            <a-tag :color="node.color" v-for="(node, index) in nodes" :key="index" style="margin-bottom: 8px;cursor: pointer" @click="changeEntity">
+            <a-tag :color="node.color" v-for="(node, index) in nodes" :key="index" style="margin-bottom: 8px;cursor: pointer" @click="handleChangeEntity">
                 {{node.name}}
             </a-tag>
             <a-modal
@@ -42,7 +42,7 @@
 
             </a-modal>
 
-            <a-tag style="cursor: pointer" @click="addEntity">
+            <a-tag style="cursor: pointer" @click="handleAddEntity">
                 增加节点
             </a-tag>
             <a-modal
@@ -112,7 +112,7 @@
             this.colorValue2=val
             console.log(val)
           },
-          changeEntity(){
+          handleChangeEntity(){
             this.changeEntityVisible=true
           },
           handleChangeOk(e) {
@@ -124,7 +124,7 @@
           handleChangeCancel(e){
               this.changeEntityVisible = false;
           },
-          addEntity(){
+          handleAddEntity(){
               this.addEntityVisible=true;
           },
           handleAddCancel(e){

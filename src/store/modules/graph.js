@@ -1,3 +1,13 @@
+import{
+    deleteEntityAPI,
+    deleteRelationAPI,
+    addEntityAPI,
+    addRelationAPI,
+    changeEntityAPI,
+    changeRelationAPI,
+} from "../../api/graph";
+import { message } from 'ant-design-vue'
+
 const state = {
     graphInfo: [
 
@@ -27,37 +37,59 @@ const state = {
 const graph = {
     state,
     mutations: {
-        set_tags(state, data) {
-            state.tags = data
+        set_graph(state, data) {
+            state.graphInfo = data
         }
     },
     actions: {
-        getAllTags:async({commit},param)=>{
-            const res=await getAllTagsAPI(param)
+        addEntity:async({commit},param)=>{
+            const res=await addEntityAPI(param)
             if(res){
-                commit('set_tags',res)
+                message.success('增加实体成功')
             }else{
-                message.error('获取该酒店服务标签失败')
+                message.error('增加实体失败')
             }
         },
-        addTag:async({dispatch},param)=>{
-            const res=await addTagAPI(param)
+        deleteEntity:async({commit},param)=>{
+            const res=await deleteEntityAPI(param)
             if(res){
-                dispatch('getAllTags',param.hotelId)
+                message.success('删除实体成功')
             }else{
-                message.error('增加该酒店服务标签失败')
+                message.error('删除实体失败')
             }
         },
-        deleteTag:async({dispatch},removedTag)=>{
-            const res=await deleteTagAPI(removedTag.id)
+        changeEntity:async({commit},param)=>{
+            const res=await changeEntityAPI(param)
             if(res){
-                console.log('removedTag.hotelId',removedTag.hotelId)
-                await dispatch('getAllTags',removedTag.hotelId)
+                message.success('修改实体成功')
             }else{
-                message.error('删除该酒店服务标签失败')
+                message.error('修改实体失败')
             }
-        }
-
+        },
+        addRelation:async({commit},param)=>{
+            const res=await addRelationAPI(param)
+            if(res){
+                message.success('增加关系成功')
+            }else{
+                message.error('增加关系失败')
+            }
+        },
+        changeRelation:async({commit},param)=>{
+            const res=await changeRelationAPI(param)
+            if(res){
+                message.success('修改关系成功')
+            }else{
+                message.error('修改关系失败')
+            }
+        },
+        deleteRelation:async({commit},param)=>{
+            const res=await deleteRelationAPI(param)
+            if(res){
+                message.success('删除关系成功')
+            }else{
+                message.error('删除关系失败')
+            }
+        },
     }
 };
 
