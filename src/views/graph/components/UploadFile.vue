@@ -7,7 +7,7 @@
                 :headers="headers"
                 @change="handleChange"
         >
-            <a-button> <a-icon type="upload" /> Click to Upload </a-button>
+            <a-button> <a-icon type="upload" /> 点击上传文件 </a-button>
         </a-upload>
     </div>
 </template>
@@ -44,7 +44,7 @@
 .up{
     /*margin-top: 30px;*/
     width: 30%;
-    height: 160px;
+    height: 130px;
     margin:0 auto;
     padding-top: 30px;
 }
