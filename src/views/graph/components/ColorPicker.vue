@@ -34,18 +34,23 @@
     methods:{
       pick1(){
         this.colorValue='1';
+        this.$emit('childFn', this.colorValue);
       },
       pick2(){
         this.colorValue='2';
+        this.$emit('childFn', this.colorValue);
       },
       pick3(){
         this.colorValue='3';
+        this.$emit('childFn', this.colorValue);
       },
       pick4(){
         this.colorValue='4';
+        this.$emit('childFn', this.colorValue);
       },
       pick5(){
         this.colorValue='5';
+        this.$emit('childFn', this.colorValue);
       }
     }
   }

@@ -37,7 +37,7 @@
                           placeholder="关系一"
                         />
                     </a-form-item>
-                    <color-picker style="margin-left: 10%"></color-picker>
+                    <color-picker style="margin-left: 10%" @childFn="parentFn1"></color-picker>
                 </a-form>
 
             </a-modal>
@@ -59,7 +59,7 @@
                           placeholder="请输入新的实体值"
                         />
                     </a-form-item>
-                    <color-picker style="margin-left: 10%"></color-picker>
+                    <color-picker style="margin-left: 10%" @childFn="parentFn2"></color-picker>
                 </a-form>
 
             </a-modal>
@@ -94,6 +94,8 @@
                 entityValue: '',
                 changeForm: this.$form.createForm(this, { name: 'changeEntityForm' }),
                 addForm: this.$form.createForm(this, { name: 'addEntityForm' }),
+                colorValue1: '',
+                colorValue2: '',
             }
         },
         computed:{
@@ -102,6 +104,14 @@
             )]
         },
         methods:{
+          parentFn1(val){
+            this.colorValue1=val
+            console.log(val)
+          },
+          parentFn2(val){
+            this.colorValue2=val
+            console.log(val)
+          },
           changeEntity(){
             this.changeEntityVisible=true
           },
