@@ -21,42 +21,102 @@ const state = {
             node2Name: "实体3",
             node2Color: "#FFF"
         },
+    ],
+    showGraphNodes: [
+        {
+            name: '操作系统集团',
+            color: "#F5222D"
+        }, {
+            name: '浏览器有限公司',
+            color: "#FA541C"
+        }, {
+            name: 'HTML科技',
+            color: "#FAAD14"
+        }, {
+            name: 'JavaScript科技',
+            color: "#13C2C2"
+        }, {
+            name: 'CSS科技',
+            color: "#52C41A"
+        }, {
+            name: 'Chrome',
+            color: "#1890FF"
+        }, {
+            name: 'IE',
+            color: "#FFB8C6"
+        }, {
+            name: 'Firefox',
+            color: "#FFB8C6"
+        }, {
+            name: 'Safari',
+            color: "#FFB8C6"
+        }
+    ],
+    showGraphEdges: [
+        {
+            node1: '浏览器有限公司',
+            node2: '操作系统集团',
+            name: '参股',
+            type: 'hasProperty',
+            color: '#000'
+        }, {
+            node1: 'HTML科技',
+            node2: '浏览器有限公司',
+            name: '参股',
+            type: 'hasProperty',
+            color: '#000'
+        }, {
+            node1: 'CSS科技',
+            node2: '浏览器有限公司',
+            name: '参股',
+            type: 'hasProperty',
+            color: '#000'
+        }, {
+            node1: 'JavaScript科技',
+            node2: '浏览器有限公司',
+            name: '参股',
+            type: 'hasProperty',
+            color: '#000'
+        }, {
+            node1: 'Chrome',
+            node2: '浏览器有限公司',
+            name: '是',
+            type: 'is',
+            color: '#000'
+        }, {
+            node1: 'IE',
+            node2: '浏览器有限公司',
+            name: '是',
+            type: 'is',
+            color: '#000'
+        }, {
+            node1: 'Firefox',
+            node2: '浏览器有限公司',
+            name: '董事',
+            type: 'is',
+            color: '#000'
+        }, {
+            node1: 'Safari',
+            node2: '浏览器有限公司',
+            name: '董事',
+            type: 'is',
+            color: '#000'
+        }, {
+            node1: 'Chrome',
+            node2: 'JavaScript科技',
+            name: '法人',
+            type: 'is',
+            color: '#000'
+        }
     ]
 };
 
 const graph = {
     state,
     mutations: {
-        set_tags(state, data) {
-            state.tags = data
-        }
+
     },
     actions: {
-        getAllTags:async({commit},param)=>{
-            const res=await getAllTagsAPI(param)
-            if(res){
-                commit('set_tags',res)
-            }else{
-                message.error('获取该酒店服务标签失败')
-            }
-        },
-        addTag:async({dispatch},param)=>{
-            const res=await addTagAPI(param)
-            if(res){
-                dispatch('getAllTags',param.hotelId)
-            }else{
-                message.error('增加该酒店服务标签失败')
-            }
-        },
-        deleteTag:async({dispatch},removedTag)=>{
-            const res=await deleteTagAPI(removedTag.id)
-            if(res){
-                console.log('removedTag.hotelId',removedTag.hotelId)
-                await dispatch('getAllTags',removedTag.hotelId)
-            }else{
-                message.error('删除该酒店服务标签失败')
-            }
-        }
 
     }
 };
