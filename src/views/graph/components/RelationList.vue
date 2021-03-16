@@ -21,6 +21,15 @@
           <span>关系值：</span>
           <a-tag>关系1</a-tag>
         </div>
+<!--        <a-popconfirm-->
+<!--          title="删除这个关系？"-->
+<!--          ok-text="Yes"-->
+<!--          cancel-text="No"-->
+<!--          @confirm="confirm"-->
+<!--          @cancel="cancel"-->
+<!--        >-->
+<!--          <a href="#">Delete</a>-->
+<!--        </a-popconfirm>-->
       </div>
 
       <div class="relationLine">
