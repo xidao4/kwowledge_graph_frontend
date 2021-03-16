@@ -10,7 +10,7 @@
     "ant-design-vue": "^1.7.4",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
-    "echarts": "^5.0.2",
+    "echarts": "^4.9.0",
     "less": "^3.11.1",
     "less-loader": "^6.1.2",
     "moment": "^2.29.1",
