@@ -1,18 +1,18 @@
 <template>
-    <a-layout>
-        <a-row>
+    <div>
+        <div class="margin-tb">
             <upload-file></upload-file>
-        </a-row>
-        <a-row>
+        </div>
+        <div class="margin-tb">
             <entity-list></entity-list>
-        </a-row>
-        <a-row>
+        </div>
+        <div class="margin-tb">
             <relation-list></relation-list>
-        </a-row>
-        <a-row>
+        </div>
+        <div class="margin-tb">
             <graph></graph>
-        </a-row>
-    </a-layout>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -30,7 +30,10 @@
 </script>
 
 <style scoped>
-.ant-layout{
+.ant-layout {
     background-color: white;
+}
+.margin-tb {
+    margin: 50px 0;
 }
 </style>

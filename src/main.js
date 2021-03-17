@@ -6,29 +6,21 @@ import moment from 'moment'
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.less';
 import VueAwesome from './components/VueAwesome'
-import ECharts from './components/ECharts'
+import echarts from 'echarts'
+
 
 Vue.use(Antd);
 
 Vue.config.productionTip = false;
 
 Vue.prototype.$moment = moment
-Vue.prototype.$open = href => {
-  const a = document.createElement('a')
-  a.href = href
-  a.target = '_blank'
-  a.style.display = 'none'
-  document.body.appendChild(a)
-  a.click()
-  a.remove()
-}
+
 Vue.config.productionTip = false
 
 moment.locale('zh-cn')
 
-// Vue.use(NUI)
 Vue.use(VueAwesome)
-Vue.use(ECharts)
+Vue.prototype.$echarts = echarts
 
 new Vue({
   router,
