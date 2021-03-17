@@ -70,7 +70,7 @@
 .up{
     /*margin-top: 30px;*/
     width: 30%;
-    height: 130px;
+    height: 100px;
     margin:0 auto;
     /*padding-top: 6px;*/
 }
