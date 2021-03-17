@@ -186,8 +186,10 @@
                 window.onresize = () => {
                     this.chart.resize();
                 };
+                let that = this;
                 this.chart.on('click',  function(param) {
-                    this.handleItemClick(param);
+                    console.log(param)
+                    that.handleItemClick(param);
                 });
             },
             handleTypeChange(value) {
