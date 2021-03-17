@@ -185,11 +185,17 @@
                 this.chart.setOption(option);
                 window.onresize = () => {
                     this.chart.resize();
-                }
+                };
+                this.chart.on('click',  function(param) {
+                    this.handleItemClick(param);
+                });
             },
             handleTypeChange(value) {
                 this.chosenFileType = value.key;
                 this.downloadImage();
+            },
+            handleItemClick(param){
+
             },
             downloadImage(){
                 let imgUrl = this.chart.getDataURL({
