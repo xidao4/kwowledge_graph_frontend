@@ -33,11 +33,14 @@
                 'colorList',
             ])
         },
-        mounted() {
+        async mounted() {
             console.log(this.colorList)
+            await this.getAll()
         },
         methods:{
-
+            ...mapActions([
+              'getAll'
+            ])
         }
     }
 </script>

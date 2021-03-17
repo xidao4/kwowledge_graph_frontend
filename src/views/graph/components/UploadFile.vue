@@ -15,6 +15,7 @@
 </template>
 
 <script>
+    import {mapGetters,mapMutations,mapActions} from 'vuex'
     export default {
         name: "UploadFile",
         data() {
@@ -28,7 +29,17 @@
         components: {
 
         },
+        computed:{
+            ...mapGetters([
+            ])
+        },
         methods: {
+            ...mapMutations([
+                'set_graph',
+                'set_picId',
+                'set_nodes',
+                'set_links'
+            ]),
             handleBeforeUpload(file,fileList){
                 console.log('beforeUpload')
                 const size=fileList.length;
@@ -57,6 +68,10 @@
             handleChange(info) {
                 if (info.file.status === 'done') {
                     this.$message.success(`${info.file.name} file uploaded successfully`);
+                    console.log(info.file.response)
+                    this.set_picId(info.file.response)
+                    this.set_links(info.file.links)
+                    this.set_nodes(info.file.nodes)
                 } else if (info.file.status === 'error') {
                     this.$message.error(`${info.file.name} file upload failed.`);
                 }
