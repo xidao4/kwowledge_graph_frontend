@@ -9,7 +9,7 @@
                 accept=".rdf,.owl"
                 :beforeUpload="handleBeforeUpload"
         >
-            <a-button> <a-icon type="upload" /> 点击上传文件 </a-button>
+            <a-button> <a-icon type="upload" /> 点击上传".rdf/.owl"文件 </a-button>
         </a-upload>
     </div>
 </template>
@@ -72,6 +72,6 @@
     width: 30%;
     height: 130px;
     margin:0 auto;
-    padding-top: 30px;
+    /*padding-top: 6px;*/
 }
 </style>
