@@ -2,26 +2,26 @@ const state = {
     graphInfo: [
 
     ],
-    showGraphInfo: [
-        {
-            node1Name: "实体1",
-            node1Color: "#FFF",
-            relationName: "关系1",
-            relationType: "subClass of",
-            relationColor: "#000",
-            node2Name: "实体2",
-            node2Color: "#FFF"
-        },
-        {
-            node1Name: "实体2",
-            node1Color: "#FFF",
-            relationName: "关系2",
-            relationType: "subClass of",
-            relationColor: "#000",
-            node2Name: "实体3",
-            node2Color: "#FFF"
-        },
-    ],
+    // showGraphInfo: [
+    //     {
+    //         node1Name: "实体1",
+    //         node1Color: "#FFF",
+    //         relationName: "关系1",
+    //         relationType: "subClass of",
+    //         relationColor: "#000",
+    //         node2Name: "实体2",
+    //         node2Color: "#FFF"
+    //     },
+    //     {
+    //         node1Name: "实体2",
+    //         node1Color: "#FFF",
+    //         relationName: "关系2",
+    //         relationType: "subClass of",
+    //         relationColor: "#000",
+    //         node2Name: "实体3",
+    //         node2Color: "#FFF"
+    //     },
+    // ],
     showGraphNodes: [
         {
             name: '操作系统集团',
