@@ -6,10 +6,18 @@ import{
     changeEntityAPI,
     changeRelationAPI,
 } from "../../api/graph";
+
 import { message } from 'ant-design-vue'
 
 const state = {
     graphInfo: [
+        'hi'
+    ],
+    picId: '',
+    nodes:[
+
+    ],
+    links:[
 
     ],
     // showGraphInfo: [
@@ -126,7 +134,16 @@ const graph = {
     mutations: {
         set_graph(state, data) {
             state.graphInfo = data
-        }
+        },
+        set_picId(state, data) {
+            state.picId = data
+        },
+        set_nodes(state, data) {
+            state.nodes = data
+        },
+        set_links(state, data) {
+            state.links= data
+        },
     },
     actions: {
         addEntity:async({commit},param)=>{

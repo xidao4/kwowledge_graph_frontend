@@ -33,11 +33,14 @@
                 'colorList',
             ])
         },
-        mounted() {
+        async mounted() {
             console.log(this.colorList)
+            await this.getAll()
         },
         methods:{
-
+            ...mapActions([
+              'getAll'
+            ])
         }
     }
 </script>
@@ -47,6 +50,6 @@
     background-color: white;
 }
 .margin-tb {
-    margin: 50px 0;
+    margin: 40px 0;
 }
 </style>

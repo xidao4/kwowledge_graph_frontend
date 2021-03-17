@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { axios } from '@/utils/request'
 
 const api = {
   graphPre: '/api/graph'
