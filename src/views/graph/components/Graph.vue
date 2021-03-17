@@ -25,6 +25,15 @@
     import {mapGetters, mapMutations, mapActions} from 'vuex';
     import ARow from "ant-design-vue/es/grid/Row";
     import ACol from "ant-design-vue/es/grid/Col";
+
+    const fileType = {
+        png: 'png',
+        jpeg: 'jpeg',
+        xml: 'xml',
+        rdf: 'rdf',
+        owl: 'owl'
+    }
+
     export default {
         name: "Graph",
         components: {ACol, ARow},
@@ -35,22 +44,27 @@
                 downloadFileType: [
                     {
                         type: 'PNG图片文件',
-                        value: 'png',
+                        value: fileType.png,
                         icon: 'file-image'
                     },
                     {
                         type: 'JPEG图片',
-                        value: 'jpeg',
+                        value: fileType.jpeg,
                         icon: 'file-image'
                     },
                     {
                         type: 'XML文件',
-                        value: 'xml',
+                        value: fileType.xml,
                         icon: 'file-excel'
                     },
                     {
                         type: 'RDF文件',
-                        value: 'rdf',
+                        value: fileType.rdf,
+                        icon: 'file-text'
+                    },
+                    {
+                        type: 'OWL文件',
+                        value: fileType.owl,
                         icon: 'file-text'
                     },
                 ],
@@ -121,7 +135,6 @@
                     link.source = link.node1;
                     link.target = link.node2;
                 });
-                console.log(showNodes)
                 let option = {
                     color: legendColor,
                     legend: {
@@ -161,7 +174,6 @@
                                     fontSize: 20
                                 },
                                 formatter(x) {
-                                    console.log(x)
                                     return x.data.name;
                                 }
                             }
@@ -179,6 +191,13 @@
                         categories: categories,
                         animationDuration: 1500,
                         animationEasingUpdate: "quinticInOut",
+                        tooltip: {
+                            show: true,
+                            trigger: 'item',
+                            formatter: function (params) {//提示框自定义
+                                return this.formatterLabel(params, "%", "#f9d546")
+                            },
+                        }
                     }]
                 };
 
@@ -192,9 +211,20 @@
                     that.handleItemClick(param);
                 });
             },
+            formatterLabel(params, unit, color) {
+                console.log(params);
+                let tip = '';
+                let colorIn = color ? color : '#D99CA8';
+                tip = tip + '<span style="display:inline-block; margin-right:4px; border-radius:10px; width:10px; height:10px;' +
+                    'background-color:' + colorIn + ';"></span>'
+                tip = tip + '<span>' + params.data[0] + ':</span>' + '<span style="font-weight:bold">' + params.data[1]  + '</span>'
+                return tip;
+            },
             handleTypeChange(value) {
                 this.chosenFileType = value.key;
-                this.downloadImage();
+                if(this.chosenFileType === fileType.png || this.chosenFileType === fileType.jpeg){
+                    this.downloadImage();
+                }
             },
             handleItemClick(param){
 
