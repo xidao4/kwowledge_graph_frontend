@@ -19,13 +19,15 @@
             </a-col>
         </a-row>
 
-        <EntityModal :showModal="showEntityModal" :info="showEntityInfo" @closeModal="closeEntityModal"></EntityModal>
+        <EntityModal :showModal="showEntityModal" :info="showEntityInfo" @closeModal="closeModal"></EntityModal>
+        <RelationLine :showModal="showRelationModal" :info="showRelationInfo" @closeModal="closeModal"></RelationLine>
     </div>
 </template>
 
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex';
     import EntityModal from './EntityModal';
+    import RelationLine from "./RelationLine";
 
     const fileType = {
         png: 'png',
@@ -38,6 +40,7 @@
     export default {
         name: "Graph",
         components: {
+            RelationLine,
             EntityModal
         },
         data(){
@@ -77,7 +80,9 @@
                 showEntityInfo: {
                     name: '',
                     color: ''
-                }
+                },
+                showRelationModal: false,
+                showRelationInfo: {}
             }
         },
         computed: {
@@ -236,17 +241,19 @@
             },
             handleItemClick(param){
                 if(param.hasOwnProperty('target')){
-
+                    this.showRelationModal = true;
+                    this.showRelationInfo = param;
                 } else {
                     this.showEntityModal = true;
                     this.showEntityInfo = param;
                 }
             },
-            closeEntityModal(changed){
+            closeModal(changed){
                 if(changed){
                     this.draw();
                 }
                 this.showEntityModal = false;
+                this.showRelationModal = false;
             },
             downloadImage(){
                 let imgUrl = this.chart.getDataURL({
