@@ -68,7 +68,7 @@
                     <a-form-item label="实体值：">
                         <a-input
                           v-decorator="['entityValue', { rules: [{ required: true, message: '请输入实体值' }] }]"
-                          placeholder="请输入新的实体值"
+                          placeholder="请输入实体值"
                         />
                     </a-form-item>
                     <a-form-item label="颜色：" style="display: flex; align-items: center;">
