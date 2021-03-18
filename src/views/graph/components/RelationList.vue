@@ -97,7 +97,10 @@
               color: '#000'
             }
             this.addRelation(data)
+            console.log('add')
+            console.log(this.showGraphEdges)
             this.showGraphEdges.push(newData)
+            console.log(this.showGraphEdges)
           },
           cancelAdd(){
 

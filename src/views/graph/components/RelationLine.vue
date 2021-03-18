@@ -107,13 +107,14 @@
         }
         this.deleteRelation(data)
         console.log(this.showGraphEdges)
-        this.$emit('closeModal', true);
+
         for(let i=0;i<this.showGraphEdges.length;i++){
           if((this.showGraphEdges[i].node1===data.node1) && (this.showGraphEdges[i].node2===data.node2) && (this.showGraphEdges[i].name===data.name)){
             this.showGraphEdges.splice(i,1);
           }
         }
         console.log(this.showGraphEdges)
+        this.$emit('closeModal', true);
       },
       cancelDelete(){
         this.$emit('closeModal', false);
@@ -130,7 +131,7 @@
           node2: that.info.target
         }
         this.changeRelation(data)
-        this.$emit('closeModal', true);
+
         for(let i=0;i<this.showGraphEdges.length;i++){
           if((this.showGraphEdges[i].node1===data.node1) && (this.showGraphEdges[i].node2===data.node2) && (this.showGraphEdges[i].name===data.name)){
             this.showGraphEdges[i].name=data.newName
@@ -138,6 +139,7 @@
             break
           }
         }
+        this.$emit('closeModal', true);
       },
       cancelChange(){
         this.$emit('closeModal', true);
