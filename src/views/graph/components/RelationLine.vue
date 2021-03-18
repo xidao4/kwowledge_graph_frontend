@@ -10,34 +10,24 @@
     <div class="relationLine">
       <div class="keyValue">
         <span>定义域：</span>
-        <a-select :default-value="info.source">
-          <a-icon slot="suffixIcon" type="smile" />
-          <a-select-option :value="info.source">
-            {{info.source}}
-          </a-select-option>
-        </a-select>
+        <a-input :placeholder="this.info.source"  style="width: 200px" disabled/>
       </div>
 
       <div class="keyValue" style="margin-left: 14px">
         <span>值域：</span>
-        <a-select :default-value="info.target">
-          <a-icon slot="suffixIcon" type="smile" />
-          <a-select-option :value="info.target">
-            {{info.target}}
-          </a-select-option>
-        </a-select>
+        <a-input :placeholder="this.info.target"  style="width: 200px" disabled/>
       </div>
+
       <div class="keyValue" style="margin-left: 14px">
         <span>类型：</span>
         <a-select
           show-search
-          placeholder="选择一种关系类型"
           option-filter-prop="children"
           :filter-option="filterOption"
           @focus="handleFocus"
           @blur="handleBlur"
           @change="handleChange"
-          :default-value="info.type"
+          :placeholder="this.info.type"
         >
           <a-icon slot="suffixIcon" type="smile" />
           <a-select-option :value="type" v-for="type in this.relationTypeSet">
