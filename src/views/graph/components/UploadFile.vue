@@ -8,7 +8,6 @@
                 @change="handleChange"
                 accept=".json"
                 :beforeUpload="handleBeforeUpload"
-                multiple="true"
         >
             <a-button> <a-icon type="upload" /> 点击上传".json"文件 </a-button>
         </a-upload>
