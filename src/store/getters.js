@@ -6,7 +6,8 @@ const getters={
     nodes: state=>state.graph.nodes,
     links: state=>state.graph.links,
     showGraphInfo: state => state.graph.showGraphInfo,
+    relationTypeSet: state=>state.graph.relationTypeSet,
 
-    colorList: state=>state.util.colorList
+    colorList: state=>state.util.colorList,
 };
 export default getters

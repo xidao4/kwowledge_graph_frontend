@@ -14,8 +14,10 @@ const state = {
         'hi'
     ],
     picId: '',
+    relationTypeSet: new Set(['是','和']),
     nodes:[
-
+        {name:'node1'},
+        {name:'node2'}
     ],
     links:[
 
@@ -175,6 +177,11 @@ const graph = {
             }
             state.showGraphNodes.splice(index,1);
         },
+        set_relationTypeSet(state,data){
+            for (let i of data) {
+                state.relationTypeSet.add(i.type)
+            }
+        }
     },
     actions: {
         addEntity:async({commit},param)=>{

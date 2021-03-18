@@ -38,7 +38,9 @@
                 'set_graph',
                 'set_picId',
                 'set_nodes',
-                'set_links'
+                'set_links',
+                'set_relationTypeSet'
+
             ]),
             handleBeforeUpload(file,fileList){
                 console.log('beforeUpload')
@@ -72,6 +74,7 @@
                     this.set_picId(info.file.response)
                     this.set_links(info.file.links)
                     this.set_nodes(info.file.nodes)
+                    this.set_relationTypeSet(info.file.links)
                 } else if (info.file.status === 'error') {
                     this.$message.error(`${info.file.name} file upload failed.`);
                 }
