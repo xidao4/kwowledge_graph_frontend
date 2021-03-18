@@ -6,11 +6,13 @@
                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                 :headers="headers"
                 @change="handleChange"
+                :file-list="fileList"
                 accept=".json"
                 :beforeUpload="handleBeforeUpload"
                 multiple="true"
+                showUploadList="false"
         >
-            <a-button> <a-icon type="upload" /> 点击上传".json"文件 </a-button>
+            <a-button> <a-icon type="upload" /> {{this.uploadText}} </a-button>
         </a-upload>
     </div>
 </template>
@@ -24,7 +26,12 @@
                 headers: {
                     authorization: 'authorization-text',
                 },
-                maxNum: 1
+                maxNum: 1,
+                times: 0,
+                fileList:[
+
+                ],
+                uploadText: '点击上传".json"文件',
             };
         },
         components: {
@@ -44,7 +51,6 @@
 
             ]),
             handleBeforeUpload(file,fileList){
-                console.log('beforeUpload')
                 const size=fileList.length;
                 return new Promise((resolve, reject) => {
                     if(size!==1){
@@ -69,16 +75,26 @@
                 })
             },
             handleChange(info) {
+                let fileList = [...info.fileList];
+                console.log('???????')
+
+
                 if (info.file.status === 'done') {
                     this.$message.success(`${info.file.name} 文件上传成功`);
-                    console.log(info.file.response)
-                    this.set_picId(info.file.response)
-                    this.set_links(info.file.links)
-                    this.set_nodes(info.file.nodes)
-                    this.set_relationTypeSet(info.file.links)
+                    this.times=1;
+                    if(this.times===1){
+                        this.uploadText="再次上传.json文件"
+                    }
+                    // this.set_picId(info.file.response)
+                    // this.set_links(info.file.links)
+                    // this.set_nodes(info.file.nodes)
+                    // this.set_relationTypeSet(info.file.links)
                 } else if (info.file.status === 'error') {
                     this.$message.error(`${info.file.name} 文件上传失败.`);
                 }
+                console.log('!!!!!!!!!')
+                fileList = fileList.slice(-1);
+                this.fileList = fileList;
             },
 
         }
