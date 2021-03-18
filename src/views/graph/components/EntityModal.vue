@@ -23,20 +23,13 @@
         </template>
 
         <a-form :form="changeForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
-            <a-form-item label="实体值：">
+            <a-form-item label="实体值："
+                         :validate-status="name.validateStatus"
+                         :help="name.errorMsg || tips">
                 <a-input
-                        v-decorator="['newName',
-                            {
-                                rules:
-                                    [
-                                        {
-                                            required: true,
-                                            message: '请输入实体值'
-                                        }
-                                    ],
-                                initialValue: info.name
-                            }
-                        ]"
+                        v-model="name.value"
+                        :maxLength="15"
+                        @change="handleNameChange"
                 />
             </a-form-item>
 <!--            <color-picker style="margin-left: 10%" @childFn="parentFn1"></color-picker>-->
@@ -59,6 +52,10 @@
             return {
                 changeForm: this.$form.createForm(this, { name: 'changeEntityForm' }),
                 colorValue: '',
+                name: {
+                    value: '',
+                },
+                tips: '请输入1-15位实体值，与现有实体值不相同',
             }
         },
         props: {
@@ -68,6 +65,7 @@
         computed:{
             ...mapGetters([
                 'colorList',
+                'showGraphNodes',
             ])
         },
         methods: {
@@ -78,7 +76,7 @@
             parentFn1(val){
                 this.colorValue = val;
             },
-            handleDelete(e) {
+            handleDelete() {
                 let name = this.info.name;
                 this.delete_showGraphNodes({
                     name: name
@@ -86,28 +84,64 @@
                 this.$emit('closeModal', true);
             },
             handleChangeOk(e) {
-                this.changeForm.validateFields(err => {
-                    if (!err) {
-                        let oldName = this.info.name;
-                        let newName = this.changeForm.getFieldValue('newName');
-                        let oldColor = this.info.color;
-                        let newColor = this.colorValue;
-                        // console.log('color', oldColor, newColor)
-                        if(oldName !== newName || oldColor !== newColor){
-                            this.update_showGraphNodes({
-                                oldName: oldName,
-                                newName: newName,
-                                newColor: newColor,
-                            });
-                            this.$emit('closeModal', true);
-                        } else {
-                            this.$emit('closeModal', false);
-                        }
+                if(this.name.errorMsg === null){
+                    let oldName = this.info.name;
+                    let newName = this.name.value;
+                    let oldColor = this.info.color;
+                    let newColor = this.colorValue;
+                    if(oldName !== newName || oldColor !== newColor){
+                        this.update_showGraphNodes({
+                            oldName: oldName,
+                            newName: newName,
+                            newColor: newColor,
+                        });
+                        this.$emit('closeModal', true);
+                    } else {
+                        this.$emit('closeModal', false);
                     }
-                });
+                }
             },
             handleChangeCancel(e){
                 this.$emit('closeModal', false);
+            },
+            validateEntityName() {
+                let newName = this.name.value;
+                if(newName.match(/^\s*$/)){
+                    return {
+                        validateStatus: 'error',
+                        errorMsg: '请输入实体值',
+                    };
+                }else if (newName.length > 0 && newName.length <= 15) {
+                    for(let i = 0; i < this.showGraphNodes.length; i++){
+                        if(newName !== this.info.name && this.showGraphNodes[i]['name'] === newName){
+                            return {
+                                validateStatus: 'error',
+                                errorMsg: '与现有实体重名',
+                            };
+                        }
+                    }
+                    return {
+                        validateStatus: 'success',
+                        errorMsg: null,
+                    };
+                } else if (newName.length === 0){
+                    return {
+                        validateStatus: 'error',
+                        errorMsg: '请输入实体值',
+                    };
+                } else {
+                    // input的maxLength即可限制，这里防御式编程
+                    return {
+                        validateStatus: 'error',
+                        errorMsg: '实体值应为1-15位',
+                    };
+                }
+            },
+            handleNameChange(value) {
+                this.name = {
+                    ...this.validateEntityName(value),
+                    value: this.name.value,
+                };
             },
         },
         components: {
@@ -118,7 +152,7 @@
             showModal: {
                 immediate: true,
                 handler(showModal){
-                    this.changeForm.setFieldsValue({'newName': this.info.name});
+                    this.name.value = this.info.name;
                     this.colorValue = this.info.color;
                 }
             }
