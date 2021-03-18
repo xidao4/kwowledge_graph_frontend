@@ -4,9 +4,25 @@
             实体
         </h3>
         <div class="tagList">
-            <a-tag :color="node.color" v-for="(node, index) in nodes" :key="index" style="margin-bottom: 8px;cursor: pointer" @click="handleChangeEntity">
-                {{node.name}}
-            </a-tag>
+            <a-row type="flex" justify="center">
+                <a-col span="20">
+                    <a-tag :color="node.color" v-for="(node, index) in showGraphNodes" :key="index"
+                           @click="handleChangeEntity"
+                           class="tag-item">
+                        {{node.name}}
+                    </a-tag>
+
+<!--                    <a-tag style="cursor: pointer;" class="tag-item" @click="handleAddEntity">-->
+<!--                        增加节点-->
+<!--                    </a-tag>-->
+
+                    <a-tag style="cursor: pointer; border-style: dashed;" @click="handleAddEntity"
+                            class="tag-item">
+                        <a-icon type="plus" /> 增加节点
+                    </a-tag>
+                </a-col>
+            </a-row>
+
             <a-modal
               title="修改实体"
               :visible="changeEntityVisible"
@@ -42,9 +58,6 @@
 
             </a-modal>
 
-            <a-tag style="cursor: pointer" @click="handleAddEntity">
-                增加节点
-            </a-tag>
             <a-modal
               title="添加实体"
               :visible="addEntityVisible"
@@ -70,6 +83,8 @@
 <script>
     import {mapGetters} from 'vuex';
     import ColorPicker from "./ColorPicker";
+    import ARow from "ant-design-vue/es/grid/Row";
+    import ACol from "ant-design-vue/es/grid/Col";
     const testNodes = [
         {
             name: '节点12345',
@@ -99,9 +114,10 @@
             }
         },
         computed:{
-            ...mapGetters[(
-                'colorList'
-            )]
+            ...mapGetters([
+                'colorList',
+                'showGraphNodes'
+            ])
         },
         methods:{
           parentFn1(val){
@@ -135,6 +151,8 @@
           }
         },
         components:{
+            ACol,
+            ARow,
             ColorPicker
         }
     }
@@ -145,8 +163,23 @@
     width: 100%;
 }
 .tagList{
-    width: 65%;
-    margin: 0 auto;
-    height: 100px;
+    /*width: 65%;*/
+    /*margin: 0 auto;*/
+    /*height: 100px;*/
+    display: flex;
+    justify-content: center;
+    /*padding: 10px;*/
+    align-items: center;
+    text-align: center;
+}
+.entity-list{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tag-item{
+    line-height: 28px;
+    cursor: pointer;
+    margin: 10px 6px;
 }
 </style>
