@@ -7,7 +7,6 @@
             <a-row type="flex" justify="center">
                 <a-col span="20">
                     <a-tag :color="node.color" v-for="(node, index) in showGraphNodes" :key="index"
-                           @click="handleChangeEntity"
                            class="tag-item">
                         {{node.name}}
                     </a-tag>
@@ -23,40 +22,40 @@
                 </a-col>
             </a-row>
 
-            <a-modal
-              title="修改实体"
-              :visible="changeEntityVisible"
-              @cancel="handleChangeCancel"
-            >
-                <template slot="footer">
-                    <a-popconfirm
-                      title="确定删除此实体么"
-                      ok-text="确定"
-                      cancel-text="取消"
-                      @confirm="handleDelete"
+<!--            <a-modal-->
+<!--              title="修改实体"-->
+<!--              :visible="changeEntityVisible"-->
+<!--              @cancel="handleChangeCancel"-->
+<!--            >-->
+<!--                <template slot="footer">-->
+<!--                    <a-popconfirm-->
+<!--                      title="确定删除此实体么"-->
+<!--                      ok-text="确定"-->
+<!--                      cancel-text="取消"-->
+<!--                      @confirm="handleDelete"-->
 
-                    >
-                        <a-button key="back" type="danger">
-                            删除
-                        </a-button>
-                    </a-popconfirm>
+<!--                    >-->
+<!--                        <a-button key="back" type="danger">-->
+<!--                            删除-->
+<!--                        </a-button>-->
+<!--                    </a-popconfirm>-->
 
-                    <a-button key="submit" type="primary" @click="handleChangeOk">
-                        修改
-                    </a-button>
-                </template>
+<!--                    <a-button key="submit" type="primary" @click="handleChangeOk">-->
+<!--                        修改-->
+<!--                    </a-button>-->
+<!--                </template>-->
 
-                <a-form :form="changeForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
-                    <a-form-item label="实体值：">
-                        <a-input
-                          v-decorator="['entityValue', { rules: [{ required: true, message: 'Please input your entity value!' }] }]"
-                          placeholder="关系一"
-                        />
-                    </a-form-item>
-                    <color-picker style="margin-left: 10%" @childFn="parentFn1"></color-picker>
-                </a-form>
+<!--                <a-form :form="changeForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">-->
+<!--                    <a-form-item label="实体值：">-->
+<!--                        <a-input-->
+<!--                          v-decorator="['entityValue', { rules: [{ required: true, message: 'Please input your entity value!' }] }]"-->
+<!--                          placeholder="关系一"-->
+<!--                        />-->
+<!--                    </a-form-item>-->
+<!--                    <color-picker style="margin-left: 10%" @childFn="parentFn1"></color-picker>-->
+<!--                </a-form>-->
 
-            </a-modal>
+<!--            </a-modal>-->
 
             <a-modal
               title="添加实体"
@@ -65,14 +64,16 @@
               @ok="handleAdd"
             >
 
-                <a-form :form="addForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+                <a-form :form="addForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
                     <a-form-item label="实体值：">
                         <a-input
-                          v-decorator="['entityValue', { rules: [{ required: true, message: 'Please input your entity value!' }] }]"
+                          v-decorator="['entityValue', { rules: [{ required: true, message: '请输入实体值' }] }]"
                           placeholder="请输入新的实体值"
                         />
                     </a-form-item>
-                    <color-picker style="margin-left: 10%" @childFn="parentFn2"></color-picker>
+                    <a-form-item label="颜色：" style="display: flex; align-items: center;">
+                        <color-picker2 :default-color="colorValue" @childFn="parentFn1"></color-picker2>
+                    </a-form-item>
                 </a-form>
 
             </a-modal>
@@ -85,6 +86,7 @@
     import ColorPicker from "./ColorPicker";
     import ARow from "ant-design-vue/es/grid/Row";
     import ACol from "ant-design-vue/es/grid/Col";
+    import ColorPicker2 from './ColorPicker2';
     const testNodes = [
         {
             name: '节点12345',
@@ -111,6 +113,7 @@
                 addForm: this.$form.createForm(this, { name: 'addEntityForm' }),
                 colorValue1: '',
                 colorValue2: '',
+                colorValue: '#FFB8C6'
             }
         },
         computed:{
@@ -120,10 +123,9 @@
             ])
         },
         methods:{
-          parentFn1(val){
-            this.colorValue1=val
-            console.log(val)
-          },
+            parentFn1(val){
+                this.colorValue = val;
+            },
           parentFn2(val){
             this.colorValue2=val
             console.log(val)
@@ -153,7 +155,8 @@
         components:{
             ACol,
             ARow,
-            ColorPicker
+            ColorPicker,
+            ColorPicker2
         }
     }
 </script>

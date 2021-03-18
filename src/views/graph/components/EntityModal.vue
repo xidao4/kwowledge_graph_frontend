@@ -86,21 +86,25 @@
                 this.$emit('closeModal', true);
             },
             handleChangeOk(e) {
-                let oldName = this.info.name;
-                let newName = this.changeForm.getFieldValue('newName');
-                let oldColor = this.info.color;
-                let newColor = this.colorValue;
-                console.log('color', oldColor, newColor)
-                if(oldName !== newName || oldColor !== newColor){
-                    this.update_showGraphNodes({
-                        oldName: oldName,
-                        newName: newName,
-                        newColor: newColor,
-                    });
-                    this.$emit('closeModal', true);
-                } else {
-                    this.$emit('closeModal', false);
-                }
+                this.changeForm.validateFields(err => {
+                    if (!err) {
+                        let oldName = this.info.name;
+                        let newName = this.changeForm.getFieldValue('newName');
+                        let oldColor = this.info.color;
+                        let newColor = this.colorValue;
+                        // console.log('color', oldColor, newColor)
+                        if(oldName !== newName || oldColor !== newColor){
+                            this.update_showGraphNodes({
+                                oldName: oldName,
+                                newName: newName,
+                                newColor: newColor,
+                            });
+                            this.$emit('closeModal', true);
+                        } else {
+                            this.$emit('closeModal', false);
+                        }
+                    }
+                });
             },
             handleChangeCancel(e){
                 this.$emit('closeModal', false);
