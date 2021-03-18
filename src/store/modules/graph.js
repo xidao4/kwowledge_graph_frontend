@@ -126,7 +126,7 @@ const state = {
             type: 'is',
             color: '#000'
         }
-    ]
+    ],
 };
 
 const graph = {
@@ -142,12 +142,43 @@ const graph = {
             state.nodes = data
         },
         set_links(state, data) {
-            state.links= data
+            state.links = data
+        },
+        set_showGraphNodes(state, data) {
+            state.showGraphNodes = [...data]
+        },
+        update_showGraphNodes(state, data = {oldName: '', newName: '', newColor: ''}) {
+            for(let i = 0; i < state.showGraphNodes.length; i++){
+                if(state.showGraphNodes[i]['name'] === data.oldName){
+                    state.showGraphNodes[i]['name'] = data.newName;
+                    state.showGraphNodes[i]['color'] = data.newColor;
+                    break;
+                }
+            }
+            for(let i = 0; i < state.showGraphEdges.length; i++){
+                if(state.showGraphEdges[i]['node1'] === data.oldName){
+                    state.showGraphEdges[i]['node1'] = data.newName;
+                }
+                if(state.showGraphEdges[i]['node2'] === data.oldName){
+                    state.showGraphEdges[i]['node2'] = data.newName;
+                }
+            }
+            console.log(state.showGraphNodes)
+        },
+        delete_showGraphNodes(state, data = {name: ''}) {
+            let index = 0;
+            for(let i =0; i < state.showGraphNodes.length; i++){
+                if(state.showGraphNodes[i]['name'] === data.name){
+                    index = i;
+                    break;
+                }
+            }
+            state.showGraphNodes.splice(index,1);
         },
     },
     actions: {
         addEntity:async({commit},param)=>{
-            const res=await addEntityAPI(param)
+            const res=await addEntityAPI(param);
             if(res){
                 message.success('增加实体成功')
             }else{
@@ -155,7 +186,7 @@ const graph = {
             }
         },
         deleteEntity:async({commit},param)=>{
-            const res=await deleteEntityAPI(param)
+            const res=await deleteEntityAPI(param);
             if(res){
                 message.success('删除实体成功')
             }else{
@@ -163,7 +194,7 @@ const graph = {
             }
         },
         changeEntity:async({commit},param)=>{
-            const res=await changeEntityAPI(param)
+            const res=await changeEntityAPI(param);
             if(res){
                 message.success('修改实体成功')
             }else{
@@ -171,7 +202,7 @@ const graph = {
             }
         },
         addRelation:async({commit},param)=>{
-            const res=await addRelationAPI(param)
+            const res=await addRelationAPI(param);
             if(res){
                 message.success('增加关系成功')
             }else{
@@ -179,7 +210,7 @@ const graph = {
             }
         },
         changeRelation:async({commit},param)=>{
-            const res=await changeRelationAPI(param)
+            const res=await changeRelationAPI(param);
             if(res){
                 message.success('修改关系成功')
             }else{
@@ -187,7 +218,7 @@ const graph = {
             }
         },
         deleteRelation:async({commit},param)=>{
-            const res=await deleteRelationAPI(param)
+            const res=await deleteRelationAPI(param);
             if(res){
                 message.success('删除关系成功')
             }else{

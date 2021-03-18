@@ -18,13 +18,14 @@
                 </a-dropdown>
             </a-col>
         </a-row>
+
+        <EntityModal :showModal="showEntityModal" :info="showEntityInfo" @closeModal="closeEntityModal"></EntityModal>
     </div>
 </template>
 
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex';
-    import ARow from "ant-design-vue/es/grid/Row";
-    import ACol from "ant-design-vue/es/grid/Col";
+    import EntityModal from './EntityModal';
 
     const fileType = {
         png: 'png',
@@ -36,7 +37,9 @@
 
     export default {
         name: "Graph",
-        components: {ACol, ARow},
+        components: {
+            EntityModal
+        },
         data(){
             return {
                 graphId: 'graphChart',
@@ -68,7 +71,13 @@
                         icon: 'file-text'
                     },
                 ],
-                chosenFileType: ''
+                chosenFileType: '',
+
+                showEntityModal: false,
+                showEntityInfo: {
+                    name: '',
+                    color: ''
+                }
             }
         },
         computed: {
@@ -207,8 +216,7 @@
                 };
                 let that = this;
                 this.chart.on('click',  function(param) {
-                    console.log(param)
-                    that.handleItemClick(param);
+                    that.handleItemClick(param.data);
                 });
             },
             formatterLabel(params, unit, color) {
@@ -227,7 +235,18 @@
                 }
             },
             handleItemClick(param){
+                if(param.hasOwnProperty('target')){
 
+                } else {
+                    this.showEntityModal = true;
+                    this.showEntityInfo = param;
+                }
+            },
+            closeEntityModal(changed){
+                if(changed){
+                    this.draw();
+                }
+                this.showEntityModal = false;
             },
             downloadImage(){
                 let imgUrl = this.chart.getDataURL({
