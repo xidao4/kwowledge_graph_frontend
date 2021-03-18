@@ -72,6 +72,7 @@
             'showGraphNodes',
             'relationTypeSet',
             'picId',
+            'showGraphEdges'
           ])
         },
         methods:{
@@ -88,7 +89,15 @@
               name: this.name,
               type: this.type
             }
+            let newData={
+              node1: this.node1,
+              node2: this.node2,
+              name: this.name,
+              type: this.type,
+              color: '#000'
+            }
             this.addRelation(data)
+            this.showGraphEdges.push(newData)
           },
           cancelAdd(){
 
