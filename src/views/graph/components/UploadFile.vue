@@ -6,10 +6,11 @@
                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                 :headers="headers"
                 @change="handleChange"
-                accept=".rdf,.owl"
+                accept=".json"
                 :beforeUpload="handleBeforeUpload"
+                multiple="true"
         >
-            <a-button> <a-icon type="upload" /> 点击上传".rdf/.owl"文件 </a-button>
+            <a-button> <a-icon type="upload" /> 点击上传".json"文件 </a-button>
         </a-upload>
     </div>
 </template>
@@ -69,14 +70,14 @@
             },
             handleChange(info) {
                 if (info.file.status === 'done') {
-                    this.$message.success(`${info.file.name} file uploaded successfully`);
+                    this.$message.success(`${info.file.name} 文件上传成功`);
                     console.log(info.file.response)
                     this.set_picId(info.file.response)
                     this.set_links(info.file.links)
                     this.set_nodes(info.file.nodes)
                     this.set_relationTypeSet(info.file.links)
                 } else if (info.file.status === 'error') {
-                    this.$message.error(`${info.file.name} file upload failed.`);
+                    this.$message.error(`${info.file.name} 文件上传失败.`);
                 }
             },
 
