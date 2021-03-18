@@ -4,7 +4,9 @@
     :visible="showModal"
     @ok="handleOk"
     @cancel="handleCancel"
+    :footer="null"
   >
+
     <div class="relationLine">
       <div class="keyValue">
         <span>定义域：</span>
@@ -16,7 +18,7 @@
         </a-select>
       </div>
 
-      <div class="keyValue">
+      <div class="keyValue" style="margin-left: 14px">
         <span>值域：</span>
         <a-select :default-value="info.target">
           <a-icon slot="suffixIcon" type="smile" />
@@ -25,7 +27,7 @@
           </a-select-option>
         </a-select>
       </div>
-      <div class="keyValue">
+      <div class="keyValue" style="margin-left: 14px">
         <span>类型：</span>
         <a-select
           show-search
@@ -45,31 +47,35 @@
       </div>
       <div class="keyValue">
         <span>关系值：</span>
-        <a-input :placeholder="this.info.name" id="newNameValue" style="width: 120px"/>
+        <a-input :placeholder="this.info.name" id="newNameValue" style="width: 200px"/>
       </div>
-      <a-popconfirm
-        title="确定修改这个关系？"
-        ok-text="确定"
-        cancel-text="取消"
-        @confirm="confirmChangeRelation"
-        @cancel="cancelChange"
-      >
-        <a-button type="danger" size="small">
-          保存修改
-        </a-button>
-      </a-popconfirm>
 
-      <a-popconfirm
-        title="删除这个关系？"
-        ok-text="确定"
-        cancel-text="取消"
-        @confirm="confirmDeleteRelation"
-        @cancel="cancelDelete"
-      >
-        <a-button type="danger" size="small">
-          删除
-        </a-button>
-      </a-popconfirm>
+
+      <div class="buttonArea">
+        <a-popconfirm
+          title="确定修改这个关系？"
+          ok-text="确定"
+          cancel-text="取消"
+          @confirm="confirmChangeRelation"
+          @cancel="cancelChange"
+        >
+          <a-button type="danger" size="small">
+            保存修改
+          </a-button>
+        </a-popconfirm>
+
+        <a-popconfirm
+          title="删除这个关系？"
+          ok-text="确定"
+          cancel-text="取消"
+          @confirm="confirmDeleteRelation"
+          @cancel="cancelDelete"
+        >
+          <a-button type="danger" size="small">
+            删除
+          </a-button>
+        </a-popconfirm>
+      </div>
     </div>
 
   </a-modal>
@@ -156,17 +162,16 @@
 
 <style scoped>
 .relationLine{
-  display: flex;
   width: 80%;
   margin: 0 auto;
-  justify-content: center;
   padding-bottom: 20px;
 }
 .keyValue{
-  width: 200px;
+  width: 400px;
+  margin-bottom: 16px;
 }
 .ant-select{
-  width: 110px
+  width: 200px
 }
 .ant-btn-sm {
   height: 29px;
@@ -174,5 +179,8 @@
   font-size: 14px;
   border-radius: 2px;
   margin-left: 18px;
+}
+.buttonArea{
+  margin-left: 60px;
 }
 </style>
