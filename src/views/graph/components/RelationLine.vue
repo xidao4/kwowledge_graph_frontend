@@ -115,6 +115,7 @@
           node2: that.target
         }
         this.deleteRelation(data)
+        this.showModal=false
       },
       cancelDelete(){
 
@@ -131,6 +132,7 @@
           node2: that.target
         }
         this.changeRelation(data)
+        this.showModal=false
       },
       cancelChange(){
 
