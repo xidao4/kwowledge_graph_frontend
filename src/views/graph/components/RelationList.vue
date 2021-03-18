@@ -5,156 +5,37 @@
     </h3>
     <br />
     <div class="relationList">
-
       <div class="relationLine">
         <div class="keyValue">
           <span>定义域：</span>
-          <a-select default-value="实体1" disabled>
-            <a-icon slot="suffixIcon" type="smile"/>
-            <a-select-option value="实体1">
-              实体1
+          <a-select @change="handleNode1">
+            <a-icon slot="suffixIcon" type="smile" />
+            <a-select-option :value="node.name" v-for="node in nodes">
+              {{node.name}}
             </a-select-option>
           </a-select>
         </div>
         <div class="keyValue">
           <span>值域：</span>
-          <a-select default-value="实体2" disabled>
+          <a-select @change="handleNode2">
             <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option value="实体2">
-              实体2
+            <a-select-option :value="node.name" v-for="node in nodes">
+              {{node.name}}
             </a-select-option>
           </a-select>
         </div>
         <div class="keyValue">
           <span>类型：</span>
-          <a-select default-value="property" disabled>
+          <a-select @change="handleType">
             <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option value="property">
-              Property
+            <a-select-option :value="type" v-for="type in this.relationTypeSet">
+              {{type}}
             </a-select-option>
           </a-select>
         </div>
         <div class="keyValue">
           <span>关系值：</span>
-          <a-select default-value="关系1" disabled>
-            <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option value="关系1">
-              关系1
-            </a-select-option>
-          </a-select>
-        </div>
-        <a-popconfirm
-          title="删除这个关系？"
-          ok-text="确定"
-          cancel-text="取消"
-          @confirm="confirmDeleteRelation"
-          @cancel="cancelDelete"
-        >
-          <a-button type="danger" size="small">
-            删除
-          </a-button>
-        </a-popconfirm>
-      </div>
-
-
-      <div class="relationLine">
-        <div class="keyValue">
-          <span>定义域：</span>
-          <a-select default-value="实体1" disabled>
-            <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option value="实体1">
-              实体1
-            </a-select-option>
-          </a-select>
-        </div>
-        <div class="keyValue">
-          <span>值域：</span>
-          <a-select default-value="实体2" disabled>
-            <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option value="实体2">
-              实体2
-            </a-select-option>
-          </a-select>
-        </div>
-        <div class="keyValue">
-          <span>类型：</span>
-          <a-select>
-            <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option value="property">
-              Property
-            </a-select-option>
-          </a-select>
-        </div>
-        <div class="keyValue">
-          <span>关系值：</span>
-          <a-select>
-            <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option value="关系1">
-              关系1
-            </a-select-option>
-            <a-select-option value="关系2">
-              关系2
-            </a-select-option>
-          </a-select>
-        </div>
-        <a-popconfirm
-          title="修改这个关系？"
-          ok-text="确定"
-          cancel-text="取消"
-          @confirm="confirmChangeRelation"
-          @cancel="cancelChange"
-        >
-          <a-button size="small">
-            修改
-          </a-button>
-        </a-popconfirm>
-      </div>
-
-      <div class="relationLine">
-        <div class="keyValue">
-          <span>定义域：</span>
-          <a-select>
-            <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option value="实体1">
-              实体1
-            </a-select-option>
-            <a-select-option value="实体2">
-              实体2
-            </a-select-option>
-          </a-select>
-        </div>
-        <div class="keyValue">
-          <span>值域：</span>
-          <a-select>
-            <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option value="实体1">
-              实体1
-            </a-select-option>
-            <a-select-option value="实体2">
-              实体2
-            </a-select-option>
-          </a-select>
-        </div>
-        <div class="keyValue">
-          <span>类型：</span>
-          <a-select>
-            <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option value="property">
-              Property
-            </a-select-option>
-          </a-select>
-        </div>
-        <div class="keyValue">
-          <span>关系值：</span>
-          <a-select>
-            <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option value="关系1">
-              关系1
-            </a-select-option>
-            <a-select-option value="关系2">
-              关系2
-            </a-select-option>
-          </a-select>
+          <a-input placeholder="请输入关系值" style="width: 120px" id="nameValue"/>
         </div>
         <a-popconfirm
           title="增加这个关系？"
@@ -174,26 +55,55 @@
 </template>
 
 <script>
+    import {mapGetters,mapMutations,mapActions} from 'vuex'
+
     export default {
         name: "RelationList",
+        data(){
+          return{
+            node1: '',
+            node2: '',
+            type: '',
+            name: ''
+          }
+        },
+        computed:{
+          ...mapGetters([
+            'nodes',
+            'relationTypeSet',
+            'picId',
+          ])
+        },
         methods:{
-          confirmDeleteRelation(){
-
-          },
-          cancelDelete(){
-
-          },
-          confirmChangeRelation(){
-
-          },
-          cancelChange(){
-
-          },
+          ...mapActions([
+            'addRelation'
+          ]),
           confirmAddRelation(){
-
+            console.log(document.getElementById("nameValue").value)
+            this.name=document.getElementById("nameValue").value
+            let data={
+              node1: this.node1,
+              node2: this.node2,
+              picId: this.picId,
+              name: this.name,
+              type: this.type
+            }
+            this.addRelation(data)
           },
           cancelAdd(){
 
+          },
+          // changeNameValue(e){
+          //   this.name=e.data;
+          // },
+          handleNode1(value){
+            this.node1=value;
+          },
+          handleNode2(value){
+            this.node2=value;
+          },
+          handleType(value){
+            this.type=value
           },
         }
     }
