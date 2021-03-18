@@ -10,7 +10,6 @@
                 accept=".json"
                 :beforeUpload="handleBeforeUpload"
                 multiple="true"
-                showUploadList="false"
         >
             <a-button> <a-icon type="upload" /> {{this.uploadText}} </a-button>
         </a-upload>

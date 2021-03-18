@@ -165,7 +165,6 @@ const graph = {
                     state.showGraphEdges[i]['node2'] = data.newName;
                 }
             }
-            console.log(state.showGraphNodes)
         },
         delete_showGraphNodes(state, data = {name: ''}) {
             let index = 0;

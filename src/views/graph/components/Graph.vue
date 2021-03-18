@@ -250,7 +250,7 @@
             },
             closeModal(changed){
                 if(changed){
-                    this.draw();
+                    // this.draw();
                 }
                 this.showEntityModal = false;
                 this.showRelationModal = false;
