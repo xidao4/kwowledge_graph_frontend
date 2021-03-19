@@ -88,7 +88,8 @@
     computed:{
       ...mapGetters([
         'relationTypeSet',
-        'picId'
+        'picId',
+        'showGraphEdges'
       ])
     },
     methods:{
@@ -101,14 +102,22 @@
         let data={
           picId: that.picId,
           name: that.info.name,
-          node1: that.source,
-          node2: that.target
+          node1: that.info.source,
+          node2: that.info.target
         }
         this.deleteRelation(data)
-        this.showModal=false
+        console.log(this.showGraphEdges)
+
+        for(let i=0;i<this.showGraphEdges.length;i++){
+          if((this.showGraphEdges[i].node1===data.node1) && (this.showGraphEdges[i].node2===data.node2) && (this.showGraphEdges[i].name===data.name)){
+            this.showGraphEdges.splice(i,1);
+          }
+        }
+        console.log(this.showGraphEdges)
+        this.$emit('closeModal', true);
       },
       cancelDelete(){
-
+        this.$emit('closeModal', false);
       },
       confirmChangeRelation(){
         this.newName=document.getElementById("newNameValue").value
@@ -118,20 +127,28 @@
           name: that.info.name,
           newName: that.newName,
           newType: that.newType,
-          node1: that.source,
-          node2: that.target
+          node1: that.info.source,
+          node2: that.info.target
         }
         this.changeRelation(data)
-        this.showModal=false
+
+        for(let i=0;i<this.showGraphEdges.length;i++){
+          if((this.showGraphEdges[i].node1===data.node1) && (this.showGraphEdges[i].node2===data.node2) && (this.showGraphEdges[i].name===data.name)){
+            this.showGraphEdges[i].name=data.newName
+            this.showGraphEdges[i].type=data.newType
+            break
+          }
+        }
+        this.$emit('closeModal', true);
       },
       cancelChange(){
-
+        this.$emit('closeModal', true);
       },
       handleOk(e) {
-        this.showModal=false;
+        this.$emit('closeModal', false);
       },
       handleCancel(e) {
-        this.showModal = false;
+        this.$emit('closeModal', false);
       },
       handleChange(value) {
         console.log(`selected ${value}`);
