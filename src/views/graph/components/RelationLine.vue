@@ -89,6 +89,10 @@
         'deleteRelation',
         'changeRelation'
       ]),
+      ...mapMutations([
+        'delete_showGraphEdges',
+        'change_showGraphEdges'
+      ]),
       confirmDeleteRelation(){
         let that=this;
         let data={
@@ -99,12 +103,7 @@
         }
         this.deleteRelation(data)
         console.log(this.showGraphEdges)
-
-        for(let i=0;i<this.showGraphEdges.length;i++){
-          if((this.showGraphEdges[i].node1===data.node1) && (this.showGraphEdges[i].node2===data.node2) && (this.showGraphEdges[i].name===data.name)){
-            this.showGraphEdges.splice(i,1);
-          }
-        }
+        this.delete_showGraphEdges(data)
         console.log(this.showGraphEdges)
         this.$emit('closeModal', true);
       },
@@ -124,13 +123,8 @@
         }
         this.changeRelation(data)
 
-        for(let i=0;i<this.showGraphEdges.length;i++){
-          if((this.showGraphEdges[i].node1===data.node1) && (this.showGraphEdges[i].node2===data.node2) && (this.showGraphEdges[i].name===data.name)){
-            this.showGraphEdges[i].name=data.newName
-            this.showGraphEdges[i].type=data.newType
-            break
-          }
-        }
+        this.change_showGraphEdges(data)
+
         this.$emit('closeModal', true);
       },
       cancelChange(){

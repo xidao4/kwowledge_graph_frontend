@@ -72,6 +72,9 @@
           ...mapActions([
             'addRelation'
           ]),
+          ...mapMutations([
+            'add_showGraphEdges'
+          ]),
           confirmAddRelation(){
             console.log(document.getElementById("nameValue").value)
             this.name=document.getElementById("nameValue").value
@@ -92,7 +95,8 @@
             this.addRelation(data)
             console.log('add')
             console.log(this.showGraphEdges)
-            this.showGraphEdges.push(newData)
+            // this.showGraphEdges.push(newData)
+            this.add_showGraphEdges(newData)
             console.log('after add, ', this.showGraphEdges)
             this.triggerGraphMethod();
           },

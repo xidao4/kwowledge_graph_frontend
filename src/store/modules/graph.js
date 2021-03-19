@@ -149,6 +149,26 @@ const graph = {
         set_showGraphNodes(state, data) {
             state.showGraphNodes = [...data]
         },
+        add_showGraphEdges(state,data){
+            state.showGraphEdges.push(data)
+        },
+        delete_showGraphEdges(state,data){
+            for(let i=0;i<state.showGraphEdges.length;i++){
+                if((state.showGraphEdges[i].node1===data.node1) && (state.showGraphEdges[i].node2===data.node2) && (state.showGraphEdges[i].name===data.name)){
+                    state.showGraphEdges.splice(i,1);
+                    break;
+                }
+            }
+        },
+        change_showGraphEdges(state,data){
+            for(let i=0;i<state.showGraphEdges.length;i++){
+                if((state.showGraphEdges[i].node1===data.node1) && (state.showGraphEdges[i].node2===data.node2) && (state.showGraphEdges[i].name===data.name)){
+                    state.showGraphEdges[i].name=data.newName
+                    state.showGraphEdges[i].type=data.newType
+                    break
+                }
+            }
+        },
         update_showGraphNodes(state, data = {oldName: '', newName: '', newColor: ''}) {
             for(let i = 0; i < state.showGraphNodes.length; i++){
                 if(state.showGraphNodes[i]['name'] === data.oldName){
