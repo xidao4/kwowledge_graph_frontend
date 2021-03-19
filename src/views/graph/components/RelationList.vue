@@ -101,6 +101,7 @@
             console.log(this.showGraphEdges)
             this.showGraphEdges.push(newData)
             console.log(this.showGraphEdges)
+            // this.$refs('closeModal', true);
           },
           cancelAdd(){
 
