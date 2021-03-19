@@ -37,17 +37,9 @@
           <span>关系值：</span>
           <a-input placeholder="请输入关系值" style="width: 120px" id="nameValue"/>
         </div>
-        <a-popconfirm
-          title="增加这个关系？"
-          ok-text="确定"
-          cancel-text="取消"
-          @confirm="confirmAddRelation"
-          @cancel="cancelAdd"
-        >
-          <a-button size="small" type="primary">
-            添加
-          </a-button>
-        </a-popconfirm>
+        <a-button size="small" type="primary" @click="confirmAddRelation">
+          添加
+        </a-button>
       </div>
     </div>
     <br />

@@ -42,17 +42,9 @@
 
 
       <div class="buttonArea">
-        <a-popconfirm
-          title="确定修改这个关系？"
-          ok-text="确定"
-          cancel-text="取消"
-          @confirm="confirmChangeRelation"
-          @cancel="cancelChange"
-        >
-          <a-button type="danger" size="small">
-            保存修改
-          </a-button>
-        </a-popconfirm>
+        <a-button type="primary" size="small" @click="confirmChangeRelation">
+          保存修改
+        </a-button>
 
         <a-popconfirm
           title="删除这个关系？"
