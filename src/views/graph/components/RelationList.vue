@@ -67,6 +67,7 @@
             name: ''
           }
         },
+        props: ['triggerGraphMethod'],
         computed:{
           ...mapGetters([
             'showGraphNodes',
@@ -100,8 +101,8 @@
             console.log('add')
             console.log(this.showGraphEdges)
             this.showGraphEdges.push(newData)
-            console.log(this.showGraphEdges)
-            // this.$refs('closeModal', true);
+            console.log('after add, ', this.showGraphEdges)
+            this.triggerGraphMethod();
           },
           cancelAdd(){
 

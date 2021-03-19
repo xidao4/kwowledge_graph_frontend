@@ -105,39 +105,6 @@
             handleChangeCancel(e){
                 this.$emit('closeModal', false);
             },
-            // validateEntityName() {
-            //     let newName = this.name.value;
-            //     if(newName.match(/^\s*$/)){
-            //         return {
-            //             validateStatus: 'error',
-            //             errorMsg: '请输入实体值',
-            //         };
-            //     }else if (newName.length > 0 && newName.length <= 15) {
-            //         for(let i = 0; i < this.showGraphNodes.length; i++){
-            //             if(newName !== this.info.name && this.showGraphNodes[i]['name'] === newName){
-            //                 return {
-            //                     validateStatus: 'error',
-            //                     errorMsg: '与现有实体重名',
-            //                 };
-            //             }
-            //         }
-            //         return {
-            //             validateStatus: 'success',
-            //             errorMsg: null,
-            //         };
-            //     } else if (newName.length === 0){
-            //         return {
-            //             validateStatus: 'error',
-            //             errorMsg: '请输入实体值',
-            //         };
-            //     } else {
-            //         // input的maxLength即可限制，这里防御式编程
-            //         return {
-            //             validateStatus: 'error',
-            //             errorMsg: '实体值应为1-15位',
-            //         };
-            //     }
-            // },
             handleNameChange(value) {
                 this.name = {
                     ...validateEntityName(this.name.value, this.info.name, this.showGraphNodes),

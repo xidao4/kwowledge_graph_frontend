@@ -168,13 +168,16 @@ const graph = {
         },
         delete_showGraphNodes(state, data = {name: ''}) {
             let index = 0;
-            for(let i =0; i < state.showGraphNodes.length; i++){
+            for(let i = 0; i < state.showGraphNodes.length; i++){
                 if(state.showGraphNodes[i]['name'] === data.name){
                     index = i;
                     break;
                 }
             }
             state.showGraphNodes.splice(index,1);
+        },
+        add_showGraphNodes(state, data = {name: '', color: ''}) {
+            state.showGraphNodes.push(data)
         },
         set_relationTypeSet(state,data){
             for (let i of data) {

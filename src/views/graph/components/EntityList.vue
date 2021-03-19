@@ -65,10 +65,13 @@
             >
 
                 <a-form :form="addForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
-                    <a-form-item label="实体值：">
+                    <a-form-item label="实体值："
+                                 :validate-status="name.validateStatus"
+                                 :help="name.errorMsg || tips">
                         <a-input
-                          v-decorator="['entityValue', { rules: [{ required: true, message: '请输入实体值' }] }]"
-                          placeholder="请输入实体值"
+                                v-model="name.value"
+                                :maxLength="15"
+                                @change="handleNameChange"
                         />
                     </a-form-item>
                     <a-form-item label="颜色：" style="display: flex; align-items: center;">
@@ -82,11 +85,13 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
+    import { mapGetters, mapMutations } from 'vuex';
     import ColorPicker from "./ColorPicker";
     import ARow from "ant-design-vue/es/grid/Row";
     import ACol from "ant-design-vue/es/grid/Col";
     import ColorPicker2 from './ColorPicker2';
+    import { validateEntityName } from '@/utils/validator.js'
+
     const testNodes = [
         {
             name: '节点12345',
@@ -113,9 +118,14 @@
                 addForm: this.$form.createForm(this, { name: 'addEntityForm' }),
                 colorValue1: '',
                 colorValue2: '',
-                colorValue: '#FFB8C6'
+                colorValue: '#FFB8C6',
+                name: {
+                    value: '',
+                },
+                tips: '请输入1-15位实体值，与现有实体值不相同',
             }
         },
+        props: ['triggerGraphMethod'],
         computed:{
             ...mapGetters([
                 'colorList',
@@ -123,34 +133,51 @@
             ])
         },
         methods:{
+            ...mapMutations([
+                'add_showGraphNodes'
+            ]),
             parentFn1(val){
                 this.colorValue = val;
             },
-          parentFn2(val){
-            this.colorValue2=val
-            console.log(val)
-          },
-          handleChangeEntity(){
-            this.changeEntityVisible=true
-          },
-          handleChangeOk(e) {
-            this.changeEntityVisible=false
-          },
-          handleDelete(e) {
-            this.changeEntityVisible = false;
-          },
-          handleChangeCancel(e){
-              this.changeEntityVisible = false;
-          },
-          handleAddEntity(){
-              this.addEntityVisible=true;
-          },
-          handleAddCancel(e){
-              this.addEntityVisible=false;
-          },
-          handleAdd(e){
-              this.addEntityVisible=false;
-          }
+            parentFn2(val){
+                this.colorValue2 = val
+                console.log(val)
+            },
+            handleChangeEntity(){
+                this.changeEntityVisible = true
+            },
+            handleChangeOk(e) {
+                this.changeEntityVisible = false
+            },
+            handleDelete(e) {
+                this.changeEntityVisible = false;
+            },
+            handleChangeCancel(e){
+                  this.changeEntityVisible = false;
+            },
+            handleAddEntity(){
+                  this.addEntityVisible = true;
+            },
+            handleAddCancel(e){
+                  this.addEntityVisible = false;
+            },
+            handleAdd(e){
+                if(this.name.errorMsg === null){
+                    this.add_showGraphNodes({
+                        name: this.name.value,
+                        color: this.colorValue
+                    });
+                    this.triggerGraphMethod();
+                    this.addEntityVisible = false;
+                    this.name.value = '';
+                }
+            },
+            handleNameChange(value) {
+                this.name = {
+                    ...validateEntityName(this.name.value, null, this.showGraphNodes),
+                    value: this.name.value,
+                };
+            },
         },
         components:{
             ACol,
