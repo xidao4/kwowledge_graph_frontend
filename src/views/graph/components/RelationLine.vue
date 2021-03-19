@@ -27,7 +27,7 @@
           @focus="handleFocus"
           @blur="handleBlur"
           @change="handleChange"
-          :placeholder="this.info.type"
+          :value="this.type"
         >
           <a-icon slot="suffixIcon" type="smile" />
           <a-select-option :value="type" v-for="type in this.relationTypeSet">
@@ -37,7 +37,7 @@
       </div>
       <div class="keyValue">
         <span>关系值：</span>
-        <a-input :placeholder="this.info.name" id="newNameValue" style="width: 200px"/>
+        <a-input v-model="this.name" id="newNameValue" style="width: 200px"/>
       </div>
 
 
@@ -75,6 +75,8 @@
       return{
         newType: '',
         newName: '',
+        type:'',
+        name: ''
       }
     },
     computed:{
@@ -83,6 +85,15 @@
         'picId',
         'showGraphEdges'
       ])
+    },
+    watch: {
+      info: {
+        immediate: true,
+        handler(info){
+          this.name=this.info.name
+          this.type = this.info.type;
+        }
+      }
     },
     methods:{
       ...mapActions([
@@ -106,6 +117,8 @@
         this.delete_showGraphEdges(data)
         console.log(this.showGraphEdges)
         this.$emit('closeModal', true);
+        this.newName=''
+        this.newType=''
       },
       cancelDelete(){
         this.$emit('closeModal', false);
@@ -121,6 +134,7 @@
           node1: that.info.source,
           node2: that.info.target
         }
+
         this.changeRelation(data)
 
         this.change_showGraphEdges(data)
@@ -145,6 +159,7 @@
       handleChange(value) {
         console.log(`selected ${value}`);
         this.newType=value;
+        this.type=value
       },
       handleBlur() {
         console.log('blur');
@@ -157,6 +172,7 @@
           option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
         );
       },
+
     }
   }
 </script>
