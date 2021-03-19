@@ -19,6 +19,7 @@
     import {mapGetters,mapMutations,mapActions} from 'vuex'
     export default {
         name: "UploadFile",
+        props: ['triggerGraphDraw'],
         data() {
             return {
                 headers: {

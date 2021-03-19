@@ -59,7 +59,7 @@
             name: ''
           }
         },
-        props: ['triggerGraphMethod'],
+        props: ['triggerGraphDraw'],
         computed:{
           ...mapGetters([
             'showGraphNodes',
@@ -98,7 +98,7 @@
             // this.showGraphEdges.push(newData)
             this.add_showGraphEdges(newData)
             console.log('after add, ', this.showGraphEdges)
-            this.triggerGraphMethod();
+            this.triggerGraphDraw();
           },
           cancelAdd(){
 

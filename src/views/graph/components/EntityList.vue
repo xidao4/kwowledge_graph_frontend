@@ -125,7 +125,7 @@
                 tips: '请输入1-15位实体值，与现有实体值不相同',
             }
         },
-        props: ['triggerGraphMethod'],
+        props: ['triggerGraphDraw'],
         computed:{
             ...mapGetters([
                 'colorList',
@@ -167,7 +167,7 @@
                         name: this.name.value,
                         color: this.colorValue
                     });
-                    this.triggerGraphMethod();
+                    this.triggerGraphDraw();
                     this.addEntityVisible = false;
                     this.name.value = '';
                 }
