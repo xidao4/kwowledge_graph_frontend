@@ -34,7 +34,8 @@
         jpeg: 'jpeg',
         xml: 'xml',
         rdf: 'rdf',
-        owl: 'owl'
+        owl: 'owl',
+        json: 'json'
     }
 
     export default {
@@ -73,6 +74,11 @@
                         value: fileType.owl,
                         icon: 'file-text'
                     },
+                    {
+                        type: 'JSON文件',
+                        value: fileType.json,
+                        icon: 'file-text'
+                    },
                 ],
                 chosenFileType: '',
 
@@ -95,6 +101,9 @@
             this.draw()
         },
         methods: {
+            ...mapActions([
+                'downloadFile'
+            ]),
             draw () {
                 this.chart = this.$echarts.init(document.getElementById(this.graphId));
                 let showNodes = this.showGraphNodes.slice(0);
@@ -236,6 +245,8 @@
                 this.chosenFileType = value.key;
                 if(this.chosenFileType === fileType.png || this.chosenFileType === fileType.jpeg){
                     this.downloadImage();
+                } else if(this.chosenFileType === fileType.json){
+                    this.downloadFile();
                 }
             },
             handleItemClick(param){
@@ -268,6 +279,12 @@
                 imgLink.click();
                 URL.revokeObjectURL(imgLink.href); // 释放URL 对象
                 document.body.removeChild(imgLink)
+            },
+            downloadFile(){
+                let res = this.downloadFile();
+                let blob = new Blob([res]);
+                let url = URL.createObjectURL(blob);
+                window.location.href = url;
             }
         },
     }

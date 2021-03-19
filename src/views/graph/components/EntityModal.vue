@@ -121,6 +121,7 @@
                 immediate: true,
                 handler(showModal){
                     this.name.value = this.info.name;
+                    this.name.errorMsg = null;
                     this.colorValue = this.info.color;
                 }
             }
