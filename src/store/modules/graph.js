@@ -150,7 +150,16 @@ const graph = {
             state.showGraphNodes = [...data]
         },
         add_showGraphEdges(state,data){
-            state.showGraphEdges.push(data)
+            let signal=0;
+            for(let i=0;i<state.showGraphEdges.length;i++){
+                if((state.showGraphEdges[i].node1===data.node1) && (state.showGraphEdges[i].node2===data.node2) && (state.showGraphEdges[i].name===data.name)){
+                    signal=1;
+                    break;
+                }
+            }
+            if(signal===0) {
+                state.showGraphEdges.push(data)
+            }
         },
         delete_showGraphEdges(state,data){
             for(let i=0;i<state.showGraphEdges.length;i++){
