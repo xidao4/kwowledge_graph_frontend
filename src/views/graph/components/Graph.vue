@@ -2,7 +2,7 @@
     <div>
         <a-row type="flex" justify="center">
             <a-col :span="20">
-                <a-card :id="graphId" class="graph-box"></a-card>
+                <a-card :id="graphId" class="graph-box" style="width: 100%"></a-card>
             </a-col>
         </a-row>
         <a-row type="flex" justify="center" class="margin-tb">
@@ -176,8 +176,15 @@
                         layout: 'force',
                         symbolSize: 58,
                         draggable: true,
-                        roam: false,
+                        roam: true,
                         nodeScaleRatio: 0.6,
+                        scaleLimit: {
+                            min: 0.8,
+                            max: 2
+                        },
+                        labelLayout: {
+                            hideOverlap: true
+                        },
                         focusNodeAdjacency: true,
                         edgeSymbol: ['', 'arrow'],
                         // edgeSymbolSize: [80, 10],
