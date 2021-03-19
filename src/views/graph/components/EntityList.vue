@@ -169,6 +169,7 @@
                     });
                     this.triggerGraphMethod();
                     this.addEntityVisible = false;
+                    this.name.value = '';
                 }
             },
             handleNameChange(value) {
