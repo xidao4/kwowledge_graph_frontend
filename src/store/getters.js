@@ -7,6 +7,7 @@ const getters={
     links: state=>state.graph.links,
     showGraphInfo: state => state.graph.showGraphInfo,
     relationTypeSet: state=>state.graph.relationTypeSet,
+    currentPicId: state=>state.graph.currentPicId,
 
     colorList: state=>state.util.colorList,
 };

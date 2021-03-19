@@ -57,3 +57,13 @@ export function deleteRelationAPI(data) {
     data
   })
 }
+
+// 下载文件
+export function downloadAPI(data) {
+  return axios({
+    url: `${api.graphPre}/download`,
+    method: 'POST',
+    data,
+    responseType: "arraybuffer",//设置数据格式
+  })
+}

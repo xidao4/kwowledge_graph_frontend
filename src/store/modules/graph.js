@@ -5,6 +5,7 @@ import{
     addRelationAPI,
     changeEntityAPI,
     changeRelationAPI,
+    downloadAPI
 } from "../../api/graph";
 
 import { message } from 'ant-design-vue'
@@ -22,26 +23,6 @@ const state = {
     links:[
 
     ],
-    // showGraphInfo: [
-    //     {
-    //         node1Name: "实体1",
-    //         node1Color: "#FFF",
-    //         relationName: "关系1",
-    //         relationType: "subClass of",
-    //         relationColor: "#000",
-    //         node2Name: "实体2",
-    //         node2Color: "#FFF"
-    //     },
-    //     {
-    //         node1Name: "实体2",
-    //         node1Color: "#FFF",
-    //         relationName: "关系2",
-    //         relationType: "subClass of",
-    //         relationColor: "#000",
-    //         node2Name: "实体3",
-    //         node2Color: "#FFF"
-    //     },
-    // ],
     showGraphNodes: [
         {
             name: '操作系统集团',
@@ -129,6 +110,7 @@ const state = {
             color: '#000'
         }
     ],
+    currentPicId: '',
 };
 
 const graph = {
@@ -212,7 +194,10 @@ const graph = {
             for (let i of data) {
                 state.relationTypeSet.add(i.type)
             }
-        }
+        },
+        set_currentPicId(state, data) {
+            state.currentPicId = data
+        },
     },
     actions: {
         addEntity:async({commit},param)=>{
@@ -263,6 +248,17 @@ const graph = {
                 message.error('删除关系失败')
             }
         },
+        downloadFile: async({ state }) => {
+            const res = await downloadAPI({
+                picId: state.currentPicId
+            });
+            if(res && res.code >= 0) {
+                return res.data;
+            } else {
+                message.error('文件下载失败')
+            }
+        },
+
     }
 };
 

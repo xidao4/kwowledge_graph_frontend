@@ -284,7 +284,11 @@
                 let res = this.downloadFile();
                 let blob = new Blob([res]);
                 let url = URL.createObjectURL(blob);
-                window.location.href = url;
+                let jsonFileLink = document.createElement("a");
+                jsonFileLink.href = url;
+                jsonFileLink.download = "知识图谱." + this.chosenFileType;
+                jsonFileLink.click();
+                window.URL.revokeObjectURL(url);
             }
         },
     }
