@@ -9,6 +9,7 @@ module.exports = {
                         'primary-color': '#D99CA8',
                         'link-color': '#D99CA8',
                         'border-radius-base': '2px',
+                        'success-color': '#D99CA8', // 成功色
                     },
                     javascriptEnabled: true,
                 },

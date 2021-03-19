@@ -1,7 +1,7 @@
 <template>
   <div>
     <span style="float: left;font-size: 14px">
-      * 颜色：
+     颜色：
     </span>
     <div style="float: left;">
       <div class="colorBlock" style="background-color:red;" @click="pick1">

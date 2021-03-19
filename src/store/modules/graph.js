@@ -5,33 +5,24 @@ import{
     addRelationAPI,
     changeEntityAPI,
     changeRelationAPI,
+    downloadAPI
 } from "../../api/graph";
+
 import { message } from 'ant-design-vue'
 
 const state = {
     graphInfo: [
+        'hi'
+    ],
+    picId: '',
+    relationTypeSet: new Set(['是','和']),
+    nodes:[
+        {name:'node1'},
+        {name:'node2'}
+    ],
+    links:[
 
     ],
-    // showGraphInfo: [
-    //     {
-    //         node1Name: "实体1",
-    //         node1Color: "#FFF",
-    //         relationName: "关系1",
-    //         relationType: "subClass of",
-    //         relationColor: "#000",
-    //         node2Name: "实体2",
-    //         node2Color: "#FFF"
-    //     },
-    //     {
-    //         node1Name: "实体2",
-    //         node1Color: "#FFF",
-    //         relationName: "关系2",
-    //         relationType: "subClass of",
-    //         relationColor: "#000",
-    //         node2Name: "实体3",
-    //         node2Color: "#FFF"
-    //     },
-    // ],
     showGraphNodes: [
         {
             name: '操作系统集团',
@@ -118,7 +109,8 @@ const state = {
             type: 'is',
             color: '#000'
         }
-    ]
+    ],
+    currentPicId: '',
 };
 
 const graph = {
@@ -126,11 +118,90 @@ const graph = {
     mutations: {
         set_graph(state, data) {
             state.graphInfo = data
-        }
+        },
+        set_picId(state, data) {
+            state.picId = data
+        },
+        set_nodes(state, data) {
+            state.nodes = data
+        },
+        set_links(state, data) {
+            state.links = data
+        },
+        set_showGraphNodes(state, data) {
+            state.showGraphNodes = [...data]
+        },
+        add_showGraphEdges(state,data){
+            let signal=0;
+            for(let i=0;i<state.showGraphEdges.length;i++){
+                if((state.showGraphEdges[i].node1===data.node1) && (state.showGraphEdges[i].node2===data.node2) && (state.showGraphEdges[i].name===data.name)){
+                    signal=1;
+                    break;
+                }
+            }
+            if(signal===0) {
+                state.showGraphEdges.push(data)
+            }
+        },
+        delete_showGraphEdges(state,data){
+            for(let i=0;i<state.showGraphEdges.length;i++){
+                if((state.showGraphEdges[i].node1===data.node1) && (state.showGraphEdges[i].node2===data.node2) && (state.showGraphEdges[i].name===data.name)){
+                    state.showGraphEdges.splice(i,1);
+                    break;
+                }
+            }
+        },
+        change_showGraphEdges(state,data){
+            for(let i=0;i<state.showGraphEdges.length;i++){
+                if((state.showGraphEdges[i].node1===data.node1) && (state.showGraphEdges[i].node2===data.node2) && (state.showGraphEdges[i].name===data.name)){
+                    state.showGraphEdges[i].name=data.newName
+                    state.showGraphEdges[i].type=data.newType
+                    break
+                }
+            }
+        },
+        update_showGraphNodes(state, data = {oldName: '', newName: '', newColor: ''}) {
+            for(let i = 0; i < state.showGraphNodes.length; i++){
+                if(state.showGraphNodes[i]['name'] === data.oldName){
+                    state.showGraphNodes[i]['name'] = data.newName;
+                    state.showGraphNodes[i]['color'] = data.newColor;
+                    break;
+                }
+            }
+            for(let i = 0; i < state.showGraphEdges.length; i++){
+                if(state.showGraphEdges[i]['node1'] === data.oldName){
+                    state.showGraphEdges[i]['node1'] = data.newName;
+                }
+                if(state.showGraphEdges[i]['node2'] === data.oldName){
+                    state.showGraphEdges[i]['node2'] = data.newName;
+                }
+            }
+        },
+        delete_showGraphNodes(state, data = {name: ''}) {
+            let index = 0;
+            for(let i = 0; i < state.showGraphNodes.length; i++){
+                if(state.showGraphNodes[i]['name'] === data.name){
+                    index = i;
+                    break;
+                }
+            }
+            state.showGraphNodes.splice(index,1);
+        },
+        add_showGraphNodes(state, data = {name: '', color: ''}) {
+            state.showGraphNodes.push(data)
+        },
+        set_relationTypeSet(state,data){
+            for (let i of data) {
+                state.relationTypeSet.add(i.type)
+            }
+        },
+        set_currentPicId(state, data) {
+            state.currentPicId = data
+        },
     },
     actions: {
         addEntity:async({commit},param)=>{
-            const res=await addEntityAPI(param)
+            const res=await addEntityAPI(param);
             if(res){
                 message.success('增加实体成功')
             }else{
@@ -138,7 +209,7 @@ const graph = {
             }
         },
         deleteEntity:async({commit},param)=>{
-            const res=await deleteEntityAPI(param)
+            const res=await deleteEntityAPI(param);
             if(res){
                 message.success('删除实体成功')
             }else{
@@ -146,7 +217,7 @@ const graph = {
             }
         },
         changeEntity:async({commit},param)=>{
-            const res=await changeEntityAPI(param)
+            const res=await changeEntityAPI(param);
             if(res){
                 message.success('修改实体成功')
             }else{
@@ -154,7 +225,7 @@ const graph = {
             }
         },
         addRelation:async({commit},param)=>{
-            const res=await addRelationAPI(param)
+            const res=await addRelationAPI(param);
             if(res){
                 message.success('增加关系成功')
             }else{
@@ -162,7 +233,7 @@ const graph = {
             }
         },
         changeRelation:async({commit},param)=>{
-            const res=await changeRelationAPI(param)
+            const res=await changeRelationAPI(param);
             if(res){
                 message.success('修改关系成功')
             }else{
@@ -170,13 +241,24 @@ const graph = {
             }
         },
         deleteRelation:async({commit},param)=>{
-            const res=await deleteRelationAPI(param)
+            const res=await deleteRelationAPI(param);
             if(res){
                 message.success('删除关系成功')
             }else{
                 message.error('删除关系失败')
             }
         },
+        downloadFile: async({ state }) => {
+            const res = await downloadAPI({
+                picId: state.currentPicId
+            });
+            if(res && res.code >= 0) {
+                return res.data;
+            } else {
+                message.error('文件下载失败')
+            }
+        },
+
     }
 };
 

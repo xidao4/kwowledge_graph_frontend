@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { axios } from '@/utils/request'
 
 const api = {
   graphPre: '/api/graph'
@@ -55,5 +55,15 @@ export function deleteRelationAPI(data) {
     url: `${api.graphPre}/deleteEntity`,
     method: 'POST',
     data
+  })
+}
+
+// 下载文件
+export function downloadAPI(data) {
+  return axios({
+    url: `${api.graphPre}/download`,
+    method: 'POST',
+    data,
+    responseType: "arraybuffer",//设置数据格式
   })
 }
