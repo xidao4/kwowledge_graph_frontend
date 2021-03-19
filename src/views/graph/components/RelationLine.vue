@@ -125,7 +125,13 @@
 
         this.change_showGraphEdges(data)
 
-        this.$emit('closeModal', true);
+        if(this.newType==='' && this.newName===''){
+          this.$emit('closeModal', false);
+        }
+        else{
+          this.$emit('closeModal', true);
+        }
+
       },
       cancelChange(){
         this.$emit('closeModal', true);
