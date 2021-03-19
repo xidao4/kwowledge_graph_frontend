@@ -3,6 +3,7 @@ pipeline {
     stages {
         stage('Yarn Build') {
             agent {
+                label 'ydlServer'
                 docker {
                     image 'node:latest'
                 }
