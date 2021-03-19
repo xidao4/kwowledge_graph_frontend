@@ -197,21 +197,13 @@
                             color: '#000'
                         },
                         force: {
-                            repulsion: 1000,
-                            edgeLength: 200
+                            repulsion: 450,
+                            edgeLength: 100
                         },
                         data: showNodes,
                         links: showEdges,
                         categories: categories,
-                        animationDuration: 1500,
-                        animationEasingUpdate: "quinticInOut",
-                        tooltip: {
-                            show: true,
-                            trigger: 'item',
-                            formatter: function (params) {//提示框自定义
-                                return this.formatterLabel(params, "%", "#f9d546")
-                            },
-                        }
+                        autoCurveness: 0.01, //多条边的时候，自动计算曲率
                     }]
                 };
 

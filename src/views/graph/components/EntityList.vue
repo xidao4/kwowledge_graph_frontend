@@ -125,6 +125,7 @@
                 tips: '请输入1-15位实体值，与现有实体值不相同',
             }
         },
+        props: ['triggerGraphMethod'],
         computed:{
             ...mapGetters([
                 'colorList',
@@ -139,14 +140,14 @@
                 this.colorValue = val;
             },
             parentFn2(val){
-                this.colorValue2=val
+                this.colorValue2 = val
                 console.log(val)
             },
             handleChangeEntity(){
-                this.changeEntityVisible=true
+                this.changeEntityVisible = true
             },
             handleChangeOk(e) {
-                this.changeEntityVisible=false
+                this.changeEntityVisible = false
             },
             handleDelete(e) {
                 this.changeEntityVisible = false;
@@ -155,10 +156,10 @@
                   this.changeEntityVisible = false;
             },
             handleAddEntity(){
-                  this.addEntityVisible=true;
+                  this.addEntityVisible = true;
             },
             handleAddCancel(e){
-                  this.addEntityVisible=false;
+                  this.addEntityVisible = false;
             },
             handleAdd(e){
                 if(this.name.errorMsg === null){
@@ -166,7 +167,8 @@
                         name: this.name.value,
                         color: this.colorValue
                     });
-                    this.addEntityVisible=false;
+                    this.triggerGraphMethod();
+                    this.addEntityVisible = false;
                 }
             },
             handleNameChange(value) {

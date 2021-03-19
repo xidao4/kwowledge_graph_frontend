@@ -9,7 +9,6 @@
                 :file-list="fileList"
                 accept=".json"
                 :beforeUpload="handleBeforeUpload"
-                multiple="true"
         >
             <a-button> <a-icon type="upload" /> {{this.uploadText}} </a-button>
         </a-upload>
