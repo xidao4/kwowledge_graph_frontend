@@ -15,7 +15,7 @@ const state = {
     graphInfo: [
         'hi'
     ],
-    picId: '',
+    picId: '1',
     relationTypeSet: new Set(['是','和']),
     nodes:[
         {name:'node1'},
@@ -272,11 +272,11 @@ const graph = {
             }
         },
         downloadFile: async({ state }) => {
-            console.log('download', state.picId);
+            console.log('download id', state.picId);
             const res = await downloadAPI({
                 picId: state.picId
             });
-            if(res && res.code >= 0) {
+            if(res.status == 200) {
                 return res.data;
             } else {
                 message.error('文件下载失败')

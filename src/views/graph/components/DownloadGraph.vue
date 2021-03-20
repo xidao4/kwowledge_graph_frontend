@@ -79,8 +79,9 @@
             downloadImage(){
                 this.triggerGraphImgDownload(this.chosenFileType);
             },
-            downloadFile(){
-                let res = this.downloadAct();
+            async downloadFile(){
+                let res = await this.downloadAct();
+                console.log(res);
                 let blob = new Blob([res]);
                 let url = URL.createObjectURL(blob);
                 let jsonFileLink = document.createElement("a");
