@@ -97,7 +97,9 @@
                 } else if (info.file.status === 'error') {
                     this.$message.error(`${info.file.name} 文件上传失败.`);
                 }
-                // fileList = fileList.slice(-1);
+                if(fileList.length > 1){
+                    fileList = fileList.slice(-1);
+                }
                 this.fileList = fileList;
             },
 

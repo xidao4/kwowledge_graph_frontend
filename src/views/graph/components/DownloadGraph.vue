@@ -8,7 +8,8 @@
                         {{item.type}}
                     </a-menu-item>
                 </a-menu>
-                <a-button type="primary" icon="download" style="margin-left: 8px"> 下载 <a-icon type="down" /> </a-button>
+                <a-button type="primary" icon="download" style="margin-left: 8px" :loading="loading">
+                    {{btnText}} <a-icon type="down" /> </a-button>
             </a-dropdown>
         </a-col>
     </a-row>
@@ -24,6 +25,10 @@
         owl: 'owl',
         json: 'json'
     };
+    const btnTextType = {
+        download: '下载',
+        jsonLoading: '数据文件生成中',
+    }
     export default {
         name: "DownloadGraph",
         props: ['triggerGraphImgDownload'],
@@ -62,6 +67,8 @@
                     },
                 ],
                 chosenFileType: '',
+                loading: false,
+                btnText: btnTextType.download,
             }
         },
         methods: {
@@ -80,8 +87,9 @@
                 this.triggerGraphImgDownload(this.chosenFileType);
             },
             async downloadFile(){
+                this.loading = true;
+                this.btnText = btnTextType.jsonLoading;
                 let res = await this.downloadAct();
-                console.log(res);
                 let blob = new Blob([res]);
                 let url = URL.createObjectURL(blob);
                 let jsonFileLink = document.createElement("a");
@@ -89,6 +97,10 @@
                 jsonFileLink.download = "知识图谱." + this.chosenFileType;
                 jsonFileLink.click();
                 window.URL.revokeObjectURL(url);
+                setTimeout(()=>{
+                    this.loading = false;
+                    this.btnText = btnTextType.download;
+                }, 2000)
             }
         }
     }

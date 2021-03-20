@@ -272,7 +272,6 @@ const graph = {
             }
         },
         downloadFile: async({ state }) => {
-            console.log('download id', state.picId);
             const res = await downloadAPI({
                 picId: state.picId
             });
