@@ -1,8 +1,5 @@
 <template>
   <div class="relationContainer">
-    <h3 style="margin-bottom: 16px;margin-bottom: 5px;text-align: center">
-      关系
-    </h3>
     <br />
     <div class="relationList">
       <div class="relationLine">

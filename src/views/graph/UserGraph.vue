@@ -3,16 +3,24 @@
         <div class="margin-tb">
             <upload-file :triggerGraphDraw="triggerGraphDraw"></upload-file>
         </div>
-        <div class="margin-tb">
+
+        <h3 class="header">
+            实体
+        </h3>
+        <div>
             <entity-list :triggerGraphDraw="triggerGraphDraw"></entity-list>
         </div>
-        <div class="margin-tb">
+
+        <h3 class="header">
+            关系
+        </h3>
+        <div>
             <relation-list :triggerGraphDraw="triggerGraphDraw"></relation-list>
         </div>
-        <div class="margin-tb" v-if="showGraphNodes.length > 0">
+        <div class="margin-tb" v-show="showGraphNodes.length > 0">
             <graph ref="graph"></graph>
         </div>
-        <div class="padding-tb-xs" v-if="showGraphNodes.length > 0">
+        <div class="padding-tb-xs" v-show="showGraphNodes.length > 0">
             <download-graph :triggerGraphImgDownload="triggerGraphImgDownload"></download-graph>
         </div>
     </div>
@@ -63,5 +71,9 @@
 }
 .padding-tb-xs {
     padding-bottom: 100px;
+}
+.header{
+    margin-bottom: 10px;
+    margin-top: 70px;
 }
 </style>

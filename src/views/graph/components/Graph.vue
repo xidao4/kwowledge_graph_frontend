@@ -6,8 +6,10 @@
             </a-col>
         </a-row>
 
-        <EntityModal :showModal="showEntityModal" :info="showEntityInfo" @closeModal="closeModal"></EntityModal>
-        <RelationLine :showModal="showRelationModal" :info="showRelationInfo" @closeModal="closeModal"></RelationLine>
+        <a-row>
+            <EntityModal :showModal="showEntityModal" :info="showEntityInfo" @closeModal="closeModal"></EntityModal>
+            <RelationLine :showModal="showRelationModal" :info="showRelationInfo" @closeModal="closeModal"></RelationLine>
+        </a-row>
     </div>
 </template>
 
@@ -15,10 +17,12 @@
     import {mapGetters, mapMutations, mapActions} from 'vuex';
     import EntityModal from './EntityModal';
     import RelationLine from "./RelationLine";
+    import ARow from "ant-design-vue/es/grid/Row";
 
     export default {
         name: "Graph",
         components: {
+            ARow,
             RelationLine,
             EntityModal
         },
@@ -222,6 +226,8 @@
 <style scoped lang="less">
 .graph-box{
     height: 600px;
+    display: flex;
+    justify-content: center;
 }
 .margin-tb {
     padding-bottom: 80px;
