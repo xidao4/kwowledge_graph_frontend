@@ -66,6 +66,7 @@
 
 <script>
   import {mapGetters,mapActions,mapMutations} from 'vuex'
+  import {message} from "ant-design-vue";
   export default {
     name: "RelationLine",
     props:{
@@ -118,6 +119,7 @@
         this.delete_showGraphEdges(data)
         console.log(this.showGraphEdges)
         this.$emit('closeModal', true);
+        message.success(`成功删除(${data.node1},${data.node2},${data.name})`)
         this.newName=''
         this.newType=''
       },
@@ -126,16 +128,31 @@
       },
       confirmChangeRelation(){
         this.newName=document.getElementById("newNameValue").value
+        console.log('newType',this.newType)
+        console.log('newName',this.newName)
+        if(this.newType==='' && this.newName===this.info.name){
+          message.error('未做任何修改')
+          return ;
+        }
+
         let that=this;
         let data={
           picId: that.picId,
           name: that.info.name,
           newName: that.newName,
-          newType: that.newType,
           node1: that.info.source,
           node2: that.info.target
         }
-
+        if(this.newType===''){
+          data.newType=this.type
+        }
+        else{
+          data.newType=this.newType
+        }
+        if(this.newName===''){
+          message.error(`修改失败，关系名不能为空`)
+          return ;
+        }
         this.changeRelation(data)
 
         this.change_showGraphEdges(data)
