@@ -24,7 +24,7 @@
             </a-select-option>
           </a-select>
         </div>
-        <div class="keyValue">
+        <div class="keyValue" id="keyValue1">
           <span>类型：</span>
           <a-select @change="handleType">
             <a-icon slot="suffixIcon" type="smile" />
@@ -33,7 +33,7 @@
             </a-select-option>
           </a-select>
         </div>
-        <div class="keyValue">
+        <div class="keyValue" id="keyValue2">
           <span>关系值：</span>
           <a-input placeholder="请输入关系值" style="width: 120px" id="nameValue"/>
         </div>
@@ -136,6 +136,9 @@
   .keyValue{
     width: 200px;
     margin-top: 10px;
+  }
+  #keyValue1{
+    margin-left: 12px;
   }
 }
 .relationLine{
