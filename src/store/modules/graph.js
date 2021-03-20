@@ -16,7 +16,7 @@ const state = {
         'hi'
     ],
     picId: '4',
-    relationTypeSet: new Set(['是','和']),
+    relationTypeSet: new Set(),
     nodes:[
         {name:'node1'},
         {name:'node2'}
