@@ -32,7 +32,7 @@
         </div>
         <div class="keyValue" id="keyValue2">
           <span>关系值：</span>
-          <a-input placeholder="请输入关系值" style="width: 120px" id="nameValue"/>
+          <a-input placeholder="请输入关系值" style="width: 120px" id="nameValue" :maxLength="textSize" v-model="text"/>
         </div>
       </div>
       <a-button size="small" type="primary" @click="confirmAddRelation">
@@ -54,7 +54,9 @@
             node1: '',
             node2: '',
             type: '',
-            name: ''
+            name: '',
+            text: '',
+            textSize: 15
           }
         },
         props: ['triggerGraphDraw'],
@@ -65,6 +67,16 @@
             'picId',
             'showGraphEdges'
           ])
+        },
+        watch: {
+          text: {
+            immediate: true,
+            handler(text){
+              if(text.length===15){
+                message.error('关系值不能超过15个字符')
+              }
+            }
+          }
         },
         methods:{
           ...mapActions([
