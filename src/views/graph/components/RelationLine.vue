@@ -7,59 +7,60 @@
     :footer="null"
   >
 
-    <div class="relationLine">
-      <div class="keyValue">
-        <span>定义域：</span>
-        <a-input :placeholder="this.info.source"  style="width: 200px" disabled/>
-      </div>
+    <a-row type="flex" justify="center">
+      <div class="relationLine">
+        <div class="keyValue">
+          <span>定义域：</span>
+          <a-input :placeholder="this.info.source"  style="width: 200px" disabled/>
+        </div>
 
-      <div class="keyValue" style="margin-left: 14px">
-        <span>值域：</span>
-        <a-input :placeholder="this.info.target"  style="width: 200px" disabled/>
-      </div>
+        <div class="keyValue" style="margin-left: 14px">
+          <span>值域：</span>
+          <a-input :placeholder="this.info.target"  style="width: 200px" disabled/>
+        </div>
 
-      <div class="keyValue" style="margin-left: 14px">
-        <span>类型：</span>
-        <a-select
-          show-search
-          option-filter-prop="children"
-          :filter-option="filterOption"
-          @focus="handleFocus"
-          @blur="handleBlur"
-          @change="handleChange"
-          :value="this.type"
-        >
-          <a-icon slot="suffixIcon" type="smile" />
-          <a-select-option :value="type" v-for="type in this.relationTypeSet">
-            {{type}}
-          </a-select-option>
-        </a-select>
-      </div>
-      <div class="keyValue">
-        <span>关系值：</span>
-        <a-input v-model="this.name" id="newNameValue" style="width: 200px"/>
-      </div>
+        <div class="keyValue" style="margin-left: 14px">
+          <span>类型：</span>
+          <a-select
+            show-search
+            option-filter-prop="children"
+            :filter-option="filterOption"
+            @focus="handleFocus"
+            @blur="handleBlur"
+            @change="handleChange"
+            :value="this.type"
+          >
+            <a-icon slot="suffixIcon" type="smile" />
+            <a-select-option :value="type" v-for="type in this.relationTypeSet">
+              {{type}}
+            </a-select-option>
+          </a-select>
+        </div>
+        <div class="keyValue">
+          <span>关系值：</span>
+          <a-input v-model="this.name" id="newNameValue" style="width: 200px"/>
+        </div>
 
 
-      <div class="buttonArea">
-        <a-button type="primary" size="small" @click="confirmChangeRelation">
-          保存修改
-        </a-button>
-
-        <a-popconfirm
-          title="删除这个关系？"
-          ok-text="确定"
-          cancel-text="取消"
-          @confirm="confirmDeleteRelation"
-          @cancel="cancelDelete"
-        >
-          <a-button type="danger" size="small">
-            删除
+        <div class="buttonArea">
+          <a-button type="primary" size="small" @click="confirmChangeRelation">
+            保存修改
           </a-button>
-        </a-popconfirm>
-      </div>
-    </div>
 
+          <a-popconfirm
+            title="删除这个关系？"
+            ok-text="确定"
+            cancel-text="取消"
+            @confirm="confirmDeleteRelation"
+            @cancel="cancelDelete"
+          >
+            <a-button type="danger" size="small">
+              删除
+            </a-button>
+          </a-popconfirm>
+        </div>
+      </div>
+    </a-row>
   </a-modal>
 </template>
 
