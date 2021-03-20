@@ -6,8 +6,10 @@
             </a-col>
         </a-row>
 
-        <EntityModal :showModal="showEntityModal" :info="showEntityInfo" @closeModal="closeModal"></EntityModal>
-        <RelationLine :showModal="showRelationModal" :info="showRelationInfo" @closeModal="closeModal"></RelationLine>
+        <a-row>
+            <EntityModal :showModal="showEntityModal" :info="showEntityInfo" @closeModal="closeModal"></EntityModal>
+            <RelationLine :showModal="showRelationModal" :info="showRelationInfo" @closeModal="closeModal"></RelationLine>
+        </a-row>
     </div>
 </template>
 
@@ -15,10 +17,12 @@
     import {mapGetters, mapMutations, mapActions} from 'vuex';
     import EntityModal from './EntityModal';
     import RelationLine from "./RelationLine";
+    import ARow from "ant-design-vue/es/grid/Row";
 
     export default {
         name: "Graph",
         components: {
+            ARow,
             RelationLine,
             EntityModal
         },
@@ -102,26 +106,26 @@
                 });
                 let option = {
                     color: legendColor,
-                    legend: {
-                        show: true,
-                        data: legend,
-                        textStyle: {
-                            color: "#000",
-                            fontSize: 10
-                        },
-                        // inactiveColor: "#fff",
-                        icon: "circle",
-                        // type: "scroll",
-                        // orient: "vertical",
-                        // left: "right",
-                        pageIconColor: "#000",
-                        pageIconInactiveColor: "#000",
-                        pageIconSize: 12,
-                        pageTextStyle: {
-                            color: "#000",
-                            fontSize: 12
-                        }
-                    },
+                    // legend: {
+                    //     show: true,
+                    //     data: legend,
+                    //     textStyle: {
+                    //         color: "#000",
+                    //         fontSize: 10
+                    //     },
+                    //     // inactiveColor: "#fff",
+                    //     icon: "circle",
+                    //     // type: "scroll",
+                    //     // orient: "vertical",
+                    //     // left: "right",
+                    //     pageIconColor: "#000",
+                    //     pageIconInactiveColor: "#000",
+                    //     pageIconSize: 12,
+                    //     pageTextStyle: {
+                    //         color: "#000",
+                    //         fontSize: 12
+                    //     }
+                    // },
                     series: [{
                         type: 'graph',
                         layout: 'force',
@@ -140,6 +144,7 @@
                         edgeSymbol: ['', 'arrow'],
                         // edgeSymbolSize: [80, 10],
                         edgeLabel: {
+                            overflow: 'truncate',
                             normal: {
                                 show: true,
                                 textStyle: {
@@ -147,7 +152,7 @@
                                 },
                                 formatter(x) {
                                     return x.data.name;
-                                }
+                                },
                             }
                         },
                         label: {
@@ -155,8 +160,8 @@
                             color: '#000'
                         },
                         force: {
-                            repulsion: 450,
-                            edgeLength: 100
+                            repulsion: 250,
+                            edgeLength: 130
                         },
                         data: showNodes,
                         links: showEdges,
@@ -221,6 +226,8 @@
 <style scoped lang="less">
 .graph-box{
     height: 600px;
+    display: flex;
+    justify-content: center;
 }
 .margin-tb {
     padding-bottom: 80px;

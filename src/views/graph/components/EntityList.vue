@@ -1,8 +1,5 @@
 <template>
     <div class="tagContainer">
-        <h3 style="margin-bottom: 16px;margin-bottom: 5px;text-align: center">
-            实体
-        </h3>
         <div class="tagList">
             <a-row type="flex" justify="center">
                 <a-col span="20">
@@ -162,6 +159,10 @@
                   this.addEntityVisible = false;
             },
             handleAdd(e){
+                this.name = {
+                    ...validateEntityName(this.name.value, null, this.showGraphNodes),
+                    value: this.name.value,
+                };
                 if(this.name.errorMsg === null){
                     this.add_showGraphNodes({
                         name: this.name.value,
@@ -193,13 +194,6 @@
     width: 100%;
 }
 .tagList{
-    /*width: 65%;*/
-    /*margin: 0 auto;*/
-    /*height: 100px;*/
-    display: flex;
-    justify-content: center;
-    /*padding: 10px;*/
-    align-items: center;
     text-align: center;
 }
 .entity-list{
