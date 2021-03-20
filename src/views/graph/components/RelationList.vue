@@ -73,7 +73,7 @@
           ...mapMutations([
             'add_showGraphEdges'
           ]),
-          confirmAddRelation(){
+          async confirmAddRelation(){
             console.log(document.getElementById("nameValue").value)
             this.name=document.getElementById("nameValue").value
             let data={
@@ -94,7 +94,7 @@
               message.error('增加关系失败，实体和关系名不能为空')
               return ;
             }
-            // this.addRelation(data)
+            await this.addRelation(data)
             console.log('add')
             console.log(this.showGraphEdges)
             this.add_showGraphEdges(newData)

@@ -67,12 +67,17 @@
             ...mapGetters([
                 'colorList',
                 'showGraphNodes',
+                'picId'
             ])
         },
         methods: {
             ...mapMutations([
                 'update_showGraphNodes',
                 'delete_showGraphNodes',
+            ]),
+            ...mapActions([
+              'deleteEntity',
+              'changeEntity'
             ]),
             parentFn1(val){
                 this.colorValue = val;
@@ -82,6 +87,10 @@
                 this.delete_showGraphNodes({
                     name: name
                 });
+                this.deleteEntity({
+                    picId:this.picId,
+                    name: name
+                })
                 this.$emit('closeModal', true);
             },
             handleChangeOk(e) {
@@ -96,6 +105,11 @@
                             newName: newName,
                             newColor: newColor,
                         });
+                        this.changeEntity({
+                            picId:this.picId,
+                            oldName: oldName,
+                            newName: newName,
+                        })
                         this.$emit('closeModal', true);
                     } else {
                         this.$emit('closeModal', false);

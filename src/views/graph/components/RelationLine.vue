@@ -106,7 +106,7 @@
         'delete_showGraphEdges',
         'change_showGraphEdges'
       ]),
-      confirmDeleteRelation(){
+      async confirmDeleteRelation(){
         let that=this;
         let data={
           picId: that.picId,
@@ -114,7 +114,7 @@
           node1: that.info.source,
           node2: that.info.target
         }
-        this.deleteRelation(data)
+        await this.deleteRelation(data)
         console.log(this.showGraphEdges)
         this.delete_showGraphEdges(data)
         console.log(this.showGraphEdges)
@@ -126,7 +126,7 @@
       cancelDelete(){
         this.$emit('closeModal', false);
       },
-      confirmChangeRelation(){
+      async confirmChangeRelation(){
         this.newName=document.getElementById("newNameValue").value
         console.log('newType',this.newType)
         console.log('newName',this.newName)
@@ -153,7 +153,7 @@
           message.error(`修改失败，关系名不能为空`)
           return ;
         }
-        this.changeRelation(data)
+        await this.changeRelation(data)
 
         this.change_showGraphEdges(data)
 
