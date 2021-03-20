@@ -15,7 +15,7 @@ const state = {
     graphInfo: [
         'hi'
     ],
-    picId: '',
+    picId: '4',
     relationTypeSet: new Set(['是','和']),
     nodes:[
         {name:'node1'},
@@ -225,6 +225,7 @@ const graph = {
         },
         deleteEntity:async({commit},param)=>{
             const res=await deleteEntityAPI(param);
+            console.log(res)
             if(res){
                 message.success('删除实体成功')
             }else{

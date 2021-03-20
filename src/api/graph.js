@@ -19,6 +19,7 @@ export function getAllAPI(data) {
 
 // 修改实体
 export function changeEntityAPI(data) {
+  console.log('changeEntity',data)
   return axios({
     url: `${api.graphPre}/changeEntity`,
     method: 'POST',
@@ -28,7 +29,7 @@ export function changeEntityAPI(data) {
 
 // 新增实体
 export function addEntityAPI(data) {
-  console.log('data',data)
+  console.log('addEntity',data)
   return axios({
     url: `${api.graphPre}/addEntity`,
     method: 'POST',
@@ -38,14 +39,17 @@ export function addEntityAPI(data) {
 
 // 删除实体
 export function deleteEntityAPI(data) {
+  console.log('deleteEntity',data)
   return axios({
-    url: `${api.graphPre}/deleteEntity/${data}`,
-    method: 'POST'
+    url: `${api.graphPre}/deleteEntity`,
+    method: 'POST',
+    data
   })
 }
 
 // 新增关系
 export function addRelationAPI(data) {
+  console.log('addRelation',data)
   return axios({
     url: `${api.graphPre}/addRelation`,
     method: 'POST',
@@ -55,6 +59,7 @@ export function addRelationAPI(data) {
 
 // 修改关系
 export function changeRelationAPI(data) {
+  console.log('changeRelation',data)
   return axios({
     url: `${api.graphPre}/changeRelation`,
     method: 'POST',
@@ -64,6 +69,7 @@ export function changeRelationAPI(data) {
 
 // 删除关系
 export function deleteRelationAPI(data) {
+  console.log('deleteRelation',data)
   return axios({
     url: `${api.graphPre}/deleteEntity`,
     method: 'POST',
