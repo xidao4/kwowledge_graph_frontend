@@ -98,7 +98,7 @@
       },
       nameText: function(){
         if(this.nameText.length===10){
-          message.error('关系值不能超过10个字符')
+          message.warning('关系值不能超过10个字符')
         }
       },
 
