@@ -24,7 +24,7 @@
             </a-select-option>
           </a-select>
         </div>
-        <div class="keyValue">
+        <div class="keyValue" id="keyValue1">
           <span>类型：</span>
           <a-select @change="handleType">
             <a-icon slot="suffixIcon" type="smile" />
@@ -33,14 +33,14 @@
             </a-select-option>
           </a-select>
         </div>
-        <div class="keyValue">
+        <div class="keyValue" id="keyValue2">
           <span>关系值：</span>
           <a-input placeholder="请输入关系值" style="width: 120px" id="nameValue"/>
         </div>
-        <a-button size="small" type="primary" @click="confirmAddRelation">
-          添加
-        </a-button>
       </div>
+      <a-button size="small" type="primary" @click="confirmAddRelation">
+        添加
+      </a-button>
     </div>
     <br />
   </div>
@@ -48,6 +48,7 @@
 
 <script>
     import {mapGetters,mapMutations,mapActions} from 'vuex'
+    import {message} from "ant-design-vue";
 
     export default {
         name: "RelationList",
@@ -92,10 +93,13 @@
               type: this.type,
               color: '#000'
             }
-            this.addRelation(data)
+            if(newData.node1==='' || newData.node2==='' || newData.name===''){
+              message.error('增加关系失败，实体和关系名不能为空')
+              return ;
+            }
+            // this.addRelation(data)
             console.log('add')
             console.log(this.showGraphEdges)
-            // this.showGraphEdges.push(newData)
             this.add_showGraphEdges(newData)
             console.log('after add, ', this.showGraphEdges)
             this.triggerGraphDraw();
@@ -120,13 +124,33 @@
 </script>
 
 <style scoped>
+@media screen and (max-width: 500px) {
+  .relationLine{
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    justify-content: center;
+    padding-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .keyValue{
+    width: 200px;
+    margin-top: 10px;
+  }
+  #keyValue1{
+    margin-left: 12px;
+  }
+}
 .relationLine{
   display: flex;
-  width: 80%;
+  align-items: center;
+  /*width: 80%;*/
   margin: 0 auto;
   justify-content: center;
   padding-bottom: 20px;
+  /*flex-wrap: wrap;*/
 }
+
 .keyValue{
   width: 200px;
 }
@@ -138,6 +162,6 @@
   padding: 0 7px;
   font-size: 14px;
   border-radius: 2px;
-  margin-left: 18px;
+  /*margin-left: 18px;*/
 }
 </style>

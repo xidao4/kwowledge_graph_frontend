@@ -7,64 +7,66 @@
     :footer="null"
   >
 
-    <div class="relationLine">
-      <div class="keyValue">
-        <span>定义域：</span>
-        <a-input :placeholder="this.info.source"  style="width: 200px" disabled/>
-      </div>
+    <a-row type="flex" justify="center">
+      <div class="relationLine">
+        <div class="keyValue">
+          <span>定义域：</span>
+          <a-input :placeholder="this.info.source"  style="width: 200px" disabled/>
+        </div>
 
-      <div class="keyValue" style="margin-left: 14px">
-        <span>值域：</span>
-        <a-input :placeholder="this.info.target"  style="width: 200px" disabled/>
-      </div>
+        <div class="keyValue" style="margin-left: 14px">
+          <span>值域：</span>
+          <a-input :placeholder="this.info.target"  style="width: 200px" disabled/>
+        </div>
 
-      <div class="keyValue" style="margin-left: 14px">
-        <span>类型：</span>
-        <a-select
-          show-search
-          option-filter-prop="children"
-          :filter-option="filterOption"
-          @focus="handleFocus"
-          @blur="handleBlur"
-          @change="handleChange"
-          :value="this.type"
-        >
-          <a-icon slot="suffixIcon" type="smile" />
-          <a-select-option :value="type" v-for="type in this.relationTypeSet">
-            {{type}}
-          </a-select-option>
-        </a-select>
-      </div>
-      <div class="keyValue">
-        <span>关系值：</span>
-        <a-input v-model="this.name" id="newNameValue" style="width: 200px"/>
-      </div>
+        <div class="keyValue" style="margin-left: 14px">
+          <span>类型：</span>
+          <a-select
+            show-search
+            option-filter-prop="children"
+            :filter-option="filterOption"
+            @focus="handleFocus"
+            @blur="handleBlur"
+            @change="handleChange"
+            :value="this.type"
+          >
+            <a-icon slot="suffixIcon" type="smile" />
+            <a-select-option :value="type" v-for="type in this.relationTypeSet">
+              {{type}}
+            </a-select-option>
+          </a-select>
+        </div>
+        <div class="keyValue">
+          <span>关系值：</span>
+          <a-input v-model="this.name" id="newNameValue" style="width: 200px"/>
+        </div>
 
 
-      <div class="buttonArea">
-        <a-button type="primary" size="small" @click="confirmChangeRelation">
-          保存修改
-        </a-button>
-
-        <a-popconfirm
-          title="删除这个关系？"
-          ok-text="确定"
-          cancel-text="取消"
-          @confirm="confirmDeleteRelation"
-          @cancel="cancelDelete"
-        >
-          <a-button type="danger" size="small">
-            删除
+        <div class="buttonArea">
+          <a-button type="primary" size="small" @click="confirmChangeRelation">
+            保存修改
           </a-button>
-        </a-popconfirm>
-      </div>
-    </div>
 
+          <a-popconfirm
+            title="删除这个关系？"
+            ok-text="确定"
+            cancel-text="取消"
+            @confirm="confirmDeleteRelation"
+            @cancel="cancelDelete"
+          >
+            <a-button type="danger" size="small">
+              删除
+            </a-button>
+          </a-popconfirm>
+        </div>
+      </div>
+    </a-row>
   </a-modal>
 </template>
 
 <script>
   import {mapGetters,mapActions,mapMutations} from 'vuex'
+  import {message} from "ant-design-vue";
   export default {
     name: "RelationLine",
     props:{
@@ -117,6 +119,7 @@
         this.delete_showGraphEdges(data)
         console.log(this.showGraphEdges)
         this.$emit('closeModal', true);
+        message.success(`成功删除(${data.node1},${data.node2},${data.name})`)
         this.newName=''
         this.newType=''
       },
@@ -125,16 +128,31 @@
       },
       confirmChangeRelation(){
         this.newName=document.getElementById("newNameValue").value
+        console.log('newType',this.newType)
+        console.log('newName',this.newName)
+        if(this.newType==='' && this.newName===this.info.name){
+          message.error('未做任何修改')
+          return ;
+        }
+
         let that=this;
         let data={
           picId: that.picId,
           name: that.info.name,
           newName: that.newName,
-          newType: that.newType,
           node1: that.info.source,
           node2: that.info.target
         }
-
+        if(this.newType===''){
+          data.newType=this.type
+        }
+        else{
+          data.newType=this.newType
+        }
+        if(this.newName===''){
+          message.error(`修改失败，关系名不能为空`)
+          return ;
+        }
         this.changeRelation(data)
 
         this.change_showGraphEdges(data)

@@ -243,7 +243,7 @@ const graph = {
         deleteRelation:async({commit},param)=>{
             const res=await deleteRelationAPI(param);
             if(res){
-                message.success('删除关系成功')
+                // message.success('删除关系成功')
             }else{
                 message.error('删除关系失败')
             }
