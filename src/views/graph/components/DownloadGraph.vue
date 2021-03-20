@@ -65,9 +65,9 @@
             }
         },
         methods: {
-            ...mapActions([
-                'downloadFile'
-            ]),
+            ...mapActions({
+                downloadAct: 'downloadFile'
+            }),
             handleTypeChange(value) {
                 this.chosenFileType = value.key;
                 if(this.chosenFileType === fileType.png || this.chosenFileType === fileType.jpeg){
@@ -80,7 +80,7 @@
                 this.triggerGraphImgDownload(this.chosenFileType);
             },
             downloadFile(){
-                let res = this.downloadFile();
+                let res = this.downloadAct();
                 let blob = new Blob([res]);
                 let url = URL.createObjectURL(blob);
                 let jsonFileLink = document.createElement("a");
