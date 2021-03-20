@@ -85,7 +85,7 @@
 </template>
 
 <script>
-    import { mapGetters, mapMutations } from 'vuex';
+    import { mapGetters, mapMutations, mapActions } from 'vuex';
     import ColorPicker from "./ColorPicker";
     import ARow from "ant-design-vue/es/grid/Row";
     import ACol from "ant-design-vue/es/grid/Col";
@@ -129,12 +129,16 @@
         computed:{
             ...mapGetters([
                 'colorList',
-                'showGraphNodes'
+                'showGraphNodes',
+                'picId'
             ])
         },
         methods:{
             ...mapMutations([
                 'add_showGraphNodes'
+            ]),
+            ...mapActions([
+              'addEntity'
             ]),
             parentFn1(val){
                 this.colorValue = val;
@@ -171,6 +175,10 @@
                         name: this.name.value,
                         color: this.colorValue
                     });
+                    this.addEntity({
+                        picId:this.picId,
+                        name: this.name.value
+                    })
                     this.triggerGraphDraw();
                     this.addEntityVisible = false;
                     this.name.value = '';

@@ -216,6 +216,7 @@ const graph = {
         // },
         addEntity:async({commit},param)=>{
             const res=await addEntityAPI(param);
+            console.log('addEntity',res)
             if(res){
                 message.success('增加实体成功')
             }else{

@@ -28,6 +28,7 @@ export function changeEntityAPI(data) {
 
 // 新增实体
 export function addEntityAPI(data) {
+  console.log('data',data)
   return axios({
     url: `${api.graphPre}/addEntity`,
     method: 'POST',
@@ -39,7 +40,7 @@ export function addEntityAPI(data) {
 export function deleteEntityAPI(data) {
   return axios({
     url: `${api.graphPre}/deleteEntity/${data}`,
-    method: 'GET'
+    method: 'POST'
   })
 }
 
