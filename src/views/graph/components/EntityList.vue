@@ -162,6 +162,10 @@
                   this.addEntityVisible = false;
             },
             handleAdd(e){
+                this.name = {
+                    ...validateEntityName(this.name.value, null, this.showGraphNodes),
+                    value: this.name.value,
+                };
                 if(this.name.errorMsg === null){
                     this.add_showGraphNodes({
                         name: this.name.value,
