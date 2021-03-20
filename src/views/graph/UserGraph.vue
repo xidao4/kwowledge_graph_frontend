@@ -17,7 +17,7 @@
         <div>
             <relation-list :triggerGraphDraw="triggerGraphDraw"></relation-list>
         </div>
-        <div class="margin-tb" v-show="showGraphNodes.length > 0">
+        <div class="margin-tb" v-if="showGraphNodes.length > 0">
             <graph ref="graph"></graph>
         </div>
         <div class="padding-tb-xs" v-show="showGraphNodes.length > 0">
