@@ -56,7 +56,7 @@
             type: '',
             name: '',
             text: '',
-            textSize: 15
+            textSize: 10
           }
         },
         props: ['triggerGraphDraw'],
@@ -72,8 +72,8 @@
           text: {
             immediate: true,
             handler(text){
-              if(text.length===15){
-                message.error('关系值不能超过15个字符')
+              if(text.length===10){
+                message.error('关系值请不要超过10个字符')
               }
             }
           }
@@ -106,12 +106,20 @@
               message.error('增加关系失败，实体和关系名不能为空')
               return ;
             }
+            for(let i=0;i<this.showGraphEdges.length;i++){
+              if((this.showGraphEdges[i].node1===newData.node1) && (this.showGraphEdges[i].node2===newData.node2)
+              && (this.showGraphEdges[i].name===newData.name) && (this.showGraphEdges[i].type===newData.type)){
+                message.error('增加关系失败，该关系已存在')
+                return ;
+              }
+            }
             await this.addRelation(data)
             console.log('add')
             console.log(this.showGraphEdges)
             this.add_showGraphEdges(newData)
             console.log('after add, ', this.showGraphEdges)
             this.triggerGraphDraw();
+            this.text=''
           },
           cancelAdd(){
 
