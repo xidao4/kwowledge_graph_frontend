@@ -47,7 +47,7 @@
             ])
         },
         mounted() {
-            this.draw()
+            // this.draw()
         },
         methods: {
             draw () {
