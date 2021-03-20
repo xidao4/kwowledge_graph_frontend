@@ -4,6 +4,18 @@ const api = {
   graphPre: '/api/graph'
 }
 
+export function getAllAPI(data) {
+  return axios({
+    url: `${api.graphPre}/getAll`,
+    method: 'POST',
+    data: data,
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+}
+
+
 
 // 修改实体
 export function changeEntityAPI(data) {

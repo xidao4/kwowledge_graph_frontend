@@ -1,4 +1,5 @@
 import{
+    getAllAPI,
     deleteEntityAPI,
     deleteRelationAPI,
     addEntityAPI,
@@ -200,6 +201,19 @@ const graph = {
         },
     },
     actions: {
+        // getAll:async ({commit,state},data)=>{
+        //     const res = await getAllAPI(data);
+        //     console.log('file', res);
+        //     if(res && res.code >= 0){
+        //         let data = res.data;
+        //         commit('set_picId', data.picId);
+        //         commit('set_links', data.links);
+        //         commit('set_nodes', data.nodes);
+        //         commit('set_relationTypeSet', data.links);
+        //     }else{
+        //         message.error('文件上传失败')
+        //     }
+        // },
         addEntity:async({commit},param)=>{
             const res=await addEntityAPI(param);
             if(res){
@@ -250,7 +264,7 @@ const graph = {
         },
         downloadFile: async({ state }) => {
             const res = await downloadAPI({
-                picId: state.currentPicId
+                picId: state.picId
             });
             if(res && res.code >= 0) {
                 return res.data;
