@@ -73,7 +73,7 @@
             immediate: true,
             handler(text){
               if(text.length===10){
-                message.error('关系值请不要超过10个字符')
+                message.warning('关系值请不要超过10个字符')
               }
             }
           }
