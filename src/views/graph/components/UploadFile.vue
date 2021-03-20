@@ -2,7 +2,7 @@
     <div class="up">
         <a-upload
                 name="mFile"
-                :multiple="true"
+                :multiple="false"
                 action="http://118.182.96.49:8001/api/graph/getAll"
                 :headers="headers"
                 @change="handleChange"
@@ -46,7 +46,9 @@
                 'set_picId',
                 'set_nodes',
                 'set_links',
-                'set_relationTypeSet'
+                'set_relationTypeSet',
+                'set_showGraphNodes',
+                'set_showGraphEdges'
 
             ]),
             handleBeforeUpload(file,fileList){
@@ -76,21 +78,26 @@
             handleChange(info) {
                 let fileList = [...info.fileList];
                 if (info.file.status === 'done') {
-                    this.$message.success(`${info.file.name} 文件上传成功`);
-                    this.times=1;
+                    this.times = 1;
                     if(this.times===1){
                         this.uploadText="再次上传.json文件"
                     }
-                    console.log('info', info);
-                    let resData = info.file.response.data;
-                    this.set_picId(resData.picId);
-                    this.set_links(resData.links);
-                    this.set_nodes(resData.nodes);
-                    this.set_relationTypeSet(info.file.links);
+                    if(info.file.response.code >= 0){
+                        let resData = info.file.response.data;
+                        console.log('upload res', resData);
+                        this.set_picId(resData.picId);
+                        this.set_showGraphEdges(resData.links);
+                        this.set_showGraphNodes(resData.nodes);
+                        this.set_relationTypeSet(resData.links);
+                        this.triggerGraphDraw();
+                    } else {
+                        fileList = [];
+                        this.$message.error(`${info.file.name} 文件上传失败.`);
+                    }
                 } else if (info.file.status === 'error') {
                     this.$message.error(`${info.file.name} 文件上传失败.`);
                 }
-                fileList = fileList.slice(-1);
+                // fileList = fileList.slice(-1);
                 this.fileList = fileList;
             },
 

@@ -9,10 +9,10 @@
         <div class="margin-tb">
             <relation-list :triggerGraphDraw="triggerGraphDraw"></relation-list>
         </div>
-        <div class="margin-tb">
+        <div class="margin-tb" v-if="showGraphNodes.length > 0">
             <graph ref="graph"></graph>
         </div>
-        <div class="padding-tb-xs">
+        <div class="padding-tb-xs" v-if="showGraphNodes.length > 0">
             <download-graph :triggerGraphImgDownload="triggerGraphImgDownload"></download-graph>
         </div>
     </div>
@@ -36,6 +36,7 @@
         computed:{
             ...mapGetters([
                 'colorList',
+                'showGraphNodes'
             ])
         },
         async mounted() {
