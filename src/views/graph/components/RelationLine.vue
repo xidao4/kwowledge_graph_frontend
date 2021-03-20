@@ -31,7 +31,7 @@
             :value="this.type"
           >
             <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option :value="type" v-for="type in this.relationTypeSet">
+            <a-select-option :value="type" v-for="(type, index) in this.relationTypeSet" :key="index">
               {{type}}
             </a-select-option>
           </a-select>
@@ -91,7 +91,7 @@
     watch: {
       info: {
         immediate: true,
-        handler(info){
+        handler(){
           this.nameText=this.info.name
           this.type = this.info.type;
         }
@@ -175,10 +175,10 @@
       cancelChange(){
         this.$emit('closeModal', true);
       },
-      handleOk(e) {
+      handleOk() {
         this.$emit('closeModal', false);
       },
-      handleCancel(e) {
+      handleCancel() {
         this.$emit('closeModal', false);
       },
       handleChange(value) {

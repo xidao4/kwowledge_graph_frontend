@@ -3,7 +3,7 @@
         <a-col :span="4">
             <a-dropdown>
                 <a-menu slot="overlay" @click="handleTypeChange">
-                    <a-menu-item :key="item.value" v-for="(item, index) in downloadFileType">
+                    <a-menu-item :key="item.value" v-for="item in downloadFileType">
                         <a-icon :type="item.icon" />
                         {{item.type}}
                     </a-menu-item>
@@ -100,7 +100,7 @@
                 setTimeout(()=>{
                     this.loading = false;
                     this.btnText = btnTextType.download;
-                }, 2000)
+                }, 500)
             }
         }
     }

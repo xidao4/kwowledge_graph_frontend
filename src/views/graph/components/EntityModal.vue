@@ -42,7 +42,6 @@
 </template>
 
 <script>
-    import ColorPicker from './ColorPicker';
     import { mapGetters, mapMutations, mapActions } from 'vuex';
     import ColorPicker2 from './ColorPicker2';
     import { validateEntityName } from '@/utils/validator.js'
@@ -93,7 +92,7 @@
                 })
                 this.$emit('closeModal', true);
             },
-            handleChangeOk(e) {
+            handleChangeOk() {
                 if(this.name.errorMsg === null){
                     let oldName = this.info.name;
                     let newName = this.name.value;
@@ -116,10 +115,10 @@
                     }
                 }
             },
-            handleChangeCancel(e){
+            handleChangeCancel(){
                 this.$emit('closeModal', false);
             },
-            handleNameChange(value) {
+            handleNameChange() {
                 this.name = {
                     ...validateEntityName(this.name.value, this.info.name, this.showGraphNodes),
                     value: this.name.value,
@@ -127,13 +126,12 @@
             },
         },
         components: {
-            ColorPicker,
             ColorPicker2
         },
         watch: {
             showModal: {
                 immediate: true,
-                handler(showModal){
+                handler(){
                     this.name.value = this.info.name;
                     this.name.errorMsg = null;
                     this.colorValue = this.info.color;

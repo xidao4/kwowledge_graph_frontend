@@ -83,7 +83,6 @@
 
 <script>
     import { mapGetters, mapMutations, mapActions } from 'vuex';
-    import ColorPicker from "./ColorPicker";
     import ARow from "ant-design-vue/es/grid/Row";
     import ACol from "ant-design-vue/es/grid/Col";
     import ColorPicker2 from './ColorPicker2';
@@ -147,22 +146,22 @@
             handleChangeEntity(){
                 this.changeEntityVisible = true
             },
-            handleChangeOk(e) {
+            handleChangeOk() {
                 this.changeEntityVisible = false
             },
-            handleDelete(e) {
+            handleDelete() {
                 this.changeEntityVisible = false;
             },
-            handleChangeCancel(e){
+            handleChangeCancel(){
                   this.changeEntityVisible = false;
             },
             handleAddEntity(){
                   this.addEntityVisible = true;
             },
-            handleAddCancel(e){
+            handleAddCancel(){
                   this.addEntityVisible = false;
             },
-            handleAdd(e){
+            handleAdd(){
                 this.name = {
                     ...validateEntityName(this.name.value, null, this.showGraphNodes),
                     value: this.name.value,
@@ -181,7 +180,7 @@
                     this.name.value = '';
                 }
             },
-            handleNameChange(value) {
+            handleNameChange() {
                 this.name = {
                     ...validateEntityName(this.name.value, null, this.showGraphNodes),
                     value: this.name.value,
@@ -191,7 +190,6 @@
         components:{
             ACol,
             ARow,
-            ColorPicker,
             ColorPicker2
         }
     }
