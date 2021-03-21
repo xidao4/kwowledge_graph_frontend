@@ -14,7 +14,7 @@
 </template>
 
 <script>
-    import {mapGetters, mapMutations, mapActions} from 'vuex';
+    import {mapGetters} from 'vuex';
     import EntityModal from './EntityModal';
     import RelationLine from "./RelationLine";
 

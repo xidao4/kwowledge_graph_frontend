@@ -1,5 +1,4 @@
 import{
-    getAllAPI,
     deleteEntityAPI,
     deleteRelationAPI,
     addEntityAPI,

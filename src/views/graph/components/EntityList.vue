@@ -13,7 +13,7 @@
 <!--                    </a-tag>-->
 
                     <a-tag style="cursor: pointer; border-style: dashed;" @click="handleAddEntity"
-                            class="tag-item">
+                            class="tag-item" id="addEntityButton">
                         <a-icon type="plus" /> 增加节点
                     </a-tag>
                 </a-col>

@@ -27,7 +27,7 @@
 </template>
 
 <script>
-    import {mapGetters,mapActions,mapMutations} from 'vuex';
+    import {mapGetters,mapActions} from 'vuex';
     import Graph from "./components/Graph";
     import EntityList from "./components/EntityList";
     import RelationList from "./components/RelationList";
