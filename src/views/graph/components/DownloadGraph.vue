@@ -8,7 +8,7 @@
                         {{item.type}}
                     </a-menu-item>
                 </a-menu>
-                <a-button type="primary" icon="download" style="margin-left: 8px" :loading="loading">
+                <a-button type="primary" icon="download" style="margin-left: 8px" :loading="loading" id="test-btn-dg">
                     {{btnText}} <a-icon type="down" /> </a-button>
             </a-dropdown>
         </a-col>

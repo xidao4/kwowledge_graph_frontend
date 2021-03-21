@@ -17,12 +17,10 @@
     import {mapGetters, mapMutations, mapActions} from 'vuex';
     import EntityModal from './EntityModal';
     import RelationLine from "./RelationLine";
-    import ARow from "ant-design-vue/es/grid/Row";
 
     export default {
         name: "Graph",
         components: {
-            ARow,
             RelationLine,
             EntityModal
         },
@@ -47,7 +45,7 @@
             ])
         },
         mounted() {
-            // this.draw()
+            this.draw()
         },
         methods: {
             draw () {
@@ -178,16 +176,17 @@
                 this.chart.on('click',  function(param) {
                     that.handleItemClick(param.data);
                 });
+                return true;
             },
-            formatterLabel(params, unit, color) {
-                console.log(params);
-                let tip = '';
-                let colorIn = color ? color : '#D99CA8';
-                tip = tip + '<span style="display:inline-block; margin-right:4px; border-radius:10px; width:10px; height:10px;' +
-                    'background-color:' + colorIn + ';"></span>'
-                tip = tip + '<span>' + params.data[0] + ':</span>' + '<span style="font-weight:bold">' + params.data[1]  + '</span>'
-                return tip;
-            },
+            // formatterLabel(params, unit, color) {
+            //     console.log(params);
+            //     let tip = '';
+            //     let colorIn = color ? color : '#D99CA8';
+            //     tip = tip + '<span style="display:inline-block; margin-right:4px; border-radius:10px; width:10px; height:10px;' +
+            //         'background-color:' + colorIn + ';"></span>'
+            //     tip = tip + '<span>' + params.data[0] + ':</span>' + '<span style="font-weight:bold">' + params.data[1]  + '</span>'
+            //     return tip;
+            // },
             handleItemClick(param){
                 if(param.hasOwnProperty('target')){
                     this.showRelationModal = true;
