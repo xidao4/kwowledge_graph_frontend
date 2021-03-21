@@ -2,7 +2,7 @@
     <div>
         <div style="float: left;" v-for="(item, index) in colorList" :key="index">
             <div class="colorBlock" :style="'background-color: ' + item.color" @click="pick(item.color)">
-                <div class="check-style-unequal-width" v-if="colorValue === item.color"></div>
+                <div class="check-style-unequal-width" v-if="colorValue === item.color" id="test-cp"></div>
             </div>
         </div>
     </div>
@@ -36,6 +36,7 @@
             defaultColor:{
                 immediate: true,
                 handler(color){
+                    console.log(color)
                     this.colorValue = this.defaultColor;
                 }
             }

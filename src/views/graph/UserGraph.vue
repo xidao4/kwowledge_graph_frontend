@@ -17,7 +17,7 @@
         <div>
             <relation-list :triggerGraphDraw="triggerGraphDraw"></relation-list>
         </div>
-        <div class="margin-tb" v-show="showGraphNodes.length > 0">
+        <div class="margin-tb" v-if="showGraphNodes.length > 0">
             <graph ref="graph"></graph>
         </div>
         <div class="padding-tb-xs" v-show="showGraphNodes.length > 0">
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-    import {mapGetters,mapActions,mapMutations} from 'vuex';
+    import {mapGetters,mapActions} from 'vuex';
     import Graph from "./components/Graph";
     import EntityList from "./components/EntityList";
     import RelationList from "./components/RelationList";

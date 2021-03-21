@@ -1,7 +1,6 @@
 // 导入axios
 import axios from 'axios'
 // 使用Message做消息提醒
-import { message } from 'ant-design-vue'
 //1. 创建新的axios实例，
 const service = axios.create({
   // 公共接口--这里注意后面会讲
@@ -20,7 +19,7 @@ service.interceptors.request.use((config) => {
   return requestConfig
 },
   error => {
-    return Promise.reject(err);
+    return Promise.reject(error);
 })
 
 export {

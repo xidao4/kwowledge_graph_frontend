@@ -1,5 +1,4 @@
 import{
-    getAllAPI,
     deleteEntityAPI,
     deleteRelationAPI,
     addEntityAPI,
@@ -16,7 +15,7 @@ const state = {
         'hi'
     ],
     picId: '4',
-    relationTypeSet: new Set(['是','和']),
+    relationTypeSet: new Set(),
     nodes:[
         {name:'node1'},
         {name:'node2'}
@@ -131,7 +130,7 @@ const graph = {
         },
         set_showGraphNodes(state, data) {
             data.forEach(node => {
-                node.color = "#D99CA8";
+                node.color = "#FFB8C6";
             });
             state.showGraphNodes = data;
         },

@@ -1,5 +1,10 @@
 export function validateEntityName(newName, oldName, showGraphNodes) {
-    if(newName.match(/^\s*$/)){
+    if (newName.length === 0) {
+        return {
+            validateStatus: 'error',
+            errorMsg: '请输入实体值',
+        };
+    }else if(newName.match(/^\s*$/)){
         return {
             validateStatus: 'error',
             errorMsg: '请输入实体值',
@@ -16,11 +21,6 @@ export function validateEntityName(newName, oldName, showGraphNodes) {
         return {
             validateStatus: 'success',
             errorMsg: null,
-        };
-    } else if (newName.length === 0){
-        return {
-            validateStatus: 'error',
-            errorMsg: '请输入实体值',
         };
     } else {
         // input的maxLength即可限制，这里防御式编程

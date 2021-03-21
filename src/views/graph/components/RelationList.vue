@@ -7,7 +7,7 @@
           <span>定义域：</span>
           <a-select @change="handleNode1">
             <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option :value="node.name" v-for="node in showGraphNodes">
+            <a-select-option :value="node.name" v-for="(node, index) in showGraphNodes" :key="index">
               {{node.name}}
             </a-select-option>
           </a-select>
@@ -16,7 +16,7 @@
           <span>值域：</span>
           <a-select @change="handleNode2">
             <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option :value="node.name" v-for="node in showGraphNodes">
+            <a-select-option :value="node.name" v-for="(node, index) in showGraphNodes" :key="index">
               {{node.name}}
             </a-select-option>
           </a-select>
@@ -25,7 +25,7 @@
           <span>类型：</span>
           <a-select @change="handleType">
             <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option :value="type" v-for="type in this.relationTypeSet">
+            <a-select-option :value="type" v-for="(type, index) in this.relationTypeSet" :key="index">
               {{type}}
             </a-select-option>
           </a-select>
@@ -56,7 +56,7 @@
             type: '',
             name: '',
             text: '',
-            textSize: 15
+            textSize: 10
           }
         },
         props: ['triggerGraphDraw'],
@@ -72,8 +72,8 @@
           text: {
             immediate: true,
             handler(text){
-              if(text.length===15){
-                message.error('关系值不能超过15个字符')
+              if(text.length===10){
+                message.warning('关系值请不要超过10个字符')
               }
             }
           }
@@ -106,12 +106,20 @@
               message.error('增加关系失败，实体和关系名不能为空')
               return ;
             }
+            for(let i=0;i<this.showGraphEdges.length;i++){
+              if((this.showGraphEdges[i].node1===newData.node1) && (this.showGraphEdges[i].node2===newData.node2)
+              && (this.showGraphEdges[i].name===newData.name) && (this.showGraphEdges[i].type===newData.type)){
+                message.error('增加关系失败，该关系已存在')
+                return ;
+              }
+            }
             await this.addRelation(data)
             console.log('add')
             console.log(this.showGraphEdges)
             this.add_showGraphEdges(newData)
             console.log('after add, ', this.showGraphEdges)
             this.triggerGraphDraw();
+            this.text=''
           },
           cancelAdd(){
 

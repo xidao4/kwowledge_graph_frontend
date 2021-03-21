@@ -31,14 +31,14 @@
             :value="this.type"
           >
             <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option :value="type" v-for="type in this.relationTypeSet">
+            <a-select-option :value="type" v-for="(type, index) in this.relationTypeSet" :key="index">
               {{type}}
             </a-select-option>
           </a-select>
         </div>
         <div class="keyValue">
           <span>关系值：</span>
-          <a-input v-model="this.name" id="newNameValue" style="width: 200px"/>
+          <a-input v-model="nameText" id="newNameValue" style="width: 200px" maxLength="10"/>
         </div>
 
 
@@ -78,7 +78,7 @@
         newType: '',
         newName: '',
         type:'',
-        name: ''
+        nameText: '',
       }
     },
     computed:{
@@ -91,11 +91,17 @@
     watch: {
       info: {
         immediate: true,
-        handler(info){
-          this.name=this.info.name
+        handler(){
+          this.nameText=this.info.name
           this.type = this.info.type;
         }
-      }
+      },
+      nameText: function(){
+        if(this.nameText.length===10){
+          message.warning('关系值不能超过10个字符')
+        }
+      },
+
     },
     methods:{
       ...mapActions([
@@ -128,6 +134,7 @@
       },
       async confirmChangeRelation(){
         this.newName=document.getElementById("newNameValue").value
+        console.log('name',this.nameText)
         console.log('newType',this.newType)
         console.log('newName',this.newName)
         if(this.newType==='' && this.newName===this.info.name){
@@ -168,10 +175,10 @@
       cancelChange(){
         this.$emit('closeModal', true);
       },
-      handleOk(e) {
+      handleOk() {
         this.$emit('closeModal', false);
       },
-      handleCancel(e) {
+      handleCancel() {
         this.$emit('closeModal', false);
       },
       handleChange(value) {
