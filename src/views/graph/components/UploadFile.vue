@@ -10,13 +10,13 @@
                 accept=".json"
                 :beforeUpload="handleBeforeUpload"
         >
-            <a-button> <a-icon type="upload" /> {{this.uploadText}} </a-button>
+            <a-button id="uploadButton"> <a-icon type="upload" /> {{this.uploadText}} </a-button>
         </a-upload>
     </div>
 </template>
 
 <script>
-    import {mapGetters,mapMutations,mapActions} from 'vuex'
+    import {mapGetters,mapMutations} from 'vuex'
     export default {
         name: "UploadFile",
         props: ['triggerGraphDraw'],

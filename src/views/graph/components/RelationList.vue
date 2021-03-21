@@ -7,7 +7,7 @@
           <span>定义域：</span>
           <a-select @change="handleNode1">
             <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option :value="node.name" v-for="node in showGraphNodes">
+            <a-select-option :value="node.name" v-for="(node, index) in showGraphNodes" :key="index">
               {{node.name}}
             </a-select-option>
           </a-select>
@@ -16,7 +16,7 @@
           <span>值域：</span>
           <a-select @change="handleNode2">
             <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option :value="node.name" v-for="node in showGraphNodes">
+            <a-select-option :value="node.name" v-for="(node, index) in showGraphNodes" :key="index">
               {{node.name}}
             </a-select-option>
           </a-select>
@@ -25,7 +25,7 @@
           <span>类型：</span>
           <a-select @change="handleType">
             <a-icon slot="suffixIcon" type="smile" />
-            <a-select-option :value="type" v-for="type in this.relationTypeSet">
+            <a-select-option :value="type" v-for="(type, index) in this.relationTypeSet" :key="index">
               {{type}}
             </a-select-option>
           </a-select>

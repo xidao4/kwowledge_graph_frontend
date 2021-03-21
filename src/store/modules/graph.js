@@ -1,5 +1,4 @@
 import{
-    getAllAPI,
     deleteEntityAPI,
     deleteRelationAPI,
     addEntityAPI,
@@ -131,7 +130,7 @@ const graph = {
         },
         set_showGraphNodes(state, data) {
             data.forEach(node => {
-                node.color = "#D99CA8";
+                node.color = "#FFB8C6";
             });
             state.showGraphNodes = data;
         },

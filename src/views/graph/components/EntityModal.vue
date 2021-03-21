@@ -3,9 +3,11 @@
             title="修改实体"
             @cancel="handleChangeCancel"
             :visible="showModal"
+            id="test-modal-em"
     >
         <template slot="footer">
             <a-popconfirm
+                    id="test-pop-em"
                     title="确定删除此实体么"
                     ok-text="确定"
                     cancel-text="取消"
@@ -17,7 +19,7 @@
                 </a-button>
             </a-popconfirm>
 
-            <a-button key="submit" type="primary" @click="handleChangeOk">
+            <a-button id="test-btn-em2" key="submit" type="primary" @click="handleChangeOk">
                 修改
             </a-button>
         </template>
@@ -30,6 +32,7 @@
                         v-model="name.value"
                         :maxLength="15"
                         @change="handleNameChange"
+                        id="test-input-em"
                 />
             </a-form-item>
 <!--            <color-picker style="margin-left: 10%" @childFn="parentFn1"></color-picker>-->
@@ -42,7 +45,6 @@
 </template>
 
 <script>
-    import ColorPicker from './ColorPicker';
     import { mapGetters, mapMutations, mapActions } from 'vuex';
     import ColorPicker2 from './ColorPicker2';
     import { validateEntityName } from '@/utils/validator.js'
@@ -93,7 +95,7 @@
                 })
                 this.$emit('closeModal', true);
             },
-            handleChangeOk(e) {
+            handleChangeOk() {
                 if(this.name.errorMsg === null){
                     let oldName = this.info.name;
                     let newName = this.name.value;
@@ -116,10 +118,10 @@
                     }
                 }
             },
-            handleChangeCancel(e){
+            handleChangeCancel(){
                 this.$emit('closeModal', false);
             },
-            handleNameChange(value) {
+            handleNameChange() {
                 this.name = {
                     ...validateEntityName(this.name.value, this.info.name, this.showGraphNodes),
                     value: this.name.value,
@@ -127,13 +129,12 @@
             },
         },
         components: {
-            ColorPicker,
             ColorPicker2
         },
         watch: {
             showModal: {
                 immediate: true,
-                handler(showModal){
+                handler(){
                     this.name.value = this.info.name;
                     this.name.errorMsg = null;
                     this.colorValue = this.info.color;

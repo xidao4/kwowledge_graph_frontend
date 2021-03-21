@@ -1,6 +1,5 @@
 // vue.config.js for less-loader@6.0.0
 module.exports = {
-    productionSourceMap: false,
     css: {
         loaderOptions: {
             less: {
