@@ -36,6 +36,7 @@
             defaultColor:{
                 immediate: true,
                 handler(color){
+                    console.log(color)
                     this.colorValue = this.defaultColor;
                 }
             }
