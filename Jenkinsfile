@@ -10,7 +10,7 @@ pipeline {
             steps {
                 echo 'yarn config'
                 sh 'yarn config set registry https://registry.npm.taobao.org'
-                sh 'yarn install'
+                sh 'yarn install --registry=https://registry.npm.taobao.org'
                 sh 'yarn build'
 
                 echo 'publish coverage report'
