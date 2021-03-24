@@ -14,6 +14,8 @@ pipeline {
                 sh 'yarn build'
 
                 echo 'publish coverage report'
+                sh 'ls coverage'
+                sh 'ls coverage/Icov-report'
                 publishHTML([allowMissing: false,
                     alwaysLinkToLastBuild: false,
                     keepAll: false,
