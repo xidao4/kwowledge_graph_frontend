@@ -14,12 +14,13 @@ pipeline {
                 sh 'yarn build'
 
                 echo 'publish coverage report'
+                sh 'test:unit'
                 sh 'ls coverage'
                 sh 'ls coverage/Icov-report'
                 publishHTML([allowMissing: false,
                     alwaysLinkToLastBuild: false,
                     keepAll: false,
-                    reportDir: 'coverage/Icov-report',
+                    reportDir: 'coverage/lcov-report',
                     reportFiles: 'index.html',
                     reportName: 'Jest HTML Report',
                     reportTitles: ''])
