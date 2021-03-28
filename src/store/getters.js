@@ -10,5 +10,8 @@ const getters={
     currentPicId: state=>state.graph.currentPicId,
 
     colorList: state=>state.util.colorList,
+
+    userId: state=>state.user.userId,
+    userInfo: state=>state.user.userInfo,
 };
 export default getters

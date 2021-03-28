@@ -1,0 +1,44 @@
+<template>
+    <div>
+        <a-menu
+                style="width: 100%; text-align: right;"
+                :default-selected-keys="current"
+                mode="horizontal"
+                theme="dark"
+                @click="handleClick"
+        >
+            <a-menu-item key="list" @click="jumpToUserInfo">
+                我的图谱
+            </a-menu-item>
+            <a-menu-item @click="logout">
+                退出登录
+            </a-menu-item>
+        </a-menu>
+    </div>
+</template>
+
+<script>
+    import { mapGetters, mapMutations } from'vuex';
+    export default {
+        name: "Layout",
+        data(){
+            return {
+                current: ['list'],
+            }
+        },
+        computed: {
+            ...mapGetters([
+                'userInfo'
+            ]),
+        },
+        methods: {
+            ...mapMutations([
+                'logout'
+            ]),
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>
