@@ -10,14 +10,14 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@antv/g6": "^4.2.3",
+    "@antv/vis-predict-engine": "^0.0.7",
     "ant-design-vue": "^1.7.4",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
-    "cypress-file-upload": "^5.0.3",
     "echarts": "^4.9.0",
     "less": "^3.11.1",
     "less-loader": "^6.1.2",
-    "mockjs2": "^1.0.8",
     "moment": "^2.29.1",
     "style-resources-loader": "^1.4.1",
     "vue": "^2.6.11",
@@ -27,7 +27,6 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.0",
     "@vue/cli-plugin-e2e-cypress": "~4.5.0",
-    "@vue/cli-plugin-e2e-nightwatch": "^4.5.0",
     "@vue/cli-plugin-eslint": "^4.5.0",
     "@vue/cli-plugin-unit-jest": "^4.5.0",
     "@vue/cli-service": "^4.5.0",
