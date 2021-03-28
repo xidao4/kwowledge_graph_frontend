@@ -6,22 +6,21 @@ import moment from 'moment'
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.less';
 import echarts from 'echarts'
-
-
-Vue.use(Antd);
+import '@/permission'
 
 Vue.config.productionTip = false;
 
-Vue.prototype.$moment = moment
+Vue.use(Antd);
 
-Vue.config.productionTip = false
+Vue.prototype.$moment = moment;
+moment.locale('zh-cn');
 
-moment.locale('zh-cn')
+Vue.prototype.$echarts = echarts;
 
-Vue.prototype.$echarts = echarts
+
 
 new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');
