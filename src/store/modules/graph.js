@@ -222,7 +222,7 @@ const graph = {
         //         message.error('文件上传失败')
         //     }
         // },
-        addEntity:async({commit},param)=>{
+        addEntity:async(param)=>{
             const res=await addEntityAPI(param);
             console.log('addEntity',res)
             if(res){
@@ -231,7 +231,7 @@ const graph = {
                 message.error('增加实体失败')
             }
         },
-        deleteEntity:async({commit},param)=>{
+        deleteEntity:async(param)=>{
             const res=await deleteEntityAPI(param);
             console.log(res)
             if(res){
@@ -240,7 +240,7 @@ const graph = {
                 message.error('删除实体失败')
             }
         },
-        changeEntity:async({commit},param)=>{
+        changeEntity:async(param)=>{
             const res=await changeEntityAPI(param);
             if(res){
                 message.success('修改实体成功')
@@ -248,7 +248,7 @@ const graph = {
                 message.error('修改实体失败')
             }
         },
-        addRelation:async({commit},param)=>{
+        addRelation:async(param)=>{
             const res=await addRelationAPI(param);
             if(res){
                 message.success('增加关系成功')
@@ -256,7 +256,7 @@ const graph = {
                 message.error('增加关系失败')
             }
         },
-        changeRelation:async({commit},param)=>{
+        changeRelation:async(param)=>{
             const res=await changeRelationAPI(param);
             if(res){
                 message.success('修改关系成功')
@@ -264,7 +264,7 @@ const graph = {
                 message.error('修改关系失败')
             }
         },
-        deleteRelation:async({commit},param)=>{
+        deleteRelation:async(param)=>{
             const res=await deleteRelationAPI(param);
             if(res){
                 // message.success('删除关系成功')

@@ -188,7 +188,7 @@
             //     return tip;
             // },
             handleItemClick(param){
-                if(param.hasOwnProperty('target')){
+                if(Object.prototype.hasOwnProperty.call(param, 'target')){
                     this.showRelationModal = true;
                     this.showRelationInfo = param;
                 } else {
