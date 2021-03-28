@@ -5,9 +5,8 @@
                 :default-selected-keys="current"
                 mode="horizontal"
                 theme="dark"
-                @click="handleClick"
         >
-            <a-menu-item key="list" @click="jumpToUserInfo">
+            <a-menu-item key="list">
                 我的图谱
             </a-menu-item>
             <a-menu-item @click="logout">

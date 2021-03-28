@@ -51,7 +51,6 @@
                 this.form.validateFields((err, values) => {
                     if (!err) {
                         this.loginAct(values);
-                        console.log('Received values of form: ', values);
                     }
                 });
             },
