@@ -4,7 +4,7 @@
             登录 SuperCOIN
         </div>
         <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }" @submit="handleSubmit">
-            <a-form-item label="账号" style="display: flex; align-items: center">
+            <a-form-item label="账号">
                 <a-input style="border-radius: 20px; height: 40px"
                          v-decorator="['username', { rules: [{ required: true, message: '请输入账号' }] }]"
                          placeholder="请输入账号"
@@ -12,7 +12,7 @@
                 />
             </a-form-item>
 
-            <a-form-item label="密码" style="display: flex; align-items: center">
+            <a-form-item label="密码">
                 <a-input type="password"
                          style="border-radius: 20px; height: 40px"
                          v-decorator="['password', { rules: [{ required: true, message: '请输入密码' }] }]"
