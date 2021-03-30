@@ -42,7 +42,7 @@ service.interceptors.response.use(
       setToken(token);
     }
     if (err.response.status === 401) {
-      router.push('/user/login')
+      router.push('/login')
     }
     return null
   }

@@ -1,5 +1,5 @@
 <template>
-
+    <div>力导模式</div>
 </template>
 
 <script>

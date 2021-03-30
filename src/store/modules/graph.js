@@ -19,6 +19,11 @@ const state = {
     currentGraph: null,
     forceGraph: null,
     typesettingGraph: null,
+    currentGraphId: 'force',
+    graphIds: {
+        force: 'force',
+        typesetting: 'typesetting'
+    },
     nodes:[
         {name:'node1'},
         {name:'node2'}
@@ -124,6 +129,9 @@ const graph = {
         },
         set_currentGraph(state, data) {
             state.currentGraph = data
+        },
+        set_currentGraphId(state, data) {
+            state.currentGraphId = data
         },
         set_picId(state, data) {
             state.picId = data

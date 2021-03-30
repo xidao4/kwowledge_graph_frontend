@@ -9,6 +9,8 @@ const getters={
     relationTypeSet: state=>state.graph.relationTypeSet,
     currentPicId: state=>state.graph.currentPicId,
     currentGraph: state=>state.graph.currentGraph,
+    currentGraphId: state=>state.graph.currentGraphId,
+    graphIds: state=>state.graph.graphIds,
 
     colorList: state=>state.util.colorList,
 
