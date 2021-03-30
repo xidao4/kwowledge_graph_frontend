@@ -1,6 +1,7 @@
 <template>
     <div>
         我的图谱页
+        <router-link to="/editor">编辑</router-link>
     </div>
 </template>
 

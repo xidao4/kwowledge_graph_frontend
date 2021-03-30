@@ -27,6 +27,11 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/editor',
+    name: 'editor',
+    component: ()=> import('@/views/graph2.0/Editor'),
+  },
 ];
 
 const createRouter = () => new VueRouter({
