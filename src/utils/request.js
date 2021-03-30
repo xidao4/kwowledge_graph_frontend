@@ -1,26 +1,52 @@
-// 导入axios
 import axios from 'axios'
-// 使用Message做消息提醒
-//1. 创建新的axios实例，
+import store from '../store'
+import router from '../router'
+import { setToken, getToken } from '@/utils/auth'
+
 const service = axios.create({
-  // 公共接口--这里注意后面会讲
   baseURL: process.env.NODE_ENV === 'production' ? 'http://118.182.96.49:8001': 'http://118.182.96.49:8001',
-  // 超时时间 单位是ms，这里设置了3s的超时时间
   timeout: 10 * 1000,
   withCredentials: true
-})
+});
+const requests = [];
 
 //request拦截器
-service.interceptors.request.use((config) => {
-  const requestConfig = {
-    ...config,
-    url: `${config.url}`,
-  }
-  return requestConfig
+service.interceptors.request.use(
+    config => {
+    requests.push(config.url);
+    // const token = store.state.user.token;
+    config.headers = {
+      ...config.headers,
+      token: getToken()
+    };
+    return config;
 },
   error => {
     return Promise.reject(error);
-})
+});
+
+service.interceptors.response.use(
+    response => {
+    if (response && response.data.code >= 0 && response.data.data.token) {
+      const token = response.data.data.token;
+      store.commit('set_token', token);
+      setToken(token);
+    }
+    return response.data
+},
+  err => {
+    if (err.response.status === 406) {
+      // 刷新token
+      const { token } = err.response.headers;
+      store.commit('set_token', token);
+      setToken(token);
+    }
+    if (err.response.status === 401) {
+      router.push('/user/login')
+    }
+    return null
+  }
+)
 
 export {
   service as axios

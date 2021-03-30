@@ -16,6 +16,9 @@ const state = {
     ],
     picId: '4',
     relationTypeSet: new Set(),
+    currentGraph: null,
+    forceGraph: null,
+    typesettingGraph: null,
     nodes:[
         {name:'node1'},
         {name:'node2'}
@@ -118,6 +121,9 @@ const graph = {
     mutations: {
         set_graph(state, data) {
             state.graphInfo = data
+        },
+        set_currentGraph(state, data) {
+            state.currentGraph = data
         },
         set_picId(state, data) {
             state.picId = data
