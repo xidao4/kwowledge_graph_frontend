@@ -125,7 +125,7 @@
                 //     position: { x: 0, y: 130 },
                 // });
                 const menu = new G6.Menu();
-                const grid = new G6.Grid();
+                // const grid = new G6.Grid();
                 const graph = new G6.Graph({
                     container: 'force',
                     width,
@@ -137,6 +137,7 @@
                     },
                     modes: {
                         default: [
+                            'drag-canvas',
                             'drag-node',
                             'shortcuts-call',
                             // 'zoom-canvas',
@@ -152,9 +153,10 @@
                     defaultNode: {
                         size: 20,
                     },
-                    fitView: true,
+                    // fitView: true,
+                    fitCenter: true,
                     fitViewPadding: [20, 40, 40, 20],
-                    plugins: [grid, toolbar, menu],
+                    plugins: [toolbar, menu],
                     minZoom: 0.5,
                     maxZoom: 5
                 });
@@ -177,9 +179,11 @@
                     window.onresize = () => {
                         if (!graph || graph.get('destroyed')) return;
                         if (!container || !container.scrollWidth || !container.scrollHeight) return;
-                        graph.changeSize(container.scrollWidth, window.screen.height * 0.8);
                         graph.fitCenter()
-                        // graph.fitView([20, 40, 40, 20]);
+                        if(window.innerWidth < 650) {
+                            graph.zoomTo(0.6)
+                        }
+                        graph.changeSize(container.scrollWidth, window.screen.height * 0.8);
                     };
                 }
                 this.set_forceGraph(graph);

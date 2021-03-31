@@ -4,6 +4,7 @@
 <!--        <div class="spin">-->
 <!--            <a-spin size="large" tip="初始化编辑空间"/>-->
 <!--        </div>-->
+        <TmpToolBar></TmpToolBar>
         <a-row class="row">
             <a-col span="18">
                 <div class="block"></div>
@@ -13,13 +14,13 @@
             </a-col>
         </a-row>
         <a-row class="row">
-            <a-col span="18">
+            <a-col :xs="24" :sm="24" :md="24" :lg="18" :xl="18">
                 <div class="block">
                     <TypesettingGraph v-show="currentGraphId === graphIds.typesetting"></TypesettingGraph>
                     <ForceGraph v-if="currentGraphId === graphIds.force"></ForceGraph>
                 </div>
             </a-col>
-            <a-col span="6">
+            <a-col :xs="0" :sm="0" :md="6" :lg="6" :xl="4">
                 <div class="block"></div>
             </a-col>
         </a-row>
@@ -34,9 +35,11 @@
     import LayoutBlock from "./components/LayoutBlock";
     import ARow from "ant-design-vue/es/grid/Row";
     import ACol from "ant-design-vue/es/grid/Col";
+    import TmpToolBar from "./components/TmpToolBar";
     export default {
         name: "Editor",
         components: {
+            TmpToolBar,
             ACol,
             ARow,
             LayoutBlock,
@@ -48,7 +51,10 @@
             ...mapGetters([
                 'currentGraphId',
                 'graphIds'
-            ])
+            ]),
+            width(){
+                return window.innerWidth
+            }
         }
     }
 </script>
