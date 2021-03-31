@@ -28,6 +28,9 @@
                 }
                 return ''
             }
+        },
+        mounted() {
+
         }
     }
 </script>
@@ -50,5 +53,13 @@
     font-size: 20px;
     font-weight: bold;
     color: #D99CA8;
+}
+@media screen and (max-width:800px){
+    .inline-title {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
 }
 </style>

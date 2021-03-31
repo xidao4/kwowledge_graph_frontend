@@ -6,21 +6,21 @@
 <!--        </div>-->
         <TmpToolBar></TmpToolBar>
         <a-row class="row">
-            <a-col span="18">
+            <a-col :xs="15" :sm="15" :md="15" :lg="18" :xl="18">
                 <div class="block"></div>
             </a-col>
-            <a-col span="6">
+            <a-col :xs="9" :sm="9" :md="9" :lg="6" :xl="6">
                 <LayoutBlock class="block"></LayoutBlock>
             </a-col>
         </a-row>
         <a-row class="row">
-            <a-col :xs="24" :sm="24" :md="24" :lg="18" :xl="18">
+            <a-col :md="24" :lg="18">
                 <div class="block">
                     <TypesettingGraph v-show="currentGraphId === graphIds.typesetting"></TypesettingGraph>
                     <ForceGraph v-if="currentGraphId === graphIds.force"></ForceGraph>
                 </div>
             </a-col>
-            <a-col :xs="0" :sm="0" :md="6" :lg="6" :xl="4">
+            <a-col :md="0" :lg="6">
                 <div class="block"></div>
             </a-col>
         </a-row>

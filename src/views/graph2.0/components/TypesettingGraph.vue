@@ -167,7 +167,7 @@
                     fitCenter: true,
                     fitViewPadding: 20,
                     plugins: [toolbar, menu],
-                    minZoom: 0.5,
+                    minZoom: 0.25,
                     maxZoom: 2
                 });
                 graph.data(data);
@@ -184,6 +184,10 @@
                         graph.fitCenter()
                         if(window.innerWidth < 650) {
                             graph.zoomTo(0.6)
+                        } else if(window.innerWidth < 800){
+                            graph.zoomTo(0.8)
+                        } else {
+                            graph.zoomTo(1)
                         }
                         graph.changeSize(container.scrollWidth, window.screen.height * 0.8);
                     };

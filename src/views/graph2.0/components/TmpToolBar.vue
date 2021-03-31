@@ -2,17 +2,32 @@
     <div>
         <a-dropdown>
             <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                Hover me <a-icon type="down" />
+                {{ratioStr}} <a-icon type="down" />
             </a>
-            <a-menu slot="overlay">
-                <a-menu-item>
-                    <a href="javascript:;">1st menu item</a>
+            <a-menu slot="overlay" @click="onClick">
+                <a-menu-item :key="0.25">
+                    25%
                 </a-menu-item>
-                <a-menu-item>
-                    <a href="javascript:;">2nd menu item</a>
+                <a-menu-item :key="0.5">
+                    50%
                 </a-menu-item>
-                <a-menu-item>
-                    <a href="javascript:;">3rd menu item</a>
+                <a-menu-item :key="0.75">
+                    75%
+                </a-menu-item>
+                <a-menu-item :key="1">
+                    100%
+                </a-menu-item>
+                <a-menu-item :key="1.25">
+                    125%
+                </a-menu-item>
+                <a-menu-item :key="1.5">
+                    150%
+                </a-menu-item>
+                <a-menu-item :key="1.75">
+                    175%
+                </a-menu-item>
+                <a-menu-item :key="2">
+                    200%
                 </a-menu-item>
             </a-menu>
         </a-dropdown>
@@ -23,6 +38,12 @@
     import {mapGetters} from 'vuex';
     export default {
         name: "tmpToolBar",
+        data(){
+            return {
+                ratio: 1,
+                ratioStr: '100%'
+            }
+        },
         computed: {
             ...mapGetters([
                 'currentGraph'
@@ -31,7 +52,12 @@
         methods: {
             zoom(){
                 this.currentGraph.zoom(0.05)
-            }
+            },
+            onClick({ key }) {
+                this.ratio = key;
+                this.ratioStr = key * 100 + '%';
+                this.currentGraph.zoomTo(this.ratio);
+            },
         }
     }
 </script>
