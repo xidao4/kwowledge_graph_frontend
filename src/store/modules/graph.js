@@ -19,7 +19,9 @@ const state = {
     currentGraph: null,
     forceGraph: null,
     typesettingGraph: null,
-    currentGraphId: 'force',
+    currentGraphId: 'typesetting',
+    showDownloadImgModal: false,
+    showDownloadJsonModal: false,
     graphIds: {
         force: 'force',
         typesetting: 'typesetting'
@@ -31,94 +33,58 @@ const state = {
     links:[
 
     ],
-    showGraphNodes: [
-        // {
-        //     name: '操作系统集团',
-        //     color: "#F5222D"
-        // }, {
-        //     name: '浏览器有限公司',
-        //     color: "#FA541C"
-        // }, {
-        //     name: 'HTML科技',
-        //     color: "#FAAD14"
-        // }, {
-        //     name: 'JavaScript科技',
-        //     color: "#13C2C2"
-        // }, {
-        //     name: 'CSS科技',
-        //     color: "#52C41A"
-        // }, {
-        //     name: 'Chrome',
-        //     color: "#1890FF"
-        // }, {
-        //     name: 'IE',
-        //     color: "#FFB8C6"
-        // }, {
-        //     name: 'Firefox',
-        //     color: "#FFB8C6"
-        // }, {
-        //     name: 'Safari',
-        //     color: "#FFB8C6"
-        // }
-    ],
-    showGraphEdges: [
-        // {
-        //     node1: '浏览器有限公司',
-        //     node2: '操作系统集团',
-        //     name: '参股',
-        //     type: 'hasProperty',
-        //     color: '#000'
-        // }, {
-        //     node1: 'HTML科技',
-        //     node2: '浏览器有限公司',
-        //     name: '参股',
-        //     type: 'hasProperty',
-        //     color: '#000'
-        // }, {
-        //     node1: 'CSS科技',
-        //     node2: '浏览器有限公司',
-        //     name: '参股',
-        //     type: 'hasProperty',
-        //     color: '#000'
-        // }, {
-        //     node1: 'JavaScript科技',
-        //     node2: '浏览器有限公司',
-        //     name: '参股',
-        //     type: 'hasProperty',
-        //     color: '#000'
-        // }, {
-        //     node1: 'Chrome',
-        //     node2: '浏览器有限公司',
-        //     name: '是',
-        //     type: 'is',
-        //     color: '#000'
-        // }, {
-        //     node1: 'IE',
-        //     node2: '浏览器有限公司',
-        //     name: '是',
-        //     type: 'is',
-        //     color: '#000'
-        // }, {
-        //     node1: 'Firefox',
-        //     node2: '浏览器有限公司',
-        //     name: '董事',
-        //     type: 'is',
-        //     color: '#000'
-        // }, {
-        //     node1: 'Safari',
-        //     node2: '浏览器有限公司',
-        //     name: '董事',
-        //     type: 'is',
-        //     color: '#000'
-        // }, {
-        //     node1: 'Chrome',
-        //     node2: 'JavaScript科技',
-        //     name: '法人',
-        //     type: 'is',
-        //     color: '#000'
-        // }
-    ],
+    showGraphNodes: [],
+    showGraphEdges: [],
     currentPicId: '',
+    currentSetLayout: '',
+    forceLayout: [
+        {
+            key: 'gForce',
+            value: '经典力导向布局(gForce)'
+        },
+        {
+            key: 'force',
+            value: '经典力导向布局(force)'
+        },
+        {
+            key: 'forceAtlas2',
+            value: 'FA2力导向布局(forceAtlas2)'
+        },
+        {
+            key: 'fruchterman',
+            value: 'Fruchterman布局(fruchterman)'
+        },
+    ],
+    layoutType: [
+        {
+            key: 'random',
+            value: '随机布局(random)'
+        },
+        {
+            key: 'circular',
+            value: '环形布局(circular)'
+        },
+        {
+            key: 'Radial',
+            value: '辐射状布局(Radial)'
+        },
+        {
+            key: 'mds',
+            value: '高维数据降维算法布局(mds)'
+        },
+        {
+            key: 'dagre',
+            value: '层次布局(dagre)'
+        },
+        {
+            key: 'concentric',
+            value: '同心圆布局(concentric)'
+        },
+        {
+            key: 'grid',
+            value: '格子布局(grid)'
+        },
+    ],
 };
 
 const graph = {
@@ -130,8 +96,20 @@ const graph = {
         set_currentGraph(state, data) {
             state.currentGraph = data
         },
+        set_forceGraph(state, data) {
+            state.forceGraph = data
+        },
+        set_typesettingGraph(state, data) {
+            state.typesettingGraph = data
+        },
         set_currentGraphId(state, data) {
             state.currentGraphId = data
+        },
+        set_showDownloadImgModal(state, data) {
+            state.showDownloadImgModal = data
+        },
+        set_showDownloadJsonModal(state, data) {
+            state.showDownloadJsonModal = data
         },
         set_picId(state, data) {
             state.picId = data
@@ -220,6 +198,9 @@ const graph = {
         },
         set_currentPicId(state, data) {
             state.currentPicId = data
+        },
+        set_currentSetLayout(state, data) {
+            state.currentSetLayout = data
         },
     },
     actions: {

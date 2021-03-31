@@ -11,6 +11,11 @@ const getters={
     currentGraph: state=>state.graph.currentGraph,
     currentGraphId: state=>state.graph.currentGraphId,
     graphIds: state=>state.graph.graphIds,
+    forceGraph: state=>state.graph.forceGraph,
+    typesettingGraph: state=>state.graph.typesettingGraph,
+    showDownloadImgModal: state=>state.graph.showDownloadImgModal,
+    showDownloadJsonModal: state=>state.graph.showDownloadJsonModal,
+    currentSetLayout: state=>state.graph.currentSetLayout,
 
     colorList: state=>state.util.colorList,
 
