@@ -14,10 +14,11 @@
         </template>
 
         <a-form :form="imgForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
-            <a-form-item label="文件名">
+            <a-form-item
+                    label="文件名"
+                    help='默认文件名为"知识图谱"'>
                 <a-input style="border-radius: 20px; height: 40px"
                          v-model="name"
-                         placeholder='默认文件名为"知识图谱"'
                 />
             </a-form-item>
             <a-form-item label="无背景">
@@ -36,7 +37,7 @@
             return {
                 imgForm: this.$form.createForm(this, { name: 'imgForm' }),
                 noBackground: true,
-                name: '知识图谱' + this.type
+                name: '知识图谱'
             }
         },
         props: {

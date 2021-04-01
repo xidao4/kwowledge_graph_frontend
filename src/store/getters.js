@@ -14,7 +14,7 @@ const getters={
     forceGraph: state=>state.graph.forceGraph,
     typesettingGraph: state=>state.graph.typesettingGraph,
     showDownloadImgModal: state=>state.graph.showDownloadImgModal,
-    showDownloadJsonModal: state=>state.graph.showDownloadJsonModal,
+    showDownloadFileModal: state=>state.graph.showDownloadFileModal,
     currentSetLayout: state=>state.graph.currentSetLayout,
 
     colorList: state=>state.util.colorList,

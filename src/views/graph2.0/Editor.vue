@@ -52,9 +52,6 @@
                 'currentGraphId',
                 'graphIds'
             ]),
-            width(){
-                return window.innerWidth
-            }
         }
     }
 </script>

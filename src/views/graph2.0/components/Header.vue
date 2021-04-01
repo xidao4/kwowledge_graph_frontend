@@ -17,8 +17,8 @@
                             {{item.type}}
                         </a-menu-item>
                     </a-menu>
-                    <a-button type="primary" style="margin-left: 8px" :loading="loading" id="test-btn-dg">
-                        {{btnText}} <a-icon type="down" /> </a-button>
+                    <a-button type="primary" style="margin-left: 8px">
+                        下载 <a-icon type="down" /> </a-button>
                 </a-dropdown>
             </template>
             <template slot="footer">
@@ -28,7 +28,7 @@
                 </a-tabs>
             </template>
             <DownloadImgModal :type="chosenFileType"></DownloadImgModal>
-            <DownloadJsonModal></DownloadJsonModal>
+            <DownloadFileModal :type="chosenFileType"></DownloadFileModal>
         </a-page-header>
         <Handler
                 v-if="false"
@@ -46,7 +46,7 @@
     import { mapGetters, mapActions, mapMutations } from 'vuex';
     import { message } from 'ant-design-vue'
     import DownloadImgModal from "./DownloadImgModal";
-    import DownloadJsonModal from "./DownloadJsonModal";
+    import DownloadFileModal from "./DownloadFileModal";
     import Handler from "./Handler";
     const fileType = {
         png: 'png',
@@ -58,15 +58,11 @@
         webp: 'webp',
         bmp: 'bmp'
     };
-    const btnTextType = {
-        download: '导出',
-        jsonLoading: '数据文件生成中',
-    }
     export default {
         name: "Header",
         components: {
             Handler,
-            DownloadJsonModal,
+            DownloadFileModal,
             DownloadImgModal,
         },
         data(){
@@ -100,7 +96,6 @@
                 ],
                 chosenFileType: '',
                 loading: false,
-                btnText: btnTextType.download,
                 showDownloadImg: false,
                 showDownloadJson: false,
                 isExpand: true
@@ -122,7 +117,7 @@
                 'set_currentGraphId',
                 'set_currentGraph',
                 'set_showDownloadImgModal',
-                'set_showDownloadJsonModal',
+                'set_showDownloadFileModal',
             ]),
             ...mapActions({
                 downloadAct: 'downloadFile'
@@ -136,7 +131,7 @@
                         || this.chosenFileType === fileType.webp || this.chosenFileType === fileType.bmp) {
                         this.set_showDownloadImgModal(true);
                     } else if (this.chosenFileType === fileType.json) {
-                        this.set_showDownloadJsonModal(true);
+                        this.set_showDownloadFileModal(true);
                     }
                 }
             },

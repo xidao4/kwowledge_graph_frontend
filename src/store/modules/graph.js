@@ -21,7 +21,7 @@ const state = {
     typesettingGraph: null,
     currentGraphId: 'typesetting',
     showDownloadImgModal: false,
-    showDownloadJsonModal: false,
+    showDownloadFileModal: false,
     graphIds: {
         force: 'force',
         typesetting: 'typesetting'
@@ -108,8 +108,8 @@ const graph = {
         set_showDownloadImgModal(state, data) {
             state.showDownloadImgModal = data
         },
-        set_showDownloadJsonModal(state, data) {
-            state.showDownloadJsonModal = data
+        set_showDownloadFileModal(state, data) {
+            state.showDownloadFileModal = data
         },
         set_picId(state, data) {
             state.picId = data
@@ -267,12 +267,14 @@ const graph = {
                 message.error('删除关系失败')
             }
         },
-        downloadFile: async({ state }) => {
+        // 注意该接口返回值为ArrayBuffer，经拦截器已取出data
+        // TODO 后端重构，传url
+        downloadFile: async({state}) => {
             const res = await downloadAPI({
                 picId: state.picId
             });
-            if(res.status == 200) {
-                return res.data;
+            if(res) {
+                return res;
             } else {
                 message.error('文件下载失败')
             }
