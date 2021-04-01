@@ -15,7 +15,7 @@
         </a-row>
         <a-row class="row">
             <a-col :md="24" :lg="18">
-                <div class="block">
+                <div class="block" style="overflow: hidden;">
                     <TypesettingGraph v-show="currentGraphId === graphIds.typesetting"></TypesettingGraph>
                     <ForceGraph v-if="currentGraphId === graphIds.force"></ForceGraph>
                 </div>
@@ -73,6 +73,5 @@
     margin: 0 8px;
     background-color: white;
     box-shadow:0 0 4px #7f7f7f;
-    overflow: hidden;
 }
 </style>
