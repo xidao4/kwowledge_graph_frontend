@@ -1,5 +1,5 @@
 <template>
-    <div style="background-color: #EEEFF0">
+    <div style="background-color: #EEEFF0; padding-bottom: 20px;">
         <Header></Header>
 <!--        <div class="spin">-->
 <!--            <a-spin size="large" tip="初始化编辑空间"/>-->
@@ -73,5 +73,6 @@
     margin: 0 8px;
     background-color: white;
     box-shadow:0 0 4px #7f7f7f;
+    overflow: hidden;
 }
 </style>

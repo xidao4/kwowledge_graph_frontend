@@ -135,7 +135,7 @@
                 //     position: { x: 0, y: 130 },
                 // });
                 const menu = new G6.Menu();
-                // const grid = new G6.Grid();
+                const grid = new G6.Grid();
                 let graph = new G6.Graph({
                     container: container,
                     width,
@@ -166,7 +166,7 @@
                     // fitView: true,
                     fitCenter: true,
                     fitViewPadding: 20,
-                    plugins: [toolbar, menu],
+                    plugins: [toolbar, menu, grid],
                     minZoom: 0.25,
                     maxZoom: 2
                 });
@@ -193,7 +193,6 @@
                     };
                 }
                 this.set_typesettingGraph(graph);
-                console.log(graph.getZoom())
             }
         },
         async mounted() {

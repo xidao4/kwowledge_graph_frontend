@@ -57,6 +57,7 @@
                 this.ratio = key;
                 this.ratioStr = key * 100 + '%';
                 this.currentGraph.zoomTo(this.ratio);
+                this.currentGraph.fitCenter()
             },
         }
     }
