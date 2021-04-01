@@ -85,6 +85,8 @@ const state = {
             value: '格子布局(grid)'
         },
     ],
+    forceGraphRatio: 1,
+    typesettingGraphRatio: 1,
 };
 
 const graph = {
@@ -201,6 +203,12 @@ const graph = {
         },
         set_currentSetLayout(state, data) {
             state.currentSetLayout = data
+        },
+        set_forceGraphRatio(state, data) {
+            state.forceGraphRatio = data
+        },
+        set_typesettingGraphRatio(state, data) {
+            state.typesettingGraphRatio = data
         },
     },
     actions: {

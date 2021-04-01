@@ -16,6 +16,8 @@ const getters={
     showDownloadImgModal: state=>state.graph.showDownloadImgModal,
     showDownloadFileModal: state=>state.graph.showDownloadFileModal,
     currentSetLayout: state=>state.graph.currentSetLayout,
+    forceGraphRatio: state=>state.graph.forceGraphRatio,
+    typesettingGraphRatio: state=>state.graph.typesettingGraphRatio,
 
     colorList: state=>state.util.colorList,
 

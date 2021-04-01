@@ -120,7 +120,8 @@
             ...mapMutations([
                 'set_typesettingGraph',
                 'set_currentSetLayout',
-                'set_currentGraph'
+                'set_currentGraph',
+                'set_typesettingGraphRatio'
             ]),
             draw(data, layout){
                 const container = document.getElementById('typesetting');
@@ -178,16 +179,20 @@
                 //     console.log('ratio', zoom)
                 // });
                 if (typeof window !== 'undefined'){
+                    let that = this;
                     window.onresize = () => {
                         if (!graph || graph.get('destroyed')) return;
                         if (!container || !container.scrollWidth || !container.scrollHeight) return;
                         graph.fitCenter()
                         if(window.innerWidth < 650) {
-                            graph.zoomTo(0.6)
+                            graph.zoomTo(0.5);
+                            that.set_typesettingGraphRatio(0.5);
                         } else if(window.innerWidth < 800){
-                            graph.zoomTo(0.8)
+                            graph.zoomTo(0.75);
+                            that.set_typesettingGraphRatio(0.75);
                         } else {
-                            graph.zoomTo(1)
+                            graph.zoomTo(1);
+                            that.set_typesettingGraphRatio(1);
                         }
                         graph.changeSize(container.scrollWidth, window.screen.height * 0.8);
                     };
