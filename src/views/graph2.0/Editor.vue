@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="padding-bottom: 20px;">
         <Header></Header>
 <!--        <div class="spin">-->
 <!--            <a-spin size="large" tip="初始化编辑空间"/>-->

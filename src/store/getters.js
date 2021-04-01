@@ -18,6 +18,8 @@ const getters={
     currentSetLayout: state=>state.graph.currentSetLayout,
     forceGraphRatio: state=>state.graph.forceGraphRatio,
     typesettingGraphRatio: state=>state.graph.typesettingGraphRatio,
+    forceLayout: state=>state.graph.forceLayout,
+    layoutType: state=>state.graph.layoutType,
 
     colorList: state=>state.util.colorList,
 

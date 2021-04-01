@@ -5,7 +5,18 @@
             <span class="title">力引导布局</span>
         </div>
         <div class="inline-title" v-if="currentGraphId === graphIds.typesetting">
-
+            <a-select :default-value="currentSetLayout" style="width: 200px" @change="handleLayoutChange">
+                <a-select-opt-group label="力引导布局">
+                    <a-select-option :value="item.key" v-for="(item, index) in forceLayout" :key="index">
+                        {{item.value}}
+                    </a-select-option>
+                </a-select-opt-group>
+                <a-select-opt-group label="一般布局">
+                    <a-select-option :value="item.key" v-for="(item, index) in layoutType" :key="index">
+                        {{item.value}}
+                    </a-select-option>
+                </a-select-opt-group>
+            </a-select>
         </div>
     </div>
 </template>
@@ -18,19 +29,15 @@
             ...mapGetters([
                 'currentGraphId',
                 'graphIds',
-                'currentSetLayout'
+                'currentSetLayout',
+                'forceLayout',
+                'layoutType'
             ]),
-            layoutType(){
-                if(this.currentGraphId === this.graphIds.typesetting){
-                    return this.currentSetLayout;
-                } else if(this.currentGraphId === this.graphIds.force){
-                    return '力引导布局'
-                }
-                return ''
-            }
         },
-        mounted() {
-
+        methods: {
+            handleLayoutChange(value) {
+                console.log(`selected ${value}`);
+            },
         }
     }
 </script>

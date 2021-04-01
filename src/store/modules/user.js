@@ -1,7 +1,7 @@
 import router, {resetRouter} from '@/router';
 import {loginAPI, testTokenAPI} from "../../api/user";
 import {message} from "ant-design-vue";
-import {removeToken, setToken, getToken} from '@/utils/auth'
+import {removeToken, setToken} from '@/utils/auth'
 
 const state = {
     token: '',
@@ -36,12 +36,10 @@ const user = {
         login: async({commit}, data)=>{
             const res = await loginAPI(data);
             let resData = res.data;
-            console.log('res1', resData);
             if(res.code >= 0) {
                 commit('set_userId', resData.userId);
                 commit('set_userInfo', resData);
                 setToken(resData.token);
-                console.log('get: ', getToken());
                 router.push('/home');
             } else {
                 message.error(resData)

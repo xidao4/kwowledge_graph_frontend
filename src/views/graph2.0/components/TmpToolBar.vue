@@ -80,7 +80,7 @@
                 'set_forceGraphRatio'
             ]),
             onClick({ key }) {
-                this.currentGraph.zoomTo(key);
+                this.currentGraph.zoomTo(key, { x: 400, y: 200 });
                 // this.currentGraph.fitCenter()
                 if(this.currentGraphId === this.graphIds.force){
                     return this.set_forceGraphRatio(key)
@@ -90,7 +90,7 @@
             },
             recover(){
                 this.currentGraph.zoomTo(1);
-                // this.currentGraph.fitCenter()
+                this.currentGraph.fitCenter()
                 if(this.currentGraphId === this.graphIds.force){
                     return this.set_forceGraphRatio(1)
                 } else if(this.currentGraphId === this.graphIds.typesetting){

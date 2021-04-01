@@ -5,6 +5,7 @@
 
 <script>
     import {mapGetters, mapMutations} from 'vuex';
+    import XBackground from '../../../components/g6/XBackground';
     import G6 from '@antv/g6';
     import { GraphLayoutPredict } from '@antv/vis-predict-engine'
     import { message } from 'ant-design-vue'
@@ -136,7 +137,8 @@
                 //     position: { x: 0, y: 130 },
                 // });
                 const menu = new G6.Menu();
-                const grid = new G6.Grid();
+                // const grid = new G6.Grid();
+                const background = new XBackground()
                 let graph = new G6.Graph({
                     container: container,
                     width,
@@ -167,7 +169,7 @@
                     // fitView: true,
                     fitCenter: true,
                     fitViewPadding: 20,
-                    plugins: [toolbar, menu, grid],
+                    plugins: [toolbar, menu, background],
                     minZoom: 0.25,
                     maxZoom: 2
                 });
