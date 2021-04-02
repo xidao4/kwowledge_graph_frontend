@@ -16,5 +16,6 @@ const getters={
 
     userId: state=>state.user.userId,
     userInfo: state=>state.user.userInfo,
+    picsInfo: state=>state.user.picsInfo,//a
 };
 export default getters

@@ -1,5 +1,5 @@
 import router, {resetRouter} from '@/router';
-import {loginAPI, testTokenAPI} from "../../api/user";
+import {getUserPicsAPI, loginAPI, testTokenAPI} from "../../api/user";//a
 import {message} from "ant-design-vue";
 import {removeToken, setToken, getToken} from '@/utils/auth'
 
@@ -8,7 +8,8 @@ const state = {
     userId: '',
     userInfo: {
         username: 'test'
-    }
+    },
+    picsInfo:{},//a
 };
 
 const user = {
@@ -21,6 +22,7 @@ const user = {
             state.token = '';
             state.userId = '';
             state.userInfo = {};
+            state.picsInfo=[];//a
             resetRouter();
             removeToken();
             router.push('/login')
@@ -31,6 +33,9 @@ const user = {
         set_userInfo(state, data) {
             state.userInfo = {...data};
         },
+        set_picsInfo(state,data){//a
+            state.picsInfo=data;
+        }
     },
     actions:{
         login: async({commit}, data)=>{
@@ -50,6 +55,11 @@ const user = {
         testToken: async() => {
             const res = await testTokenAPI();
             message.success(res.data);
+        },
+        getUserPics: async({commit},data)=>{//a
+            const res=await getUserPicsAPI(data);
+            console.log('getUserPicsAPI',res);
+            commit('set_picsInfo',res);
         }
     }
 };
