@@ -1,10 +1,17 @@
 <template>
+    <div>
     <div>力导模式</div>
+    <tool-bar></tool-bar>
+    </div>
 </template>
 
 <script>
+    import ToolBar from "./ToolBar.vue"
     export default {
-        name: "Graph"
+        name: "Graph",
+        components:{
+            ToolBar
+        }
     }
 </script>
 
