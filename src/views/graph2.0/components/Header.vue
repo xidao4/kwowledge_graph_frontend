@@ -114,7 +114,7 @@
                 'typesettingGraph',
                 'currentGraph',
                 'showDownloadImgModal',
-                'showDownloadJsonModal'
+                'showDownloadJsonModal',
             ])
         },
         methods: {
@@ -161,8 +161,9 @@
                 this.btnText = btnTextType.save;
             },
             back(){
+                let imgUrl = this.currentGraph.toDataURL('image/jpeg', '#FFFFFF');
                 this.$router.go(-1);
-                this.thumbnail();
+                this.thumbnail(imgUrl);
             }
         },
     }

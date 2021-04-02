@@ -19,7 +19,7 @@ const state = {
     graphInfo: [
         'hi'
     ],
-    picId: '4',
+    picId: '',
     relationTypeSet: new Set(),
     currentGraph: null,
     forceGraph: null,
