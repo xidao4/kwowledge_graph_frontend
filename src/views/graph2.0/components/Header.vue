@@ -45,8 +45,8 @@
 <script>
     import { mapGetters, mapActions, mapMutations } from 'vuex';
     import { message } from 'ant-design-vue'
-    import DownloadImgModal from "./DownloadImgModal";
-    import DownloadFileModal from "./DownloadFileModal";
+    import DownloadImgModal from "./downloadModal/DownloadImgModal";
+    import DownloadFileModal from "./downloadModal/DownloadFileModal";
     import Handler from "./Handler";
     const fileType = {
         png: 'png',

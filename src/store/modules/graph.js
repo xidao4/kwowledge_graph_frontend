@@ -87,6 +87,7 @@ const state = {
     ],
     forceGraphRatio: 1,
     typesettingGraphRatio: 1,
+    currentStrength: 30,
 };
 
 const graph = {
