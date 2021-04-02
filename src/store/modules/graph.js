@@ -5,8 +5,13 @@ import{
     addRelationAPI,
     changeEntityAPI,
     changeRelationAPI,
-    downloadAPI
+    downloadAPI,
+    saveAPI,
+    thumbnailAPI
 } from "../../api/graph";
+import {
+    url2File
+} from '../../utils/util';
 
 import { message } from 'ant-design-vue'
 
@@ -288,7 +293,45 @@ const graph = {
                 message.error('文件下载失败')
             }
         },
-
+        save: async({state}) => {
+            let param = {
+                picId: state.picId,
+            };
+            if(state.forceGraph != null){
+                let data = state.forceGraph.save();
+                param.fnodes = data.nodes;
+                param.fedges = data.edges;
+            } else {
+                param.fnodes = [];
+                param.fedges = [];
+            }
+            if(state.typesettingGraph != null){
+                let data = state.typesettingGraph.save();
+                param.snodes = data.nodes;
+                param.sedges = data.edges;
+            } else {
+                param.snodes = [];
+                param.sedges = [];
+            }
+            const res = await saveAPI(param);
+            if(res.code >= 0) {
+                message.success('保存成功');
+            } else {
+                message.error('文件下载失败');
+            }
+        },
+        thumbnail: async({rootState, state}, url) => {
+            let picId = state.picId;
+            const res = await thumbnailAPI({
+                picId: picId,
+                userId: rootState.userId,
+                picName: picId,
+                file: url2File(url, picId)
+            });
+            if(res.code < 0) {
+                console.log('文件下载失败');
+            }
+        },
     }
 };
 

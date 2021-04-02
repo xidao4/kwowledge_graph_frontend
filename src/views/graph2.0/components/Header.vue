@@ -4,11 +4,11 @@
                 style="background-color: white; box-shadow:0 0 4px #7f7f7f;"
                 title="编辑图谱"
                 sub-title=""
-                @back="() => $router.go(-1)"
+                @back="back"
         >
             <template slot="extra">
-                <a-button key="3" type="primary" style="margin-right: 10px;" >
-                    保存
+                <a-button key="3" type="primary" style="margin-right: 10px;" :loading="loading" @click="save">
+                    {{btnText}}
                 </a-button>
                 <a-dropdown>
                     <a-menu slot="overlay" @click="handleTypeChange">
@@ -58,6 +58,10 @@
         webp: 'webp',
         bmp: 'bmp'
     };
+    const btnTextType = {
+        save: '保存',
+        saveLoading: '保存中...',
+    };
     export default {
         name: "Header",
         components: {
@@ -96,9 +100,10 @@
                 ],
                 chosenFileType: '',
                 loading: false,
+                btnText: btnTextType.save,
                 showDownloadImg: false,
                 showDownloadJson: false,
-                isExpand: true
+                isExpand: true,
             }
         },
         computed: {
@@ -120,7 +125,8 @@
                 'set_showDownloadFileModal',
             ]),
             ...mapActions({
-                downloadAct: 'downloadFile'
+                saveAct: 'save',
+                thumbnail: 'thumbnail'
             }),
             handleTypeChange(value) {
                 this.chosenFileType = value.key;
@@ -147,6 +153,17 @@
                 const _t = this
                 _t.isExpand = val !== undefined ? val : !_t.isExpand
             },
+            async save(){
+                this.loading = true;
+                this.btnText = btnTextType.saveLoading;
+                await this.saveAct();
+                this.loading = false;
+                this.btnText = btnTextType.save;
+            },
+            back(){
+                this.$router.go(-1);
+                this.thumbnail();
+            }
         },
     }
 </script>
