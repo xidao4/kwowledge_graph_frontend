@@ -1,5 +1,5 @@
 <template>
-
+    <div>排版模式</div>
 </template>
 
 <script>

@@ -21,16 +21,16 @@
             </a-dropdown>
         </template>
         <template slot="footer">
-            <a-tabs default-active-key="1">
-                <a-tab-pane key="1" tab="排版模式" />
-                <a-tab-pane key="2" tab="力引导模式" />
+            <a-tabs :default-active-key="currentGraphId" @change="changeCurrentGraph">
+                <a-tab-pane :key="graphIds.force" tab="力引导模式" />
+                <a-tab-pane :key="graphIds.typesetting" tab="排版模式" />
             </a-tabs>
         </template>
     </a-page-header>
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex';
+    import { mapGetters, mapActions, mapMutations } from 'vuex';
     import { message } from 'ant-design-vue'
     const fileType = {
         png: 'png',
@@ -84,10 +84,15 @@
         },
         computed: {
             ...mapGetters([
-                'graph'
+                'graph',
+                'graphIds',
+                'currentGraphId'
             ])
         },
         methods: {
+            ...mapMutations([
+                'set_currentGraphId'
+            ]),
             ...mapActions({
                 downloadAct: 'downloadFile'
             }),
@@ -141,6 +146,9 @@
                     this.loading = false;
                     this.btnText = btnTextType.download;
                 }, 500)
+            },
+            changeCurrentGraph(key){
+                this.set_currentGraphId(key);
             }
         }
     }

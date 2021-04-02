@@ -17,6 +17,7 @@
 
 <script>
     import {mapGetters,mapMutations} from 'vuex'
+    import { getToken } from '@/utils/auth'
     export default {
         name: "UploadFile",
         props: ['triggerGraphDraw'],
@@ -24,6 +25,7 @@
             return {
                 headers: {
                     authorization: 'authorization-text',
+                    token: getToken()
                 },
                 maxNum: 1,
                 times: 0,
