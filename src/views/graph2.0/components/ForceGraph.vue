@@ -135,6 +135,7 @@
                         type: 'force',
                         preventOverlap: true,
                         nodeSize: 20,
+                        nodeStrength: -10,
                     },
                     modes: {
                         default: [
@@ -159,7 +160,7 @@
                     fitViewPadding: [20, 40, 40, 20],
                     plugins: [toolbar, menu],
                     minZoom: 0.25,
-                    maxZoom: 5
+                    maxZoom: 5,
                 });
                 graph.data(data);
                 graph.render();

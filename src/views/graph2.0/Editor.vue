@@ -6,21 +6,21 @@
 <!--        </div>-->
         <TmpToolBar></TmpToolBar>
         <a-row class="row">
-            <a-col :xs="15" :sm="15" :md="15" :lg="18" :xl="18">
+            <a-col :xs="15" :sm="15" :md="13" :lg="15" :xl="18">
                 <div class="block"></div>
             </a-col>
-            <a-col :xs="9" :sm="9" :md="9" :lg="6" :xl="6">
+            <a-col :xs="9" :sm="9" :md="11" :lg="9" :xl="6">
                 <LayoutBlock class="block"></LayoutBlock>
             </a-col>
         </a-row>
         <a-row class="row">
-            <a-col :md="24" :lg="18">
+            <a-col :md="24" :lg="15" :xl="18">
                 <div class="block" style="overflow: hidden;">
                     <TypesettingGraph v-show="currentGraphId === graphIds.typesetting"></TypesettingGraph>
                     <ForceGraph v-if="currentGraphId === graphIds.force"></ForceGraph>
                 </div>
             </a-col>
-            <a-col :md="0" :lg="6">
+            <a-col :md="0" :lg="9" :xl="6">
                 <div class="block"></div>
             </a-col>
         </a-row>
@@ -63,8 +63,7 @@
     border-radius: 4px;
     padding: 30px 50px;
     margin: 20px 0;
-    width: 100%;
-    height: 100%;
+    min-width: 400px;
 }
 .row {
     margin: 15px;
