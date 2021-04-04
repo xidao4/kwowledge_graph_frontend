@@ -14,10 +14,10 @@
                     <span class="label">作用力</span>
                 </a-col>
                 <a-col :xs="24" :sm="24" :md="6" :lg="8" :xl="8">
-                    <a-slider v-model="nodeStrength" :min="-50" :max="50" class="slider"/>
+                    <a-slider v-model="nodeStrength" :min="-5" :max="5" class="slider"/>
                 </a-col>
                 <a-col :xs="0" :sm="0" :md="10" :lg="8" :xl="8">
-                    <a-input-number v-model="nodeStrength" :min="-50" :max="50"/>
+                    <a-input-number v-model="nodeStrength" :min="-5" :max="5"/>
                 </a-col>
             </a-row>
         </div>
@@ -47,7 +47,7 @@
         components: {ACol, ARow},
         data(){
             return {
-                nodeStrength: 30
+                nodeStrength: 1
             }
         },
         computed: {
@@ -56,7 +56,9 @@
                 'graphIds',
                 'currentSetLayout',
                 'forceLayout',
-                'layoutType'
+                'layoutType',
+                'currentGraph',
+                'forceGraph'
             ]),
         },
         methods: {
@@ -64,6 +66,23 @@
                 console.log(`selected ${value}`);
             },
         },
+        watch: {
+            nodeStrength: {
+                immediate: true,
+                handler(){
+                    let that = this;
+                    // console.log('g', that.currentGraph);
+                    setTimeout(() => {
+                        that.currentGraph.updateLayout({
+                            nodeStrength: that.nodeStrength * 20
+                        });
+                    }, 1000);
+                    this.forceGraph.updateLayout({
+                        nodeStrength: that.nodeStrength * 20
+                    });
+                }
+            }
+        }
     }
 </script>
 

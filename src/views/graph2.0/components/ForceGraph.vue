@@ -111,7 +111,8 @@
         methods: {
             ...mapMutations([
                 'set_forceGraph',
-                'set_forceGraphRatio'
+                'set_forceGraphRatio',
+                'set_currentGraph'
             ]),
             draw(data){
                 const container = document.getElementById('force');
@@ -135,7 +136,7 @@
                         type: 'force',
                         preventOverlap: true,
                         nodeSize: 20,
-                        nodeStrength: -10,
+                        nodeStrength: 20,
                     },
                     modes: {
                         default: [
@@ -170,19 +171,32 @@
                     model.fx = e.x;
                     model.fy = e.y;
                 }
-                graph.on('node:dragstart', (e) => {
+                // graph.on('node:dragstart', (e) => {
+                //     graph.layout();
+                //     refreshDragedNodePosition(e);
+                // });
+                // graph.on('node:drag', (e) => {
+                //     refreshDragedNodePosition(e);
+                // });
+                // const layout = graph.get('layoutController').layoutMethod;
+                graph.on('node:dragstart', function (e) {
                     graph.layout();
                     refreshDragedNodePosition(e);
                 });
-                graph.on('node:drag', (e) => {
+                graph.on('node:drag', function (e) {
+                    // layout.execute();
                     refreshDragedNodePosition(e);
+                });
+                graph.on('node:dragend', function (e) {
+                    e.item.get('model').fx = null;
+                    e.item.get('model').fy = null;
                 });
                 if (typeof window !== 'undefined'){
                     let that = this;
                     window.onresize = () => {
                         if (!graph || graph.get('destroyed')) return;
                         if (!container || !container.scrollWidth || !container.scrollHeight) return;
-                        graph.fitCenter()
+                        graph.fitCenter();
                         if(window.innerWidth < 650) {
                             graph.zoomTo(0.5);
                             that.set_forceGraphRatio(0.5);
@@ -201,7 +215,8 @@
         },
         mounted() {
             this.draw(testData);
-            console.log('force')
+            console.log('force');
+            this.set_currentGraph(this.forceGraph);
         },
     }
 </script>

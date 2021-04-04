@@ -144,7 +144,7 @@
             changeCurrentGraph(key){
                 this.set_currentGraphId(key);
                 if(key === this.graphIds.force){
-                    this.set_currentGraph(this.forceGraph)
+                    // this.set_currentGraph(this.forceGraph)
                 } else if(key === this.graphIds.typesetting){
                     this.set_currentGraph(this.typesettingGraph)
                 }
