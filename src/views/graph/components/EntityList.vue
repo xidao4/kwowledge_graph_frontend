@@ -99,7 +99,7 @@ export default {
         ...validateEntityType(this.type.value),
         value: this.type.value,
       };
-      this.set_addEntityVisible(false)
+      
       if (this.name.errorMsg === null && this.type.errorMsg === null) {
         // this.add_showGraphNodes({
         //   name: this.name.value,
@@ -111,7 +111,7 @@ export default {
         //   type: this.type.value
         // });
         // this.triggerGraphDraw();
-        
+        this.set_addEntityVisible(false)
         this.name.value = "";
         this.type.value= "";
       }
