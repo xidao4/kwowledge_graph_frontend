@@ -17,5 +17,7 @@ const getters={
     userId: state=>state.user.userId,
     userInfo: state=>state.user.userInfo,
     picsInfo: state=>state.user.picsInfo,//a
+    addEntityVisible: state=>state.util.addEntityVisible,
+    addRelationVisible: state=>state.util.addRelationVisible
 };
 export default getters

@@ -10,8 +10,29 @@
 </template>
 
 <script>
+import {mapMutations} from 'vuex'
 export default {
   name: "ToolBar",
+  computed:{
+    ...mapMutations([
+      'set_addEntityVisible',
+      'set_addRelationVisible'
+    ])
+  },
+  methods:{
+    handleAddEntity(){
+      console.log('1111111')
+      // this.set_addRelationVisible(false)
+      
+      this.set_addEntityVisible(true)
+    },
+    confirmAddRelation(){
+      console.log('2222222')
+      // this.set_addEntityVisible(false)
+      console.log('333')
+      this.set_addRelationVisible(true)
+    }
+  }
 };
 </script>
 

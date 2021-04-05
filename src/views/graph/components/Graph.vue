@@ -94,7 +94,7 @@
                 showEdges.forEach(link => {
                     link.label = {
                         align: 'center',
-                        fontSize: 12
+                        fontSize: 8
                     };
                     link.lineStyle = {
                         color: link.color
@@ -104,35 +104,35 @@
                 });
                 let option = {
                     color: legendColor,
-                    // legend: {
-                    //     show: true,
-                    //     data: legend,
-                    //     textStyle: {
-                    //         color: "#000",
-                    //         fontSize: 10
-                    //     },
-                    //     // inactiveColor: "#fff",
-                    //     icon: "circle",
-                    //     // type: "scroll",
-                    //     // orient: "vertical",
-                    //     // left: "right",
-                    //     pageIconColor: "#000",
-                    //     pageIconInactiveColor: "#000",
-                    //     pageIconSize: 12,
-                    //     pageTextStyle: {
-                    //         color: "#000",
-                    //         fontSize: 12
-                    //     }
-                    // },
+                    legend: {
+                        show: true,
+                        data: legend,
+                        textStyle: {
+                            color: "#000",
+                            fontSize: 10
+                        },
+                        // inactiveColor: "#fff",
+                        icon: "circle",
+                        // type: "scroll",
+                        orient: "vertical",
+                        left: "right",
+                        pageIconColor: "#000",
+                        pageIconInactiveColor: "#000",
+                        pageIconSize: 12,
+                        pageTextStyle: {
+                            color: "#000",
+                            fontSize: 12
+                        }
+                    },
                     series: [{
                         type: 'graph',
                         layout: 'force',
-                        symbolSize: 58,
+                        symbolSize: 30,
                         draggable: true,
                         roam: true,
                         nodeScaleRatio: 0.6,
                         scaleLimit: {
-                            min: 0.8,
+                            min: 0.3,
                             max: 2
                         },
                         labelLayout: {
@@ -142,24 +142,28 @@
                         edgeSymbol: ['', 'arrow'],
                         // edgeSymbolSize: [80, 10],
                         edgeLabel: {
-                            overflow: 'truncate',
                             normal: {
                                 show: true,
-                                textStyle: {
-                                    fontSize: 20
-                                },
                                 formatter(x) {
                                     return x.data.name;
                                 },
                             }
                         },
                         label: {
-                            show: true,
-                            color: '#000'
+                            normal: {
+                                show: true,
+                                textStyle: {
+                                    fontSize: 8,
+                                    color: '#000'
+                                },
+                                formatter(x) {
+                                    return x.data.name;
+                                },
+                            }
                         },
                         force: {
                             repulsion: 250,
-                            edgeLength: 130
+                            edgeLength: 100
                         },
                         data: showNodes,
                         links: showEdges,

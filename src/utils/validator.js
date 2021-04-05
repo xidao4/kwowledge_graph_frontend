@@ -30,3 +30,28 @@ export function validateEntityName(newName, oldName, showGraphNodes) {
         };
     }
 }
+
+export function validateEntityType(newEntityType) {
+    if (newEntityType.length === 0) {
+        return {
+            validateStatus: 'error',
+            errorMsg: '请输入实体类型',
+        };
+    }else if(newEntityType.match(/^\s*$/)){
+        return {
+            validateStatus: 'error',
+            errorMsg: '请输入实体类型',
+        };
+    }else if (newEntityType.length > 0 && newEntityType.length <= 10) {
+        return {
+            validateStatus: 'success',
+            errorMsg: null,
+        };
+    } else {
+        // input的maxLength即可限制，这里防御式编程
+        return {
+            validateStatus: 'error',
+            errorMsg: '实体值应为1-10位',
+        };
+    }
+}
