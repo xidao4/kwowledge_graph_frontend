@@ -1,7 +1,5 @@
 <template>
     <div class="page-div">
-        <router-link to="/editor">编辑</router-link>
-
         <a-list
             rowKey="id"
             :grid="{gutter: 12, lg: 3, md: 2, sm: 1, xs: 1}"

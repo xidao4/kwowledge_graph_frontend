@@ -18,7 +18,7 @@
         :get-container="false"
         :wrap-style="{ position: 'absolute' }"
         @close="onClose"
-        :body-style="{ padding: '20px', overflow: 'hidden'}"
+        :body-style="{ padding: '20px', overflow: 'hidden', width: '100%'}"
         :header-style="{ textAlign: 'left', paddingLeft: '8vw'}"
       >
         <a-form
@@ -97,7 +97,8 @@ export default {
   data() {
     return {
       addRelationForm: this.$form.createForm(this, { name: "addRelationForm" }),
-      height: (window.screen.height * 0.8 + 5) + 'px'
+      height: (window.screen.height * 0.8 + 5) + 'px',
+      relationValueTips:'请输入关系值'
     };
   },
   props: ["triggerGraphDraw"],
@@ -128,8 +129,9 @@ export default {
         name: that.addRelationForm.getFieldValue('relationValue'),
         color: "#000",
       };
-      if (newData.node1 === "" || newData.node2 === "" || newData.name === "") {
-        message.error("增加关系失败，实体和关系名不能为空");
+      console.log('newData',newData)
+      if (newData.node1 == null || newData.node2 == null || newData.name == null) {
+        message.error("增加关系失败，实体和关系值不能为空");
         return;
       }
       for (let i = 0; i < this.showGraphEdges.length; i++) {

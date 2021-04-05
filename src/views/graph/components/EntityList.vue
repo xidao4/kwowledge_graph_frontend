@@ -102,7 +102,7 @@ export default {
         ...validateEntityType(this.type.value),
         value: this.type.value,
       };
-      this.set_addEntityVisible(false)
+
       if (this.name.errorMsg === null && this.type.errorMsg === null) {
         // this.add_showGraphNodes({
         //   name: this.name.value,
@@ -114,7 +114,7 @@ export default {
         //   type: this.type.value
         // });
         // this.triggerGraphDraw();
-
+        this.set_addEntityVisible(false)
         this.name.value = "";
         this.type.value= "";
       }
@@ -151,7 +151,7 @@ export default {
   line-height: 28px;
   cursor: pointer;
   margin-left: 10px;
-  margin-top: 120px;
+  margin-top: 160px;
 }
 .ant-drawer-right.ant-drawer-open {
   box-shadow: none !important;
