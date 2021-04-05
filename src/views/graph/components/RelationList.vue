@@ -1,90 +1,67 @@
 <template>
-  <div class="relationContainer">
-    <div
-      :style="{
-        textAlign: 'right',
-        overflow: 'hidden',
-        position: 'relative',
-        height: height,
-    }">
+  <div>
+    <a-form
+            :form="addRelationForm"
+            :label-col="{ lg: {span: 10}, xl: {span: 9} }"
+            :wrapper-col="{ lg: {span: 14}, xl: {span: 15} }"
+            style="margin-top:20px"
     >
-      <a-drawer
-        title="添加关系"
-        placement="right"
-        :closable="true"
-        :visible="addRelationVisible"
-        :mask="false"
-        width="33vw"
-        :get-container="false"
-        :wrap-style="{ position: 'absolute' }"
-        @close="onClose"
-        :body-style="{ padding: '20px', overflow: 'hidden', width: '100%'}"
-        :header-style="{ textAlign: 'left', paddingLeft: '8vw'}"
-      >
-        <a-form
-          :form="addRelationForm"
-          :label-col="{ lg: {span: 10}, xl: {span: 9} }"
-          :wrapper-col="{ lg: {span: 14}, xl: {span: 15} }"
-          style="margin-top:20px"
-        >
-          <a-form-item label="定义域" has-feedback>
-            <a-select
-              v-decorator="[
+      <a-form-item label="定义域" has-feedback>
+        <a-select
+                v-decorator="[
                 'selectSourceNode',
                 { rules: [{ required: true, message: '请至少选择一个实体!' }] },
               ]"
-              placeholder="请选择实体"
-              style="width: 85%;"
-            >
-              <a-select-option
-                :value="node.name"
-                v-for="(node, index) in showGraphNodes"
-                :key="index"
-              >
-                {{ node.name }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item label="值域" has-feedback>
-            <a-select
-              v-decorator="[
+                placeholder="请选择实体"
+                style="width: 85%;"
+        >
+          <a-select-option
+                  :value="node.name"
+                  v-for="(node, index) in showGraphNodes"
+                  :key="index"
+          >
+            {{ node.name }}
+          </a-select-option>
+        </a-select>
+      </a-form-item>
+      <a-form-item label="值域" has-feedback>
+        <a-select
+                v-decorator="[
                 'selectTargetNode',
                 { rules: [{ required: true, message: '请至少选择一个实体!' }] },
               ]"
-              placeholder="请选择实体"
-              style="width: 85%;"
-            >
-              <a-select-option
-                :value="node.name"
-                v-for="(node, index) in showGraphNodes"
-                :key="index"
-              >
-                {{ node.name }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item label="关系值">
-            <a-input
-              v-decorator="[
+                placeholder="请选择实体"
+                style="width: 85%;"
+        >
+          <a-select-option
+                  :value="node.name"
+                  v-for="(node, index) in showGraphNodes"
+                  :key="index"
+          >
+            {{ node.name }}
+          </a-select-option>
+        </a-select>
+      </a-form-item>
+      <a-form-item label="关系值">
+        <a-input
+                v-decorator="[
                 'relationValue',
                 { rules: [{ required: true, message: '请输入关系值!' }] },
               ]"
-              placeholder="请输入关系值"
-              style="width: 85%;"
-            >
-            </a-input>
-          </a-form-item>
-          <a-tag
-            style="cursor: pointer; border-style: solid;"
-            @click="confirmAddRelation"
-            class="tag-item"
-            id="addEntityButton"
-          >
-            <a-icon type="plus" /> 确认增加
-          </a-tag>
-        </a-form>
-      </a-drawer>
-    </div>
+                placeholder="请输入关系值"
+                style="width: 85%;"
+        >
+        </a-input>
+      </a-form-item>
+      <a-tag
+              style="cursor: pointer; border-style: solid;"
+              @click="confirmAddRelation"
+              class="tag-item"
+              id="addEntityButton"
+      >
+        <a-icon type="plus" /> 确认增加
+      </a-tag>
+    </a-form>
   </div>
 </template>
 

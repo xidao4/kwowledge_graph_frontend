@@ -1,66 +1,42 @@
 <template>
-  <div id="addEntity" >
-    <div
-    :style="{
-        borderRadius: '0',
-        textAlign: 'right',
-        overflow: 'hidden',
-        position: 'relative',
-        height: height
-    }">
-    <a-drawer
-      title="添加实体"
-      placement="right"
-      :closable="true"
-      :visible="addEntityVisible"
-      :mask="false"
-      :get-container="false"
-      :wrap-style="{ position: 'absolute', boxShadow: 'none' }"
-      :body-style="{ padding: '20px', overflow: 'hidden'}"
-      :header-style="{ textAlign: 'left', paddingLeft: '8vw'}"
-      @close="onClose"
-      width="33vw"
+  <div>
+    <a-form
+            :form="addForm"
+            :label-col="{ lg: {span: 10}, xl: {span: 9} }"
+            :wrapper-col="{ lg: {span: 14}, xl: {span: 15} }"
+            style="margin-top:20px"
     >
-
-      <a-form
-        :form="addForm"
-        :label-col="{ lg: {span: 10}, xl: {span: 9} }"
-        :wrapper-col="{ lg: {span: 14}, xl: {span: 15} }"
-        style="margin-top:20px"
+      <a-form-item
+              label="实体值："
+              :validate-status="name.validateStatus"
+              :help="name.errorMsg || nameTips"
       >
-        <a-form-item
-          label="实体值："
-          :validate-status="name.validateStatus"
-          :help="name.errorMsg || nameTips"
-        >
-          <a-input
-            v-model="name.value"
-            :maxLength="10"
-            @change="handleNameChange"
-          />
-        </a-form-item>
-        <a-form-item
-          label="实体类型："
-          :validate-status="type.validateStatus"
-          :help="type.errorMsg || typeTips"
-        >
-          <a-input
-            v-model="type.value"
-            :maxLength="10"
-            @change="handleTypeChange"
-          />
-        </a-form-item>
-      </a-form>
-      <a-tag
-        style="cursor: pointer; border-style: solid;"
-        @click="handleAdd"
-        class="tag-item"
-        id="addEntityButton"
+        <a-input
+                v-model="name.value"
+                :maxLength="10"
+                @change="handleNameChange"
+        />
+      </a-form-item>
+      <a-form-item
+              label="实体类型："
+              :validate-status="type.validateStatus"
+              :help="type.errorMsg || typeTips"
       >
-        <a-icon type="plus" /> 确认增加
-      </a-tag>
-    </a-drawer>
-  </div>
+        <a-input
+                v-model="type.value"
+                :maxLength="10"
+                @change="handleTypeChange"
+        />
+      </a-form-item>
+    </a-form>
+    <a-tag
+            style="cursor: pointer; border-style: solid;"
+            @click="handleAdd"
+            class="tag-item"
+            id="addEntityButton"
+    >
+      <a-icon type="plus" /> 确认增加
+    </a-tag>
   </div>
 </template>
 
@@ -143,9 +119,10 @@ export default {
 
 <style scoped>
 #addEntity {
-  /*width: 360px;*/
-  /*float: right;*/
-  /*height: 600px;*/
+  width: 360px;
+  float: right;
+  height: 600px;
+  z-index: 999;
 }
 .tag-item {
   line-height: 28px;

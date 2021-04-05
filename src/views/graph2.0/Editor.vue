@@ -14,6 +14,12 @@
             </a-col>
         </a-row>
         <a-row class="row">
+<!--            <entity-list :class="this.addEntityVisible?'show':'not-show'"></entity-list>-->
+<!--            <relation-list :class="this.addRelationVisible?'show':'not-show'"></relation-list>-->
+<!--            <div class="block" style="overflow: hidden;">-->
+<!--                <TypesettingGraph v-show="currentGraphId === graphIds.typesetting"></TypesettingGraph>-->
+<!--                <ForceGraph v-if="currentGraphId === graphIds.force"></ForceGraph>-->
+<!--            </div>-->
             <a-col :md="24" :lg="17" :xl="17" xxl="20">
                 <div class="block" style="overflow: hidden;">
                     <TypesettingGraph v-show="currentGraphId === graphIds.typesetting"></TypesettingGraph>
