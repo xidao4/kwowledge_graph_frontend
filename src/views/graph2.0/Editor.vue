@@ -1,5 +1,6 @@
 <template>
     <div style="padding-bottom: 20px; background-color: #EEEFF0; width: 100%">
+        {{showModal}}
         <Header></Header>
 <!--        <div class="spin">-->
 <!--            <a-spin size="large" tip="初始化编辑空间"/>-->
@@ -26,13 +27,15 @@
                     <ForceGraph v-if="currentGraphId === graphIds.force"></ForceGraph>
                 </div>
             </a-col>
-            <a-col :md="0" :lg="7" :xl="7" xxl="4">
+            <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">
                 <div class="block">
                     <entity-list :class="this.addEntityVisible?'show':'not-show'"></entity-list>
                     <relation-list :class="this.addRelationVisible?'show':'not-show'"></relation-list>
                 </div>
             </a-col>
+
         </a-row>
+        <a-modal :visible="showModal">test</a-modal>
     </div>
 </template>
 
@@ -49,6 +52,11 @@
     import RelationList from "@/views/graph/components/RelationList"
     export default {
         name: "Editor",
+        data(){
+            return {
+                showModal: false
+            }
+        },
         components: {
             ACol,
             ARow,
@@ -67,6 +75,21 @@
                 'addEntityVisible',
                 'addRelationVisible'
             ]),
+        },
+        mounted() {
+            if(window.innerWidth < 650){
+                this.showModal = true;
+            } else {
+                this.showModal = false;
+            }
+            window.addEventListener('resize', ()=>{
+                console.log('hahahhahhah')
+                if(window.innerWidth < 650){
+                    this.showModal = true;
+                } else {
+                    this.showModal = false;
+                }
+            })
         }
     }
 </script>
