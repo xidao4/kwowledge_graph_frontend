@@ -1,6 +1,5 @@
 <template>
     <div>
-    <div>力导模式</div>
     <tool-bar></tool-bar>
     <entity-list :class="this.addEntityVisible?'show':'not-show'"></entity-list>
     <relation-list :class="this.addRelationVisible?'show':'not-show'"></relation-list>
