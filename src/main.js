@@ -7,6 +7,7 @@ import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.less';
 import echarts from 'echarts'
 import '@/permission'
+import './mock'
 
 Vue.config.productionTip = false;
 

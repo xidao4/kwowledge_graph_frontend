@@ -5,7 +5,6 @@
                 :default-selected-keys="current"
                 mode="horizontal"
                 theme="dark"
-                @click="handleClick"
         >
             <a-menu-item key="list">
                 我的图谱

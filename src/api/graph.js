@@ -86,3 +86,20 @@ export function downloadAPI(data) {
     responseType: "arraybuffer",//设置数据格式
   })
 }
+
+export function saveAPI(data) {
+  return axios({
+    url: `${api.graphPre}/save`,
+    method: 'POST',
+    data,
+  })
+}
+
+export function thumbnailAPI(data) {
+  return axios({
+    url: `${api.graphPre}/thumbnail`,
+    method: 'POST',
+    data,
+  })
+}
+

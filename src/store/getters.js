@@ -11,6 +11,15 @@ const getters={
     currentGraph: state=>state.graph.currentGraph,
     currentGraphId: state=>state.graph.currentGraphId,
     graphIds: state=>state.graph.graphIds,
+    forceGraph: state=>state.graph.forceGraph,
+    typesettingGraph: state=>state.graph.typesettingGraph,
+    showDownloadImgModal: state=>state.graph.showDownloadImgModal,
+    showDownloadFileModal: state=>state.graph.showDownloadFileModal,
+    currentSetLayout: state=>state.graph.currentSetLayout,
+    forceGraphRatio: state=>state.graph.forceGraphRatio,
+    typesettingGraphRatio: state=>state.graph.typesettingGraphRatio,
+    forceLayout: state=>state.graph.forceLayout,
+    layoutType: state=>state.graph.layoutType,
 
     colorList: state=>state.util.colorList,
 

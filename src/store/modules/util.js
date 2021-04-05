@@ -28,8 +28,8 @@ const state={
       key: '粉色（默认）', color: '#FFB8C6'
     }
   },
-  addEntityVisible: '',
-  addRelationVisible: '',
+  addEntityVisible: false,
+  addRelationVisible: false,
 };
 
 const util={

@@ -2,12 +2,11 @@
   <div class="relationContainer">
     <div
       :style="{
-        height: '600px',
-        position: 'relative',
-        borderRadius: '8px',
         textAlign: 'center',
-        background: 'rgb(255, 255, 255)',
-      }"
+        overflow: 'hidden',
+        position: 'relative',
+        height: height
+    }">
     >
       <a-drawer
         title="添加关系"
@@ -22,8 +21,8 @@
       >
         <a-form
           :form="addRelationForm"
-          :label-col="{ span: 5 }"
-          :wrapper-col="{ span: 18 }"
+          :label-col="{ lg: {span: 8}, xl: {span: 7} }"
+          :wrapper-col="{ lg: {span: 16}, xl: {span: 17} }"
           style="margin-top:20px"
         >
           <a-form-item label="定义域" has-feedback>
@@ -96,6 +95,7 @@ export default {
   data() {
     return {
       addRelationForm: this.$form.createForm(this, { name: "addRelationForm" }),
+      height: (window.screen.height * 0.8 + 5) + 'px'
     };
   },
   props: ["triggerGraphDraw"],
@@ -155,9 +155,9 @@ export default {
 
 <style scoped>
 .relationContainer {
-  width: 360px;
-  float: right;
-  height: 600px;
+  /*width: 360px;*/
+  /*float: right;*/
+  /*height: 600px;*/
 }
 @media screen and (max-width: 500px) {
   .relationLine {

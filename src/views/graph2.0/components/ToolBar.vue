@@ -3,34 +3,33 @@
     <a-button type="primary" size="small" @click="handleAddEntity" class="toolItem">
       <a-icon type="plus" />增加节点
     </a-button>
-    <a-button size="small" type="primary" @click="confirmAddRelation" class="toolItem" style="margin-left:20px">
+    <a-button size="small" type="primary" @click="confirmAddRelation" class="margin-left">
       <a-icon type="plus" />增加关系
     </a-button>
+    <Scale class="margin-left"></Scale>
   </div>
 </template>
 
 <script>
 import {mapMutations} from 'vuex'
+import Scale from './Scale'
 export default {
   name: "ToolBar",
-  computed:{
+  components: {
+    Scale
+  },
+  methods:{
     ...mapMutations([
       'set_addEntityVisible',
       'set_addRelationVisible'
-    ])
-  },
-  methods:{
+    ]),
     handleAddEntity(){
-      console.log('1111111')
-      // this.set_addRelationVisible(false)
-      
-      this.set_addEntityVisible(true)
+      this.set_addRelationVisible(false);
+      this.set_addEntityVisible(true);
     },
     confirmAddRelation(){
-      console.log('2222222')
-      // this.set_addEntityVisible(false)
-      console.log('333')
-      this.set_addRelationVisible(true)
+      this.set_addEntityVisible(false);
+      this.set_addRelationVisible(true);
     }
   }
 };
@@ -39,13 +38,18 @@ export default {
 <style scoped>
 .toolBar {
   width: 100%;
-  margin-top: 10px;
+  /*margin-top: 10px;*/
   height: 44px;
-  border: 1px solid blue;
+  /*border: 1px solid blue;*/
   display: flex;
   align-items: center;
+  background-color: white;
+  box-shadow:0 0 4px #7f7f7f;
 }
 .toolItem {
   margin-left: 10px;
+}
+.margin-left{
+  margin-left: 20px;
 }
 </style>

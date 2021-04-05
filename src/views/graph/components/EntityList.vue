@@ -2,11 +2,12 @@
   <div id="addEntity" >
     <div
     :style="{
-        height:'600px',
-        position: 'relative',
-        borderRadius: '8px',
+        borderRadius: '0',
         textAlign: 'center',
-        background: 'rgb(255, 255, 255)',
+        overflow: 'hidden',
+        position: 'relative',
+        height: height,
+        width: '100%'
     }">
     <a-drawer
       title="添加实体"
@@ -14,16 +15,15 @@
       :closable="true"
       :visible="addEntityVisible"
       :mask="false"
-      :width="360"
       :get-container="false"
       :wrap-style="{ position: 'absolute'}"
       @close="onClose"
     >
-      
+
       <a-form
         :form="addForm"
-        :label-col="{ span: 5 }"
-        :wrapper-col="{ span: 18 }"
+        :label-col="{ lg: {span: 8}, xl: {span: 7} }"
+        :wrapper-col="{ lg: {span: 16}, xl: {span: 17} }"
         style="margin-top:20px"
       >
         <a-form-item
@@ -81,6 +81,7 @@ export default {
       },
       nameTips: "请输入1-10位实体值，与现有实体值不相同",
       typeTips: "请输入1-10位实体类型",
+      height: (window.screen.height * 0.8 + 5) + 'px'
     };
   },
   props: ["triggerGraphDraw"],
@@ -111,7 +112,7 @@ export default {
         //   type: this.type.value
         // });
         // this.triggerGraphDraw();
-        
+
         this.name.value = "";
         this.type.value= "";
       }
@@ -140,9 +141,9 @@ export default {
 
 <style scoped>
 #addEntity {
-  width: 360px;
-  float: right;
-  height: 600px;
+  /*width: 360px;*/
+  /*float: right;*/
+  /*height: 600px;*/
 }
 .tag-item {
   line-height: 28px;

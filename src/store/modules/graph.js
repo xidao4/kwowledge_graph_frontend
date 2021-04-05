@@ -5,8 +5,13 @@ import{
     addRelationAPI,
     changeEntityAPI,
     changeRelationAPI,
-    downloadAPI
+    downloadAPI,
+    saveAPI,
+    thumbnailAPI
 } from "../../api/graph";
+import {
+    url2File
+} from '../../utils/util';
 
 import { message } from 'ant-design-vue'
 
@@ -14,12 +19,14 @@ const state = {
     graphInfo: [
         'hi'
     ],
-    picId: '4',
+    picId: '',
     relationTypeSet: new Set(),
     currentGraph: null,
     forceGraph: null,
     typesettingGraph: null,
-    currentGraphId: 'force',
+    currentGraphId: 'typesetting',
+    showDownloadImgModal: false,
+    showDownloadFileModal: false,
     graphIds: {
         force: 'force',
         typesetting: 'typesetting'
@@ -61,64 +68,61 @@ const state = {
             color: "#FFB8C6"
         }
     ],
-    showGraphEdges: [
-        // {
-        //     node1: '浏览器有限公司',
-        //     node2: '操作系统集团',
-        //     name: '参股',
-        //     type: 'hasProperty',
-        //     color: '#000'
-        // }, {
-        //     node1: 'HTML科技',
-        //     node2: '浏览器有限公司',
-        //     name: '参股',
-        //     type: 'hasProperty',
-        //     color: '#000'
-        // }, {
-        //     node1: 'CSS科技',
-        //     node2: '浏览器有限公司',
-        //     name: '参股',
-        //     type: 'hasProperty',
-        //     color: '#000'
-        // }, {
-        //     node1: 'JavaScript科技',
-        //     node2: '浏览器有限公司',
-        //     name: '参股',
-        //     type: 'hasProperty',
-        //     color: '#000'
-        // }, {
-        //     node1: 'Chrome',
-        //     node2: '浏览器有限公司',
-        //     name: '是',
-        //     type: 'is',
-        //     color: '#000'
-        // }, {
-        //     node1: 'IE',
-        //     node2: '浏览器有限公司',
-        //     name: '是',
-        //     type: 'is',
-        //     color: '#000'
-        // }, {
-        //     node1: 'Firefox',
-        //     node2: '浏览器有限公司',
-        //     name: '董事',
-        //     type: 'is',
-        //     color: '#000'
-        // }, {
-        //     node1: 'Safari',
-        //     node2: '浏览器有限公司',
-        //     name: '董事',
-        //     type: 'is',
-        //     color: '#000'
-        // }, {
-        //     node1: 'Chrome',
-        //     node2: 'JavaScript科技',
-        //     name: '法人',
-        //     type: 'is',
-        //     color: '#000'
-        // }
-    ],
+    forceGraphRatio: 1,
+    typesettingGraphRatio: 1,
+    currentStrength: 30,
+    showGraphEdges: [],
     currentPicId: '',
+    currentSetLayout: '',
+    forceLayout: [
+        {
+            key: 'gForce',
+            value: '经典力导向布局(gForce)'
+        },
+        {
+            key: 'force',
+            value: '经典力导向布局(force)'
+        },
+        {
+            key: 'forceAtlas2',
+            value: 'FA2力导向布局(forceAtlas2)'
+        },
+        {
+            key: 'fruchterman',
+            value: 'Fruchterman布局(fruchterman)'
+        },
+    ],
+    layoutType: [
+        {
+            key: 'random',
+            value: '随机布局(random)'
+        },
+        {
+            key: 'circular',
+            value: '环形布局(circular)'
+        },
+        {
+            key: 'Radial',
+            value: '辐射状布局(Radial)'
+        },
+        {
+            key: 'mds',
+            value: '高维数据降维算法布局(mds)'
+        },
+        {
+            key: 'dagre',
+            value: '层次布局(dagre)'
+        },
+        {
+            key: 'concentric',
+            value: '同心圆布局(concentric)'
+        },
+        {
+            key: 'grid',
+            value: '格子布局(grid)'
+        },
+    ],
+
 };
 
 const graph = {
@@ -130,8 +134,20 @@ const graph = {
         set_currentGraph(state, data) {
             state.currentGraph = data
         },
+        set_forceGraph(state, data) {
+            state.forceGraph = data
+        },
+        set_typesettingGraph(state, data) {
+            state.typesettingGraph = data
+        },
         set_currentGraphId(state, data) {
             state.currentGraphId = data
+        },
+        set_showDownloadImgModal(state, data) {
+            state.showDownloadImgModal = data
+        },
+        set_showDownloadFileModal(state, data) {
+            state.showDownloadFileModal = data
         },
         set_picId(state, data) {
             state.picId = data
@@ -221,6 +237,15 @@ const graph = {
         set_currentPicId(state, data) {
             state.currentPicId = data
         },
+        set_currentSetLayout(state, data) {
+            state.currentSetLayout = data
+        },
+        set_forceGraphRatio(state, data) {
+            state.forceGraphRatio = data
+        },
+        set_typesettingGraphRatio(state, data) {
+            state.typesettingGraphRatio = data
+        },
     },
     actions: {
         // getAll:async ({commit,state},data)=>{
@@ -286,17 +311,57 @@ const graph = {
                 message.error('删除关系失败')
             }
         },
-        downloadFile: async({ state }) => {
+        // 注意该接口返回值为ArrayBuffer，经拦截器已取出data
+        // TODO 后端重构，传url
+        downloadFile: async({state}) => {
             const res = await downloadAPI({
                 picId: state.picId
             });
-            if(res.status == 200) {
-                return res.data;
+            if(res) {
+                return res;
             } else {
                 message.error('文件下载失败')
             }
         },
-
+        save: async({state}) => {
+            let param = {
+                picId: state.picId,
+            };
+            if(state.forceGraph != null){
+                let data = state.forceGraph.save();
+                param.fnodes = data.nodes;
+                param.fedges = data.edges;
+            } else {
+                param.fnodes = [];
+                param.fedges = [];
+            }
+            if(state.typesettingGraph != null){
+                let data = state.typesettingGraph.save();
+                param.snodes = data.nodes;
+                param.sedges = data.edges;
+            } else {
+                param.snodes = [];
+                param.sedges = [];
+            }
+            const res = await saveAPI(param);
+            if(res.code >= 0) {
+                message.success('保存成功');
+            } else {
+                message.error('文件下载失败');
+            }
+        },
+        thumbnail: async({rootState, state}, url) => {
+            let picId = state.picId;
+            const res = await thumbnailAPI({
+                picId: picId,
+                userId: rootState.userId,
+                picName: picId,
+                file: url2File(url, picId)
+            });
+            if(res.code < 0) {
+                console.log('文件下载失败');
+            }
+        },
     }
 };
 
