@@ -3,11 +3,10 @@
     <div
     :style="{
         borderRadius: '0',
-        textAlign: 'center',
+        textAlign: 'right',
         overflow: 'hidden',
         position: 'relative',
-        height: height,
-        width: '100%'
+        height: height
     }">
     <a-drawer
       title="添加实体"
@@ -16,14 +15,17 @@
       :visible="addEntityVisible"
       :mask="false"
       :get-container="false"
-      :wrap-style="{ position: 'absolute'}"
+      :wrap-style="{ position: 'absolute', boxShadow: 'none' }"
+      :body-style="{ padding: '20px', overflow: 'hidden'}"
+      :header-style="{ textAlign: 'left', paddingLeft: '8vw'}"
       @close="onClose"
+      width="33vw"
     >
 
       <a-form
         :form="addForm"
-        :label-col="{ lg: {span: 8}, xl: {span: 7} }"
-        :wrapper-col="{ lg: {span: 16}, xl: {span: 17} }"
+        :label-col="{ lg: {span: 10}, xl: {span: 9} }"
+        :wrapper-col="{ lg: {span: 14}, xl: {span: 15} }"
         style="margin-top:20px"
       >
         <a-form-item
@@ -149,7 +151,10 @@ export default {
   line-height: 28px;
   cursor: pointer;
   margin-left: 10px;
-  margin-top: 160px;
+  margin-top: 120px;
+}
+.ant-drawer-right.ant-drawer-open {
+  box-shadow: none !important;
 }
 
 </style>

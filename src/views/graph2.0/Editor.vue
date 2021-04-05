@@ -6,21 +6,21 @@
 <!--        </div>-->
         <tool-bar></tool-bar>
         <a-row class="row">
-            <a-col :xs="15" :sm="15" :md="15" :lg="16" :xl="17">
+            <a-col :xs="15" :sm="15" :md="15" :lg="17" :xl="17" xxl="20">
                 <div class="block"></div>
             </a-col>
-            <a-col :xs="9" :sm="9" :md="9" :lg="8" :xl="7">
+            <a-col :xs="9" :sm="9" :md="9" :lg="7" :xl="7" xxl="4">
                 <LayoutBlock class="block"></LayoutBlock>
             </a-col>
         </a-row>
         <a-row class="row">
-            <a-col :md="24" :lg="16" :xl="17" xxl="20">
+            <a-col :md="24" :lg="17" :xl="17" xxl="20">
                 <div class="block" style="overflow: hidden;">
                     <TypesettingGraph v-show="currentGraphId === graphIds.typesetting"></TypesettingGraph>
                     <ForceGraph v-if="currentGraphId === graphIds.force"></ForceGraph>
                 </div>
             </a-col>
-            <a-col :md="0" :lg="8" :xl="7" xxl="20">
+            <a-col :md="0" :lg="7" :xl="7" xxl="4">
                 <div class="block">
                     <entity-list :class="this.addEntityVisible?'show':'not-show'"></entity-list>
                     <relation-list :class="this.addRelationVisible?'show':'not-show'"></relation-list>

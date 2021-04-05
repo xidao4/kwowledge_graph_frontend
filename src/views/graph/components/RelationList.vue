@@ -2,10 +2,10 @@
   <div class="relationContainer">
     <div
       :style="{
-        textAlign: 'center',
+        textAlign: 'right',
         overflow: 'hidden',
         position: 'relative',
-        height: height
+        height: height,
     }">
     >
       <a-drawer
@@ -14,15 +14,17 @@
         :closable="true"
         :visible="addRelationVisible"
         :mask="false"
-        :width="360"
+        width="33vw"
         :get-container="false"
         :wrap-style="{ position: 'absolute' }"
         @close="onClose"
+        :body-style="{ padding: '20px', overflow: 'hidden'}"
+        :header-style="{ textAlign: 'left', paddingLeft: '8vw'}"
       >
         <a-form
           :form="addRelationForm"
-          :label-col="{ lg: {span: 8}, xl: {span: 7} }"
-          :wrapper-col="{ lg: {span: 16}, xl: {span: 17} }"
+          :label-col="{ lg: {span: 10}, xl: {span: 9} }"
+          :wrapper-col="{ lg: {span: 14}, xl: {span: 15} }"
           style="margin-top:20px"
         >
           <a-form-item label="定义域" has-feedback>
@@ -32,7 +34,7 @@
                 { rules: [{ required: true, message: '请至少选择一个实体!' }] },
               ]"
               placeholder="请选择实体"
-              style="width:200px"
+              style="width: 85%;"
             >
               <a-select-option
                 :value="node.name"
@@ -50,7 +52,7 @@
                 { rules: [{ required: true, message: '请至少选择一个实体!' }] },
               ]"
               placeholder="请选择实体"
-              style="width:200px"
+              style="width: 85%;"
             >
               <a-select-option
                 :value="node.name"
@@ -68,7 +70,7 @@
                 { rules: [{ required: true, message: '请输入关系值!' }] },
               ]"
               placeholder="请输入关系值"
-              style="width:200px"
+              style="width: 85%;"
             >
             </a-input>
           </a-form-item>
