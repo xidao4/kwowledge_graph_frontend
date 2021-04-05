@@ -96,6 +96,7 @@ export default {
   data() {
     return {
       addRelationForm: this.$form.createForm(this, { name: "addRelationForm" }),
+      relationValueTips:'请输入关系值'
     };
   },
   props: ["triggerGraphDraw"],
@@ -126,8 +127,9 @@ export default {
         name: that.addRelationForm.getFieldValue('relationValue'),
         color: "#000",
       };
-      if (newData.node1 === "" || newData.node2 === "" || newData.name === "") {
-        message.error("增加关系失败，实体和关系名不能为空");
+      console.log('newData',newData)
+      if (newData.node1 == null || newData.node2 == null || newData.name == null) {
+        message.error("增加关系失败，实体和关系值不能为空");
         return;
       }
       for (let i = 0; i < this.showGraphEdges.length; i++) {
