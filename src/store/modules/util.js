@@ -27,13 +27,26 @@ const state={
     pink: {
       key: '粉色（默认）', color: '#FFB8C6'
     }
-  }
+  },
+  addEntityVisible: '',
+  addRelationVisible: '',
 };
 
 const util={
   state,
   mutations:{
-
+    set_addEntityVisible(state,data) {
+      console.log('data:',data)
+      console.log('state:',state.addEntityVisible)
+      state.addEntityVisible = data;
+      console.log('state:',state.addEntityVisible)
+    },
+    set_addRelationVisible(state,data) {
+      console.log('data',data)
+      console.log('state:',state.addRelationVisible)
+      state.addRelationVisible = data;
+      console.log('state:',state.addRelationVisible)
+    },
   },
   actions:{
 
