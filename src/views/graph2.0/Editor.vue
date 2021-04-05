@@ -1,6 +1,5 @@
 <template>
     <div style="padding-bottom: 20px; background-color: #EEEFF0; width: 100%">
-        {{showModal}}
         <Header></Header>
 <!--        <div class="spin">-->
 <!--            <a-spin size="large" tip="初始化编辑空间"/>-->
@@ -14,7 +13,7 @@
                 <LayoutBlock class="block"></LayoutBlock>
             </a-col>
         </a-row>
-        <a-row class="row">
+        <a-row class="row" id="graphRow">
 <!--            <entity-list :class="this.addEntityVisible?'show':'not-show'"></entity-list>-->
 <!--            <relation-list :class="this.addRelationVisible?'show':'not-show'"></relation-list>-->
 <!--            <div class="block" style="overflow: hidden;">-->
@@ -29,13 +28,14 @@
             </a-col>
             <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">
                 <div class="block">
-                    <entity-list :class="this.addEntityVisible?'show':'not-show'"></entity-list>
-                    <relation-list :class="this.addRelationVisible?'show':'not-show'"></relation-list>
+                    <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>
+                    <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list>
                 </div>
             </a-col>
 
         </a-row>
-        <a-modal :visible="showModal">test</a-modal>
+        <a-modal :visible="showModal && addEntityVisible">实体</a-modal>
+        <a-modal :visible="showModal && addRelationVisible">关系</a-modal>
     </div>
 </template>
 
@@ -54,7 +54,7 @@
         name: "Editor",
         data(){
             return {
-                showModal: false
+                showModal: false,
             }
         },
         components: {
@@ -77,14 +77,13 @@
             ]),
         },
         mounted() {
-            if(window.innerWidth < 650){
+            if(window.innerWidth < 992){
                 this.showModal = true;
             } else {
                 this.showModal = false;
             }
             window.addEventListener('resize', ()=>{
-                console.log('hahahhahhah')
-                if(window.innerWidth < 650){
+                if(window.innerWidth < 992){
                     this.showModal = true;
                 } else {
                     this.showModal = false;
