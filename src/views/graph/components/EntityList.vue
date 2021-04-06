@@ -1,10 +1,12 @@
 <template>
-  <div>
+  <div class="addEntityForm">
+    <h3 style="margin-left:40%;padding-top:6%">添加实体</h3>
+    <a-divider />
     <a-form
             :form="addForm"
             :label-col="{ lg: {span: 10}, xl: {span: 9} }"
             :wrapper-col="{ lg: {span: 14}, xl: {span: 15} }"
-            style="margin-top:20px"
+            style="margin-right:16%"
     >
       <a-form-item
               label="实体值："
@@ -59,7 +61,6 @@ export default {
       },
       nameTips: "请输入1-10位实体值，与现有实体值不相同",
       typeTips: "请输入1-10位实体类型",
-      height: (window.screen.height * 0.8 + 5) + 'px'
     };
   },
   props: ["triggerGraphDraw"],
@@ -118,20 +119,11 @@ export default {
 </script>
 
 <style scoped>
-#addEntity {
-  width: 360px;
-  float: right;
-  height: 600px;
-  z-index: 999;
-}
 .tag-item {
   line-height: 28px;
   cursor: pointer;
-  margin-left: 10px;
+  margin-left: 38%;
   margin-top: 160px;
-}
-.ant-drawer-right.ant-drawer-open {
-  box-shadow: none !important;
 }
 
 </style>

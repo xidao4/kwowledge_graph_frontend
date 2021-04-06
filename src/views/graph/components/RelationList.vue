@@ -1,10 +1,12 @@
 <template>
   <div>
+    <h3 style="margin-left:40%;padding-top:6%">添加关系</h3>
+    <a-divider />
     <a-form
-            :form="addRelationForm"
-            :label-col="{ lg: {span: 10}, xl: {span: 9} }"
-            :wrapper-col="{ lg: {span: 14}, xl: {span: 15} }"
-            style="margin-top:20px"
+      :form="addRelationForm"
+      :label-col="{ lg: {span: 10}, xl: {span: 9} }"
+      :wrapper-col="{ lg: {span: 14}, xl: {span: 15} }"
+      style="margin-right:10%"
     >
       <a-form-item label="定义域" has-feedback>
         <a-select
@@ -135,55 +137,10 @@ export default {
 </script>
 
 <style scoped>
-.relationContainer {
-  /*width: 360px;*/
-  /*float: right;*/
-  /*height: 600px;*/
-}
-@media screen and (max-width: 500px) {
-  .relationLine {
-    display: flex;
-    align-items: center;
-    margin: 0 auto;
-    justify-content: center;
-    padding-bottom: 20px;
-    flex-wrap: wrap;
-  }
-  .keyValue {
-    width: 200px;
-    margin-top: 10px;
-  }
-  #keyValue1 {
-    margin-left: 12px;
-  }
-}
-.relationLine {
-  display: flex;
-  align-items: center;
-  /*width: 80%;*/
-  margin: 0 auto;
-  justify-content: center;
-  padding-bottom: 20px;
-  /*flex-wrap: wrap;*/
-}
-
-.keyValue {
-  width: 200px;
-}
-.ant-select {
-  width: 110px;
-}
-.ant-btn-sm {
-  height: 29px;
-  padding: 0 7px;
-  font-size: 14px;
-  border-radius: 2px;
-  /*margin-left: 18px;*/
-}
 .tag-item {
   line-height: 28px;
   cursor: pointer;
-  margin-left: 10px;
+  margin-left: 44%;
   margin-top: 160px;
 }
 </style>
