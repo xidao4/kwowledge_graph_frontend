@@ -137,6 +137,11 @@ export default {
 </script>
 
 <style scoped>
+@media screen and (max-width: 992px) {
+    .ant-row{
+        margin-left: 16%;
+    }
+}
 .tag-item {
   line-height: 28px;
   cursor: pointer;
