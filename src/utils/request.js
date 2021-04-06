@@ -1,7 +1,8 @@
 import axios from 'axios'
 import store from '../store'
-import router from '../router'
-import { setToken, getToken } from '@/utils/auth'
+import router from '@/router';
+import { setToken, getToken, removeToken } from '@/utils/auth'
+import { message } from 'ant-design-vue'
 
 const service = axios.create({
   baseURL: process.env.NODE_ENV === 'production' ? 'http://118.182.96.49:8001': 'http://118.182.96.49:8001',
@@ -42,7 +43,10 @@ service.interceptors.response.use(
       setToken(token);
     }
     if (err.response.status === 401) {
-      router.push('/user/login')
+      message.error('请重新登录');
+      // 先清理过期token再跳转，否则路由守卫会认为hasToken
+      removeToken();
+      router.push('/login')
     }
     return null
   }

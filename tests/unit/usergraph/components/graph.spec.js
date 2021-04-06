@@ -1,5 +1,5 @@
 import { mount,createLocalVue, shallowMount } from '@vue/test-utils'
-import Graph from '@/views/graph/components/Graph.vue'
+import Graph from '@/views/graph/components/ForceGraph.vue'
 import echarts from 'echarts'
 import Antd from 'ant-design-vue';
 import store from '../../../../src/store'
