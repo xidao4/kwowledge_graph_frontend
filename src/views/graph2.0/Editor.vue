@@ -27,7 +27,7 @@
                 </div>
             </a-col>
             <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">
-                <div class="block">
+                <div class="block" :style="this.heightStr">
                     <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>
                     <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list>
                 </div>
@@ -55,6 +55,7 @@
         data(){
             return {
                 showModal: false,
+                heightStr: "height: "+(window.screen.height * 0.8 + 5)+'px'
             }
         },
         components: {
