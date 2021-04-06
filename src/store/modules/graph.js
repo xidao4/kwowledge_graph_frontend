@@ -7,7 +7,8 @@ import{
     changeRelationAPI,
     downloadAPI,
     saveAPI,
-    thumbnailAPI
+    thumbnailAPI,
+    getPicElementsAPI
 } from "../../api/graph";
 import {
     url2File
@@ -122,7 +123,8 @@ const state = {
             value: '格子布局(grid)'
         },
     ],
-
+    currentShowGraphData: {},
+    currentGraphData: {},
 };
 
 const graph = {
@@ -246,6 +248,12 @@ const graph = {
         set_typesettingGraphRatio(state, data) {
             state.typesettingGraphRatio = data
         },
+        set_currentShowGraphData(state, data) {
+            state.currentShowGraphData = {...data}
+        },
+        set_currentGraphData(state, data) {
+            state.currentGraphData = {...data}
+        },
     },
     actions: {
         // getAll:async ({commit,state},data)=>{
@@ -360,6 +368,27 @@ const graph = {
             });
             if(res.code < 0) {
                 console.log('文件下载失败');
+            }
+        },
+        getPicElements: async({state, commit}) => {
+            let picId = state.picId;
+            const res = await getPicElementsAPI({
+                picId: picId
+            });
+            if(res.code < 0) {
+                console.log('图谱加载失败');
+            } else {
+                let resData = res.data;
+                commit('set_currentShowGraphData', {
+                    force: {
+                        nodes: resData.fnodes,
+                        edges: resData.fedges
+                    },
+                    typesetting: {
+                        nodes: resData.snodes,
+                        edges: resData.sedges
+                    }
+                });
             }
         },
     }

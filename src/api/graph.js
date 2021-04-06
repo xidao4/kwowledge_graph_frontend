@@ -103,3 +103,10 @@ export function thumbnailAPI(data) {
   })
 }
 
+export function getPicElementsAPI(data) {
+  return axios({
+    url: `${api.graphPre}/getPicElements`,
+    method: 'POST',
+    data,
+  })
+}
