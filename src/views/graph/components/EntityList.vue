@@ -12,11 +12,13 @@
               label="实体值："
               :validate-status="name.validateStatus"
               :help="name.errorMsg || nameTips"
+              
       >
         <a-input
                 v-model="name.value"
                 :maxLength="10"
                 @change="handleNameChange"
+                
         />
       </a-form-item>
       <a-form-item
@@ -119,6 +121,11 @@ export default {
 </script>
 
 <style scoped>
+@media screen and (max-width: 992px) {
+    .ant-row{
+        margin-left: 12%;
+    }
+}
 .tag-item {
   line-height: 28px;
   cursor: pointer;
