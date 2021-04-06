@@ -34,14 +34,18 @@
             </a-col>
 
         </a-row>
-        <a-modal :visible="showModal && addEntityVisible">实体</a-modal>
-        <a-modal :visible="showModal && addRelationVisible">关系</a-modal>
+        <a-modal :visible="showModal && addEntityVisible" :footer="null" @cancel="handleCloseEntityModal">
+            <entity-list></entity-list>
+        </a-modal>
+        <a-modal :visible="showModal && addRelationVisible" :footer="null" @cancel="handleCloseRelationModal">
+            <relation-list></relation-list>
+        </a-modal>
     </div>
 </template>
 
 <script>
     import Header from "./components/Header";
-    import {mapGetters} from 'vuex';
+    import {mapGetters,mapMutations} from 'vuex';
     import TypesettingGraph from "./components/TypesettingGraph";
     import ForceGraph from './components/ForceGraph';
     import LayoutBlock from "./components/LayoutBlock";
@@ -76,6 +80,15 @@
                 'addEntityVisible',
                 'addRelationVisible'
             ]),
+        },
+        methods:{
+            ...mapMutations(["set_addRelationVisible","set_addEntityVisible"]),
+            handleCloseEntityModal(){
+                this.set_addEntityVisible(false)
+            },
+            handleCloseRelationModal(){
+                this.set_addRelationVisible(false)
+            }
         },
         mounted() {
             if(window.innerWidth < 992){
@@ -113,5 +126,9 @@
 }
 .not-show{
     display: none;
+}
+.modalView{
+    width: 80%;
+    margin-left: 10%;
 }
 </style>
