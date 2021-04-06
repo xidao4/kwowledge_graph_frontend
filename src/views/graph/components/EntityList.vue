@@ -122,7 +122,7 @@ export default {
 .tag-item {
   line-height: 28px;
   cursor: pointer;
-  margin-left: 38%;
+  margin-left: 40%;
   margin-top: 160px;
 }
 
