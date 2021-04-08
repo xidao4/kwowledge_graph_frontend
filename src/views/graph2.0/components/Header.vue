@@ -123,6 +123,7 @@
                 'set_currentGraph',
                 'set_showDownloadImgModal',
                 'set_showDownloadFileModal',
+                'clear_graphs'
             ]),
             ...mapActions({
                 saveAct: 'save',
@@ -164,6 +165,7 @@
                 let imgUrl = this.currentGraph.toDataURL('image/jpeg', '#FFFFFF');
                 this.$router.go(-1);
                 this.thumbnail(imgUrl);
+                this.clear_graphs();
             }
         },
     }

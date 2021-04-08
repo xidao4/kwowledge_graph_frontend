@@ -254,6 +254,13 @@ const graph = {
         set_currentGraphData(state, data) {
             state.currentGraphData = {...data}
         },
+        clear_graphs(state) {
+            state.currentGraph = null;
+            state.forceGraph = null;
+            state.typesettingGraph = null;
+            state.currentGraphData = {};
+            state.currentShowGraphData = {};
+        }
     },
     actions: {
         // getAll:async ({commit,state},data)=>{
