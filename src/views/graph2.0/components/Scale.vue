@@ -1,16 +1,18 @@
 <template>
     <div>
         <a-dropdown>
-            <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                {{ratioStr}} <a-icon type="down" />
-            </a>
+            <a-button @click="e => e.preventDefault()"
+                      type="primary" size="small" > {{ratioStr}} <a-icon type="down" /> </a-button>
+<!--            <a class="ant-dropdown-link" @click="e => e.preventDefault()">-->
+<!--                {{ratioStr}} <a-icon type="down" />-->
+<!--            </a>-->
             <a-menu slot="overlay" @click="onClick">
                 <a-menu-item :key="item.key" v-for="item in ratios">
                     {{ item.value }}
                 </a-menu-item>
             </a-menu>
         </a-dropdown>
-        <a-button @click="recover">恢复</a-button>
+<!--        <a-button @click="recover">恢复</a-button>-->
     </div>
 </template>
 

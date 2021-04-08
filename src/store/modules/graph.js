@@ -7,7 +7,8 @@ import{
     changeRelationAPI,
     downloadAPI,
     saveAPI,
-    thumbnailAPI
+    thumbnailAPI,
+    getPicElementsAPI
 } from "../../api/graph";
 import {
     url2File
@@ -38,7 +39,39 @@ const state = {
     links:[
 
     ],
-    showGraphNodes: [],
+    showGraphNodes: [
+        {
+            name: '操作系统集团',
+            color: "#F5222D"
+        }, {
+            name: '浏览器有限公司',
+            color: "#FA541C"
+        }, {
+            name: 'HTML科技',
+            color: "#FAAD14"
+        }, {
+            name: 'JavaScript科技',
+            color: "#13C2C2"
+        }, {
+            name: 'CSS科技',
+            color: "#52C41A"
+        }, {
+            name: 'Chrome',
+            color: "#1890FF"
+        }, {
+            name: 'IE',
+            color: "#FFB8C6"
+        }, {
+            name: 'Firefox',
+            color: "#FFB8C6"
+        }, {
+            name: 'Safari',
+            color: "#FFB8C6"
+        }
+    ],
+    forceGraphRatio: 1,
+    typesettingGraphRatio: 1,
+    currentStrength: 30,
     showGraphEdges: [],
     currentPicId: '',
     currentSetLayout: '',
@@ -90,9 +123,8 @@ const state = {
             value: '格子布局(grid)'
         },
     ],
-    forceGraphRatio: 1,
-    typesettingGraphRatio: 1,
-    currentStrength: 30,
+    currentShowGraphData: {},
+    currentGraphData: {},
 };
 
 const graph = {
@@ -216,6 +248,12 @@ const graph = {
         set_typesettingGraphRatio(state, data) {
             state.typesettingGraphRatio = data
         },
+        set_currentShowGraphData(state, data) {
+            state.currentShowGraphData = {...data}
+        },
+        set_currentGraphData(state, data) {
+            state.currentGraphData = {...data}
+        },
     },
     actions: {
         // getAll:async ({commit,state},data)=>{
@@ -330,6 +368,27 @@ const graph = {
             });
             if(res.code < 0) {
                 console.log('文件下载失败');
+            }
+        },
+        getPicElements: async({state, commit}) => {
+            let picId = state.picId;
+            const res = await getPicElementsAPI({
+                picId: picId
+            });
+            if(res.code < 0) {
+                console.log('图谱加载失败');
+            } else {
+                let resData = res.data;
+                commit('set_currentShowGraphData', {
+                    force: {
+                        nodes: resData.fnodes,
+                        edges: resData.fedges
+                    },
+                    typesetting: {
+                        nodes: resData.snodes,
+                        edges: resData.sedges
+                    }
+                });
             }
         },
     }

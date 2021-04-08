@@ -1,7 +1,7 @@
 <template>
     <div>
         <a-page-header
-                style="background-color: white; box-shadow:0 0 4px #7f7f7f;"
+                style="background-color: white; border: 1px solid rgb(235, 237, 240)"
                 title="编辑图谱"
                 sub-title=""
                 @back="back"

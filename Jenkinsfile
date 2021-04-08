@@ -1,7 +1,7 @@
 pipeline {
     agent none
     stages {
-        stage('Yarn Build') {
+        stage('Yarn Build & test') {
             agent {
                 docker {
                     image 'node:latest'
@@ -10,8 +10,17 @@ pipeline {
             steps {
                 echo 'yarn config'
                 sh 'yarn config set registry https://registry.npm.taobao.org'
-                sh 'yarn install'
+                sh 'yarn install --registry=https://registry.npm.taobao.org'
                 sh 'yarn build'
+
+                echo 'publish coverage report'
+                publishHTML([allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: false,
+                    reportDir: 'coverage/lcov-report',
+                    reportFiles: 'index.html',
+                    reportName: 'Jest HTML Report',
+                    reportTitles: ''])
             }
         }
         stage('Image Build & deploy'){

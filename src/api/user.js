@@ -18,3 +18,11 @@ export function testTokenAPI() {
         method: 'GET',
     })
 }
+
+export function getUserPicsAPI(data){
+    return axios({
+        url:`${api.graphPre}/getUserPics`,
+        method:'POST',
+        data:data
+    })
+}
