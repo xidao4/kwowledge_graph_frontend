@@ -19,7 +19,6 @@
     "js-cookie": "^2.2.1",
     "less": "^3.11.1",
     "less-loader": "^6.1.2",
-    "moment": "^2.29.1",
     "nprogress": "^0.2.0",
     "style-resources-loader": "^1.4.1",
     "vue": "^2.6.11",
