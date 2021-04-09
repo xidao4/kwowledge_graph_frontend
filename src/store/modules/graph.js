@@ -377,13 +377,14 @@ const graph = {
                 console.log('文件下载失败');
             }
         },
+        // 根据picId获取已有图谱数据（非上传文件获取）
         getPicElements: async({state, commit}) => {
             let picId = state.picId;
             const res = await getPicElementsAPI({
                 picId: picId
             });
             if(res.code < 0) {
-                console.log('图谱加载失败');
+                message.error("图谱获取失败");
             } else {
                 let resData = res.data;
                 commit('set_currentShowGraphData', {
