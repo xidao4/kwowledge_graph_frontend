@@ -1,5 +1,10 @@
 import router, {resetRouter} from '@/router';
-import {getUserPicsAPI, loginAPI, testTokenAPI} from "../../api/user";//a
+import {
+    getUserPicsAPI,
+    loginAPI,
+    testTokenAPI,
+    getHistoryAPI,
+} from "../../api/user";
 import {message} from "ant-design-vue";
 import {removeToken, setToken} from '@/utils/auth'
 
@@ -10,6 +15,7 @@ const state = {
         username: 'test'
     },
     picsInfo:{},//a
+    userHistory:[],
 };
 
 const user = {
@@ -35,7 +41,10 @@ const user = {
         },
         set_picsInfo(state,data){//a
             state.picsInfo=data;
-        }
+        },
+        set_userHistory(state,data){
+            state.userHistory=data;
+        },
     },
     actions:{
         login: async({commit}, data)=>{
@@ -58,6 +67,18 @@ const user = {
             const res=await getUserPicsAPI(data);
             console.log('getUserPicsAPI',res);
             commit('set_picsInfo',res);
+        },
+        getHistory:async({commit},data)=>{//a
+            const res=await getHistoryAPI(data);
+            if(res===null){
+                console.log('getHistoryAPI=null');
+                message.error(res);
+            }else if(res.code>=0){
+                commit('set_userHistory',res);
+            }else{
+                console.log('getHistoryAPI.code<0');
+                message.error(res);
+            }
         }
     }
 };

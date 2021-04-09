@@ -19,9 +19,19 @@ export function testTokenAPI() {
     })
 }
 
+//获取我的图谱
 export function getUserPicsAPI(data){
     return axios({
         url:`/api/graph/getUserPics`,
+        method:'POST',
+        data:data
+    })
+}
+
+//获取历史搜索信息
+export function getHistoryAPI(data){
+    return axios({
+        url:`${api.graphPre}/getHistory`,
         method:'POST',
         data:data
     })

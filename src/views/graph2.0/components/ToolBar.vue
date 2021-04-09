@@ -14,16 +14,21 @@
               v-show="!showModal">
       <a-icon type="plus" />统计
     </a-button>
+    <Search class="margin-left"></Search>
+
+
   </div>
 </template>
 
 <script>
 import {mapMutations} from 'vuex'
 import Scale from './Scale'
+import Search from "./Search";
 export default {
   name: "ToolBar",
   components: {
-    Scale
+      Scale,
+      Search,
   },
   data(){
     return{
@@ -85,5 +90,11 @@ export default {
 }
 .margin-left{
   margin-left: 20px;
+}
+.margin-right{
+    float:right;
+    margin-right:10px;
+    text-align: right;
+    display: inline-block;
 }
 </style>
