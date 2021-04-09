@@ -8,7 +8,8 @@ import{
     downloadAPI,
     saveAPI,
     thumbnailAPI,
-    getPicElementsAPI
+    getPicElementsAPI,
+    getPicTypesAPI
 } from "../../api/graph";
 import {
     url2File
@@ -125,6 +126,8 @@ const state = {
     ],
     currentShowGraphData: {},
     currentGraphData: {},
+    nodesTypeCntMap:{},
+    edgesTypeCntMap:{},
 };
 
 const graph = {
@@ -253,6 +256,12 @@ const graph = {
         },
         set_currentGraphData(state, data) {
             state.currentGraphData = {...data}
+        },
+        set_nodesTypeCntMap(state,data){
+            state.nodesTypeCntMap=data;
+        },
+        set_edgesTypeCntMap(state,data){
+            state.edgesTypeCntMap=data;
         },
     },
     actions: {
@@ -391,6 +400,19 @@ const graph = {
                 });
             }
         },
+        getPicTypes:async({commit},picId)=>{
+            const res=await getPicTypesAPI(picId);
+            if(res===null){
+                console.log('getPicTypesAPI=null');
+                message.error(res);
+            }else if(res.code>=0){
+                commit('set_nodesTypeCntMap',res.nodesMap);
+                commit('set_edgesTypeCntMap',res.edgesMap);
+            }else{
+                console.log('getPicTypesAPI.code<0');
+                message.error(res);
+            }
+        }
     }
 };
 

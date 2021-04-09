@@ -30,6 +30,7 @@
                 <div class="block" :style="this.heightStr">
                     <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>
                     <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list>
+                    <pie :class="pieModalVisible?'show':'not-show'"></pie>
                 </div>
             </a-col>
 
@@ -40,6 +41,23 @@
         <a-modal :visible="showModal && addRelationVisible" :footer="null" @cancel="handleCloseRelationModal">
             <relation-list></relation-list>
         </a-modal>
+<!--        <a-modal :visible="showModal && pieModalVisible"-->
+<!--                 :footer="null"-->
+<!--                 :forceRender="true"-->
+<!--                 @cancel="handleClosePieModal">-->
+<!--            <pie></pie>-->
+<!--        </a-modal>-->
+
+<!--        <a-drawer-->
+<!--            title="统计"-->
+<!--            placement="right"-->
+<!--            :closable="false"-->
+<!--            :visible="pieDrawerVisible"-->
+<!--            :after-visible-change="afterVisibleChange"-->
+<!--            @close="onClose"-->
+<!--        >-->
+<!--          <pie></pie>-->
+<!--        </a-drawer>-->
     </div>
 </template>
 
@@ -54,6 +72,7 @@
     import ToolBar from "./components/ToolBar.vue"
     import EntityList from "@/views/graph/components/EntityList"
     import RelationList from "@/views/graph/components/RelationList"
+    import Pie from "./components/Pie";
     export default {
         name: "Editor",
         data(){
@@ -72,23 +91,32 @@
             ToolBar,
             EntityList,
             RelationList,
+            Pie,
         },
         computed: {
             ...mapGetters([
                 'currentGraphId',
                 'graphIds',
                 'addEntityVisible',
-                'addRelationVisible'
+                'addRelationVisible',
+                'pieModalVisible',
             ]),
         },
         methods:{
-            ...mapMutations(["set_addRelationVisible","set_addEntityVisible"]),
+            ...mapMutations([
+                "set_addRelationVisible",
+                "set_addEntityVisible",
+                "set_pieModalVisible",
+            ]),
             handleCloseEntityModal(){
                 this.set_addEntityVisible(false)
             },
             handleCloseRelationModal(){
                 this.set_addRelationVisible(false)
-            }
+            },
+            handleClosePieModal(){
+                this.set_pieModalVisible(false);
+            },
         },
         mounted() {
             if(window.innerWidth < 992){

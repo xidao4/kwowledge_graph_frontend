@@ -21,7 +21,7 @@ export function testTokenAPI() {
 
 export function getUserPicsAPI(data){
     return axios({
-        url:`${api.graphPre}/getUserPics`,
+        url:`/api/graph/getUserPics`,
         method:'POST',
         data:data
     })
