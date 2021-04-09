@@ -20,6 +20,8 @@ const getters={
     typesettingGraphRatio: state=>state.graph.typesettingGraphRatio,
     forceLayout: state=>state.graph.forceLayout,
     layoutType: state=>state.graph.layoutType,
+    edgesTypeCntMap: state=>state.graph.edgesTypeCntMap,
+    nodesTypeCntMap: state=>state.graph.nodesTypeCntMap,
 
     colorList: state=>state.util.colorList,
 
@@ -27,6 +29,7 @@ const getters={
     userInfo: state=>state.user.userInfo,
     picsInfo: state=>state.user.picsInfo,//a
     addEntityVisible: state=>state.util.addEntityVisible,
-    addRelationVisible: state=>state.util.addRelationVisible
+    addRelationVisible: state=>state.util.addRelationVisible,
+    pieModalVisible: state=>state.util.pieModalVisible,
 };
 export default getters

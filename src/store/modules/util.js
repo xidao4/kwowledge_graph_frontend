@@ -28,8 +28,9 @@ const state={
       key: '粉色（默认）', color: '#FFB8C6'
     }
   },
-  addEntityVisible: false,
+  addEntityVisible: true,
   addRelationVisible: false,
+  pieModalVisible:false,
 };
 
 const util={
@@ -47,6 +48,9 @@ const util={
       state.addRelationVisible = data;
       console.log('state:',state.addRelationVisible)
     },
+    set_pieModalVisible(state,data){
+      state.pieModalVisible=data;
+    }
   },
   actions:{
 

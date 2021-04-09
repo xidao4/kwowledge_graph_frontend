@@ -110,3 +110,11 @@ export function getPicElementsAPI(data) {
     data,
   })
 }
+
+export function getPicTypesAPI(data){
+  return axios({
+    url:`${api.graphPre}/getPicTypes`,
+    method:'POST',
+    data
+  })
+}
