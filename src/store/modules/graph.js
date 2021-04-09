@@ -9,7 +9,8 @@ import{
     saveAPI,
     thumbnailAPI,
     getPicElementsAPI,
-    getPicTypesAPI
+    getPicTypesAPI,
+    searchAPI,
 } from "../../api/graph";
 import {
     url2File
@@ -128,6 +129,8 @@ const state = {
     currentGraphData: {},
     nodesTypeCntMap:{},
     edgesTypeCntMap:{},
+    searchNodes:[],
+    searchEdges:[],
 };
 
 const graph = {
@@ -262,6 +265,12 @@ const graph = {
         },
         set_edgesTypeCntMap(state,data){
             state.edgesTypeCntMap=data;
+        },
+        set_searchNodes(state,data){
+            state.searchNodes=data;
+        },
+        set_searchEdges(state,data){
+            state.searchEdges=data;
         },
     },
     actions: {
@@ -400,8 +409,8 @@ const graph = {
                 });
             }
         },
-        getPicTypes:async({commit},picId)=>{
-            const res=await getPicTypesAPI(picId);
+        getPicTypes:async({commit},data)=>{
+            const res=await getPicTypesAPI(data);
             if(res===null){
                 console.log('getPicTypesAPI=null');
                 message.error(res);
@@ -412,7 +421,20 @@ const graph = {
                 console.log('getPicTypesAPI.code<0');
                 message.error(res);
             }
-        }
+        },
+        search:async({commit},data)=>{
+            const res=await searchAPI(data);
+            if(res===null){
+                console.log('searchAPI=null');
+                message.error(res);
+            }else if(res.code>=0){
+                commit('set_searchNodes',res.nodes);
+                commit('set_searchEdges',res.edges);
+            }else{
+                console.log('searchAPI.code<0');
+                message.error(res);
+            }
+        },
     }
 };
 

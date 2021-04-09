@@ -22,12 +22,15 @@ const getters={
     layoutType: state=>state.graph.layoutType,
     edgesTypeCntMap: state=>state.graph.edgesTypeCntMap,
     nodesTypeCntMap: state=>state.graph.nodesTypeCntMap,
+    searchNodes: state=>state.graph.searchNodes,
+    searchEdges: state=>state.graph.searchEdges,
 
     colorList: state=>state.util.colorList,
 
     userId: state=>state.user.userId,
     userInfo: state=>state.user.userInfo,
     picsInfo: state=>state.user.picsInfo,//a
+    userHistory: state=>state.user.userHistory,
     addEntityVisible: state=>state.util.addEntityVisible,
     addRelationVisible: state=>state.util.addRelationVisible,
     pieModalVisible: state=>state.util.pieModalVisible,

@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {mapGetters,mapMutations} from 'vuex'
+import {mapActions, mapGetters, mapMutations} from 'vuex'
 import { getToken } from '@/utils/auth'
 import router from '@/router';
 export default {
@@ -61,6 +61,9 @@ export default {
             'set_relationTypeSet',
             'set_showGraphNodes',
             'set_showGraphEdges',
+        ]),
+        ...mapActions([
+
         ]),
         handleBeforeUpload(file, fileList) {
             const size=fileList.length;
