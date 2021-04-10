@@ -20,6 +20,9 @@ const getters={
     typesettingGraphRatio: state=>state.graph.typesettingGraphRatio,
     forceLayout: state=>state.graph.forceLayout,
     layoutType: state=>state.graph.layoutType,
+    isNew: state=>state.graph.isNew,
+    currentGraphData: state=>state.graph.currentGraphData,
+    currentShowGraphData: state=>state.graph.currentShowGraphData,
 
     colorList: state=>state.util.colorList,
 

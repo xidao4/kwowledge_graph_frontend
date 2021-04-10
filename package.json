@@ -12,6 +12,7 @@
   "dependencies": {
     "@antv/g6": "^4.2.5",
     "@antv/vis-predict-engine": "^0.0.7",
+    "@antv/util": "^2.0.13",
     "ant-design-vue": "^1.7.4",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
@@ -23,24 +24,53 @@
     "style-resources-loader": "^1.4.1",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "insert-css": "^2.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.0",
-    "@vue/cli-plugin-e2e-cypress": "~4.5.0",
     "@vue/cli-plugin-eslint": "^4.5.0",
     "@vue/cli-plugin-unit-jest": "^4.5.0",
     "@vue/cli-service": "^4.5.0",
     "@vue/test-utils": "^1.0.3",
     "babel-eslint": "^10.1.0",
-    "chromedriver": "89",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
-    "geckodriver": "^1.20.0",
     "mockjs2": "1.0.8",
     "sass": "1.26.2",
     "sass-loader": "8.0.2",
     "vue-template-compiler": "^2.6.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {
+      "no-": "off",
+      "no-debugger":"off",
+      "no-console": "off",
+      "no-empty":"off",
+      "no-unused-vars":"off"
+    },
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "jest": true
+        }
+      }
+    ]
   },
   "browserslist": [
     "> 1%",

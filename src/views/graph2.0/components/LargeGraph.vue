@@ -5,49 +5,140 @@
 <script>
     import G6 from '@antv/g6';
     import insertCss from 'insert-css';
-    import AntVUtil from '@antv/util';
+    import { isNumber, isArray } from '@antv/util';
+    const data = {
+        nodes: [
+            {
+                id: '0',
+                label: '0',
+            },
+            {
+                id: '1',
+                label: '1',
+            },
+            {
+                id: '2',
+                label: '2',
+            },
+            {
+                id: '3',
+                label: '3',
+            },
+            {
+                id: '4',
+                label: '4',
+            },
+            {
+                id: '5',
+                label: '5',
+            },
+            {
+                id: '6',
+                label: '6',
+            },
+            {
+                id: '7',
+                label: '7',
+            },
+            {
+                id: '8',
+                label: '8',
+            },
+            {
+                id: '9',
+                label: '9',
+            },
+        ],
+        edges: [
+            {
+                source: '0',
+                target: '1',
+            },
+            {
+                source: '0',
+                target: '2',
+            },
+            {
+                source: '0',
+                target: '3',
+            },
+            {
+                source: '0',
+                target: '4',
+            },
+            {
+                source: '0',
+                target: '5',
+            },
+            {
+                source: '0',
+                target: '7',
+            },
+            {
+                source: '0',
+                target: '8',
+            },
+            {
+                source: '0',
+                target: '9',
+            },
+            {
+                source: '2',
+                target: '3',
+            },
+            {
+                source: '4',
+                target: '5',
+            },
+            {
+                source: '4',
+                target: '6',
+            },
+            {
+                source: '5',
+                target: '6',
+            },
+        ],
+    };
 
     export default {
         name: "LargeGraph",
         mounted() {
             insertCss(`
-  .g6-component-contextmenu {
-    position: absolute;
-    z-index: 2;
-    list-style-type: none;
-    background-color: #ffffff;
-    border-radius: 6px;
-    font-size: 14px;
-    color: hsla(0,0%,100%,.85);
-    width: fit-content;
-    transition: opacity .2s;
-    text-align: center;
-    padding: 0px 20px 0px 20px;
-		box-shadow: 0 5px 18px 0 rgba(0, 0, 0, 0.6);
-		border: 0px;
-  }
-  .g6-component-contextmenu ul {
-		padding-left: 0px;
-		margin: 0;
-  }
-  .g6-component-contextmenu li {
-    cursor: pointer;
-    list-style-type: none;
-    list-style: none;
-    margin-left: 0;
-    line-height: 38px;
-  }
-  .g6-component-contextmenu li:hover {
-    color: #aaaaaa;
-	}
-`);
+              .g6-component-contextmenu {
+                position: absolute;
+                z-index: 2;
+                list-style-type: none;
+                background-color: #ffffff;
+                border-radius: 6px;
+                font-size: 14px;
+                color: black;
+                width: fit-content;
+                transition: opacity .2s;
+                text-align: center;
+                padding: 0px 20px 0px 20px;
+                    box-shadow: 0 5px 18px 0 rgba(0, 0, 0, 0.6);
+                    border: 0px;
+              }
+              .g6-component-contextmenu ul {
+                    padding-left: 0px;
+                    margin: 0;
+              }
+              .g6-component-contextmenu li {
+                cursor: pointer;
+                list-style-type: none;
+                list-style: none;
+                margin-left: 0;
+                line-height: 38px;
+              }
+              .g6-component-contextmenu li:hover {
+                color: #D99CA8;
+              }
+            `);
 
             const { labelPropagation, louvain, findShortestPath } = G6.Algorithm;
             console.log(labelPropagation, findShortestPath)
             const { uniqueId } = G6.Util;
-// 实际开发中把 AntVUtil || window.AntVUtil 换成从 @antv/util 引入的模块
-// Replace AntVUtil || window.AntVUtil by the module imported from @antv/util in your project
-            const { isNumber, isArray } = AntVUtil || window.AntVUtil;
 
             const NODESIZEMAPPING = 'degree';
             const SMALLGRAPHLABELMAXLENGTH = 5;
@@ -82,7 +173,7 @@
             const virtualEdgeOpacity = 0.1;
             const realEdgeOpacity = 0.2;
 
-            const darkBackColor = 'rgb(43, 47, 51)';
+            const backColor = '#D99CA8';
             const disableColor = '#777';
             const theme = 'dark';
             const subjectColors = [
@@ -100,7 +191,7 @@
 
             const colorSets = G6.Util.getColorSetsBySubjectColors(
                 subjectColors,
-                darkBackColor,
+                backColor,
                 theme,
                 disableColor,
             );
@@ -125,27 +216,26 @@
                 edge: {
                     style: {
                         stroke: '#acaeaf',
-                        realEdgeStroke: '#acaeaf', //'#f00',
+                        realEdgeStroke: '#D99CA8', //'#f00',
                         realEdgeOpacity,
                         strokeOpacity: realEdgeOpacity,
                     },
                     labelCfg: {
                         style: {
                             fill: '#acaeaf',
-                            realEdgeStroke: '#acaeaf', //'#f00',
+                            realEdgeStroke: '#D99CA8', //'#f00',
                             realEdgeOpacity: 0.5,
                             stroke: '#191b1c',
                         },
                     },
                     stateStyles: {
                         focus: {
-                            stroke: '#fff', // '#3C9AE8',
+                            stroke: '#3C9AE8', // '#3C9AE8',
                         },
                     },
                 },
             };
 
-// Custom super node
             G6.registerNode(
                 'aggregated-node',
                 {
@@ -230,7 +320,7 @@
                                     x: width / 2 - 3,
                                     y: -height / 2 + 3,
                                     r: 4,
-                                    fill: '#6DD400',
+                                    fill: '#E65D6E',
                                     lineWidth: 0.5,
                                     stroke: '#FFFFFF',
                                 },
@@ -275,8 +365,6 @@
                 },
                 'single-node',
             );
-
-// Custom real node
             G6.registerNode(
                 'real-node',
                 {
@@ -310,8 +398,8 @@
                                 x: 0,
                                 y: 0,
                                 r: r + 5,
-                                fill: style.fill || colorSet.mainFill || '#2B384E',
-                                stroke: '#fff',
+                                // fill: style.fill || colorSet.mainFill || '#2B384E',
+                                // stroke: '#fff',
                                 strokeOpacity: 0.85,
                                 lineWidth: 1,
                             },
@@ -354,7 +442,7 @@
                                     textBaseLine: 'alphabetic',
                                     cursor: 'pointer',
                                     fontSize,
-                                    fill: '#fff',
+                                    // fill: '#fff',
                                     opacity: 0.85,
                                     fontWeight: 400,
                                     stroke: global.edge.labelCfg.style.stroke,
@@ -371,7 +459,7 @@
                                     x: r - 3,
                                     y: -r + 3,
                                     r: 4,
-                                    fill: '#6DD400',
+                                    fill: '#E65D6E',
                                     lineWidth: 0.5,
                                     stroke: '#FFFFFF',
                                 },
@@ -421,7 +509,7 @@
                 'aggregated-node',
             ); // 这样可以继承 aggregated-node 的 setState
 
-// Custom the quadratic edge for multiple edges between one node pair
+            // Custom the quadratic edge for multiple edges between one node pair
             G6.registerEdge(
                 'custom-quadratic',
                 {
@@ -444,11 +532,11 @@
                                 keyShape.attr({
                                     strokeOpacity: animateOpacity,
                                     opacity: animateOpacity,
-                                    stroke: '#fff',
+                                    stroke: '#000',
                                     endArrow: {
                                         ...arrow,
-                                        stroke: '#fff',
-                                        fill: '#fff',
+                                        stroke: '#000',
+                                        fill: '#000',
                                     },
                                 });
                                 if (model.isReal) {
@@ -523,8 +611,6 @@
                 },
                 'quadratic',
             );
-
-// Custom the line edge for single edge between one node pair
             G6.registerEdge(
                 'custom-line',
                 {
@@ -547,11 +633,11 @@
                                 keyShape.attr({
                                     strokeOpacity: animateOpacity,
                                     opacity: animateOpacity,
-                                    stroke: '#fff',
+                                    stroke: '#000',
                                     endArrow: {
                                         ...arrow,
-                                        stroke: '#fff',
-                                        fill: '#fff',
+                                        stroke: '#000',
+                                        fill: '#000',
                                     },
                                 });
                                 if (model.isReal) {
@@ -607,7 +693,7 @@
                                 }
                             } else {
                                 keyShape.stopAnimate();
-                                const stroke = '#acaeaf';
+                                const stroke = '#fff000';
                                 const opacity = model.isReal ? realEdgeOpacity : virtualEdgeOpacity;
                                 keyShape.attr({
                                     stroke,
@@ -641,7 +727,7 @@
                 clearFocusEdgeState(graph);
             };
 
-// 清除图上所有节点的 focus 状态及相应样式
+            // 清除图上所有节点的 focus 状态及相应样式
             const clearFocusNodeState = (graph) => {
                 const focusNodes = graph.findAllByState('node', 'focus');
                 focusNodes.forEach((fnode) => {
@@ -649,7 +735,7 @@
                 });
             };
 
-// 清除图上所有边的 focus 状态及相应样式
+            // 清除图上所有边的 focus 状态及相应样式
             const clearFocusEdgeState = (graph) => {
                 const focusEdges = graph.findAllByState('edge', 'focus');
                 focusEdges.forEach((fedge) => {
@@ -657,7 +743,7 @@
                 });
             };
 
-// 截断长文本。length 为文本截断后长度，elipsis 是后缀
+            // 截断长文本。length 为文本截断后长度，elipsis 是后缀
             const formatText = (text, length = 5, elipsis = '...') => {
                 if (!text) return '';
                 if (text.length > length) {
@@ -1424,286 +1510,272 @@
                 });
             };
 
-            fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
-                .then((res) => res.json())
-                .then((data) => {
-                    const container = document.getElementById('container');
-                    const descriptionDiv = document.createElement('div');
-                    descriptionDiv.innerHTML = `<a href='/en/largegraph' target='_blanck'>Click【HERE】To Full Demo</a>
-      <br/>
-      <a href='/zh/largegraph' target='_blanck'>点击【这里】进入完整 Demo</a>`;
-                    descriptionDiv.style.textAlign = 'right';
-                    descriptionDiv.style.color = '#fff';
-                    descriptionDiv.style.position = 'absolute';
-                    descriptionDiv.style.right = '32px';
-                    descriptionDiv.style.marginTop = '8px';
-                    container.appendChild(descriptionDiv);
+            const container = document.getElementById('container');
 
-                    container.style.backgroundColor = '#2b2f33';
+            // container.style.backgroundColor = '#2b2f33';
 
-                    CANVAS_WIDTH = container.scrollWidth;
-                    CANVAS_HEIGHT = (container.scrollHeight || 500) - 30;
+            CANVAS_WIDTH = container.scrollWidth;
+            CANVAS_HEIGHT = window.screen.height * 0.8;
 
-                    nodeMap = {};
-                    const clusteredData = louvain(data, false, 'weight');
-                    const aggregatedData = { nodes: [], edges: [] };
-                    clusteredData.clusters.forEach((cluster, i) => {
-                        cluster.nodes.forEach((node) => {
-                            node.level = 0;
-                            node.label = node.id;
-                            node.type = '';
-                            node.colorSet = colorSets[i];
-                            nodeMap[node.id] = node;
-                        });
-                        const cnode = {
-                            id: cluster.id,
-                            type: 'aggregated-node',
-                            count: cluster.nodes.length,
-                            level: 1,
-                            label: cluster.id,
-                            colorSet: colorSets[i],
-                            idx: i,
-                        };
-                        aggregatedNodeMap[cluster.id] = cnode;
-                        aggregatedData.nodes.push(cnode);
-                    });
-                    clusteredData.clusterEdges.forEach((clusterEdge) => {
-                        const cedge = {
-                            ...clusterEdge,
-                            size: Math.log(clusterEdge.count),
-                            label: '',
-                            id: `edge-${uniqueId()}`,
-                        };
-                        if (cedge.source === cedge.target) {
-                            cedge.type = 'loop';
-                            cedge.loopCfg = {
-                                dist: 20,
-                            };
-                        } else cedge.type = 'line';
-                        aggregatedData.edges.push(cedge);
-                    });
-
-                    data.edges.forEach((edge) => {
-                        edge.label = `${edge.source}-${edge.target}`;
-                        edge.id = `edge-${uniqueId()}`;
-                    });
-
-                    currentUnproccessedData = aggregatedData;
-
-                    const { edges: processedEdges } = processNodesEdges(
-                        currentUnproccessedData.nodes,
-                        currentUnproccessedData.edges,
-                        CANVAS_WIDTH,
-                        CANVAS_HEIGHT,
-                        largeGraphMode,
-                        true,
-                        true,
-                    );
-
-                    const contextMenu = new G6.Menu({
-                        shouldBegin(evt) {
-                            if (evt.target && evt.target.isCanvas && evt.target.isCanvas()) return true;
-                            if (evt.item) return true;
-                            return false;
-                        },
-                        getContent(evt) {
-                            const { item } = evt;
-                            if (evt.target && evt.target.isCanvas && evt.target.isCanvas()) {
-                                return `<ul>
-          <li id='show'>Show all Hidden Items</li>
-          <li id='collapseAll'>Collapse all Clusters</li>
-        </ul>`;
-                            } else if (!item) return;
-                            const itemType = item.getType();
-                            const model = item.getModel();
-                            if (itemType && model) {
-                                if (itemType === 'node') {
-                                    if (model.level !== 0) {
-                                        return `<ul>
-              <li id='expand'>Expand the Cluster</li>
-              <li id='hide'>Hide the Node</li>
-            </ul>`;
-                                    } else {
-                                        return `<ul>
-              <li id='collapse'>Collapse the Cluster</li>
-              <li id='neighbor-1'>Find 1-degree Neighbors</li>
-              <li id='neighbor-2'>Find 2-degree Neighbors</li>
-              <li id='neighbor-3'>Find 3-degree Neighbors</li>
-              <li id='hide'>Hide the Node</li>
-            </ul>`;
-                                    }
-                                } else {
-                                    return `<ul>
-            <li id='hide'>Hide the Edge</li>
-          </ul>`;
-                                }
-                            }
-                        },
-                        handleMenuClick: (target, item) => {
-                            const model = item && item.getModel();
-                            const liIdStrs = target.id.split('-');
-                            let mixedGraphData;
-                            switch (liIdStrs[0]) {
-                                case 'hide': {
-                                    graph.hideItem(item);
-                                    hiddenItemIds.push(model.id);
-                                    break;
-                                }
-                                case 'expand': {
-                                    const newArray = manageExpandCollapseArray(
-                                        graph.getNodes().length,
-                                        model,
-                                        collapseArray,
-                                        expandArray,
-                                    );
-                                    expandArray = newArray.expandArray;
-                                    collapseArray = newArray.collapseArray;
-                                    mixedGraphData = getMixedGraph(
-                                        clusteredData,
-                                        data,
-                                        nodeMap,
-                                        aggregatedNodeMap,
-                                        expandArray,
-                                        collapseArray,
-                                    );
-                                    break;
-                                }
-                                case 'collapse': {
-                                    const aggregatedNode = aggregatedNodeMap[model.clusterId];
-                                    manipulatePosition = { x: aggregatedNode.x, y: aggregatedNode.y };
-                                    collapseArray.push(aggregatedNode);
-                                    for (let i = 0; i < expandArray.length; i++) {
-                                        if (expandArray[i].id === model.clusterId) {
-                                            expandArray.splice(i, 1);
-                                            break;
-                                        }
-                                    }
-                                    mixedGraphData = getMixedGraph(
-                                        clusteredData,
-                                        data,
-                                        nodeMap,
-                                        aggregatedNodeMap,
-                                        expandArray,
-                                        collapseArray,
-                                    );
-                                    break;
-                                }
-                                case 'collapseAll': {
-                                    expandArray = [];
-                                    collapseArray = [];
-                                    mixedGraphData = getMixedGraph(
-                                        clusteredData,
-                                        data,
-                                        nodeMap,
-                                        aggregatedNodeMap,
-                                        expandArray,
-                                        collapseArray,
-                                    );
-                                    break;
-                                }
-                                case 'neighbor': {
-                                    const expandNeighborSteps = parseInt(liIdStrs[1]);
-                                    mixedGraphData = getNeighborMixedGraph(
-                                        model,
-                                        expandNeighborSteps,
-                                        data,
-                                        clusteredData,
-                                        currentUnproccessedData,
-                                        nodeMap,
-                                        aggregatedNodeMap,
-                                        10,
-                                    );
-                                    break;
-                                }
-                                case 'show': {
-                                    showItems(graph);
-                                    break;
-                                }
-                                default: {
-                                    break;
-                                }
-                            }
-                            if (mixedGraphData) {
-                                cachePositions = cacheNodePositions(graph.getNodes());
-                                currentUnproccessedData = mixedGraphData;
-                                handleRefreshGraph(
-                                    graph,
-                                    currentUnproccessedData,
-                                    CANVAS_WIDTH,
-                                    CANVAS_HEIGHT,
-                                    largeGraphMode,
-                                    true,
-                                    false,
-                                );
-                            }
-                        },
-                        // offsetX and offsetY include the padding of the parent container
-                        // 需要加上父级容器的 padding-left 16 与自身偏移量 10
-                        offsetX: 16 + 10,
-                        // 需要加上父级容器的 padding-top 24 、画布兄弟元素高度、与自身偏移量 10
-                        offsetY: 0,
-                        // the types of items that allow the menu show up
-                        // 在哪些类型的元素上响应
-                        itemTypes: ['node', 'edge', 'canvas'],
-                    });
-
-                    graph = new G6.Graph({
-                        container: 'container',
-                        width: CANVAS_WIDTH,
-                        height: CANVAS_HEIGHT,
-                        linkCenter: true,
-                        minZoom: 0.1,
-                        groupByTypes: false,
-                        modes: {
-                            default: [
-                                {
-                                    type: 'drag-canvas',
-                                    enableOptimize: true,
-                                },
-                                {
-                                    type: 'zoom-canvas',
-                                    enableOptimize: true,
-                                    optimizeZoom: 0.01,
-                                },
-                                'drag-node',
-                                'shortcuts-call',
-                            ],
-                            lassoSelect: [
-                                {
-                                    type: 'zoom-canvas',
-                                    enableOptimize: true,
-                                    optimizeZoom: 0.01,
-                                },
-                                {
-                                    type: 'lasso-select',
-                                    selectedState: 'focus',
-                                    trigger: 'drag',
-                                },
-                            ],
-                            fisheyeMode: [],
-                        },
-                        defaultNode: {
-                            type: 'aggregated-node',
-                            size: DEFAULTNODESIZE,
-                        },
-                        plugins: [contextMenu],
-                    });
-
-                    graph.get('canvas').set('localRefresh', false);
-
-                    const layoutConfig = getForceLayoutConfig(graph, largeGraphMode);
-                    layoutConfig.center = [CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2];
-                    layout.instance = new G6.Layout['gForce'](layoutConfig);
-                    layout.instance.init({
-                        nodes: currentUnproccessedData.nodes,
-                        edges: processedEdges,
-                    });
-                    layout.instance.execute();
-
-                    bindListener(graph);
-                    graph.data({ nodes: aggregatedData.nodes, edges: processedEdges });
-                    graph.render();
+            nodeMap = {};
+            const clusteredData = louvain(data, false, 'weight');
+            const aggregatedData = { nodes: [], edges: [] };
+            clusteredData.clusters.forEach((cluster, i) => {
+                cluster.nodes.forEach((node) => {
+                    node.level = 0;
+                    node.label = node.id;
+                    node.type = '';
+                    node.colorSet = colorSets[i];
+                    nodeMap[node.id] = node;
                 });
+                const cnode = {
+                    id: cluster.id,
+                    type: 'aggregated-node',
+                    count: cluster.nodes.length,
+                    level: 1,
+                    label: cluster.id,
+                    colorSet: colorSets[i],
+                    idx: i,
+                };
+                aggregatedNodeMap[cluster.id] = cnode;
+                aggregatedData.nodes.push(cnode);
+            });
+            clusteredData.clusterEdges.forEach((clusterEdge) => {
+                const cedge = {
+                    ...clusterEdge,
+                    size: Math.log(clusterEdge.count),
+                    label: '',
+                    id: `edge-${uniqueId()}`,
+                };
+                if (cedge.source === cedge.target) {
+                    cedge.type = 'loop';
+                    cedge.loopCfg = {
+                        dist: 20,
+                    };
+                } else cedge.type = 'line';
+                aggregatedData.edges.push(cedge);
+            });
+
+            data.edges.forEach((edge) => {
+                edge.label = `${edge.source}-${edge.target}`;
+                edge.id = `edge-${uniqueId()}`;
+            });
+
+            currentUnproccessedData = aggregatedData;
+
+            const { edges: processedEdges } = processNodesEdges(
+                currentUnproccessedData.nodes,
+                currentUnproccessedData.edges,
+                CANVAS_WIDTH,
+                CANVAS_HEIGHT,
+                largeGraphMode,
+                true,
+                true,
+            );
+
+            const contextMenu = new G6.Menu({
+                shouldBegin(evt) {
+                    if (evt.target && evt.target.isCanvas && evt.target.isCanvas()) return true;
+                    if (evt.item) return true;
+                    return false;
+                },
+                getContent(evt) {
+                    const { item } = evt;
+                    if (evt.target && evt.target.isCanvas && evt.target.isCanvas()) {
+                        return `<ul>
+                                          <li id='show'>显示所有隐藏元素</li>
+                                          <li id='collapseAll'>聚合所有聚类</li>
+                                        </ul>`;
+                    } else if (!item) return;
+                    const itemType = item.getType();
+                    const model = item.getModel();
+                    if (itemType && model) {
+                        if (itemType === 'node') {
+                            if (model.level !== 0) {
+                                return `<ul>
+                                                  <li id='expand'>展开该聚合点</li>
+                                                  <li id='hide'>隐藏节点</li>
+                                                </ul>`;
+                            } else {
+                                return `<ul>
+                                                  <li id='collapse'>聚合所属聚类</li>
+<!--                                                  <li id='neighbor-1'>拓展一度关系</li>-->
+<!--                                                  <li id='neighbor-2'>拓展二度关系</li>-->
+<!--                                                  <li id='neighbor-3'>拓展三度关系</li>-->
+                                                  <li id='hide'>隐藏节点</li>
+                                                </ul>`;
+                            }
+                        } else {
+                            return `<ul>
+                                                <li id='hide'>隐藏该边</li>
+                                              </ul>`;
+                        }
+                    }
+                },
+                handleMenuClick: (target, item) => {
+                    const model = item && item.getModel();
+                    const liIdStrs = target.id.split('-');
+                    let mixedGraphData;
+                    switch (liIdStrs[0]) {
+                        case 'hide': {
+                            graph.hideItem(item);
+                            hiddenItemIds.push(model.id);
+                            break;
+                        }
+                        case 'expand': {
+                            const newArray = manageExpandCollapseArray(
+                                graph.getNodes().length,
+                                model,
+                                collapseArray,
+                                expandArray,
+                            );
+                            expandArray = newArray.expandArray;
+                            collapseArray = newArray.collapseArray;
+                            mixedGraphData = getMixedGraph(
+                                clusteredData,
+                                data,
+                                nodeMap,
+                                aggregatedNodeMap,
+                                expandArray,
+                                collapseArray,
+                            );
+                            break;
+                        }
+                        case 'collapse': {
+                            const aggregatedNode = aggregatedNodeMap[model.clusterId];
+                            manipulatePosition = { x: aggregatedNode.x, y: aggregatedNode.y };
+                            collapseArray.push(aggregatedNode);
+                            for (let i = 0; i < expandArray.length; i++) {
+                                if (expandArray[i].id === model.clusterId) {
+                                    expandArray.splice(i, 1);
+                                    break;
+                                }
+                            }
+                            mixedGraphData = getMixedGraph(
+                                clusteredData,
+                                data,
+                                nodeMap,
+                                aggregatedNodeMap,
+                                expandArray,
+                                collapseArray,
+                            );
+                            break;
+                        }
+                        case 'collapseAll': {
+                            expandArray = [];
+                            collapseArray = [];
+                            mixedGraphData = getMixedGraph(
+                                clusteredData,
+                                data,
+                                nodeMap,
+                                aggregatedNodeMap,
+                                expandArray,
+                                collapseArray,
+                            );
+                            break;
+                        }
+                        case 'neighbor': {
+                            const expandNeighborSteps = parseInt(liIdStrs[1]);
+                            mixedGraphData = getNeighborMixedGraph(
+                                model,
+                                expandNeighborSteps,
+                                data,
+                                clusteredData,
+                                currentUnproccessedData,
+                                nodeMap,
+                                aggregatedNodeMap,
+                                10,
+                            );
+                            break;
+                        }
+                        case 'show': {
+                            showItems(graph);
+                            break;
+                        }
+                        default: {
+                            break;
+                        }
+                    }
+                    if (mixedGraphData) {
+                        cachePositions = cacheNodePositions(graph.getNodes());
+                        currentUnproccessedData = mixedGraphData;
+                        handleRefreshGraph(
+                            graph,
+                            currentUnproccessedData,
+                            CANVAS_WIDTH,
+                            CANVAS_HEIGHT,
+                            largeGraphMode,
+                            true,
+                            false,
+                        );
+                    }
+                },
+                // offsetX and offsetY include the padding of the parent container
+                // 需要加上父级容器的 padding-left 16 与自身偏移量 10
+                offsetX: 16 + 10,
+                // 需要加上父级容器的 padding-top 24 、画布兄弟元素高度、与自身偏移量 10
+                offsetY: 0,
+                // the types of items that allow the menu show up
+                // 在哪些类型的元素上响应
+                itemTypes: ['node', 'edge', 'canvas'],
+            });
+
+            graph = new G6.Graph({
+                container: 'container',
+                width: CANVAS_WIDTH,
+                height: CANVAS_HEIGHT,
+                linkCenter: true,
+                minZoom: 0.1,
+                groupByTypes: false,
+                modes: {
+                    default: [
+                        {
+                            type: 'drag-canvas',
+                            enableOptimize: true,
+                        },
+                        // {
+                        //     type: 'zoom-canvas',
+                        //     enableOptimize: true,
+                        //     optimizeZoom: 0.01,
+                        // },
+                        'drag-node',
+                        'shortcuts-call',
+                    ],
+                    lassoSelect: [
+                        {
+                            type: 'zoom-canvas',
+                            enableOptimize: true,
+                            optimizeZoom: 0.01,
+                        },
+                        {
+                            type: 'lasso-select',
+                            selectedState: 'focus',
+                            trigger: 'drag',
+                        },
+                    ],
+                    fisheyeMode: [],
+                },
+                defaultNode: {
+                    type: 'aggregated-node',
+                    size: DEFAULTNODESIZE,
+                },
+                plugins: [contextMenu],
+            });
+
+            graph.get('canvas').set('localRefresh', false);
+
+            const layoutConfig = getForceLayoutConfig(graph, largeGraphMode);
+            layoutConfig.center = [CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2];
+            layout.instance = new G6.Layout['gForce'](layoutConfig);
+            layout.instance.init({
+                nodes: currentUnproccessedData.nodes,
+                edges: processedEdges,
+            });
+            layout.instance.execute();
+
+            bindListener(graph);
+            graph.data({ nodes: aggregatedData.nodes, edges: processedEdges });
+            graph.render();
 
             if (typeof window !== 'undefined')
                 window.onresize = () => {

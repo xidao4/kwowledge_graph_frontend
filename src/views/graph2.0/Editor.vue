@@ -18,6 +18,9 @@
                 <div class="block" style="overflow: hidden;">
                     <TypesettingGraph v-show="currentGraphId === graphIds.typesetting"></TypesettingGraph>
                     <ForceGraph v-if="currentGraphId === graphIds.force"></ForceGraph>
+<!--                    <TypesettingGraph v-show="false"></TypesettingGraph>-->
+<!--                    <ForceGraph v-if="false"></ForceGraph>-->
+                    <LargeGraph v-if="false"></LargeGraph>
                 </div>
             </a-col>
             <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">
@@ -39,7 +42,7 @@
 
 <script>
     import Header from "./components/Header";
-    import {mapGetters,mapMutations} from 'vuex';
+    import { mapGetters, mapMutations, mapActions } from 'vuex';
     import TypesettingGraph from "./components/TypesettingGraph";
     import ForceGraph from './components/ForceGraph';
     import LayoutBlock from "./components/LayoutBlock";
@@ -48,6 +51,7 @@
     import ToolBar from "./components/ToolBar.vue"
     import EntityList from "@/views/graph/components/EntityList"
     import RelationList from "@/views/graph/components/RelationList"
+    import LargeGraph from "./components/LargeGraph";
     export default {
         name: "Editor",
         data(){
@@ -57,6 +61,7 @@
             }
         },
         components: {
+            LargeGraph,
             ACol,
             ARow,
             LayoutBlock,
@@ -72,11 +77,18 @@
                 'currentGraphId',
                 'graphIds',
                 'addEntityVisible',
-                'addRelationVisible'
+                'addRelationVisible',
+                'isNew',
             ]),
         },
         methods:{
-            ...mapMutations(["set_addRelationVisible","set_addEntityVisible"]),
+            ...mapMutations([
+                "set_addRelationVisible",
+                "set_addEntityVisible"
+            ]),
+            ...mapActions([
+                'getPicElements'
+            ]),
             handleCloseEntityModal(){
                 this.set_addEntityVisible(false)
             },
@@ -84,7 +96,10 @@
                 this.set_addRelationVisible(false)
             }
         },
-        mounted() {
+        async mounted() {
+            if(!this.isNew){
+                await this.getPicElements();
+            }
             if(window.innerWidth < 992){
                 this.showModal = true;
             } else {

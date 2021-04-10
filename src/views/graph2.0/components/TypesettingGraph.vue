@@ -114,7 +114,10 @@
         },
         computed: {
             ...mapGetters([
-                'typesettingGraph'
+                'typesettingGraph',
+                'currentGraphData',
+                'currentShowGraphData',
+                'isNew',
             ])
         },
         methods: {
@@ -203,13 +206,38 @@
             }
         },
         async mounted() {
-            const { predictLayout, confidence } = await GraphLayoutPredict.predict(testData);
-            this.predictLayout = predictLayout;
-            this.confidence = confidence;
-            this.draw(testData, predictLayout);
-            this.set_currentSetLayout(predictLayout);
-            message.success('预测布局: ' + predictLayout + ' 可信度: ' + confidence)
-            this.set_currentGraph(this.typesettingGraph)
+            if(this.isNew){
+                const { predictLayout, confidence } = await GraphLayoutPredict.predict(this.currentGraphData);
+                this.predictLayout = predictLayout;
+                this.confidence = confidence;
+                this.draw(testData, predictLayout);
+                this.set_currentSetLayout(predictLayout);
+                message.success('预测布局: ' + predictLayout + ' 可信度: ' + confidence)
+                this.set_currentGraph(this.typesettingGraph)
+            } else {
+                let graph = new G6.Graph();
+                graph.data(this.currentShowGraphData);
+                if (typeof window !== 'undefined'){
+                    let that = this;
+                    window.onresize = () => {
+                        if (!graph || graph.get('destroyed')) return;
+                        if (!container || !container.scrollWidth || !container.scrollHeight) return;
+                        graph.fitCenter()
+                        if(window.innerWidth < 650) {
+                            graph.zoomTo(0.5);
+                            that.set_typesettingGraphRatio(0.5);
+                        } else if(window.innerWidth < 800){
+                            graph.zoomTo(0.75);
+                            that.set_typesettingGraphRatio(0.75);
+                        } else {
+                            graph.zoomTo(1);
+                            that.set_typesettingGraphRatio(1);
+                        }
+                        graph.changeSize(container.scrollWidth, window.screen.height * 0.8);
+                    };
+                }
+                this.set_typesettingGraph(graph);
+            }
         },
     }
 </script>

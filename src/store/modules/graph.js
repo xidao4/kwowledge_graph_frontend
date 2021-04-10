@@ -125,6 +125,7 @@ const state = {
     ],
     currentShowGraphData: {},
     currentGraphData: {},
+    isNew: false,
 };
 
 const graph = {
@@ -260,6 +261,9 @@ const graph = {
             state.typesettingGraph = null;
             state.currentGraphData = {};
             state.currentShowGraphData = {};
+        },
+        set_isNew(state, date) {
+            state.isNew = true;
         }
     },
     actions: {
@@ -397,6 +401,30 @@ const graph = {
                         edges: resData.sedges
                     }
                 });
+                let baseNodes = [];
+                let baseEdges = [];
+                // TODO 现在是假设f和s的基本数据一致，后期防御式编程？
+                resData.fedges.forEach((edge) => {
+                    baseEdges.push({
+                        id: edge.id,
+                        label: edge.label,
+                        type: edge.type,
+                        source: edge.source,
+                        target: edge.target
+                    })
+                });
+                resData.fnodes.forEach((node) => {
+                    baseNodes.push({
+                        id: node.id,
+                        label: node.label,
+                        type: node.type
+                    })
+                });
+                commit('set_currentGraphData', {
+                    nodes: baseNodes,
+                    edges: baseEdges
+                })
+                console.log()
             }
         },
     }
