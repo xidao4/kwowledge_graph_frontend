@@ -14,11 +14,11 @@
             <a-row class="row" id="graphRow">
                 <a-col :md="24" :lg="17" :xl="17" xxl="20">
                     <div class="block" style="overflow: hidden;">
-                        <TypesettingGraph v-if="currentGraphId === graphIds.typesetting" @finished="stopSpinning"></TypesettingGraph>
-                        <ForceGraph v-if="currentGraphId === graphIds.force" @finished="stopSpinning"></ForceGraph>
-                        <!--                    <TypesettingGraph v-show="false"></TypesettingGraph>-->
-                        <!--                    <ForceGraph v-if="false"></ForceGraph>-->
-                        <LargeGraph v-if="false"></LargeGraph>
+<!--                        <TypesettingGraph v-if="currentGraphId === graphIds.typesetting" @finished="stopSpinning"></TypesettingGraph>-->
+<!--                        <ForceGraph v-if="currentGraphId === graphIds.force" @finished="stopSpinning"></ForceGraph>-->
+                                            <TypesettingGraph v-show="false"></TypesettingGraph>
+                                            <ForceGraph v-if="false"></ForceGraph>
+                        <LargeGraph v-if="true" @finished="stopSpinning"></LargeGraph>
                     </div>
                 </a-col>
                 <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">

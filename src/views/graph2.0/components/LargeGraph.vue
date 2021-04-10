@@ -109,10 +109,10 @@
                 position: absolute;
                 z-index: 2;
                 list-style-type: none;
-                background-color: #ffffff;
+                background-color: #363b40;
                 border-radius: 6px;
                 font-size: 14px;
-                color: black;
+                color: hsla(0,0%,100%,.85);
                 width: fit-content;
                 transition: opacity .2s;
                 text-align: center;
@@ -132,12 +132,11 @@
                 line-height: 38px;
               }
               .g6-component-contextmenu li:hover {
-                color: #D99CA8;
-              }
+                color: #aaaaaa;
+                }
             `);
 
             const { labelPropagation, louvain, findShortestPath } = G6.Algorithm;
-            console.log(labelPropagation, findShortestPath)
             const { uniqueId } = G6.Util;
 
             const NODESIZEMAPPING = 'degree';
@@ -145,7 +144,7 @@
             let labelMaxLength = SMALLGRAPHLABELMAXLENGTH;
             const DEFAULTNODESIZE = 20;
             const DEFAULTAGGREGATEDNODESIZE = 53;
-            const NODE_LIMIT = 40; // TODO: find a proper number for maximum node number on the canvas
+            const NODE_LIMIT = 80; // TODO: find a proper number for maximum node number on the canvas
 
             let graph = null;
             let currentUnproccessedData = { nodes: [], edges: [] };
@@ -173,7 +172,7 @@
             const virtualEdgeOpacity = 0.1;
             const realEdgeOpacity = 0.2;
 
-            const backColor = '#D99CA8';
+            const darkBackColor = '#D99CA8';
             const disableColor = '#777';
             const theme = 'dark';
             const subjectColors = [
@@ -191,7 +190,7 @@
 
             const colorSets = G6.Util.getColorSetsBySubjectColors(
                 subjectColors,
-                backColor,
+                darkBackColor,
                 theme,
                 disableColor,
             );
@@ -199,11 +198,11 @@
             const global = {
                 node: {
                     style: {
-                        fill: '#2B384E',
+                        fill: '#E65D6E',
                     },
                     labelCfg: {
                         style: {
-                            fill: '#acaeaf',
+                            fill: '#E65D6E',
                             stroke: '#191b1c',
                         },
                     },
@@ -215,27 +214,28 @@
                 },
                 edge: {
                     style: {
-                        stroke: '#acaeaf',
-                        realEdgeStroke: '#D99CA8', //'#f00',
+                        stroke: '#000',
+                        realEdgeStroke: '#ff0000', //'#f00',
                         realEdgeOpacity,
                         strokeOpacity: realEdgeOpacity,
                     },
                     labelCfg: {
                         style: {
-                            fill: '#acaeaf',
-                            realEdgeStroke: '#D99CA8', //'#f00',
+                            fill: '#000',
+                            realEdgeStroke: '#acaeaf', //'#f00',
                             realEdgeOpacity: 0.5,
-                            stroke: '#191b1c',
+                            stroke: '#fff',
                         },
                     },
                     stateStyles: {
                         focus: {
-                            stroke: '#3C9AE8', // '#3C9AE8',
+                            stroke: '#fff', // '#3C9AE8',
                         },
                     },
                 },
             };
 
+            // Custom super node
             G6.registerNode(
                 'aggregated-node',
                 {
@@ -295,6 +295,10 @@
                             name: 'aggregated-node-keyShape',
                         });
 
+                        let labelStyle = {};
+                        if (cfg.labelCfg) {
+                            labelStyle = Object.assign(labelStyle, cfg.labelCfg.style);
+                        }
                         group.addShape('text', {
                             attrs: {
                                 text: `${cfg.count}`,
@@ -320,7 +324,7 @@
                                     x: width / 2 - 3,
                                     y: -height / 2 + 3,
                                     r: 4,
-                                    fill: '#E65D6E',
+                                    fill: '#e24a5d',
                                     lineWidth: 0.5,
                                     stroke: '#FFFFFF',
                                 },
@@ -365,6 +369,8 @@
                 },
                 'single-node',
             );
+
+            // Custom real node
             G6.registerNode(
                 'real-node',
                 {
@@ -398,8 +404,8 @@
                                 x: 0,
                                 y: 0,
                                 r: r + 5,
-                                // fill: style.fill || colorSet.mainFill || '#2B384E',
-                                // stroke: '#fff',
+                                fill: style.fill || colorSet.mainFill || '#2B384E',
+                                stroke: '#fff',
                                 strokeOpacity: 0.85,
                                 lineWidth: 1,
                             },
@@ -420,6 +426,11 @@
                             },
                             name: 'aggregated-node-keyShape',
                         });
+
+                        let labelStyle = {};
+                        if (cfg.labelCfg) {
+                            labelStyle = Object.assign(labelStyle, cfg.labelCfg.style);
+                        }
 
                         if (cfg.label) {
                             const text = cfg.label;
@@ -442,7 +453,7 @@
                                     textBaseLine: 'alphabetic',
                                     cursor: 'pointer',
                                     fontSize,
-                                    // fill: '#fff',
+                                    fill: '#000',
                                     opacity: 0.85,
                                     fontWeight: 400,
                                     stroke: global.edge.labelCfg.style.stroke,
@@ -459,7 +470,7 @@
                                     x: r - 3,
                                     y: -r + 3,
                                     r: 4,
-                                    fill: '#E65D6E',
+                                    fill: '#e24a5d',
                                     lineWidth: 0.5,
                                     stroke: '#FFFFFF',
                                 },
@@ -611,6 +622,8 @@
                 },
                 'quadratic',
             );
+
+            // Custom the line edge for single edge between one node pair
             G6.registerEdge(
                 'custom-line',
                 {
@@ -693,7 +706,7 @@
                                 }
                             } else {
                                 keyShape.stopAnimate();
-                                const stroke = '#fff000';
+                                const stroke = '#E65D6E';
                                 const opacity = model.isReal ? realEdgeOpacity : virtualEdgeOpacity;
                                 keyShape.attr({
                                     stroke,
@@ -834,7 +847,7 @@
                 const maxDegree = nodes[0].degree || 1;
 
                 const descreteNodes = [];
-                nodes.forEach((node) => {
+                nodes.forEach((node, i) => {
                     // assign the size mapping to the outDegree
                     const countRatio = node.count / maxNodeCount;
                     const isRealNode = node.level === 0;
@@ -871,8 +884,8 @@
                     const arrowLength = 10;
                     const arrowBeging = targetNode.size + arrowLength;
                     let arrowPath = `M ${arrowBeging},0 L ${arrowBeging + arrowLength},-${arrowWidth} L ${
-                    arrowBeging + arrowLength
-                        },${arrowWidth} Z`;
+                        arrowBeging + arrowLength
+                    },${arrowWidth} Z`;
                     let d = targetNode.size / 2 + arrowLength;
                     if (edge.source === edge.target) {
                         edge.type = 'loop';
@@ -1150,7 +1163,7 @@
                     collapseMap[collapseModel.id] = true;
                 });
 
-                aggregatedData.clusters.forEach((cluster) => {
+                aggregatedData.clusters.forEach((cluster, i) => {
                     if (expandMap[cluster.id]) {
                         nodes = nodes.concat(cluster.nodes);
                         aggregatedNodeMap[cluster.id].expanded = true;
@@ -1262,52 +1275,6 @@
                 return { nodes, edges };
             };
 
-            // const getExtractNodeMixedGraph = (
-            //     extractNodeData,
-            //     originData,
-            //     nodeMap,
-            //     aggregatedNodeMap,
-            //     currentUnproccessedData,
-            // ) => {
-            //     const extractNodeId = extractNodeData.id;
-            //     // const extractNodeClusterId = extractNodeData.clusterId;
-            //     // push to the current rendering data
-            //     currentUnproccessedData.nodes.push(extractNodeData);
-            //     // update the count of aggregatedNodeMap, when to revert?
-            //     // aggregatedNodeMap[extractNodeClusterId].count --;
-            //
-            //     // extract the related edges
-            //     originData.edges.forEach((edge) => {
-            //         if (edge.source === extractNodeId) {
-            //             const targetClusterId = nodeMap[edge.target].clusterId;
-            //             if (!aggregatedNodeMap[targetClusterId].expanded) {
-            //                 // did not expand, create an virtual edge fromt he extract node to the cluster
-            //                 currentUnproccessedData.edges.push({
-            //                     id: uniqueId(),
-            //                     source: extractNodeId,
-            //                     target: targetClusterId,
-            //                 });
-            //             } else {
-            //                 // if the cluster is already expanded, push the origin edge
-            //                 currentUnproccessedData.edges.push(edge);
-            //             }
-            //         } else if (edge.target === extractNodeId) {
-            //             const sourceClusterId = nodeMap[edge.source].clusterId;
-            //             if (!aggregatedNodeMap[sourceClusterId].expanded) {
-            //                 // did not expand, create an virtual edge fromt he extract node to the cluster
-            //                 currentUnproccessedData.edges.push({
-            //                     id: uniqueId(),
-            //                     target: extractNodeId,
-            //                     source: sourceClusterId,
-            //                 });
-            //             } else {
-            //                 // if the cluster is already expanded, push the origin edge
-            //                 currentUnproccessedData.edges.push(edge);
-            //             }
-            //         }
-            //     });
-            //     return currentUnproccessedData;
-            // };
 
             const examAncestors = (model, expandedArray, length, keepTags) => {
                 for (let i = 0; i < length; i++) {
@@ -1504,278 +1471,273 @@
                 });
 
                 // click canvas to cancel all the focus state
-                graph.on('canvas:click', () => {
+                graph.on('canvas:click', (evt) => {
                     clearFocusItemState(graph);
                     console.log(graph.getGroup(), graph.getGroup().getBBox(), graph.getGroup().getCanvasBBox());
                 });
             };
 
-            const container = document.getElementById('container');
+            fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
+                .then((res) => res.json())
+                .then((data) => {
+                    const container = document.getElementById('container');
 
-            // container.style.backgroundColor = '#2b2f33';
+                    container.style.backgroundColor = '#fff';
 
-            CANVAS_WIDTH = container.scrollWidth;
-            CANVAS_HEIGHT = window.screen.height * 0.8;
+                    CANVAS_WIDTH = container.scrollWidth;
+                    CANVAS_HEIGHT = (container.scrollHeight || 500) - 30;
 
-            nodeMap = {};
-            const clusteredData = louvain(data, false, 'weight');
-            const aggregatedData = { nodes: [], edges: [] };
-            clusteredData.clusters.forEach((cluster, i) => {
-                cluster.nodes.forEach((node) => {
-                    node.level = 0;
-                    node.label = node.id;
-                    node.type = '';
-                    node.colorSet = colorSets[i];
-                    nodeMap[node.id] = node;
-                });
-                const cnode = {
-                    id: cluster.id,
-                    type: 'aggregated-node',
-                    count: cluster.nodes.length,
-                    level: 1,
-                    label: cluster.id,
-                    colorSet: colorSets[i],
-                    idx: i,
-                };
-                aggregatedNodeMap[cluster.id] = cnode;
-                aggregatedData.nodes.push(cnode);
-            });
-            clusteredData.clusterEdges.forEach((clusterEdge) => {
-                const cedge = {
-                    ...clusterEdge,
-                    size: Math.log(clusterEdge.count),
-                    label: '',
-                    id: `edge-${uniqueId()}`,
-                };
-                if (cedge.source === cedge.target) {
-                    cedge.type = 'loop';
-                    cedge.loopCfg = {
-                        dist: 20,
-                    };
-                } else cedge.type = 'line';
-                aggregatedData.edges.push(cedge);
-            });
+                    nodeMap = {};
+                    const clusteredData = louvain(data, false, 'weight');
+                    const aggregatedData = { nodes: [], edges: [] };
+                    clusteredData.clusters.forEach((cluster, i) => {
+                        cluster.nodes.forEach((node) => {
+                            node.level = 0;
+                            node.label = node.id;
+                            node.type = '';
+                            node.colorSet = colorSets[i];
+                            nodeMap[node.id] = node;
+                        });
+                        const cnode = {
+                            id: cluster.id,
+                            type: 'aggregated-node',
+                            count: cluster.nodes.length,
+                            level: 1,
+                            label: cluster.id,
+                            colorSet: colorSets[i],
+                            idx: i,
+                        };
+                        aggregatedNodeMap[cluster.id] = cnode;
+                        aggregatedData.nodes.push(cnode);
+                    });
+                    clusteredData.clusterEdges.forEach((clusterEdge) => {
+                        const cedge = {
+                            ...clusterEdge,
+                            size: Math.log(clusterEdge.count),
+                            label: '',
+                            id: `edge-${uniqueId()}`,
+                        };
+                        if (cedge.source === cedge.target) {
+                            cedge.type = 'loop';
+                            cedge.loopCfg = {
+                                dist: 20,
+                            };
+                        } else cedge.type = 'line';
+                        aggregatedData.edges.push(cedge);
+                    });
 
-            data.edges.forEach((edge) => {
-                edge.label = `${edge.source}-${edge.target}`;
-                edge.id = `edge-${uniqueId()}`;
-            });
+                    data.edges.forEach((edge) => {
+                        edge.label = `${edge.source}-${edge.target}`;
+                        edge.id = `edge-${uniqueId()}`;
+                    });
 
-            currentUnproccessedData = aggregatedData;
+                    currentUnproccessedData = aggregatedData;
 
-            const { edges: processedEdges } = processNodesEdges(
-                currentUnproccessedData.nodes,
-                currentUnproccessedData.edges,
-                CANVAS_WIDTH,
-                CANVAS_HEIGHT,
-                largeGraphMode,
-                true,
-                true,
-            );
+                    const { edges: processedEdges } = processNodesEdges(
+                        currentUnproccessedData.nodes,
+                        currentUnproccessedData.edges,
+                        CANVAS_WIDTH,
+                        CANVAS_HEIGHT,
+                        largeGraphMode,
+                        true,
+                        true,
+                    );
 
-            const contextMenu = new G6.Menu({
-                shouldBegin(evt) {
-                    if (evt.target && evt.target.isCanvas && evt.target.isCanvas()) return true;
-                    if (evt.item) return true;
-                    return false;
-                },
-                getContent(evt) {
-                    const { item } = evt;
-                    if (evt.target && evt.target.isCanvas && evt.target.isCanvas()) {
-                        return `<ul>
-                                          <li id='show'>显示所有隐藏元素</li>
-                                          <li id='collapseAll'>聚合所有聚类</li>
-                                        </ul>`;
-                    } else if (!item) return;
-                    const itemType = item.getType();
-                    const model = item.getModel();
-                    if (itemType && model) {
-                        if (itemType === 'node') {
-                            if (model.level !== 0) {
+                    const contextMenu = new G6.Menu({
+                        shouldBegin(evt) {
+                            if (evt.target && evt.target.isCanvas && evt.target.isCanvas()) return true;
+                            if (evt.item) return true;
+                            return false;
+                        },
+                        getContent(evt) {
+                            const { item } = evt;
+                            if (evt.target && evt.target.isCanvas && evt.target.isCanvas()) {
                                 return `<ul>
-                                                  <li id='expand'>展开该聚合点</li>
-                                                  <li id='hide'>隐藏节点</li>
-                                                </ul>`;
-                            } else {
-                                return `<ul>
-                                                  <li id='collapse'>聚合所属聚类</li>
-<!--                                                  <li id='neighbor-1'>拓展一度关系</li>-->
-<!--                                                  <li id='neighbor-2'>拓展二度关系</li>-->
-<!--                                                  <li id='neighbor-3'>拓展三度关系</li>-->
-                                                  <li id='hide'>隐藏节点</li>
-                                                </ul>`;
-                            }
-                        } else {
-                            return `<ul>
-                                                <li id='hide'>隐藏该边</li>
-                                              </ul>`;
-                        }
-                    }
-                },
-                handleMenuClick: (target, item) => {
-                    const model = item && item.getModel();
-                    const liIdStrs = target.id.split('-');
-                    let mixedGraphData;
-                    switch (liIdStrs[0]) {
-                        case 'hide': {
-                            graph.hideItem(item);
-                            hiddenItemIds.push(model.id);
-                            break;
-                        }
-                        case 'expand': {
-                            const newArray = manageExpandCollapseArray(
-                                graph.getNodes().length,
-                                model,
-                                collapseArray,
-                                expandArray,
-                            );
-                            expandArray = newArray.expandArray;
-                            collapseArray = newArray.collapseArray;
-                            mixedGraphData = getMixedGraph(
-                                clusteredData,
-                                data,
-                                nodeMap,
-                                aggregatedNodeMap,
-                                expandArray,
-                                collapseArray,
-                            );
-                            break;
-                        }
-                        case 'collapse': {
-                            const aggregatedNode = aggregatedNodeMap[model.clusterId];
-                            manipulatePosition = { x: aggregatedNode.x, y: aggregatedNode.y };
-                            collapseArray.push(aggregatedNode);
-                            for (let i = 0; i < expandArray.length; i++) {
-                                if (expandArray[i].id === model.clusterId) {
-                                    expandArray.splice(i, 1);
-                                    break;
+          <li id='show'>显示所有隐藏元素</li>
+          <li id='collapseAll'>合并所有聚类</li>
+        </ul>`;
+                            } else if (!item) return;
+                            const itemType = item.getType();
+                            const model = item.getModel();
+                            if (itemType && model) {
+                                if (itemType === 'node') {
+                                    if (model.level !== 0) {
+                                        return `<ul>
+              <li id='expand'>展开聚类</li>
+              <li id='hide'>隐藏节点</li>
+            </ul>`;
+                                    } else {
+                                        return `<ul>
+              <li id='collapse'>合并所属聚类</li>
+
+              <li id='hide'>隐藏该实体</li>
+            </ul>`;
+                                    }
+                                } else {
+                                    return `<ul>
+            <li id='hide'>隐藏该关系</li>
+          </ul>`;
                                 }
                             }
-                            mixedGraphData = getMixedGraph(
-                                clusteredData,
-                                data,
-                                nodeMap,
-                                aggregatedNodeMap,
-                                expandArray,
-                                collapseArray,
-                            );
-                            break;
-                        }
-                        case 'collapseAll': {
-                            expandArray = [];
-                            collapseArray = [];
-                            mixedGraphData = getMixedGraph(
-                                clusteredData,
-                                data,
-                                nodeMap,
-                                aggregatedNodeMap,
-                                expandArray,
-                                collapseArray,
-                            );
-                            break;
-                        }
-                        case 'neighbor': {
-                            const expandNeighborSteps = parseInt(liIdStrs[1]);
-                            mixedGraphData = getNeighborMixedGraph(
-                                model,
-                                expandNeighborSteps,
-                                data,
-                                clusteredData,
-                                currentUnproccessedData,
-                                nodeMap,
-                                aggregatedNodeMap,
-                                10,
-                            );
-                            break;
-                        }
-                        case 'show': {
-                            showItems(graph);
-                            break;
-                        }
-                        default: {
-                            break;
-                        }
-                    }
-                    if (mixedGraphData) {
-                        cachePositions = cacheNodePositions(graph.getNodes());
-                        currentUnproccessedData = mixedGraphData;
-                        handleRefreshGraph(
-                            graph,
-                            currentUnproccessedData,
-                            CANVAS_WIDTH,
-                            CANVAS_HEIGHT,
-                            largeGraphMode,
-                            true,
-                            false,
-                        );
-                    }
-                },
-                // offsetX and offsetY include the padding of the parent container
-                // 需要加上父级容器的 padding-left 16 与自身偏移量 10
-                offsetX: 16 + 10,
-                // 需要加上父级容器的 padding-top 24 、画布兄弟元素高度、与自身偏移量 10
-                offsetY: 0,
-                // the types of items that allow the menu show up
-                // 在哪些类型的元素上响应
-                itemTypes: ['node', 'edge', 'canvas'],
-            });
-
-            graph = new G6.Graph({
-                container: 'container',
-                width: CANVAS_WIDTH,
-                height: CANVAS_HEIGHT,
-                linkCenter: true,
-                minZoom: 0.1,
-                groupByTypes: false,
-                modes: {
-                    default: [
-                        {
-                            type: 'drag-canvas',
-                            enableOptimize: true,
                         },
-                        // {
-                        //     type: 'zoom-canvas',
-                        //     enableOptimize: true,
-                        //     optimizeZoom: 0.01,
-                        // },
-                        'drag-node',
-                        'shortcuts-call',
-                    ],
-                    lassoSelect: [
-                        {
-                            type: 'zoom-canvas',
-                            enableOptimize: true,
-                            optimizeZoom: 0.01,
+                        handleMenuClick: (target, item) => {
+                            const model = item && item.getModel();
+                            const liIdStrs = target.id.split('-');
+                            let mixedGraphData;
+                            switch (liIdStrs[0]) {
+                                case 'hide':
+                                    graph.hideItem(item);
+                                    hiddenItemIds.push(model.id);
+                                    break;
+                                case 'expand':
+                                    const newArray = manageExpandCollapseArray(
+                                        graph.getNodes().length,
+                                        model,
+                                        collapseArray,
+                                        expandArray,
+                                    );
+                                    expandArray = newArray.expandArray;
+                                    collapseArray = newArray.collapseArray;
+                                    mixedGraphData = getMixedGraph(
+                                        clusteredData,
+                                        data,
+                                        nodeMap,
+                                        aggregatedNodeMap,
+                                        expandArray,
+                                        collapseArray,
+                                    );
+                                    break;
+                                case 'collapse':
+                                    const aggregatedNode = aggregatedNodeMap[model.clusterId];
+                                    manipulatePosition = { x: aggregatedNode.x, y: aggregatedNode.y };
+                                    collapseArray.push(aggregatedNode);
+                                    for (let i = 0; i < expandArray.length; i++) {
+                                        if (expandArray[i].id === model.clusterId) {
+                                            expandArray.splice(i, 1);
+                                            break;
+                                        }
+                                    }
+                                    mixedGraphData = getMixedGraph(
+                                        clusteredData,
+                                        data,
+                                        nodeMap,
+                                        aggregatedNodeMap,
+                                        expandArray,
+                                        collapseArray,
+                                    );
+                                    break;
+                                case 'collapseAll':
+                                    expandArray = [];
+                                    collapseArray = [];
+                                    mixedGraphData = getMixedGraph(
+                                        clusteredData,
+                                        data,
+                                        nodeMap,
+                                        aggregatedNodeMap,
+                                        expandArray,
+                                        collapseArray,
+                                    );
+                                    break;
+                                case 'neighbor':
+                                    const expandNeighborSteps = parseInt(liIdStrs[1]);
+                                    mixedGraphData = getNeighborMixedGraph(
+                                        model,
+                                        expandNeighborSteps,
+                                        data,
+                                        clusteredData,
+                                        currentUnproccessedData,
+                                        nodeMap,
+                                        aggregatedNodeMap,
+                                        10,
+                                    );
+                                    break;
+                                case 'show':
+                                    showItems(graph);
+                                    break;
+                                default:
+                                    break;
+                            }
+                            if (mixedGraphData) {
+                                cachePositions = cacheNodePositions(graph.getNodes());
+                                currentUnproccessedData = mixedGraphData;
+                                handleRefreshGraph(
+                                    graph,
+                                    currentUnproccessedData,
+                                    CANVAS_WIDTH,
+                                    CANVAS_HEIGHT,
+                                    largeGraphMode,
+                                    true,
+                                    false,
+                                );
+                            }
                         },
-                        {
-                            type: 'lasso-select',
-                            selectedState: 'focus',
-                            trigger: 'drag',
+                        // offsetX and offsetY include the padding of the parent container
+                        // 需要加上父级容器的 padding-left 16 与自身偏移量 10
+                        offsetX: 16 + 10,
+                        // 需要加上父级容器的 padding-top 24 、画布兄弟元素高度、与自身偏移量 10
+                        offsetY: 0,
+                        // the types of items that allow the menu show up
+                        // 在哪些类型的元素上响应
+                        itemTypes: ['node', 'edge', 'canvas'],
+                    });
+
+                    graph = new G6.Graph({
+                        container: 'container',
+                        width: CANVAS_WIDTH,
+                        height: CANVAS_HEIGHT,
+                        linkCenter: true,
+                        minZoom: 0.1,
+                        groupByTypes: false,
+                        modes: {
+                            default: [
+                                {
+                                    type: 'drag-canvas',
+                                    enableOptimize: true,
+                                },
+                                {
+                                    type: 'zoom-canvas',
+                                    enableOptimize: true,
+                                    optimizeZoom: 0.01,
+                                },
+                                'drag-node',
+                                'shortcuts-call',
+                            ],
+                            lassoSelect: [
+                                {
+                                    type: 'zoom-canvas',
+                                    enableOptimize: true,
+                                    optimizeZoom: 0.01,
+                                },
+                                {
+                                    type: 'lasso-select',
+                                    selectedState: 'focus',
+                                    trigger: 'drag',
+                                },
+                            ],
+                            fisheyeMode: [],
                         },
-                    ],
-                    fisheyeMode: [],
-                },
-                defaultNode: {
-                    type: 'aggregated-node',
-                    size: DEFAULTNODESIZE,
-                },
-                plugins: [contextMenu],
-            });
+                        defaultNode: {
+                            type: 'aggregated-node',
+                            size: DEFAULTNODESIZE,
+                        },
+                        plugins: [contextMenu],
+                    });
 
-            graph.get('canvas').set('localRefresh', false);
+                    graph.get('canvas').set('localRefresh', false);
 
-            const layoutConfig = getForceLayoutConfig(graph, largeGraphMode);
-            layoutConfig.center = [CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2];
-            layout.instance = new G6.Layout['gForce'](layoutConfig);
-            layout.instance.init({
-                nodes: currentUnproccessedData.nodes,
-                edges: processedEdges,
-            });
-            layout.instance.execute();
+                    const layoutConfig = getForceLayoutConfig(graph, largeGraphMode);
+                    layoutConfig.center = [CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2];
+                    layout.instance = new G6.Layout['gForce'](layoutConfig);
+                    layout.instance.init({
+                        nodes: currentUnproccessedData.nodes,
+                        edges: processedEdges,
+                    });
+                    layout.instance.execute();
 
-            bindListener(graph);
-            graph.data({ nodes: aggregatedData.nodes, edges: processedEdges });
-            graph.render();
+                    bindListener(graph);
+                    graph.data({ nodes: aggregatedData.nodes, edges: processedEdges });
+                    graph.render();
+                });
 
             if (typeof window !== 'undefined')
                 window.onresize = () => {
@@ -1784,6 +1746,7 @@
                     if (!container) return;
                     graph.changeSize(container.scrollWidth, container.scrollHeight - 30);
                 };
+            this.$emit('finished')
 
         }
     }
