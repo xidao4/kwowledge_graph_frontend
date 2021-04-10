@@ -1,43 +1,42 @@
 <template>
-    <div style="padding-bottom: 20px; background-color: #EEEFF0; width: 100%">
-        <Header></Header>
-<!--        <div class="spin">-->
-<!--            <a-spin size="large" tip="初始化编辑空间"/>-->
-<!--        </div>-->
-        <tool-bar></tool-bar>
-        <a-row class="row">
-            <a-col :xs="15" :sm="15" :md="15" :lg="17" :xl="17" xxl="20">
-                <div class="block"></div>
-            </a-col>
-            <a-col :xs="9" :sm="9" :md="9" :lg="7" :xl="7" xxl="4">
-                <LayoutBlock class="block"></LayoutBlock>
-            </a-col>
-        </a-row>
-        <a-row class="row" id="graphRow">
-            <a-col :md="24" :lg="17" :xl="17" xxl="20">
-                <div class="block" style="overflow: hidden;">
-                    <TypesettingGraph v-show="currentGraphId === graphIds.typesetting"></TypesettingGraph>
-                    <ForceGraph v-if="currentGraphId === graphIds.force"></ForceGraph>
-<!--                    <TypesettingGraph v-show="false"></TypesettingGraph>-->
-<!--                    <ForceGraph v-if="false"></ForceGraph>-->
-                    <LargeGraph v-if="false"></LargeGraph>
-                </div>
-            </a-col>
-            <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">
-                <div class="block" :style="this.heightStr">
-                    <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>
-                    <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list>
-                </div>
-            </a-col>
+    <a-spin size="large" tip="初始化编辑空间" :spinning="spinning">
+        <div style="padding-bottom: 20px; background-color: #EEEFF0; width: 100%">
+            <Header></Header>
+            <tool-bar></tool-bar>
+            <a-row class="row">
+                <a-col :xs="15" :sm="15" :md="15" :lg="17" :xl="17" xxl="20">
+                    <div class="block"></div>
+                </a-col>
+                <a-col :xs="9" :sm="9" :md="9" :lg="7" :xl="7" xxl="4">
+                    <LayoutBlock class="block"></LayoutBlock>
+                </a-col>
+            </a-row>
+            <a-row class="row" id="graphRow">
+                <a-col :md="24" :lg="17" :xl="17" xxl="20">
+                    <div class="block" style="overflow: hidden;">
+                        <TypesettingGraph v-if="currentGraphId === graphIds.typesetting" @finished="stopSpinning"></TypesettingGraph>
+                        <ForceGraph v-if="currentGraphId === graphIds.force" @finished="stopSpinning"></ForceGraph>
+                        <!--                    <TypesettingGraph v-show="false"></TypesettingGraph>-->
+                        <!--                    <ForceGraph v-if="false"></ForceGraph>-->
+                        <LargeGraph v-if="false"></LargeGraph>
+                    </div>
+                </a-col>
+                <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">
+                    <div class="block" :style="this.heightStr">
+                        <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>
+                        <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list>
+                    </div>
+                </a-col>
 
-        </a-row>
-        <a-modal :visible="showModal && addEntityVisible" :footer="null" @cancel="handleCloseEntityModal">
-            <entity-list></entity-list>
-        </a-modal>
-        <a-modal :visible="showModal && addRelationVisible" :footer="null" @cancel="handleCloseRelationModal">
-            <relation-list></relation-list>
-        </a-modal>
-    </div>
+            </a-row>
+            <a-modal :visible="showModal && addEntityVisible" :footer="null" @cancel="handleCloseEntityModal">
+                <entity-list></entity-list>
+            </a-modal>
+            <a-modal :visible="showModal && addRelationVisible" :footer="null" @cancel="handleCloseRelationModal">
+                <relation-list></relation-list>
+            </a-modal>
+        </div>
+    </a-spin>
 </template>
 
 <script>
@@ -57,7 +56,8 @@
         data(){
             return {
                 showModal: false,
-                heightStr: "height: "+(window.screen.height * 0.8 + 5)+'px'
+                heightStr: "height: "+(window.screen.height * 0.8 + 5)+'px',
+                spinning: true,
             }
         },
         components: {
@@ -94,12 +94,12 @@
             },
             handleCloseRelationModal(){
                 this.set_addRelationVisible(false)
+            },
+            stopSpinning(){
+                this.spinning = false;
             }
         },
-        async mounted() {
-            if(!this.isNew){
-                await this.getPicElements();
-            }
+        mounted() {
             if(window.innerWidth < 992){
                 this.showModal = true;
             } else {
@@ -118,13 +118,13 @@
 
 <style scoped>
 
-.spin{
-    text-align: center;
-    border-radius: 4px;
-    padding: 30px 50px;
-    margin: 20px 0;
-    min-width: 400px;
-}
+/*.spin{*/
+/*    text-align: center;*/
+/*    border-radius: 4px;*/
+/*    padding: 30px 50px;*/
+/*    margin: 20px 0;*/
+/*    min-width: 400px;*/
+/*}*/
 .row {
     margin: 15px;
 }

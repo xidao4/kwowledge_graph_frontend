@@ -74,7 +74,7 @@ const state = {
     currentStrength: 30,
     showGraphEdges: [],
     currentPicId: '',
-    currentSetLayout: '',
+    currentSetLayout: null,
     forceLayout: [
         {
             key: 'gForce',
@@ -261,6 +261,7 @@ const graph = {
             state.typesettingGraph = null;
             state.currentGraphData = {};
             state.currentShowGraphData = {};
+            state.currentSetLayout = null;
         },
         set_isNew(state, date) {
             state.isNew = true;
@@ -404,6 +405,7 @@ const graph = {
                 let baseNodes = [];
                 let baseEdges = [];
                 // TODO 现在是假设f和s的基本数据一致，后期防御式编程？
+                console.log(res)
                 resData.fedges.forEach((edge) => {
                     baseEdges.push({
                         id: edge.id,
@@ -424,7 +426,8 @@ const graph = {
                     nodes: baseNodes,
                     edges: baseEdges
                 })
-                console.log()
+                console.log('base', state.currentGraphData);
+                console.log('show', state.currentShowGraphData);
             }
         },
     }

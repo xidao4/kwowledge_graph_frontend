@@ -85,6 +85,7 @@
             ...mapActions([
                 'testToken',
                 'getUserPics',
+                'getPicElements'
             ]),
             ...mapMutations([
                 'set_picId',
@@ -92,7 +93,7 @@
             testFun () {
                 this.$message.info('快速开始被点击！')
             },
-            editPic(data){
+            async editPic(data){
                 this.set_picId(data);
                 console.log('当前图谱ID',data);
                 router.push('/editor');

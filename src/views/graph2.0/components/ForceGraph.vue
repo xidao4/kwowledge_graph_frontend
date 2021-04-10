@@ -4,7 +4,7 @@
 </template>
 
 <script>
-    import {mapGetters, mapMutations} from 'vuex';
+import {mapActions, mapGetters, mapMutations} from 'vuex';
     import G6 from '@antv/g6';
 
     const testData = {
@@ -101,11 +101,29 @@
             },
         ],
     };
+    const mode = {
+        default: [
+            'drag-canvas',
+            'drag-node',
+            'shortcuts-call',
+            {
+                type: 'tooltip', // 提示框
+                formatText(model) {
+                    // 提示框文本内容
+                    return '实体名: ' + model.label + '<br/> 类别: '
+                        + (model.class === undefined ? '无' : model.class);
+                },
+            },
+        ],
+    };
     export default {
         name: "ForceGraph",
         computed: {
             ...mapGetters([
-                'forceGraph'
+                'forceGraph',
+                'isNew',
+                'currentGraphData',
+                'currentShowGraphData',
             ])
         },
         methods: {
@@ -114,20 +132,14 @@
                 'set_forceGraphRatio',
                 'set_currentGraph'
             ]),
+            ...mapActions([
+                'getPicElements'
+            ]),
             draw(data){
                 const container = document.getElementById('force');
                 const width = container.scrollWidth;
                 const height = window.screen.height * 0.8;
-                // const minimap = new G6.Minimap({
-                //     size: [200, 200],
-                //     className: 'minimap',
-                //     type: 'delegate',
-                // });
-                // const toolbar = new G6.ToolBar({
-                //     position: { x: 0, y: 130 },
-                // });
                 const menu = new G6.Menu();
-                // const grid = new G6.Grid();
                 const graph = new G6.Graph({
                     container: 'force',
                     width,
@@ -138,21 +150,7 @@
                         nodeSize: 20,
                         nodeStrength: 20,
                     },
-                    modes: {
-                        default: [
-                            'drag-canvas',
-                            'drag-node',
-                            'shortcuts-call',
-                            // 'zoom-canvas',
-                            {
-                                type: 'tooltip', // 提示框
-                                formatText(model) {
-                                    // 提示框文本内容
-                                    return '实体名: ' + model.label + '<br/> 类别: '
-                                        + (model.class === undefined ? '无' : model.class);
-                                },
-                            },],
-                    },
+                    modes: mode,
                     defaultNode: {
                         size: 20,
                     },
@@ -165,20 +163,44 @@
                 });
                 graph.data(data);
                 graph.render();
-
+                this.registerBehavior(graph, container);
+                this.set_forceGraph(graph);
+            },
+            reDraw(data){
+                const container = document.getElementById('force');
+                const width = container.scrollWidth;
+                const height = window.screen.height * 0.8;
+                const menu = new G6.Menu();
+                const graph = new G6.Graph({
+                    container: 'force',
+                    width,
+                    height,
+                    layout: {
+                        type: 'force',
+                    },
+                    modes: mode,
+                    defaultNode: {
+                        size: 20,
+                    },
+                    // fitView: true,
+                    fitCenter: true,
+                    fitViewPadding: [20, 40, 40, 20],
+                    plugins: [toolbar, menu],
+                    minZoom: 0.25,
+                    maxZoom: 5,
+                });
+                console.log('force', data)
+                graph.data(data);
+                graph.render();
+                this.registerBehavior(graph, container);
+                this.set_forceGraph(graph);
+            },
+            registerBehavior(graph, container){
                 function refreshDragedNodePosition(e) {
                     const model = e.item.get('model');
                     model.fx = e.x;
                     model.fy = e.y;
                 }
-                // graph.on('node:dragstart', (e) => {
-                //     graph.layout();
-                //     refreshDragedNodePosition(e);
-                // });
-                // graph.on('node:drag', (e) => {
-                //     refreshDragedNodePosition(e);
-                // });
-                // const layout = graph.get('layoutController').layoutMethod;
                 graph.on('node:dragstart', function (e) {
                     graph.layout();
                     refreshDragedNodePosition(e);
@@ -196,27 +218,36 @@
                     window.onresize = () => {
                         if (!graph || graph.get('destroyed')) return;
                         if (!container || !container.scrollWidth || !container.scrollHeight) return;
-                        graph.fitCenter();
+                        graph.fitCenter()
                         if(window.innerWidth < 650) {
                             graph.zoomTo(0.5);
-                            that.set_forceGraphRatio(0.5);
+                            that.set_typesettingGraphRatio(0.5);
                         } else if(window.innerWidth < 800){
                             graph.zoomTo(0.75);
-                            that.set_forceGraphRatio(0.75);
+                            that.set_typesettingGraphRatio(0.75);
                         } else {
                             graph.zoomTo(1);
-                            that.set_forceGraphRatio(1);
+                            that.set_typesettingGraphRatio(1);
                         }
                         graph.changeSize(container.scrollWidth, window.screen.height * 0.8);
                     };
                 }
-                this.set_forceGraph(graph);
-            }
+            },
         },
-        mounted() {
-            this.draw(testData);
-            console.log('force');
+        async mounted() {
+            if(this.isNew){
+                if(!this.currentGraphData.nodes){
+                    await this.getPicElements();
+                }
+                this.draw(this.currentGraphData);
+            } else {
+                if(!this.currentShowGraphData.force){
+                    await this.getPicElements();
+                }
+                this.reDraw(this.currentShowGraphData.force);
+            }
             this.set_currentGraph(this.forceGraph);
+            this.$emit('finished')
         },
     }
 </script>
