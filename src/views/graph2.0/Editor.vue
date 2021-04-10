@@ -7,10 +7,10 @@
         <tool-bar></tool-bar>
         <a-row class="row">
             <a-col :xs="15" :sm="15" :md="15" :lg="17" :xl="17" xxl="20">
-                <div class="block"></div>
+                <TypeFilter class="block" :style="this.upHeightStr"></TypeFilter>
             </a-col>
             <a-col :xs="9" :sm="9" :md="9" :lg="7" :xl="7" xxl="4">
-                <LayoutBlock class="block"></LayoutBlock>
+                <LayoutBlock class="block" :style="this.upHeightStr"></LayoutBlock>
             </a-col>
         </a-row>
         <a-row class="row" id="graphRow">
@@ -73,12 +73,14 @@
     import EntityList from "@/views/graph/components/EntityList"
     import RelationList from "@/views/graph/components/RelationList"
     import Pie from "./components/Pie";
+    import TypeFilter from "./components/TypeFilter";
     export default {
         name: "Editor",
         data(){
             return {
                 showModal: false,
-                heightStr: "height: "+(window.screen.height * 0.8 + 5)+'px'
+                heightStr: "height: "+(window.screen.height * 0.8 + 5)+'px',
+                upHeightStr:"height: "+(window.screen.height * 0.15 )+'px',
             }
         },
         components: {
@@ -92,6 +94,7 @@
             EntityList,
             RelationList,
             Pie,
+            TypeFilter,
         },
         computed: {
             ...mapGetters([
