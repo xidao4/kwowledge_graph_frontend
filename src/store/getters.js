@@ -24,6 +24,8 @@ const getters={
     nodesTypeCntMap: state=>state.graph.nodesTypeCntMap,
     searchNodes: state=>state.graph.searchNodes,
     searchEdges: state=>state.graph.searchEdges,
+    nodesByTypeMap: state=>state.graph.nodesByTypeMap,
+    nodesTypes: state=>state.graph.nodesTypes,
 
     colorList: state=>state.util.colorList,
 

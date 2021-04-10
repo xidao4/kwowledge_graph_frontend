@@ -11,6 +11,7 @@ import{
     getPicElementsAPI,
     getPicTypesAPI,
     searchAPI,
+    getNodesByTypesAPI,
 } from "../../api/graph";
 import {
     url2File
@@ -131,6 +132,8 @@ const state = {
     edgesTypeCntMap:{},
     searchNodes:[],
     searchEdges:[],
+    nodesByTypesMap:{},
+    nodesTypes:[],
 };
 
 const graph = {
@@ -272,6 +275,12 @@ const graph = {
         set_searchEdges(state,data){
             state.searchEdges=data;
         },
+        set_nodesByTypesMap(state,data){
+            state.nodesByTypesMap={...data};
+        },
+        set_nodesTypes(state,data){
+            state.nodesTypes=data;
+        }
     },
     actions: {
         // getAll:async ({commit,state},data)=>{
@@ -434,6 +443,25 @@ const graph = {
                 console.log('searchAPI.code<0');
                 message.error(res);
             }
+        },
+        getNodesByTypesMap:async({commit,state},data)=>{
+            const res=await getNodesByTypesAPI(data);
+            if(res===null){
+                console.log("getNodesByTypesAPI=null");
+                message.error(res);
+            }else if(res.code>=0){
+                commit('set_nodesByTypeMap',res);
+            }else{
+                console.log('getNodesByTypesAPI.code<0');
+                message.error(res);
+            }
+            let types=[];
+            let useless=[];
+            for(let[key,value] of state.nodesByTypeMap){
+                types.push(key);
+                useless.push(value);
+            }
+            commit('set_nodesTypes',types);
         },
     }
 };

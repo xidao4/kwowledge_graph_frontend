@@ -128,3 +128,12 @@ export function searchAPI(data){
     data
   })
 }
+
+//获取 类型-节点集合 的Map a
+export function getNodesByTypesAPI(data){
+  return axios({
+    url:`${api.graphPre}/getNodesByTypes`,
+    method:'POST',
+    data
+  })
+}
