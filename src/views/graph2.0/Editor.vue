@@ -1,5 +1,5 @@
 <template>
-    <a-spin size="large" tip="初始化编辑空间" :spinning="spinning">
+    <a-spin size="large" tip="加载编辑空间" :spinning="spinning">
         <div style="padding-bottom: 20px; background-color: #EEEFF0; width: 100%">
             <Header></Header>
             <tool-bar></tool-bar>
