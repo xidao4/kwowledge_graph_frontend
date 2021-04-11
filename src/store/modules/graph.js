@@ -103,7 +103,7 @@ const state = {
             value: '环形布局(circular)'
         },
         {
-            key: 'Radial',
+            key: 'radial',
             value: '辐射状布局(Radial)'
         },
         {
