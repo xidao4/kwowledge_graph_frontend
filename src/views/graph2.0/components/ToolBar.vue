@@ -7,29 +7,68 @@
       <a-icon type="plus" />增加关系
     </a-button>
     <Scale class="margin-left"></Scale>
+    <a-button size="small"
+              type="primary"
+              @click="showPieModal"
+              class="margin-left"
+              v-show="!showModal">
+      <a-icon type="plus" />统计
+    </a-button>
+    <Search class="margin-left"></Search>
+
+
   </div>
 </template>
 
 <script>
 import {mapMutations} from 'vuex'
 import Scale from './Scale'
+import Search from "./Search";
 export default {
   name: "ToolBar",
   components: {
-    Scale
+      Scale,
+      Search,
+  },
+  data(){
+    return{
+      showModal: false,
+    }
+  },
+  mounted(){
+      if(window.innerWidth < 992){
+          this.showModal = true;
+      } else {
+          this.showModal = false;
+      }
+      window.addEventListener('resize', ()=>{
+          if(window.innerWidth < 992){
+              this.showModal = true;
+          } else {
+              this.showModal = false;
+          }
+      })
   },
   methods:{
     ...mapMutations([
       'set_addEntityVisible',
-      'set_addRelationVisible'
+      'set_addRelationVisible',
+      'set_pieModalVisible',
     ]),
     handleAddEntity(){
       this.set_addRelationVisible(false);
       this.set_addEntityVisible(true);
+      this.set_pieModalVisible(false);
     },
     confirmAddRelation(){
       this.set_addEntityVisible(false);
       this.set_addRelationVisible(true);
+      this.set_pieModalVisible(false);
+    },
+    showPieModal(){
+      this.set_pieModalVisible(true);
+      this.set_addEntityVisible(false);
+      this.set_addRelationVisible(false);
     }
   }
 };
@@ -51,5 +90,11 @@ export default {
 }
 .margin-left{
   margin-left: 20px;
+}
+.margin-right{
+    float:right;
+    margin-right:10px;
+    text-align: right;
+    display: inline-block;
 }
 </style>

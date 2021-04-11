@@ -110,3 +110,30 @@ export function getPicElementsAPI(data) {
     data,
   })
 }
+
+//根据picId获取 节点的类型-个数 和 边的类型-个数 两个map
+export function getPicTypesAPI(data){
+  return axios({
+    url:`${api.graphPre}/getPicTypes`,
+    method:'POST',
+    data
+  })
+}
+
+//模糊匹配
+export function searchAPI(data){
+  return axios({
+    url:`${api.graphPre}/search`,
+    method:'POST',
+    data
+  })
+}
+
+//获取 类型-节点集合 的Map a
+export function getNodesByTypesAPI(data){
+  return axios({
+    url:`${api.graphPre}/getNodesByTypes`,
+    method:'POST',
+    data
+  })
+}

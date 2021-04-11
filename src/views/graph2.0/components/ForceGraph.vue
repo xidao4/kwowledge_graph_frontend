@@ -145,7 +145,7 @@ import {mapActions, mapGetters, mapMutations} from 'vuex';
                     width,
                     height,
                     layout: {
-                        type: 'force',
+                        type: 'gForce',
                         preventOverlap: true,
                         nodeSize: 20,
                         nodeStrength: 20,

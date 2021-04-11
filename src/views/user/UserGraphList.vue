@@ -8,29 +8,7 @@
         >
             <a-list-item slot="renderItem" slot-scope="item">
                 <template v-if="!item || item.id === undefined" style="margin: auto auto;">
-
-                    <a-upload-dragger
-                        class="new-btn"
-                        style="height: 300px; margin: auto auto"
-                        name="file"
-                        :multiple="false"
-                        :headers="headers"
-                        @change="uploadJson"
-                        accept=".json"
-                    >
-                        <p class="ant-upload-drag-icon">
-                            <a-icon type="inbox" />
-                        </p>
-                        <p class="ant-upload-text">
-                            Click or drag file to this area to upload
-                        </p>
-                        <p class="ant-upload-hint">
-                            Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-                            band files
-                        </p>
-                    </a-upload-dragger>
-
-
+                    <Upload></Upload>
                 </template>
                 <template v-else>
                     <a-card hoverable @click="editPic(item.id)">
@@ -42,7 +20,6 @@
                         <a-card-meta>
                             <a slot="title">
                                 {{item.picName}}
-
                             </a>
                         </a-card-meta>
                     </a-card>
@@ -55,7 +32,7 @@
 <script>
     import { mapGetters, mapActions, mapMutations } from 'vuex';
     import router from '@/router';
-    import { getToken } from '@/utils/auth'
+    import Upload from "./components/Upload";
 
     const dataSource = []
     dataSource.push({});
@@ -64,15 +41,7 @@
         name: "UserGraphList",
         data(){
             return {
-                extraImage: 'https://gw.alipayobjects.com/zos/rmsportal/RzwpdLnhmvDJToTdfDPe.png',
                 dataSource,
-                headers: {
-                    authorization: 'authorization-text',
-                    token: getToken()
-                },
-                fileList:[
-
-                ],
             }
         },
         computed:{
@@ -80,6 +49,9 @@
                 'picsInfo',
                 'userId',
             ])
+        },
+        components:{
+            Upload,
         },
         methods: {
             ...mapActions([
@@ -90,41 +62,32 @@
             ...mapMutations([
                 'set_picId',
             ]),
-            testFun () {
-                this.$message.info('快速开始被点击！')
-            },
             editPic(data){
                 this.set_picId(data);
                 console.log('当前图谱ID',data);
                 router.push('/editor');
             },
-            uploadJson(){
-                router.push('/editor');
-            }
         },
         mounted() {
             this.testToken();
 
-
             this.getUserPics(this.userId);
-            for(var i=0;i<this.picsInfo.length;i++){
+            for(let i=0;i<this.picsInfo.length;i++){
                 dataSource.push({
-                    id: i,
+                    id: this.picsInfo[i].picId,
                     picName: this.picsInfo[i].picName,
                     url: this.picsInfo[i].url
                 });
             }
 
             // test data
-            for(var j=0;j<11;j++){
+            for(let j=0;j<11;j++){
                 dataSource.push({
                     id: j,
                     picName: "火影忍者",
                     url: "https://guide-blog-images.oss-cn-shenzhen.aliyuncs.com/2020-12/Java%E5%BC%82%E5%B8%B8%E7%B1%BB%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84%E5%9B%BE.png"
                 })
-
             }
-
         }
     }
 </script>
