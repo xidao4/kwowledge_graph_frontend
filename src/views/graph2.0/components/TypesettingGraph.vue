@@ -4,121 +4,36 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapMutations} from 'vuex';
+    import {mapActions, mapGetters, mapMutations} from 'vuex';
     // import XBackground from '../../../components/g6/XBackground';
     import G6 from '@antv/g6';
     import { GraphLayoutPredict } from '@antv/vis-predict-engine'
     import { message } from 'ant-design-vue'
-
-    const testData = {
-        nodes: [
-            {
-                id: '0',
-                label: '0',
-            },
-            {
-                id: '1',
-                label: '1',
-            },
-            {
-                id: '2',
-                label: '2',
-            },
-            {
-                id: '3',
-                label: '3',
-            },
-            {
-                id: '4',
-                label: '4',
-            },
-            {
-                id: '5',
-                label: '5',
-            },
-            {
-                id: '6',
-                label: '6',
-            },
-            {
-                id: '7',
-                label: '7',
-            },
-            {
-                id: '8',
-                label: '8',
-            },
-            {
-                id: '9',
-                label: '9',
-            },
-        ],
-        edges: [
-            {
-                source: '0',
-                target: '1',
-            },
-            {
-                source: '0',
-                target: '2',
-            },
-            {
-                source: '0',
-                target: '3',
-            },
-            {
-                source: '0',
-                target: '4',
-            },
-            {
-                source: '0',
-                target: '5',
-            },
-            {
-                source: '0',
-                target: '7',
-            },
-            {
-                source: '0',
-                target: '8',
-            },
-            {
-                source: '0',
-                target: '9',
-            },
-            {
-                source: '2',
-                target: '3',
-            },
-            {
-                source: '4',
-                target: '5',
-            },
-            {
-                source: '4',
-                target: '6',
-            },
-            {
-                source: '5',
-                target: '6',
-            },
-        ],
-    };
+    import { processNodesEdges, bindListener, cssStr } from '../../../components/g6/Graph.js';
+    import insertCss from 'insert-css';
+    const tooltip = new G6.Tooltip({
+        offsetX: 10,
+        offsetY: 10,
+        itemTypes: ['node', 'edge'],
+        getContent: (e) => {
+            const outDiv = document.createElement('div');
+            outDiv.style.width = 'fit-content';
+            let model = e.item.getModel();
+            outDiv.innerHTML =
+                `<ul>
+                    <li id='expand'>名称: ${model.oriLabel || model.id}</li>
+                    <li id='hide'>类型: ${model.type}</li>
+                </ul>`;
+            return outDiv;
+        },
+    });
     const mode = {
         default: [
             'drag-canvas',
             'drag-node',
             'shortcuts-call',
-            {
-                type: 'tooltip', // 提示框
-                formatText(model) {
-                    // 提示框文本内容
-                    return '实体名: ' + model.label + '<br/> 类别: '
-                        + (model.class === undefined ? '无' : model.class);
-                },
-            },
         ],
-    }
+    };
     export default {
         name: "TypesettingGraph",
         data(){
@@ -148,11 +63,12 @@ import {mapActions, mapGetters, mapMutations} from 'vuex';
             ]),
             draw(data, layout){
                 const container = document.getElementById('typesetting');
-                const menu = new G6.Menu();
+                const width = container.scrollWidth;
+                const height = window.screen.height * 0.8;
                 let graph = new G6.Graph({
                     container: container,
-                    width: container.scrollWidth,
-                    height: window.screen.height * 0.8,
+                    width,
+                    height,
                     layout: {
                         type: layout,
                         preventOverlap: true,
@@ -165,24 +81,28 @@ import {mapActions, mapGetters, mapMutations} from 'vuex';
                     // fitView: true,
                     fitCenter: true,
                     fitViewPadding: 20,
-                    plugins: [toolbar, menu],
+                    plugins: [tooltip],
                     minZoom: 0.25,
                     maxZoom: 2
                 });
-                graph.data(data);
-                graph.render();
+                let tmpData = JSON.parse(JSON.stringify(data));
+                const processRes = processNodesEdges(tmpData.nodes, tmpData.edges, width, height, false);
+                bindListener(graph);
                 this.registerBehavior(graph, container);
+                graph.data({nodes: processRes.nodes, edges: processRes.edges});
+                graph.render();
                 this.set_typesettingGraph(graph);
             },
             reDraw(data){
                 const container = document.getElementById('typesetting');
-                const menu = new G6.Menu();
+                const width = container.scrollWidth;
+                const height = window.screen.height * 0.8;
                 let graph = new G6.Graph({
                     container: container,
-                    width: container.scrollWidth,
-                    height: window.screen.height * 0.8,
+                    width,
+                    height,
                     modes: mode,
-                    plugins: [toolbar, menu],
+                    plugins: [tooltip],
                     minZoom: 0.25,
                     maxZoom: 2,
                     fitCenter: true,
@@ -190,6 +110,7 @@ import {mapActions, mapGetters, mapMutations} from 'vuex';
                 });
                 graph.data(data);
                 graph.render();
+                bindListener(graph);
                 this.registerBehavior(graph, container);
                 this.set_typesettingGraph(graph);
             },
@@ -216,18 +137,21 @@ import {mapActions, mapGetters, mapMutations} from 'vuex';
             },
         },
         async mounted() {
+            insertCss(cssStr);
             if(this.isNew){
                 if(!this.currentGraphData.nodes){
                     await this.getPicElements();
                 }
                 if(!this.currentSetLayout){
+                    console.log('in', this.currentSetLayout);
                     const { predictLayout, confidence } = await GraphLayoutPredict.predict(this.currentGraphData);
                     this.predictLayout = predictLayout;
                     this.confidence = confidence;
+                    this.set_currentSetLayout(this.predictLayout);
+                    message.success('预测布局: ' + this.predictLayout + ' 可信度: ' + this.confidence)
                 }
+                console.log('draw', this.currentGraphData);
                 this.draw(this.currentGraphData, this.predictLayout);
-                this.set_currentSetLayout(this.predictLayout);
-                message.success('预测布局: ' + this.predictLayout + ' 可信度: ' + this.confidence)
             } else {
                 if(!this.currentShowGraphData.typesetting){
                     await this.getPicElements();

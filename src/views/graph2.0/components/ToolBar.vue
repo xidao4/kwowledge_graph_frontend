@@ -7,6 +7,17 @@
       <a-icon type="plus" />增加关系
     </a-button>
     <Scale class="margin-left"></Scale>
+
+    <a-tooltip placement="bottom">
+      <template slot="title">
+        <span>{{labelTip}}</span>
+      </template>
+      <a-switch class="margin-left-s" @change="changeLabelShow">
+        <a-icon slot="checkedChildren" type="check" />
+        <a-icon slot="unCheckedChildren" type="close" />
+      </a-switch>
+    </a-tooltip>
+
     <a-button size="small"
               type="primary"
               @click="showPieModal"
@@ -21,7 +32,7 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex'
+import {mapMutations, mapGetters} from 'vuex'
 import Scale from './Scale'
 import Search from "./Search";
 export default {
@@ -33,7 +44,13 @@ export default {
   data(){
     return{
       showModal: false,
+      labelTip: '显示关系名'
     }
+  },
+  computed: {
+    ...mapGetters([
+      'currentGraph'
+    ])
   },
   mounted(){
       if(window.innerWidth < 992){
@@ -69,6 +86,27 @@ export default {
       this.set_pieModalVisible(true);
       this.set_addEntityVisible(false);
       this.set_addRelationVisible(false);
+    },
+    changeLabelShow(value){
+      console.log(`choose ${value}`)
+      if(value){
+        this.labelTip = '隐藏关系名'
+      } else {
+        this.labelTip = '显示关系名'
+      }
+    },
+    showEdgeLabel(){
+      const edgeItems = this.currentGraph.getEdges();
+      edgeItems.forEach(e => {
+        e.update({
+          style: {
+            lineWidth,
+            strokeOpacity,
+            stroke
+          }
+        })
+      });
+      this.currentGraph.paint();
     }
   }
 };
@@ -96,5 +134,12 @@ export default {
     margin-right:10px;
     text-align: right;
     display: inline-block;
+}
+.margin-left-s{
+  margin-left: 7px;
+}
+.align-center{
+  display: inline-flex;
+  align-items: center;
 }
 </style>

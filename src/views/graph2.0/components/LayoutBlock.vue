@@ -14,10 +14,10 @@
                     <span class="label">作用力</span>
                 </a-col>
                 <a-col :xs="24" :sm="24" :md="6" :lg="8" :xl="8">
-                    <a-slider v-model="nodeStrength" :min="-5" :max="5" class="slider"/>
+                    <a-slider v-model="nodeStrength" :min="-10" :max="10" class="slider"/>
                 </a-col>
                 <a-col :xs="0" :sm="0" :md="10" :lg="8" :xl="8">
-                    <a-input-number v-model="nodeStrength" :min="-5" :max="5"/>
+                    <a-input-number v-model="nodeStrength" :min="-10" :max="10"/>
                 </a-col>
             </a-row>
         </div>
@@ -73,7 +73,7 @@
                     that.currentGraph.updateLayout({
                         type: value
                     });
-                    that.currentGraph.fitCenter()
+                    that.currentGraph.fitView(20)
                 }, 1000);
                 this.typesettingGraph.updateLayout({
                     type: value
