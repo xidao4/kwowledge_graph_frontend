@@ -231,6 +231,16 @@ import {mapActions, mapGetters, mapMutations} from 'vuex';
                         graph.changeSize(container.scrollWidth, window.screen.height * 0.8);
                     };
                 }
+                // let tipDiv = document.createElement("div");
+                // let graphDiv = document.getElementById("force");
+                // document.body.insertBefore(tipDiv, graphDiv);
+                //
+                // graph.on('beforelayout', function() {
+                //     tipDiv.innerHTML = '正在执行力导向布局...';
+                // });
+                // graph.on('afterlayout', function() {
+                //     document.body.removeChild(tipDiv);
+                // });
             },
         },
         async mounted() {

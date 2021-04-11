@@ -73,7 +73,7 @@
                     that.currentGraph.updateLayout({
                         type: value
                     });
-                    that.currentGraph.fitView(20);
+                    that.currentGraph.fitCenter()
                 }, 1000);
                 this.typesettingGraph.updateLayout({
                     type: value
