@@ -29,4 +29,7 @@ body{
   /*height: 100%;*/
   /*overflow: hidden;*/
 }
+#nprogress .bar {
+  background: #D99CA8 !important;
+}
 </style>

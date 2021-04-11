@@ -8,6 +8,6 @@ if (process.env.NODE_ENV !== 'production') {
   require('./services/graph');
 
   Mock.setup({
-    timeout: 200-600 // setter delay time
+    timeout: 3000 // setter delay time
   })
 }

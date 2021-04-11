@@ -32,6 +32,11 @@ const routes = [
     name: 'editor',
     component: ()=> import('@/views/graph2.0/Editor'),
   },
+  {
+    path: '/largeGraph',
+    name: 'largeGraph',
+    component: ()=> import('@/views/graph2.0/components/LargeGraph'),
+  },
 ];
 
 const createRouter = () => new VueRouter({

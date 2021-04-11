@@ -4,7 +4,7 @@
 </template>
 
 <script>
-    import {mapGetters, mapMutations} from 'vuex';
+import {mapActions, mapGetters, mapMutations} from 'vuex';
     // import XBackground from '../../../components/g6/XBackground';
     import G6 from '@antv/g6';
     import { GraphLayoutPredict } from '@antv/vis-predict-engine'
@@ -104,17 +104,36 @@
             },
         ],
     };
+    const mode = {
+        default: [
+            'drag-canvas',
+            'drag-node',
+            'shortcuts-call',
+            {
+                type: 'tooltip', // 提示框
+                formatText(model) {
+                    // 提示框文本内容
+                    return '实体名: ' + model.label + '<br/> 类别: '
+                        + (model.class === undefined ? '无' : model.class);
+                },
+            },
+        ],
+    }
     export default {
         name: "TypesettingGraph",
         data(){
             return {
                 predictLayout: '',
-                confidence: ''
+                confidence: '',
             }
         },
         computed: {
             ...mapGetters([
-                'typesettingGraph'
+                'typesettingGraph',
+                'currentGraphData',
+                'currentShowGraphData',
+                'isNew',
+                'currentSetLayout',
             ])
         },
         methods: {
@@ -124,45 +143,22 @@
                 'set_currentGraph',
                 'set_typesettingGraphRatio'
             ]),
+            ...mapActions([
+                'getPicElements'
+            ]),
             draw(data, layout){
                 const container = document.getElementById('typesetting');
-                const width = container.scrollWidth;
-                const height = window.screen.height * 0.8;
-                // const minimap = new G6.Minimap({
-                //     size: [200, 200],
-                //     className: 'minimap',
-                //     type: 'delegate',
-                // });
-                // const toolbar = new G6.ToolBar({
-                //     position: { x: 0, y: 130 },
-                // });
                 const menu = new G6.Menu();
-                // const grid = new G6.Grid();
-                // const background = new XBackground()
                 let graph = new G6.Graph({
                     container: container,
-                    width,
-                    height,
+                    width: container.scrollWidth,
+                    height: window.screen.height * 0.8,
                     layout: {
                         type: layout,
                         preventOverlap: true,
                         nodeSize: 20,
                     },
-                    modes: {
-                        default: [
-                            'drag-canvas',
-                            'drag-node',
-                            'shortcuts-call',
-                            // 'zoom-canvas',
-                            {
-                                type: 'tooltip', // 提示框
-                                formatText(model) {
-                                    // 提示框文本内容
-                                    return '实体名: ' + model.label + '<br/> 类别: '
-                                        + (model.class === undefined ? '无' : model.class);
-                                },
-                            },],
-                    },
+                    modes: mode,
                     defaultNode: {
                         size: 20,
                     },
@@ -175,11 +171,29 @@
                 });
                 graph.data(data);
                 graph.render();
-
-                // graph.on('wheelzoom', () => {
-                //     let zoom = graph.getZoom();
-                //     console.log('ratio', zoom)
-                // });
+                this.registerBehavior(graph, container);
+                this.set_typesettingGraph(graph);
+            },
+            reDraw(data){
+                const container = document.getElementById('typesetting');
+                const menu = new G6.Menu();
+                let graph = new G6.Graph({
+                    container: container,
+                    width: container.scrollWidth,
+                    height: window.screen.height * 0.8,
+                    modes: mode,
+                    plugins: [toolbar, menu],
+                    minZoom: 0.25,
+                    maxZoom: 2,
+                    fitCenter: true,
+                    fitViewPadding: 20,
+                });
+                graph.data(data);
+                graph.render();
+                this.registerBehavior(graph, container);
+                this.set_typesettingGraph(graph);
+            },
+            registerBehavior(graph, container){
                 if (typeof window !== 'undefined'){
                     let that = this;
                     window.onresize = () => {
@@ -199,17 +213,29 @@
                         graph.changeSize(container.scrollWidth, window.screen.height * 0.8);
                     };
                 }
-                this.set_typesettingGraph(graph);
-            }
+            },
         },
         async mounted() {
-            const { predictLayout, confidence } = await GraphLayoutPredict.predict(testData);
-            this.predictLayout = predictLayout;
-            this.confidence = confidence;
-            this.draw(testData, predictLayout);
-            this.set_currentSetLayout(predictLayout);
-            message.success('预测布局: ' + predictLayout + ' 可信度: ' + confidence)
-            this.set_currentGraph(this.typesettingGraph)
+            if(this.isNew){
+                if(!this.currentGraphData.nodes){
+                    await this.getPicElements();
+                }
+                if(!this.currentSetLayout){
+                    const { predictLayout, confidence } = await GraphLayoutPredict.predict(this.currentGraphData);
+                    this.predictLayout = predictLayout;
+                    this.confidence = confidence;
+                }
+                this.draw(this.currentGraphData, this.predictLayout);
+                this.set_currentSetLayout(this.predictLayout);
+                message.success('预测布局: ' + this.predictLayout + ' 可信度: ' + this.confidence)
+            } else {
+                if(!this.currentShowGraphData.typesetting){
+                    await this.getPicElements();
+                }
+                this.reDraw(this.currentShowGraphData.typesetting);
+            }
+            this.set_currentGraph(this.typesettingGraph);
+            this.$emit('finished');
         },
     }
 </script>

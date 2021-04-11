@@ -123,6 +123,7 @@
                 'set_currentGraph',
                 'set_showDownloadImgModal',
                 'set_showDownloadFileModal',
+                'clear_graphs'
             ]),
             ...mapActions({
                 saveAct: 'save',
@@ -143,11 +144,11 @@
             },
             changeCurrentGraph(key){
                 this.set_currentGraphId(key);
-                if(key === this.graphIds.force){
-                    // this.set_currentGraph(this.forceGraph)
-                } else if(key === this.graphIds.typesetting){
-                    this.set_currentGraph(this.typesettingGraph)
-                }
+                // if(key === this.graphIds.force){
+                //     // this.set_currentGraph(this.forceGraph)
+                // } else if(key === this.graphIds.typesetting){
+                //     this.set_currentGraph(this.typesettingGraph)
+                // }
             },
             toggleHandler (val) {
                 const _t = this
@@ -161,9 +162,12 @@
                 this.btnText = btnTextType.save;
             },
             back(){
+                console.log('getimg', this.currentGraph)
                 let imgUrl = this.currentGraph.toDataURL('image/jpeg', '#FFFFFF');
                 this.$router.go(-1);
                 this.thumbnail(imgUrl);
+                this.clear_graphs();
+                this.set_isNew(false);
             }
         },
     }

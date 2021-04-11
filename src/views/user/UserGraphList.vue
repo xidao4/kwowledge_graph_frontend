@@ -1,5 +1,6 @@
 <template>
     <div class="page-div">
+        <router-link to="/largeGraph">largeGraphTest</router-link>
         <a-list
             rowKey="id"
             :grid="{gutter: 12, lg: 3, md: 2, sm: 1, xs: 1}"
@@ -56,6 +57,7 @@
             ...mapActions([
                 'testToken',
                 'getUserPics',
+                'getPicElements'
             ]),
             ...mapMutations([
                 'set_picId',
