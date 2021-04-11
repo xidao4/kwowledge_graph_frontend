@@ -1,5 +1,6 @@
 <template>
     <div class="page-div">
+        <router-link to="/largeGraph">largeGraphTest</router-link>
         <a-list
             rowKey="id"
             :grid="{gutter: 12, lg: 3, md: 2, sm: 1, xs: 1}"
@@ -56,6 +57,7 @@
             ...mapActions([
                 'testToken',
                 'getUserPics',
+                'getPicElements'
             ]),
             ...mapMutations([
                 'set_picId',
@@ -69,7 +71,9 @@
         mounted() {
             this.testToken();
 
-            this.getUserPics(this.userId);
+            this.getUserPics({
+                userId:this.userId
+            });
             for(let i=0;i<this.picsInfo.length;i++){
                 dataSource.push({
                     id: this.picsInfo[i].picId,
@@ -80,6 +84,7 @@
 
             // test data
             for(let j=0;j<11;j++){
+                //console.log(j);
                 dataSource.push({
                     id: j,
                     picName: "火影忍者",

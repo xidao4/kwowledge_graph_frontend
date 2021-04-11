@@ -26,6 +26,9 @@ const getters={
     searchEdges: state=>state.graph.searchEdges,
     nodesByTypeMap: state=>state.graph.nodesByTypeMap,
     nodesTypes: state=>state.graph.nodesTypes,
+    isNew: state=>state.graph.isNew,
+    currentGraphData: state=>state.graph.currentGraphData,
+    currentShowGraphData: state=>state.graph.currentShowGraphData,
 
     colorList: state=>state.util.colorList,
 

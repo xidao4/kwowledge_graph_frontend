@@ -31,7 +31,7 @@ export function getUserPicsAPI(data){
 //获取历史搜索信息
 export function getHistoryAPI(data){
     return axios({
-        url:`${api.graphPre}/getHistory`,
+        url:`/api/graph/getHistory`,
         method:'POST',
         data:data
     })

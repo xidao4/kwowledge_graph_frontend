@@ -77,7 +77,7 @@ const state = {
     currentStrength: 30,
     showGraphEdges: [],
     currentPicId: '',
-    currentSetLayout: '',
+    currentSetLayout: null,
     forceLayout: [
         {
             key: 'gForce',
@@ -106,7 +106,7 @@ const state = {
             value: '环形布局(circular)'
         },
         {
-            key: 'Radial',
+            key: 'radial',
             value: '辐射状布局(Radial)'
         },
         {
@@ -134,6 +134,7 @@ const state = {
     searchEdges:[],
     nodesByTypesMap:{},
     nodesTypes:[],
+    isNew: false,
 };
 
 const graph = {
@@ -278,8 +279,19 @@ const graph = {
         set_nodesByTypesMap(state,data){
             state.nodesByTypesMap={...data};
         },
-        set_nodesTypes(state,data){
-            state.nodesTypes=data;
+        set_nodesTypes(state,data) {
+            state.nodesTypes = data;
+        },
+        clear_graphs(state) {
+            state.currentGraph = null;
+            state.forceGraph = null;
+            state.typesettingGraph = null;
+            state.currentGraphData = {};
+            state.currentShowGraphData = {};
+            state.currentSetLayout = null;
+        },
+        set_isNew(state, date) {
+            state.isNew = true;
         }
     },
     actions: {
@@ -397,13 +409,14 @@ const graph = {
                 console.log('文件下载失败');
             }
         },
+        // 根据picId获取已有图谱数据（非上传文件获取）
         getPicElements: async({state, commit}) => {
             let picId = state.picId;
             const res = await getPicElementsAPI({
                 picId: picId
             });
             if(res.code < 0) {
-                console.log('图谱加载失败');
+                message.error("图谱获取失败");
             } else {
                 let resData = res.data;
                 commit('set_currentShowGraphData', {
@@ -416,6 +429,32 @@ const graph = {
                         edges: resData.sedges
                     }
                 });
+                let baseNodes = [];
+                let baseEdges = [];
+                // TODO 现在是假设f和s的基本数据一致，后期防御式编程？
+                console.log(res)
+                resData.fedges.forEach((edge) => {
+                    baseEdges.push({
+                        id: edge.id,
+                        label: edge.label,
+                        type: edge.type,
+                        source: edge.source,
+                        target: edge.target
+                    })
+                });
+                resData.fnodes.forEach((node) => {
+                    baseNodes.push({
+                        id: node.id,
+                        label: node.label,
+                        type: node.type
+                    })
+                });
+                commit('set_currentGraphData', {
+                    nodes: baseNodes,
+                    edges: baseEdges
+                })
+                console.log('base', state.currentGraphData);
+                console.log('show', state.currentShowGraphData);
             }
         },
         getPicTypes:async({commit},data)=>{

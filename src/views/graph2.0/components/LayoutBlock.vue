@@ -39,7 +39,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
+    import { mapGetters, mapMutations } from 'vuex';
     import ARow from "ant-design-vue/es/grid/Row";
     import ACol from "ant-design-vue/es/grid/Col";
     export default {
@@ -58,12 +58,27 @@
                 'forceLayout',
                 'layoutType',
                 'currentGraph',
-                'forceGraph'
+                'forceGraph',
+                'typesettingGraph'
             ]),
         },
         methods: {
+            ...mapMutations([
+                'set_currentSetLayout'
+            ]),
             handleLayoutChange(value) {
                 console.log(`selected ${value}`);
+                let that = this;
+                setTimeout(() => {
+                    that.currentGraph.updateLayout({
+                        type: value
+                    });
+                    that.currentGraph.fitCenter()
+                }, 1000);
+                this.typesettingGraph.updateLayout({
+                    type: value
+                });
+                this.set_currentSetLayout(value);
             },
         },
         watch: {
