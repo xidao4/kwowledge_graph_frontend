@@ -5,6 +5,7 @@
             placeholder="输入关键字"
             class="ant-dropdown-link"
             @click="e => e.preventDefault()"
+            maxLength="10"
             v-model="inputText"/>
         <a-menu
             slot="overlay"
@@ -68,7 +69,8 @@ export default {
     },
     methods: {
         ...mapMutations([
-
+            'set_searchNodes',
+            'set_searchEdges',
         ]),
         ...mapActions([
             'getHistory',
@@ -77,13 +79,17 @@ export default {
         async clickItem({ key }) {
             console.log(`Click on item ${key}`);
             this.inputText=key;
-            await this.getHistory({
+            await this.search({
                 keyWord:key,
                 userId:this.userId,
                 picId:this.picId
             })
             this.isSearching=true;
             //TODO 将searchNodes、Edges中的节点、边的style设置为highlight
+            //重新获取最新的搜索记录
+            await this.getHistory({
+                userId:this.userId
+            });
         },
         async clickBtn(){
             if(!this.isSearching){
@@ -94,6 +100,10 @@ export default {
                     picId:this.picId
                 })
                 //TODO 将searchNodes、Edges中的节点、边的style设置为highlight
+                //重新获取最新的搜索记录
+                await this.getHistory({
+                    userId:this.userId
+                });
             }else{
                 this.stopSearch();
             }
@@ -102,6 +112,8 @@ export default {
             //TODO 将searchNodes、Edges中的节点、边的style设置为初始状态（active？）
             this.isSearching=false;
             this.inputText='';
+            this.set_searchEdges([]);
+            this.set_searchNodes([]);
         }
     },
 }

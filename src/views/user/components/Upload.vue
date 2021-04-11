@@ -2,7 +2,7 @@
     <div>
         <a-upload-dragger
             name="file"
-            :multiple="true"
+            :multiple="false"
             action="http://118.182.96.49:8001/api/graph/getAll"
             :headers="headers"
             @change="handleChange"
@@ -14,11 +14,10 @@
                 <a-icon type="inbox" />
             </p>
             <p class="ant-upload-text">
-                Click or drag file to this area to upload
+                点击或拖拽上传".json"文件
             </p>
             <p class="ant-upload-hint">
-                Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-                band files
+                Click or drag file to this area to upload
             </p>
         </a-upload-dragger>
     </div>
@@ -42,7 +41,6 @@ export default {
             fileList:[
 
             ],
-            // uploadText: '点击上传".json"文件',
         };
     },
     components: {
@@ -67,7 +65,7 @@ export default {
         ]),
         handleBeforeUpload(file, fileList) {
             const size=fileList.length;
-            console.log('fileList in handleBeforeUpload',fileList.length);
+            // console.log('fileList in handleBeforeUpload',fileList.length);
             return new Promise((resolve,reject)=>{
                 if(size!=1){
                     if(this.maxNum===1){
@@ -83,7 +81,8 @@ export default {
                         this.maxNum=1;
                         reject(file);
                     }
-                }else{
+                }
+                else{
                     resolve(file);
                 }
             });
