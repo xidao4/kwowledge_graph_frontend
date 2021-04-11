@@ -189,7 +189,6 @@ import {mapActions, mapGetters, mapMutations} from 'vuex';
                     minZoom: 0.25,
                     maxZoom: 5,
                 });
-                console.log('force', data)
                 graph.data(data);
                 graph.render();
                 this.registerBehavior(graph, container);
@@ -221,13 +220,13 @@ import {mapActions, mapGetters, mapMutations} from 'vuex';
                         graph.fitCenter()
                         if(window.innerWidth < 650) {
                             graph.zoomTo(0.5);
-                            that.set_typesettingGraphRatio(0.5);
+                            that.set_forceGraphRatio(0.5);
                         } else if(window.innerWidth < 800){
                             graph.zoomTo(0.75);
-                            that.set_typesettingGraphRatio(0.75);
+                            that.set_forceGraphRatio(0.75);
                         } else {
                             graph.zoomTo(1);
-                            that.set_typesettingGraphRatio(1);
+                            that.set_forceGraphRatio(1);
                         }
                         graph.changeSize(container.scrollWidth, window.screen.height * 0.8);
                     };
