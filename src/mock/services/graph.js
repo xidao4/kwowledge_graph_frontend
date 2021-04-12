@@ -24,14 +24,15 @@ const getPicElement = (options) => {
 };
 
 const getAll = (options) => {
-    const body = getBody(options);
-    console.log('getAll mock body', body);
+    // const body = getBody(options);
+    // console.log('getAll mock body', body);
     return builder({
         picId: "0",
-        ...showGraphData
+        ...graphData2
     }, 0, { 'Custom-Header': Mock.mock('@guid') })
 };
 
-Mock.mock(/\/api\/graph\/save/, 'post', save);
-Mock.mock(/\/api\/graph\/thumbnail/, 'post', thumbnail);
-Mock.mock(/\/api\/graph\/getPicElements/, 'post', getPicElement);
+// Mock.mock(/\/api\/graph\/save/, 'post', save);
+// Mock.mock(/\/api\/graph\/thumbnail/, 'post', thumbnail);
+// Mock.mock(/\/api\/graph\/getPicElements/, 'post', getPicElement);
+// Mock.mock(/\/api\/graph\/getAll/, 'post', getAll);
