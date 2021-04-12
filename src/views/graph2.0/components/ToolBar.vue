@@ -35,6 +35,7 @@
 import {mapMutations, mapGetters} from 'vuex'
 import Scale from './Scale'
 import Search from "./Search";
+import { formatText } from '../../../components/g6/Graph';
 export default {
   name: "ToolBar",
   components: {
@@ -94,19 +95,21 @@ export default {
       } else {
         this.labelTip = '显示关系名'
       }
+      this.showEdgeLabel(value);
     },
-    showEdgeLabel(){
+    showEdgeLabel(isShow){
       const edgeItems = this.currentGraph.getEdges();
-      edgeItems.forEach(e => {
-        e.update({
-          style: {
-            lineWidth,
-            strokeOpacity,
-            stroke
-          }
-        })
+      edgeItems.forEach(item => {
+        let model = {
+          label: '',
+        };
+        if(isShow){
+          model = {
+            label: formatText(model.oriLabel, 8),
+          };
+        };
+        this.currentGraph.updateItem(item, model);
       });
-      this.currentGraph.paint();
     }
   }
 };

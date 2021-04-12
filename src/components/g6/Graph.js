@@ -969,7 +969,7 @@ const clearFocusEdgeState = (graph) => {
 };
 
 // 截断长文本。length 为文本截断后长度，elipsis 是后缀
-const formatText = (text, length = 5, elipsis = '...') => {
+export const formatText = (text, length = 5, elipsis = '...') => {
     if (!text) return '';
     if (text.length > length) {
         return `${text.substr(0, length)}${elipsis}`;
@@ -977,7 +977,7 @@ const formatText = (text, length = 5, elipsis = '...') => {
     return text;
 };
 
-const labelFormatter = (text, minLength = 10) => {
+export const labelFormatter = (text, minLength = 10) => {
     if (text && text.split('').length > minLength) return `${text.substr(0, minLength)}...`;
     return text;
 };
