@@ -23,7 +23,7 @@ const state = {
     graphInfo: [
         'hi'
     ],
-    picId: '',
+    picId: '0',//为测试方便
     relationTypeSet: new Set(),
     currentGraph: null,
     forceGraph: null,
@@ -467,7 +467,7 @@ const graph = {
                 commit('set_edgesTypeCntMap',res.edgesMap);
             }else{
                 console.log('getPicTypesAPI.code<0');
-                message.error(res);
+                message.error(res.data);
             }
         },
         search:async({commit},data)=>{
@@ -480,7 +480,7 @@ const graph = {
                 commit('set_searchEdges',res.edges);
             }else{
                 console.log('searchAPI.code<0');
-                message.error(res);
+                message.error(res.data);
             }
         },
         getNodesByTypesMap:async({commit,state},data)=>{
@@ -490,17 +490,18 @@ const graph = {
                 message.error(res);
             }else if(res.code>=0){
                 commit('set_nodesByTypeMap',res);
+
+                let types=[];
+                let useless=[];
+                for(let[key,value] of state.nodesByTypeMap){
+                    types.push(key);
+                    useless.push(value);
+                }
+                commit('set_nodesTypes',types);
             }else{
                 console.log('getNodesByTypesAPI.code<0');
-                message.error(res);
+                message.error(res.data);
             }
-            let types=[];
-            let useless=[];
-            for(let[key,value] of state.nodesByTypeMap){
-                types.push(key);
-                useless.push(value);
-            }
-            commit('set_nodesTypes',types);
         },
     }
 };

@@ -52,7 +52,7 @@ export default {
 
         ]),
         ...mapActions([
-            'getNodesByTypeMap'
+            'getNodesByTypesMap'
         ]),
         handleChange(tag, checked) {
             const { selectedTags } = this;
