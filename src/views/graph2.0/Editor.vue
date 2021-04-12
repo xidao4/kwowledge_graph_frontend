@@ -26,10 +26,13 @@
                     <ForceGraph v-if="currentGraphId === graphIds.force"></ForceGraph>
                 </div>
             </a-col>
-            <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">
+            <!-- <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">测试暂时删掉 -->
+            <a-col :md="0" :lg="7" :xl="7" xxl="4">
                 <div class="block" :style="this.heightStr">
-                    <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>
-                    <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list>
+                    <!-- <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>
+                    <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list> -->
+                    <edit-entity></edit-entity>
+                    <!-- <edit-relation></edit-relation> -->
                 </div>
             </a-col>
 
@@ -54,6 +57,9 @@
     import ToolBar from "./components/ToolBar.vue"
     import EntityList from "@/views/graph/components/EntityList"
     import RelationList from "@/views/graph/components/RelationList"
+    import EditEntity from "@/views/graph2.0/components/EditEntity"
+    // import EditRelation from './components/EditRelation.vue';
+
     export default {
         name: "Editor",
         data(){
@@ -72,6 +78,8 @@
             ToolBar,
             EntityList,
             RelationList,
+            EditEntity,
+            // EditRelation,
         },
         computed: {
             ...mapGetters([
