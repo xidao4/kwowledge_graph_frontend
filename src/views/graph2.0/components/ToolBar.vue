@@ -50,7 +50,11 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'currentGraph'
+      'currentGraph',
+      'graphIds',
+      'currentGraphId',
+      'forceGraph',
+      'typesettingGraph'
     ])
   },
   mounted(){
@@ -107,8 +111,13 @@ export default {
           model = {
             label: formatText(model.oriLabel, 8),
           };
-        };
+        }
         this.currentGraph.updateItem(item, model);
+        if(this.currentGraphId === this.graphIds.typesetting){
+          this.typesettingGraph.updateItem(item, model);
+        } else if(this.currentGraphId === this.graphIds.force){
+          this.forceGraph.updateItem(item, model);
+        }
       });
     }
   }
