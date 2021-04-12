@@ -1013,10 +1013,14 @@ export const processNodesEdges = (
                 lineWidth: 3,
             },
         };
+        // TODO 添加状态
         node.stateStyles = {
             clicked: {
                 stroke: '#f00',
                     lineWidth: 3,
+            },
+            highlight: {
+                fill: '#000'
             },
         };
         if (currentNodeMap[node.id]) {
@@ -1054,8 +1058,12 @@ export const processNodesEdges = (
         edge.stateStyles = {
             clicked: {
                 stroke: '#f00',
-                    lineWidth: 3,
+                lineWidth: 3,
             },
+            noneLabel: {
+                fill: '#fff',
+                stroke: '#fff'
+            }
         };
     });
 
@@ -1094,6 +1102,7 @@ export const bindListener = (graph) => {
     });
     graph.on('node:click', (e) => {
         clearAllClickedState();
+        console.log('high')
         graph.setItemState(e.item, 'clicked', true);
     });
     graph.on('edge:click', (e) => {
