@@ -290,8 +290,37 @@ const graph = {
             state.currentShowGraphData = {};
             state.currentSetLayout = null;
         },
-        set_isNew(state, date) {
-            state.isNew = true;
+        set_isNew(state, data) {
+            state.isNew = data;
+        },
+        init_graph(state, data) {
+            let baseNodes = [];
+            let baseEdges = [];
+            // TODO 基本数据来自后端，默认排版和力导模式一致，后期防御式编程？
+            if(data.fedges){
+                data.fedges.forEach((edge) => {
+                    baseEdges.push({
+                        id: edge.id,
+                        label: edge.label,
+                        type: edge.type,
+                        source: edge.source,
+                        target: edge.target
+                    })
+                });
+            }
+            if(data.fnodes){
+                data.fnodes.forEach((node) => {
+                    baseNodes.push({
+                        id: node.id,
+                        label: node.label,
+                        type: node.type
+                    })
+                });
+            }
+            state.currentGraphData = {
+                nodes: baseNodes,
+                edges: baseEdges
+            }
         }
     },
     actions: {
@@ -432,23 +461,26 @@ const graph = {
                 let baseNodes = [];
                 let baseEdges = [];
                 // TODO 现在是假设f和s的基本数据一致，后期防御式编程？
-                console.log(res)
-                resData.fedges.forEach((edge) => {
-                    baseEdges.push({
-                        id: edge.id,
-                        label: edge.label,
-                        type: edge.type,
-                        source: edge.source,
-                        target: edge.target
-                    })
-                });
-                resData.fnodes.forEach((node) => {
-                    baseNodes.push({
-                        id: node.id,
-                        label: node.label,
-                        type: node.type
-                    })
-                });
+                if(resData.fedges){
+                    resData.fedges.forEach((edge) => {
+                        baseEdges.push({
+                            id: edge.id,
+                            label: edge.label,
+                            type: edge.type,
+                            source: edge.source,
+                            target: edge.target
+                        })
+                    });
+                }
+                if(resData.fnodes){
+                    resData.fnodes.forEach((node) => {
+                        baseNodes.push({
+                            id: node.id,
+                            label: node.label,
+                            type: node.type
+                        })
+                    });
+                }
                 commit('set_currentGraphData', {
                     nodes: baseNodes,
                     edges: baseEdges
