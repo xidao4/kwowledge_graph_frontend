@@ -2019,7 +2019,7 @@ export const graphData = {
     picId: "0",
     "nodes": [
         {
-            "id": "Myriel"
+            "id": "Myriel",
         },
         {
             "id": "Napoleon"
@@ -3473,24 +3473,104 @@ export const graphData = {
 }
 
 export const graphData2 = {
-    "fnodes": [{
-        "id": "0",
-        "label": "n0",
-        "class": "c0"
-    }],
-    "fedges": [{
-        "id": "0",
-        "label": "n0",
-        "class": "c0"
-    }],
-    "snodes": [{
-        "id": "0",
-        "label": "n0",
-        "class": "c0"
-    }],
-    "sedges": [{
-        "id": "0",
-        "label": "n0",
-        "class": "c0"
-    }],
+    "fnodes": [
+        {
+            "id": "0",
+            "label": "hit_node_1",
+            "type": "type_1",
+            "class": "c0"
+        }, {
+            "id": "1",
+            "label": "hit_node_2",
+            "type": "type_1",
+            "class": "c0"
+        }, {
+            "id": "2",
+            "label": "node_1",
+            "type": "type_2",
+            "class": "c0"
+        }, {
+            "id": "3",
+            "label": "node_2",
+            "type": "type_3",
+            "class": "c0"
+        }
+    ],
+    "fedges": [
+        {
+            "id": "5",
+            "label": "hit_edge_1",
+            "source": "1",
+            "type": "test_type_1",
+            "class": "c0",
+            "target": "2"
+        }, {
+            "id": "6",
+            "label": "edge_1",
+            "source": "1",
+            "type": "test_type_2",
+            "class": "c0",
+            "target": "2"
+        }, {
+            "id": "7",
+            "label": "hit_edge_2",
+            "source": "3",
+            "type": "test_type_1",
+            "class": "c0",
+            "target": "0"
+        }, {
+            "id": "8",
+            "label": "edge_1",
+            "source": "1",
+            "type": "test_type_2",
+            "class": "c0",
+            "target": "3"
+        }
+    ],
+    "snodes": [
+        {
+            "id": "0",
+            "label": "hit_node_1",
+            "type": "type_1",
+        }, {
+            "id": "1",
+            "label": "hit_node_2",
+            "type": "type_1",
+        }, {
+            "id": "2",
+            "label": "node_1",
+            "type": "type_2",
+        }, {
+            "id": "3",
+            "label": "node_2",
+            "type": "type_3",
+        }
+    ],
+    "sedges": [
+        {
+            "id": "5",
+            "label": "hit_edge_1",
+            "source": "1",
+            "type": "test_type_1",
+            "target": "2"
+        }, {
+            "id": "6",
+            "label": "edge_1",
+            "source": "1",
+            "type": "test_type_2",
+            "target": "2"
+        }, {
+            "id": "7",
+            "label": "hit_edge_2",
+            "source": "3",
+            "type": "test_type_1",
+            "target": "0"
+        }, {
+            "id": "8",
+            "label": "edge_1",
+            "source": "1",
+            "type": "test_type_2",
+            "target": "3"
+        }
+    ],
 };

@@ -1,9 +1,9 @@
 <template>
     <div>
         <a-upload-dragger
-            name="file"
-            :multiple="true"
-            action="http://118.182.96.49:8001/api/graph/getAll"
+            name="mfile"
+            :multiple="false"
+            action="http://localhost:8001/api/graph/getAll"
             :headers="headers"
             @change="handleChange"
             :file-list="fileList"
@@ -61,6 +61,8 @@ export default {
             'set_relationTypeSet',
             'set_showGraphNodes',
             'set_showGraphEdges',
+            'init_graph',
+            'set_isNew'
         ]),
         ...mapActions([
 
@@ -89,18 +91,17 @@ export default {
             });
         },
         handleChange(info){
+            console.log(info)
             let fileList=[...info.fileList];
             if(info.file.status==='done'){
                 // this.times=1;
                 if(info.file.response.code>=0){
-                    let resData=info.file.response.data;
+                    let resData = info.file.response.data;
                     console.log('upload res',resData);
                     this.set_picId(resData.picId);
                     // TODO: 设置显示图谱所需要的数据
-                    // this.set_(resData.fnodes);
-                    // this.set_(resData.fedges);
-                    // this.set_(resData.snodes);
-                    // this.set_(resData.sedges);
+                    this.init_graph(resData);
+                    this.set_isNew(true);
                     router.push('/editor');
                 }else{
                     fileList = [];
