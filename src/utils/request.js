@@ -5,7 +5,7 @@ import { setToken, getToken, removeToken } from '@/utils/auth'
 import { message } from 'ant-design-vue'
 
 const service = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? 'http://localhost:8001': 'http://localhost:8001',
+  baseURL: process.env.NODE_ENV === 'production' ? 'http://118.182.96.49:8001': 'http://118.182.96.49:8001',
   timeout: 10 * 1000,
   withCredentials: true
 });
@@ -36,6 +36,7 @@ service.interceptors.response.use(
     return response.data
 },
   err => {
+    console.log(err)
     if (err.response.status === 406) {
       // 刷新token
       const { token } = err.response.headers;
@@ -48,7 +49,7 @@ service.interceptors.response.use(
       removeToken();
       router.push('/login')
     }
-    return null
+    return null;
   }
 )
 

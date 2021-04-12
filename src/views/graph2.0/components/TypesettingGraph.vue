@@ -49,6 +49,7 @@
                 'currentShowGraphData',
                 'isNew',
                 'currentSetLayout',
+                'typesettingEdgeShowLabel',
             ])
         },
         methods: {
@@ -56,7 +57,8 @@
                 'set_typesettingGraph',
                 'set_currentSetLayout',
                 'set_currentGraph',
-                'set_typesettingGraphRatio'
+                'set_typesettingGraphRatio',
+                'set_typesettingEdgeShowLabel'
             ]),
             ...mapActions([
                 'getPicElements'
@@ -86,7 +88,7 @@
                     maxZoom: 2
                 });
                 let tmpData = JSON.parse(JSON.stringify(data));
-                const processRes = processNodesEdges(tmpData.nodes, tmpData.edges, width, height, false);
+                const processRes = processNodesEdges(tmpData.nodes, tmpData.edges, width, height, this.typesettingEdgeShowLabel);
                 bindListener(graph);
                 this.registerBehavior(graph, container);
                 graph.data({nodes: processRes.nodes, edges: processRes.edges});
@@ -110,6 +112,12 @@
                 });
                 graph.data(data);
                 graph.render();
+                console.log(data.nodes);
+                // if(data.nodes.length > 0 && data.nodes[0].label.length > 0){
+                //     this.set_typesettingEdgeShowLabel(true);
+                // } else {
+                //     this.set_typesettingEdgeShowLabel(false);
+                // }
                 bindListener(graph);
                 this.registerBehavior(graph, container);
                 this.set_typesettingGraph(graph);

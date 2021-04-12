@@ -45,13 +45,15 @@
                 'isNew',
                 'currentGraphData',
                 'currentShowGraphData',
+                'forceShowEdgeLabel',
             ])
         },
         methods: {
             ...mapMutations([
                 'set_forceGraph',
                 'set_forceGraphRatio',
-                'set_currentGraph'
+                'set_currentGraph',
+                'set_forceShowEdgeLabel',
             ]),
             ...mapActions([
                 'getPicElements'
@@ -83,7 +85,7 @@
                     maxZoom: 5,
                 });
                 let tmpData = JSON.parse(JSON.stringify(data));
-                const processRes = processNodesEdges(tmpData.nodes, tmpData.edges, width, height, false);
+                const processRes = processNodesEdges(tmpData.nodes, tmpData.edges, width, height, this.forceShowEdgeLabel);
                 bindListener(graph);
                 this.registerBehavior(graph, container);
                 graph.data({nodes: processRes.nodes, edges: processRes.edges});
@@ -111,6 +113,11 @@
                 });
                 graph.data(data);
                 graph.render();
+                if(data.nodes.length > 0 && data.nodes[0].label.length > 0){
+                    this.set_forceShowEdgeLabel(true);
+                } else {
+                    this.set_forceShowEdgeLabel(false);
+                }
                 bindListener(graph);
                 this.registerBehavior(graph, container);
                 this.set_forceGraph(graph);

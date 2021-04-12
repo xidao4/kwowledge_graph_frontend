@@ -3,7 +3,7 @@
         <a-upload-dragger
             name="mfile"
             :multiple="false"
-            action="http://localhost:8001/api/graph/getAll"
+            action="http://118.182.96.49:8001/api/graph/getAll"
             :headers="headers"
             @change="handleChange"
             :file-list="fileList"
@@ -26,7 +26,7 @@
 
 <script>
 import {mapActions, mapGetters, mapMutations} from 'vuex'
-import { getToken } from '@/utils/auth'
+import { getToken, removeToken } from '@/utils/auth'
 import router from '@/router';
 export default {
     name: "Upload.vue",
@@ -91,15 +91,14 @@ export default {
             });
         },
         handleChange(info){
-            console.log(info)
             let fileList=[...info.fileList];
-            if(info.file.status==='done'){
+            let response = info.file.response;
+            if(info.file.status === 'done'){
                 // this.times=1;
-                if(info.file.response.code>=0){
-                    let resData = info.file.response.data;
+                if(response.code >= 0){
+                    let resData = response.data;
                     console.log('upload res',resData);
                     this.set_picId(resData.picId);
-                    // TODO: 设置显示图谱所需要的数据
                     this.init_graph(resData);
                     this.set_isNew(true);
                     router.push('/editor');
@@ -110,6 +109,11 @@ export default {
             }
             else if (info.file.status === 'error') {
                 this.$message.error(`${info.file.name} 文件上传失败.`);
+                if (response.code === 401) {
+                    this.$message.error('请重新登录');
+                    removeToken();
+                    router.push('/login')
+                }
             }
             if(fileList.length > 1){
                 fileList = fileList.slice(-1);

@@ -135,6 +135,8 @@ const state = {
     nodesByTypesMap:{},
     nodesTypes:[],
     isNew: false,
+    forceShowEdgeLabel: false,
+    typesettingEdgeShowLabel: false
 };
 
 const graph = {
@@ -302,7 +304,7 @@ const graph = {
                     baseEdges.push({
                         id: edge.id,
                         label: edge.label,
-                        type: edge.type,
+                        class: edge.class,
                         source: edge.source,
                         target: edge.target
                     })
@@ -313,7 +315,7 @@ const graph = {
                     baseNodes.push({
                         id: node.id,
                         label: node.label,
-                        type: node.type
+                        class: node.class
                     })
                 });
             }
@@ -321,7 +323,13 @@ const graph = {
                 nodes: baseNodes,
                 edges: baseEdges
             }
-        }
+        },
+        set_forceShowEdgeLabel(state, data){
+            state.forceShowEdgeLabel = data;
+        },
+        set_typesettingEdgeShowLabel(state, data){
+            state.typesettingEdgeShowLabel = data;
+        },
     },
     actions: {
         // getAll:async ({commit,state},data)=>{
@@ -466,7 +474,7 @@ const graph = {
                         baseEdges.push({
                             id: edge.id,
                             label: edge.label,
-                            type: edge.type,
+                            class: edge.class,
                             source: edge.source,
                             target: edge.target
                         })
@@ -477,7 +485,7 @@ const graph = {
                         baseNodes.push({
                             id: node.id,
                             label: node.label,
-                            type: node.type
+                            class: node.class
                         })
                     });
                 }

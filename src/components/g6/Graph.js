@@ -120,7 +120,7 @@ const global = {
         },
         labelCfg: {
             style: {
-                fill: '#000',
+                fill: '#0f276e',
                 realEdgeStroke: '#acaeaf', //'#f00',
                 realEdgeOpacity: 0.5,
                 stroke: '#fff',
@@ -1031,7 +1031,7 @@ export const processNodesEdges = (
     });
 
     edges.forEach((edge) => {
-        edge.oriLable = edge.label;
+        edge.oriLabel = edge.label;
         if(edgeLabelVisible){
             edge.label = labelFormatter(edge.label, labelMaxLength);
         } else {
@@ -1113,6 +1113,7 @@ export const bindListener = (graph) => {
         clearAllClickedState();
     });
 };
+
 export const cssStr = `
   .g6-component-tooltip {
     position: absolute;

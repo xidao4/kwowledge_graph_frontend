@@ -29,6 +29,8 @@ const getters={
     isNew: state=>state.graph.isNew,
     currentGraphData: state=>state.graph.currentGraphData,
     currentShowGraphData: state=>state.graph.currentShowGraphData,
+    forceShowEdgeLabel: state=>state.graph.forceShowEdgeLabel,
+    typesettingEdgeShowLabel: state=>state.graph.typesettingEdgeShowLabel,
 
     colorList: state=>state.util.colorList,
 
