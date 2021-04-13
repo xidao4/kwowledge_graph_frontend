@@ -1017,10 +1017,16 @@ export const processNodesEdges = (
         node.stateStyles = {
             clicked: {
                 stroke: '#f00',
-                    lineWidth: 3,
+                lineWidth: 3,
             },
             highlight: {
-                fill: '#000'
+                fill: 'rgb(223, 234, 255)',
+                // stroke: '#4572d9',
+                stroke:'#ff0',
+                lineWidth: 2,
+                // text-shape: {
+                //     fontWeight: 500
+                // }
             },
         };
         if (currentNodeMap[node.id]) {
@@ -1063,6 +1069,10 @@ export const processNodesEdges = (
             noneLabel: {
                 fill: '#fff',
                 stroke: '#fff'
+            },
+            highlight:{
+                stroke:'#ff0',
+                lineWidth: 2,
             }
         };
     });
@@ -1103,17 +1113,53 @@ export const bindListener = (graph) => {
     graph.on('node:click', (e) => {
         clearAllClickedState();
         console.log('high')
-        graph.setItemState(e.item, 'clicked', true);
+        graph.setItemState(e.item, 'highlight', true);
     });
     graph.on('edge:click', (e) => {
         clearAllClickedState();
-        graph.setItemState(e.item, 'clicked', true);
+        graph.setItemState(e.item, 'highlight', true);
     });
     graph.on('canvas:click', (e) => {
         clearAllClickedState();
     });
 };
 
+// <<<<<<< HEAD
+// =======
+export const setHighlight=(graph,searchNodes,searchEdges)=>{
+    searchNodes.forEach((node)=>{
+        graph.setItemState(graph.findById(node.get('id')),'highlight',true);
+    })
+    searchEdges.forEach((edge)=>{
+        graph.setItemState(graph.findById(edge.get('id')),'highlight',true);
+    })
+}
+export const cancelHighlight=(graph,searchNodes,searchEdges)=>{
+    searchNodes.forEach((node)=>{
+        graph.setItemState(graph.findById(node.get('id')),'highlight',false);
+    })
+    searchEdges.forEach((edge)=>{
+        graph.setItemState(graph.findById(edge.get('id')),'highlight',false);
+    })
+}
+export const hideItem=(graph,type)=>{
+    const nodesByType=graph.findAll('node',(node)=>{
+        return node.get('class')===type;
+    })
+    nodesByType.forEach((node)=>{
+        graph.hideItem(node);
+    })
+}
+export const showItem=(graph,type)=>{
+    const nodesByType=graph.findAll('node',(node)=>{
+        return node.get('class')===type;
+    })
+    nodesByType.forEach((node)=>{
+        graph.showItem(node);
+    })
+}
+
+// >>>>>>> feat/我的图谱+统计+搜索+筛选
 export const cssStr = `
   .g6-component-tooltip {
     position: absolute;

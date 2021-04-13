@@ -5,11 +5,12 @@
             placeholder="输入关键字"
             class="ant-dropdown-link"
             @click="e => e.preventDefault()"
+            maxLength=10
             v-model="inputText"/>
         <a-menu
             slot="overlay"
             @click="clickItem">
-            <template v-for="item in userHistory">
+            <template v-for="item in userHistory.data">
                 <a-menu-item :key="item">
                     <span>{{item}}</span>
                 </a-menu-item>
@@ -25,6 +26,7 @@
 
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
+import { setHighlight,cancelHighlight } from '../../../components/g6/Graph.js';
 
 export default {
     name: "Search",
@@ -59,16 +61,19 @@ export default {
             'picId',
             'searchNodes',
             'searchEdges',
+            'currentGraph',
         ])
     },
-    mounted(){
-        this.getHistory({
+    async mounted(){
+        await this.getHistory({
             userId:this.userId
         })
+        console.log('userHistory',this.userHistory);
     },
     methods: {
         ...mapMutations([
-
+            'set_searchNodes',
+            'set_searchEdges',
         ]),
         ...mapActions([
             'getHistory',
@@ -77,13 +82,21 @@ export default {
         async clickItem({ key }) {
             console.log(`Click on item ${key}`);
             this.inputText=key;
-            await this.getHistory({
+            await this.search({
                 keyWord:key,
                 userId:this.userId,
                 picId:this.picId
-            })
+            })//等待的圈
+            console.log('searchNodes',this.searchNodes);
+            console.log('searchEdges',this.searchEdges);
             this.isSearching=true;
-            //TODO 将searchNodes、Edges中的节点、边的style设置为highlight
+            //将searchNodes、Edges中的节点、边的style设置为highlight
+            setHighlight(this.currentGraph,this.searchNodes,this.searchEdges);
+
+            //重新获取最新的搜索记录
+            await this.getHistory({
+                userId:this.userId
+            });
         },
         async clickBtn(){
             if(!this.isSearching){
@@ -92,16 +105,25 @@ export default {
                     keyWord:this.inputText,
                     userId:this.userId,
                     picId:this.picId
-                })
-                //TODO 将searchNodes、Edges中的节点、边的style设置为highlight
+                })//等待的圈
+                //将searchNodes、Edges中的节点、边的style设置为highlight
+                setHighlight(this.currentGraph,this.searchNodes,this.searchEdges);
+                //重新获取最新的搜索记录
+                await this.getHistory({
+                    userId:this.userId
+                });
             }else{
                 this.stopSearch();
             }
         },
         stopSearch(){
-            //TODO 将searchNodes、Edges中的节点、边的style设置为初始状态（active？）
+            //将searchNodes、Edges中的节点、边的style设置为初始状态
+            cancelHighlight(this.currentGraph,this.searchNodes,this.searchEdges);
+
             this.isSearching=false;
             this.inputText='';
+            this.set_searchEdges([]);
+            this.set_searchNodes([]);
         }
     },
 }

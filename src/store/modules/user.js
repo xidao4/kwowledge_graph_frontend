@@ -10,7 +10,7 @@ import {removeToken, setToken} from '@/utils/auth'
 
 const state = {
     token: '',
-    userId: '',
+    userId: '1',
     userInfo: {
         username: 'test'
     },
@@ -63,12 +63,13 @@ const user = {
             const res = await testTokenAPI();
             message.success(res.data);
         },
-        getUserPics: async({commit},data)=>{//a
+        getUserPics: async({commit,state},data)=>{
             const res=await getUserPicsAPI(data);
             console.log('getUserPicsAPI',res);
-            commit('set_picsInfo',res);
+            commit('set_picsInfo',res.data);
+            console.log('state.picsInfo',state.picsInfo);
         },
-        getHistory:async({commit},data)=>{//a
+        getHistory:async({commit},data)=>{
             const res=await getHistoryAPI(data);
             if(res===null){
                 console.log('getHistoryAPI=null');
