@@ -55,6 +55,7 @@
                 'set_currentGraph',
                 'set_forceShowEdgeLabel',
                 'set_isNew',
+                'set_currentShowGraphData_force'
             ]),
             ...mapActions([
                 'getPicElements',
@@ -92,6 +93,7 @@
                 this.registerBehavior(graph, container);
                 graph.data({nodes: processRes.nodes, edges: processRes.edges});
                 graph.render();
+                this.set_currentShowGraphData_force(graph.save());
                 this.set_forceGraph(graph);
                 this.save(false);
                 this.set_isNew(false);

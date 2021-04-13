@@ -31,6 +31,8 @@ const getters={
     currentShowGraphData: state=>state.graph.currentShowGraphData,
     forceShowEdgeLabel: state=>state.graph.forceShowEdgeLabel,
     typesettingEdgeShowLabel: state=>state.graph.typesettingEdgeShowLabel,
+    currentCombos: state=>state.graph.currentCombos,
+    currentShowCombos: state=>state.graph.currentShowCombos,
 
     colorList: state=>state.util.colorList,
 

@@ -38,9 +38,9 @@ const { labelPropagation, louvain, findShortestPath } = G6.Algorithm;
 const { uniqueId } = G6.Util;
 
 const NODESIZEMAPPING = 'degree';
-const SMALLGRAPHLABELMAXLENGTH = 5;
+const SMALLGRAPHLABELMAXLENGTH = 8;
 let labelMaxLength = SMALLGRAPHLABELMAXLENGTH;
-const DEFAULTNODESIZE = 20;
+const DEFAULTNODESIZE = 25;
 const DEFAULTAGGREGATEDNODESIZE = 53;
 const NODE_LIMIT = 80; // TODO: find a proper number for maximum node number on the canvas
 
@@ -995,10 +995,15 @@ export const processNodesEdges = (
     const paddingLeft = paddingRatio * width;
     const paddingTop = paddingRatio * height;
     if (!nodes || nodes.length === 0) return {};
+    let combosList = [];
     nodes.forEach((node) => {
         node.oriLabel = node.label;
         node.label = formatText(node.label, labelMaxLength, '...');
         node.size = DEFAULTNODESIZE;
+        node.comboId = node.class;
+        if(combosList.indexOf(node.comboId) === -1){
+            combosList.push(node.comboId);
+        }
         node.style = {
             fill: '#E65D6E',
             stroke: '#D99CA8'
@@ -1016,8 +1021,10 @@ export const processNodesEdges = (
         // TODO 添加状态
         node.stateStyles = {
             clicked: {
-                stroke: '#f00',
-                    lineWidth: 3,
+                shadowColor: node.style.fill,
+                lineWidth: 0,
+                fill: node.style.fill,
+                shadowBlur: 15,
             },
             highlight: {
                 fill: '#000'
@@ -1038,11 +1045,15 @@ export const processNodesEdges = (
             edge.label = '';
         }
         edge.style = {
-            stroke: global.edge.style.realEdgeStroke,
-            strokeOpacity: global.edge.style.realEdgeOpacity,
+            stroke: '#D99CA8',
+            // strokeOpacity: global.edge.style.realEdgeOpacity,
             cursor: 'pointer',
             lineAppendWidth: Math.max(edge.size || 5, 5),
             fillOpacity: 1,
+            endArrow: {
+                path: G6.Arrow.triangle(),
+                fill: "#D99CA8"
+            },
         };
         edge.labelCfg = {
             autoRotate: true,
@@ -1066,11 +1077,19 @@ export const processNodesEdges = (
             }
         };
     });
+    let combos = [];
+    combosList.forEach(combo => {
+        combos.push({
+            id: combo,
+            label: combo
+        })
+    });
 
     G6.Util.processParallelEdges(edges);
     return {
         edges,
-        nodes
+        nodes,
+        combos
     };
 };
 
@@ -1099,6 +1118,9 @@ export const bindListener = (graph) => {
     graph.on('node:dragend', function (e) {
         e.item.get('model').fx = null;
         e.item.get('model').fy = null;
+        graph.getCombos().forEach((combo) => {
+            graph.setItemState(combo, 'dragenter', false);
+        });
     });
     graph.on('node:click', (e) => {
         clearAllClickedState();
@@ -1111,6 +1133,27 @@ export const bindListener = (graph) => {
     });
     graph.on('canvas:click', (e) => {
         clearAllClickedState();
+    });
+    graph.on('combo:dragend', (e) => {
+        graph.getCombos().forEach((combo) => {
+            graph.setItemState(combo, 'dragenter', false);
+        });
+    });
+    graph.on('combo:dragenter', (e) => {
+        graph.setItemState(e.item, 'dragenter', true);
+    });
+    graph.on('combo:dragleave', (e) => {
+        graph.setItemState(e.item, 'dragenter', false);
+    });
+
+    graph.on('combo:mouseenter', (evt) => {
+        const { item } = evt;
+        graph.setItemState(item, 'active', true);
+    });
+
+    graph.on('combo:mouseleave', (evt) => {
+        const { item } = evt;
+        graph.setItemState(item, 'active', false);
     });
 };
 
