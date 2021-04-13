@@ -117,11 +117,11 @@
                 });
                 graph.data(data);
                 graph.render();
-                if(data.nodes.length > 0 && data.nodes[0].label.length > 0){
-                    this.set_forceShowEdgeLabel(true);
-                } else {
-                    this.set_forceShowEdgeLabel(false);
-                }
+                // if(data.nodes.length > 0 && data.nodes[0].label.length > 0){
+                //     this.set_forceShowEdgeLabel(true);
+                // } else {
+                //     this.set_forceShowEdgeLabel(false);
+                // }
                 bindListener(graph);
                 this.registerBehavior(graph, container);
                 this.set_forceGraph(graph);
@@ -150,7 +150,6 @@
         },
         async mounted() {
             insertCss(cssStr);
-            console.log('pre', this.currentShowGraphData)
             if(this.isNew || this.currentShowGraphData.force.nodes.length === 0){
                 if(!this.currentGraphData.nodes){
                     await this.getPicElements();
