@@ -26,6 +26,7 @@
 
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
+import { setHighlight,cancelHighlight } from '../../../components/g6/Graph.js';
 
 export default {
     name: "Search",
@@ -60,6 +61,7 @@ export default {
             'picId',
             'searchNodes',
             'searchEdges',
+            'currentGraph',
         ])
     },
     async mounted(){
@@ -88,7 +90,9 @@ export default {
             console.log('searchNodes',this.searchNodes);
             console.log('searchEdges',this.searchEdges);
             this.isSearching=true;
-            //TODO 将searchNodes、Edges中的节点、边的style设置为highlight
+            //将searchNodes、Edges中的节点、边的style设置为highlight
+            setHighlight(this.currentGraph,this.searchNodes,this.searchEdges);
+
             //重新获取最新的搜索记录
             await this.getHistory({
                 userId:this.userId
@@ -102,7 +106,8 @@ export default {
                     userId:this.userId,
                     picId:this.picId
                 })//等待的圈
-                //TODO 将searchNodes、Edges中的节点、边的style设置为highlight
+                //将searchNodes、Edges中的节点、边的style设置为highlight
+                setHighlight(this.currentGraph,this.searchNodes,this.searchEdges);
                 //重新获取最新的搜索记录
                 await this.getHistory({
                     userId:this.userId
@@ -112,7 +117,9 @@ export default {
             }
         },
         stopSearch(){
-            //TODO 将searchNodes、Edges中的节点、边的style设置为初始状态（active？）
+            //将searchNodes、Edges中的节点、边的style设置为初始状态
+            cancelHighlight(this.currentGraph,this.searchNodes,this.searchEdges);
+
             this.isSearching=false;
             this.inputText='';
             this.set_searchEdges([]);

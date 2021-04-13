@@ -18,6 +18,7 @@
 
 
 import {mapActions, mapGetters, mapMutations} from "vuex";
+import { hideItem,showItem } from '../../../components/g6/Graph.js';
 
 export default {
     name: "TypeFilter",
@@ -34,13 +35,13 @@ export default {
   },
     computed: {
         ...mapGetters([
-            'nodesByTypeMap',
             'picId',
             'nodesTypes',
+            'currentGraph',
         ])
     },
     async mounted(){
-        await this.getNodesByTypesMap({
+        await this.getNodeTypes({
             picId:this.picId
         });
         for(let i=0;i<this.nodesTypes.length;i++){
@@ -52,7 +53,7 @@ export default {
 
         ]),
         ...mapActions([
-            'getNodesByTypesMap'
+            'getNodeTypes',
         ]),
         handleChange(tag, checked) {
             const { selectedTags } = this;
@@ -62,18 +63,11 @@ export default {
             console.log('你选择的节点类型有: ', nextSelectedTags);
             this.selectedTags = nextSelectedTags;
 
-            //获取该类型的所有节点
-            let nodesByType=this.nodesByTypeMap.get(tag);
-            console.log('nodesByType',nodesByType);
             if(checked){
-                //TODO 将该类型所有节点加入showNodes
-// 根据node-edges映射，将节点拥有的边加入showEdges，要判断另一头的节点是否也在showNodes中
+                showItem(this.currentGraph,tag);
             }else{
-  //TODO 将该类型所有节点从showNodes中删除，将节点拥有的边从showEdges中删除
+                hideItem(this.currentGraph,tag);
             }
-            //allNodes allEdges showNodes showEdges
-            //node-edges映射map
-            //active selected highlight inactive disable hover click
         },
     }
 }

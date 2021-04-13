@@ -16,9 +16,6 @@
             <p class="ant-upload-text">
                 点击或拖拽上传".json"文件
             </p>
-            <p class="ant-upload-hint">
-                Click or drag file to this area to upload
-            </p>
         </a-upload-dragger>
     </div>
 </template>
@@ -66,6 +63,7 @@ export default {
 
         ]),
         handleBeforeUpload(file, fileList) {
+            console.log('handleBeforeUpload')
             const size=fileList.length;
             // console.log('fileList in handleBeforeUpload',fileList.length);
             return new Promise((resolve,reject)=>{
@@ -90,18 +88,21 @@ export default {
             });
         },
         handleChange(info){
+            console.log('handleChange')
             console.log(info)
             let fileList=[...info.fileList];
             if(info.file.status==='done'){
                 // this.times=1;
                 if(info.file.response.code>=0){
+                    router.push('/editor');
                     let resData = info.file.response.data;
                     console.log('upload res',resData);
                     this.set_picId(resData.picId);
-                    // TODO: 设置显示图谱所需要的数据
+
+                    // 设置显示图谱所需要的数据
                     this.init_graph(resData);
                     this.set_isNew(true);
-                    router.push('/editor');
+
                 }else{
                     fileList = [];
                     this.$message.error(`${info.file.name} 文件上传失败.`);
