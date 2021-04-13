@@ -4,6 +4,7 @@
         <a-row>
             <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" xxl="6">
                 <Upload class="myDiv"></Upload>
+<!--                <Upload></Upload>-->
             </a-col>
             <template v-for="(item,index) in this.dataSource">
                 <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" xxl="6">
