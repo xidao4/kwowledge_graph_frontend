@@ -145,6 +145,7 @@ export default {
       let model={
         id:  `relation-${this.relationId}`,
         label: newData.name,
+        oriLabel: newData.name,
         type: 'quadratic',
         source: tempSource,
         target: tempTarget,
@@ -152,6 +153,14 @@ export default {
       }
       console.log('relationModel',model)
       this.currentGraph.addItem('edge',model)
+      this.currentGraphData.edges.push({
+        class:'c0',
+        id:`relation-${this.relationId}`,
+        label: newData.name,
+        oriLabel: newData.name,
+        source: model.source,
+        target: model.target
+      })
       this.set_relationId();
       // await this.addRelation(data);
       // this.add_showGraphEdges(newData);
