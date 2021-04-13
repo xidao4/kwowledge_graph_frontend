@@ -132,7 +132,8 @@ export default {
       this.addRelationForm.resetFields();
       let tempSource=''
       let tempTarget=''
-      console.log(this.currentGraphData.nodes)
+      console.log(this.currentGraphData.edges)
+
       for(let i=0;i<this.currentGraphData.nodes.length;i++){
         if(newData.node1===this.currentGraphData.nodes[i].oriLabel){
           tempSource=this.currentGraphData.nodes[i].id
@@ -151,6 +152,7 @@ export default {
       }
       console.log('relationModel',model)
       this.currentGraph.addItem('edge',model)
+      this.set_relationId();
       // await this.addRelation(data);
       // this.add_showGraphEdges(newData);
     },
