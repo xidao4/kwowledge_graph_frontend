@@ -83,12 +83,41 @@
                         type: 'circle',
                         style: {
                             // fill: '#D99CA8',
-                            stroke: '#aa9fac',
+                            stroke: '#D99CA8',
                             lineWidth: 2,
                         },
                         labelCfg: {
                             refY: 15,
                             position: 'bottom',
+                        },
+                    },
+                    comboStateStyles: {
+                        dragenter: {
+                            shadowColor: '#D99CA8',
+                            lineWidth: 0,
+                            fill: '#fff',
+                            shadowBlur: 10,
+                            // stroke: '#f00'
+                        },
+                        selected: {
+                            stroke: "#D99CA8",
+                            fill: "#fff",
+                            shadowBlur: 10,
+                            shadowColor: "#D99CA8",
+                            textShape:
+                                {
+                                    fontWeight: 500
+                                }
+                        },
+                        active: {
+                            stroke: "#D99CA8",
+                            fill: "#fff",
+                            shadowBlur: 10,
+                            shadowColor: "#D99CA8",
+                            textShape:
+                                {
+                                    fontWeight: 500
+                                }
                         },
                     },
                     layout: {

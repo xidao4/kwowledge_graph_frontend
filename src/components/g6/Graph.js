@@ -1020,7 +1020,7 @@ export const processNodesEdges = (
         };
         // TODO 添加状态
         node.stateStyles = {
-            clicked: {
+            selected: {
                 shadowColor: node.style.fill,
                 lineWidth: 0,
                 fill: node.style.fill,
@@ -1074,9 +1074,11 @@ export const processNodesEdges = (
             },
         };
         edge.stateStyles = {
-            clicked: {
-                stroke: '#f00',
-                lineWidth: 3,
+            selected: {
+                shadowColor: edge.style.endArrow.fill,
+                fill: edge.style.endArrow.fill,
+                shadowBlur: 5,
+                stroke: edge.style.endArrow.fill
             },
             noneLabel: {
                 fill: '#fff',
@@ -1111,12 +1113,11 @@ export const bindListener = (graph) => {
         model.fy = e.y;
     }
     function clearAllClickedState(){
-        graph.findAllByState('node', 'clicked').forEach((node) => {
-            console.log(node);
-            graph.setItemState(node, 'clicked', false);
+        graph.findAllByState('node', 'selected').forEach((node) => {
+            graph.setItemState(node, 'selected', false);
         });
-        graph.findAllByState('edge', 'clicked').forEach((edge) => {
-            graph.setItemState(edge, 'clicked', false);
+        graph.findAllByState('edge', 'selected').forEach((edge) => {
+            graph.setItemState(edge, 'selected', false);
         });
     }
     graph.on('node:dragstart', function (e) {
@@ -1136,36 +1137,40 @@ export const bindListener = (graph) => {
     });
     graph.on('node:click', (e) => {
         clearAllClickedState();
-        graph.setItemState(e.item, 'clicked', true);
+        graph.setItemState(e.item, 'selected', true);
     });
     graph.on('edge:click', (e) => {
         clearAllClickedState();
-        graph.setItemState(e.item, 'clicked', true);
+        graph.setItemState(e.item, 'selected', true);
     });
     graph.on('canvas:click', (e) => {
         clearAllClickedState();
     });
+    // graph.on('combo:click', (e) => {
+    //     console.log('selected')
+    //     graph.setItemState(e.item, 'selected', true);
+    // });
     graph.on('combo:dragend', (e) => {
         graph.getCombos().forEach((combo) => {
             graph.setItemState(combo, 'dragenter', false);
         });
     });
     graph.on('combo:dragenter', (e) => {
+        console.log('dragenter')
         graph.setItemState(e.item, 'dragenter', true);
     });
     graph.on('combo:dragleave', (e) => {
         graph.setItemState(e.item, 'dragenter', false);
     });
-
-    // graph.on('combo:mouseenter', (evt) => {
-    //     const { item } = evt;
-    //     graph.setItemState(item, 'active', true);
-    // });
-    //
-    // graph.on('combo:mouseleave', (evt) => {
-    //     const { item } = evt;
-    //     graph.setItemState(item, 'active', false);
-    // });
+    graph.on('combo:mouseenter', (evt) => {
+        console.log('active')
+        const { item } = evt;
+        graph.setItemState(item, 'active', true);
+    });
+    graph.on('combo:mouseleave', (evt) => {
+        const { item } = evt;
+        graph.setItemState(item, 'active', false);
+    });
 };
 
 // <<<<<<< HEAD
