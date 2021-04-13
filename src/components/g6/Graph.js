@@ -1025,6 +1025,7 @@ export const processNodesEdges = (
                 lineWidth: 0,
                 fill: node.style.fill,
                 shadowBlur: 15,
+                // stroke: '#f00'
             },
             highlight: {
                 fill: 'rgb(223, 234, 255)',
@@ -1111,6 +1112,7 @@ export const bindListener = (graph) => {
     }
     function clearAllClickedState(){
         graph.findAllByState('node', 'clicked').forEach((node) => {
+            console.log(node);
             graph.setItemState(node, 'clicked', false);
         });
         graph.findAllByState('edge', 'clicked').forEach((edge) => {
@@ -1134,12 +1136,11 @@ export const bindListener = (graph) => {
     });
     graph.on('node:click', (e) => {
         clearAllClickedState();
-        console.log('high')
-        graph.setItemState(e.item, 'highlight', true);
+        graph.setItemState(e.item, 'clicked', true);
     });
     graph.on('edge:click', (e) => {
         clearAllClickedState();
-        graph.setItemState(e.item, 'highlight', true);
+        graph.setItemState(e.item, 'clicked', true);
     });
     graph.on('canvas:click', (e) => {
         clearAllClickedState();
@@ -1156,15 +1157,15 @@ export const bindListener = (graph) => {
         graph.setItemState(e.item, 'dragenter', false);
     });
 
-    graph.on('combo:mouseenter', (evt) => {
-        const { item } = evt;
-        graph.setItemState(item, 'active', true);
-    });
-
-    graph.on('combo:mouseleave', (evt) => {
-        const { item } = evt;
-        graph.setItemState(item, 'active', false);
-    });
+    // graph.on('combo:mouseenter', (evt) => {
+    //     const { item } = evt;
+    //     graph.setItemState(item, 'active', true);
+    // });
+    //
+    // graph.on('combo:mouseleave', (evt) => {
+    //     const { item } = evt;
+    //     graph.setItemState(item, 'active', false);
+    // });
 };
 
 // <<<<<<< HEAD

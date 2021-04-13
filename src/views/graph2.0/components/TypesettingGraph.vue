@@ -82,17 +82,13 @@
                     defaultCombo: {
                         type: 'circle',
                         style: {
-                            lineWidth: 1,
+                            // fill: '#D99CA8',
+                            stroke: '#aa9fac',
+                            lineWidth: 2,
                         },
                         labelCfg: {
                             refY: 15,
                             position: 'bottom',
-                        },
-                    },
-                    comboStateStyles: {
-                        dragenter: {
-                            lineWidth: 4,
-                            stroke: '#FE9797',
                         },
                     },
                     layout: {
@@ -114,7 +110,6 @@
                 bindListener(graph);
                 this.registerBehavior(graph, container);
                 this.set_currentCombos(processRes.combos);
-                console.log('why-------------------', this.currentShowCombos)
                 if(this.currentShowCombos){
                     graph.data({nodes: processRes.nodes, edges: processRes.edges, combos: processRes.combos});
                 } else {
