@@ -54,9 +54,11 @@
                 'set_forceGraphRatio',
                 'set_currentGraph',
                 'set_forceShowEdgeLabel',
+                'set_isNew',
             ]),
             ...mapActions([
-                'getPicElements'
+                'getPicElements',
+                'save'
             ]),
             draw(data){
                 const container = document.getElementById('force');
@@ -91,6 +93,8 @@
                 graph.data({nodes: processRes.nodes, edges: processRes.edges});
                 graph.render();
                 this.set_forceGraph(graph);
+                this.save(false);
+                this.set_isNew(false);
             },
             reDraw(data){
                 const container = document.getElementById('force');
@@ -146,7 +150,8 @@
         },
         async mounted() {
             insertCss(cssStr);
-            if(this.isNew){
+            console.log('pre', this.currentShowGraphData)
+            if(this.isNew || this.currentShowGraphData.force.nodes.length === 0){
                 if(!this.currentGraphData.nodes){
                     await this.getPicElements();
                 }

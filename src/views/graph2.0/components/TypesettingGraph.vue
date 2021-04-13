@@ -38,8 +38,6 @@
         name: "TypesettingGraph",
         data(){
             return {
-                predictLayout: '',
-                confidence: '',
             }
         },
         computed: {
@@ -58,10 +56,11 @@
                 'set_currentSetLayout',
                 'set_currentGraph',
                 'set_typesettingGraphRatio',
-                'set_typesettingEdgeShowLabel'
+                'set_typesettingEdgeShowLabel',
             ]),
             ...mapActions([
-                'getPicElements'
+                'getPicElements',
+                'save'
             ]),
             draw(data, layout){
                 const container = document.getElementById('typesetting');
@@ -94,6 +93,7 @@
                 graph.data({nodes: processRes.nodes, edges: processRes.edges});
                 graph.render();
                 this.set_typesettingGraph(graph);
+                this.save(false);
             },
             reDraw(data){
                 const container = document.getElementById('typesetting');
@@ -112,7 +112,6 @@
                 });
                 graph.data(data);
                 graph.render();
-                console.log(data.nodes);
                 // if(data.nodes.length > 0 && data.nodes[0].label.length > 0){
                 //     this.set_typesettingEdgeShowLabel(true);
                 // } else {
@@ -151,15 +150,11 @@
                     await this.getPicElements();
                 }
                 if(!this.currentSetLayout){
-                    console.log('in', this.currentSetLayout);
                     const { predictLayout, confidence } = await GraphLayoutPredict.predict(this.currentGraphData);
-                    this.predictLayout = predictLayout;
-                    this.confidence = confidence;
-                    this.set_currentSetLayout(this.predictLayout);
-                    message.success('预测布局: ' + this.predictLayout + ' 可信度: ' + this.confidence)
+                    this.set_currentSetLayout(predictLayout);
+                    message.success('预测布局: ' + predictLayout + ' 可信度: ' + confidence)
                 }
-                console.log('draw', this.currentGraphData);
-                this.draw(this.currentGraphData, this.predictLayout);
+                this.draw(this.currentGraphData, this.currentSetLayout);
             } else {
                 if(!this.currentShowGraphData.typesetting){
                     await this.getPicElements();

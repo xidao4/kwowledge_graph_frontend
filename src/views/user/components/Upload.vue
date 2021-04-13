@@ -28,6 +28,7 @@
 import {mapActions, mapGetters, mapMutations} from 'vuex'
 import { getToken, removeToken } from '@/utils/auth'
 import router from '@/router';
+import { setTokenByKey, removeTokenByKey } from '@/utils/cache'
 export default {
     name: "Upload.vue",
     // props: ['triggerGraphDraw'],
@@ -99,6 +100,7 @@ export default {
                     let resData = response.data;
                     console.log('upload res',resData);
                     this.set_picId(resData.picId);
+                    setTokenByKey('picId', resData.picId);
                     this.init_graph(resData);
                     this.set_isNew(true);
                     router.push('/editor');

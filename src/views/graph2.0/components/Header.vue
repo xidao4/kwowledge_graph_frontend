@@ -123,7 +123,8 @@
                 'set_currentGraph',
                 'set_showDownloadImgModal',
                 'set_showDownloadFileModal',
-                'clear_graphs'
+                'clear_graphs',
+                'set_isNew'
             ]),
             ...mapActions({
                 saveAct: 'save',
@@ -154,15 +155,14 @@
                 const _t = this
                 _t.isExpand = val !== undefined ? val : !_t.isExpand
             },
-            async save(){
+            save(){
                 this.loading = true;
                 this.btnText = btnTextType.saveLoading;
-                await this.saveAct();
+                this.saveAct();
                 this.loading = false;
                 this.btnText = btnTextType.save;
             },
             back(){
-                console.log('getimg', this.currentGraph)
                 let imgUrl = this.currentGraph.toDataURL('image/jpeg', '#FFFFFF');
                 this.$router.go(-1);
                 this.thumbnail(imgUrl);
