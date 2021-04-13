@@ -10,13 +10,13 @@
       "id": "1",
       "label": "hit_node_2",
       "type": "type_1",
-      "class": "c0"
+      "class": "c1"
     },
     {
       "id": "2",
       "label": "node_1",
       "type": "type_2",
-      "class": "c0"
+      "class": "c1"
     },
     {
       "id": "3",

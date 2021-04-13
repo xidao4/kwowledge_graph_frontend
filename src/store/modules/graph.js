@@ -138,7 +138,9 @@ const state = {
     nodesTypes:[],
     isNew: false,
     forceShowEdgeLabel: false,
-    typesettingEdgeShowLabel: false
+    typesettingEdgeShowLabel: false,
+    currentCombos: [],
+    currentShowCombos: true,
 };
 
 const graph = {
@@ -294,6 +296,7 @@ const graph = {
             state.currentGraphData = {};
             state.currentShowGraphData = {};
             state.currentSetLayout = null;
+            state.currentCombos = [];
         },
         set_isNew(state, data) {
             state.isNew = data;
@@ -325,7 +328,8 @@ const graph = {
             state.currentGraphData = {
                 nodes: baseNodes,
                 edges: baseEdges
-            }
+            };
+
         },
         set_forceShowEdgeLabel(state, data){
             state.forceShowEdgeLabel = data;
@@ -333,6 +337,24 @@ const graph = {
         set_typesettingEdgeShowLabel(state, data){
             state.typesettingEdgeShowLabel = data;
         },
+        set_currentCombos(state, data){
+            state.currentCombos = [...data];
+        },
+        set_currentShowCombos(state, data){
+            state.currentShowCombos = data;
+        },
+        set_currentShowGraphData_force(state, data) {
+            state.currentShowGraphData.force = {
+                nodes: data.nodes,
+                edges: data.edges
+            };
+        },
+        set_currentShowGraphData_typesetting(state, data) {
+            state.currentShowGraphData.typesetting = {
+                nodes: data.nodes,
+                edges: data.edges
+            };
+        }
     },
     actions: {
         // getAll:async ({commit,state},data)=>{

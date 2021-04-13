@@ -55,6 +55,7 @@
                 'set_currentGraph',
                 'set_forceShowEdgeLabel',
                 'set_isNew',
+                'set_currentShowGraphData_force'
             ]),
             ...mapActions([
                 'getPicElements',
@@ -92,6 +93,7 @@
                 this.registerBehavior(graph, container);
                 graph.data({nodes: processRes.nodes, edges: processRes.edges});
                 graph.render();
+                this.set_currentShowGraphData_force(graph.save());
                 this.set_forceGraph(graph);
                 this.save(false);
                 this.set_isNew(false);
@@ -117,11 +119,11 @@
                 });
                 graph.data(data);
                 graph.render();
-                if(data.nodes.length > 0 && data.nodes[0].label.length > 0){
-                    this.set_forceShowEdgeLabel(true);
-                } else {
-                    this.set_forceShowEdgeLabel(false);
-                }
+                // if(data.nodes.length > 0 && data.nodes[0].label.length > 0){
+                //     this.set_forceShowEdgeLabel(true);
+                // } else {
+                //     this.set_forceShowEdgeLabel(false);
+                // }
                 bindListener(graph);
                 this.registerBehavior(graph, container);
                 this.set_forceGraph(graph);
@@ -150,7 +152,6 @@
         },
         async mounted() {
             insertCss(cssStr);
-            console.log('pre', this.currentShowGraphData)
             if(this.isNew || this.currentShowGraphData.force.nodes.length === 0){
                 if(!this.currentGraphData.nodes){
                     await this.getPicElements();

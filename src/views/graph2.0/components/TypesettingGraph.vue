@@ -32,6 +32,9 @@
             'drag-canvas',
             'drag-node',
             'shortcuts-call',
+            'drag-combo',
+            'collapse-expand-combo',
+            'click-select'
         ],
     };
     export default {
@@ -48,6 +51,8 @@
                 'isNew',
                 'currentSetLayout',
                 'typesettingEdgeShowLabel',
+                'currentShowCombos',
+                'currentCombos'
             ])
         },
         methods: {
@@ -57,6 +62,9 @@
                 'set_currentGraph',
                 'set_typesettingGraphRatio',
                 'set_typesettingEdgeShowLabel',
+                'set_currentCombos',
+                'set_currentShowGraphData',
+                'set_currentShowGraphData_typesetting'
             ]),
             ...mapActions([
                 'getPicElements',
@@ -70,28 +78,50 @@
                     container: container,
                     width,
                     height,
+                    groupByTypes: false,
+                    defaultCombo: {
+                        type: 'circle',
+                        style: {
+                            lineWidth: 1,
+                        },
+                        labelCfg: {
+                            refY: 15,
+                            position: 'bottom',
+                        },
+                    },
+                    comboStateStyles: {
+                        dragenter: {
+                            lineWidth: 4,
+                            stroke: '#FE9797',
+                        },
+                    },
                     layout: {
                         type: layout,
                         preventOverlap: true,
-                        nodeSize: 20,
+                        // nodeSize: 20,
+                        linkDistance: 25
                     },
                     modes: mode,
-                    defaultNode: {
-                        size: 20,
-                    },
-                    // fitView: true,
                     fitCenter: true,
                     fitViewPadding: 20,
                     plugins: [tooltip],
                     minZoom: 0.25,
                     maxZoom: 2
                 });
+                // 深拷贝
                 let tmpData = JSON.parse(JSON.stringify(data));
                 const processRes = processNodesEdges(tmpData.nodes, tmpData.edges, width, height, this.typesettingEdgeShowLabel);
                 bindListener(graph);
                 this.registerBehavior(graph, container);
-                graph.data({nodes: processRes.nodes, edges: processRes.edges});
+                this.set_currentCombos(processRes.combos);
+                console.log('why-------------------', this.currentShowCombos)
+                if(this.currentShowCombos){
+                    graph.data({nodes: processRes.nodes, edges: processRes.edges, combos: processRes.combos});
+                } else {
+                    graph.data({nodes: processRes.nodes, edges: processRes.edges});
+                }
                 graph.render();
+                this.set_currentShowGraphData_typesetting(graph.save());
                 this.set_typesettingGraph(graph);
                 this.save(false);
             },
@@ -110,13 +140,12 @@
                     fitCenter: true,
                     fitViewPadding: 20,
                 });
-                graph.data(data);
+                if(this.currentShowCombos){
+                    graph.data({nodes: data.nodes, edges: data.edges, combos: this.currentCombos});
+                } else {
+                    graph.data({nodes: data.nodes, edges: data.edges});
+                }
                 graph.render();
-                // if(data.nodes.length > 0 && data.nodes[0].label.length > 0){
-                //     this.set_typesettingEdgeShowLabel(true);
-                // } else {
-                //     this.set_typesettingEdgeShowLabel(false);
-                // }
                 bindListener(graph);
                 this.registerBehavior(graph, container);
                 this.set_typesettingGraph(graph);
