@@ -87,17 +87,17 @@ export default {
   watch:{
       pieModalVisible(){
         // Invalid attempt to iterate non-iterable instance
-        for(let[key,value] of this.edgesTypeCntMap){
-          this.edgesFormat.push({
-            value:value,
-            name:key
-          });
-        }
-        this.optionEdge.get('series')[0].set('data',this.edgesFormat);
+        // for(let[key,value] of this.edgesTypeCntMap){
+        //   this.edgesFormat.push({
+        //     value:value,
+        //     name:key
+        //   });
+        // }
+        // this.optionEdge.get('series')[0].set('data',this.edgesFormat);
 
         this.$nextTick(()=>{
           this.drawChartPie();
-          this.drawEdgePie();
+          //this.drawEdgePie();
         })
         // this.chartPie.removeAttribute('_echarts_instance_');
       }
