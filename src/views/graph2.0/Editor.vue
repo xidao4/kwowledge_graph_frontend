@@ -110,6 +110,7 @@
                 'addRelationVisible',
                 'pieModalVisible',
                 'isNew',
+                'picId',
             ]),
         },
         methods:{
@@ -148,6 +149,7 @@
                     this.showModal = false;
                 }
             });
+            console.log('picId',this.picId);
         }
     }
 </script>

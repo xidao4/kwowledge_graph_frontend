@@ -87,17 +87,17 @@ export default {
   watch:{
       pieModalVisible(){
         // Invalid attempt to iterate non-iterable instance
-        // for(let[key,value] of this.edgesTypeCntMap){
-        //   this.edgesFormat.push({
-        //     value:value,
-        //     name:key
-        //   });
-        // }
-        // this.optionEdge.get('series')[0].set('data',this.edgesFormat);
+        for(let[key,value] of this.edgesTypeCntMap){
+          this.edgesFormat.push({
+            value:value,
+            name:key
+          });
+        }
+        this.optionEdge.get('series')[0].set('data',this.edgesFormat);
 
         this.$nextTick(()=>{
           this.drawChartPie();
-          //this.drawEdgePie();
+          this.drawEdgePie();
         })
         // this.chartPie.removeAttribute('_echarts_instance_');
       }
@@ -107,11 +107,11 @@ export default {
       //   this.chartPie.resize();
       //   this.edgesPie.resize();
       // })
-      console.log('getPicTypes param in Pie mounted',this.picId);
+      console.log('Pie: picId',this.picId);
       await this.getPicTypes({
           picId:this.picId
       })
-      console.log('edgesTypeCntMap after getPicTypesAPI',this.edgesTypeCntMap);
+      console.log('Pie: edgesTypeCntMap',this.edgesTypeCntMap);
 
   },
   methods:{

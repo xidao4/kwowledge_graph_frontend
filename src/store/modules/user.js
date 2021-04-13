@@ -10,7 +10,7 @@ import {removeToken, setToken} from '@/utils/auth'
 
 const state = {
     token: '',
-    userId: '1',
+    userId: '1',//方便测试by ljy
     userInfo: {
         username: 'test'
     },

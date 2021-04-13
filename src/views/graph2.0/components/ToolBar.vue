@@ -25,7 +25,7 @@
               @click="showPieModal"
               class="margin-left"
               v-show="!showModal">
-      <a-icon type="plus" />统计
+      统计
     </a-button>
     <Search class="margin-left"></Search>
 
