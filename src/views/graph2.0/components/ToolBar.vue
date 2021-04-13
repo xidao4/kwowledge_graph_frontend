@@ -12,7 +12,9 @@
       <template slot="title">
         <span>{{labelTip}}</span>
       </template>
-      <a-switch class="margin-left-s" @change="changeLabelShow">
+      <a-switch class="margin-left-s"
+                :checked="currentGraphId === graphIds.force?forceShowEdgeLabel:typesettingEdgeShowLabel"
+                @change="changeLabelShow">
         <a-icon slot="checkedChildren" type="check" />
         <a-icon slot="unCheckedChildren" type="close" />
       </a-switch>
@@ -45,7 +47,8 @@ export default {
   data(){
     return{
       showModal: false,
-      labelTip: '显示关系名'
+      labelTip: '显示关系名',
+      checked: false
     }
   },
   computed: {
@@ -54,7 +57,9 @@ export default {
       'graphIds',
       'currentGraphId',
       'forceGraph',
-      'typesettingGraph'
+      'typesettingGraph',
+      'typesettingEdgeShowLabel',
+      'forceShowEdgeLabel',
     ])
   },
   mounted(){
@@ -76,6 +81,8 @@ export default {
       'set_addEntityVisible',
       'set_addRelationVisible',
       'set_pieModalVisible',
+      'set_forceShowEdgeLabel',
+      'set_typesettingEdgeShowLabel'
     ]),
     handleAddEntity(){
       this.set_addRelationVisible(false);
@@ -109,18 +116,20 @@ export default {
         };
         if(isShow){
           model = {
-            label: formatText(model.oriLabel, 8),
+            label: formatText(item._cfg.model.oriLabel, 10),
           };
         }
         this.currentGraph.updateItem(item, model);
         if(this.currentGraphId === this.graphIds.typesetting){
           this.typesettingGraph.updateItem(item, model);
+          this.set_typesettingEdgeShowLabel(isShow);
         } else if(this.currentGraphId === this.graphIds.force){
           this.forceGraph.updateItem(item, model);
+          this.set_forceShowEdgeLabel(isShow);
         }
       });
     }
-  }
+  },
 };
 </script>
 

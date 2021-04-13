@@ -104,6 +104,7 @@ export function thumbnailAPI(data) {
 }
 
 export function getPicElementsAPI(data) {
+  console.log('get', data);
   return axios({
     url: `${api.graphPre}/getPicElements`,
     method: 'POST',

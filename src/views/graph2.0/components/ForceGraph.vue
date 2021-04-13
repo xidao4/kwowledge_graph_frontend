@@ -45,16 +45,20 @@
                 'isNew',
                 'currentGraphData',
                 'currentShowGraphData',
+                'forceShowEdgeLabel',
             ])
         },
         methods: {
             ...mapMutations([
                 'set_forceGraph',
                 'set_forceGraphRatio',
-                'set_currentGraph'
+                'set_currentGraph',
+                'set_forceShowEdgeLabel',
+                'set_isNew',
             ]),
             ...mapActions([
-                'getPicElements'
+                'getPicElements',
+                'save'
             ]),
             draw(data){
                 const container = document.getElementById('force');
@@ -83,12 +87,14 @@
                     maxZoom: 5,
                 });
                 let tmpData = JSON.parse(JSON.stringify(data));
-                const processRes = processNodesEdges(tmpData.nodes, tmpData.edges, width, height, false);
+                const processRes = processNodesEdges(tmpData.nodes, tmpData.edges, width, height, this.forceShowEdgeLabel);
                 bindListener(graph);
                 this.registerBehavior(graph, container);
                 graph.data({nodes: processRes.nodes, edges: processRes.edges});
                 graph.render();
                 this.set_forceGraph(graph);
+                this.save(false);
+                this.set_isNew(false);
             },
             reDraw(data){
                 const container = document.getElementById('force');
@@ -111,6 +117,11 @@
                 });
                 graph.data(data);
                 graph.render();
+                if(data.nodes.length > 0 && data.nodes[0].label.length > 0){
+                    this.set_forceShowEdgeLabel(true);
+                } else {
+                    this.set_forceShowEdgeLabel(false);
+                }
                 bindListener(graph);
                 this.registerBehavior(graph, container);
                 this.set_forceGraph(graph);
@@ -139,7 +150,8 @@
         },
         async mounted() {
             insertCss(cssStr);
-            if(this.isNew){
+            console.log('pre', this.currentShowGraphData)
+            if(this.isNew || this.currentShowGraphData.force.nodes.length === 0){
                 if(!this.currentGraphData.nodes){
                     await this.getPicElements();
                 }

@@ -38,8 +38,6 @@
         name: "TypesettingGraph",
         data(){
             return {
-                predictLayout: '',
-                confidence: '',
             }
         },
         computed: {
@@ -49,6 +47,7 @@
                 'currentShowGraphData',
                 'isNew',
                 'currentSetLayout',
+                'typesettingEdgeShowLabel',
             ])
         },
         methods: {
@@ -56,10 +55,12 @@
                 'set_typesettingGraph',
                 'set_currentSetLayout',
                 'set_currentGraph',
-                'set_typesettingGraphRatio'
+                'set_typesettingGraphRatio',
+                'set_typesettingEdgeShowLabel',
             ]),
             ...mapActions([
-                'getPicElements'
+                'getPicElements',
+                'save'
             ]),
             draw(data, layout){
                 const container = document.getElementById('typesetting');
@@ -86,12 +87,13 @@
                     maxZoom: 2
                 });
                 let tmpData = JSON.parse(JSON.stringify(data));
-                const processRes = processNodesEdges(tmpData.nodes, tmpData.edges, width, height, false);
+                const processRes = processNodesEdges(tmpData.nodes, tmpData.edges, width, height, this.typesettingEdgeShowLabel);
                 bindListener(graph);
                 this.registerBehavior(graph, container);
                 graph.data({nodes: processRes.nodes, edges: processRes.edges});
                 graph.render();
                 this.set_typesettingGraph(graph);
+                this.save(false);
             },
             reDraw(data){
                 const container = document.getElementById('typesetting');
@@ -110,6 +112,11 @@
                 });
                 graph.data(data);
                 graph.render();
+                // if(data.nodes.length > 0 && data.nodes[0].label.length > 0){
+                //     this.set_typesettingEdgeShowLabel(true);
+                // } else {
+                //     this.set_typesettingEdgeShowLabel(false);
+                // }
                 bindListener(graph);
                 this.registerBehavior(graph, container);
                 this.set_typesettingGraph(graph);
@@ -143,15 +150,11 @@
                     await this.getPicElements();
                 }
                 if(!this.currentSetLayout){
-                    console.log('in', this.currentSetLayout);
                     const { predictLayout, confidence } = await GraphLayoutPredict.predict(this.currentGraphData);
-                    this.predictLayout = predictLayout;
-                    this.confidence = confidence;
-                    this.set_currentSetLayout(this.predictLayout);
-                    message.success('预测布局: ' + this.predictLayout + ' 可信度: ' + this.confidence)
+                    this.set_currentSetLayout(predictLayout);
+                    message.success('预测布局: ' + predictLayout + ' 可信度: ' + confidence)
                 }
-                console.log('draw', this.currentGraphData);
-                this.draw(this.currentGraphData, this.predictLayout);
+                this.draw(this.currentGraphData, this.currentSetLayout);
             } else {
                 if(!this.currentShowGraphData.typesetting){
                     await this.getPicElements();

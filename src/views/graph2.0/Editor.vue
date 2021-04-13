@@ -1,65 +1,4 @@
 <template>
-<!--<<<<<<< HEAD-->
-<!--    <div style="padding-bottom: 20px; background-color: #EEEFF0; width: 100%">-->
-<!--        <Header></Header>-->
-<!--&lt;!&ndash;        <div class="spin">&ndash;&gt;-->
-<!--&lt;!&ndash;            <a-spin size="large" tip="初始化编辑空间"/>&ndash;&gt;-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-<!--        <tool-bar></tool-bar>-->
-<!--        <a-row class="row">-->
-<!--            <a-col :xs="15" :sm="15" :md="15" :lg="17" :xl="17" xxl="20">-->
-<!--                <TypeFilter class="block" :style="this.upHeightStr"></TypeFilter>-->
-<!--            </a-col>-->
-<!--            <a-col :xs="9" :sm="9" :md="9" :lg="7" :xl="7" xxl="4">-->
-<!--                <LayoutBlock class="block" :style="this.upHeightStr"></LayoutBlock>-->
-<!--            </a-col>-->
-<!--        </a-row>-->
-<!--        <a-row class="row" id="graphRow">-->
-<!--&lt;!&ndash;            <entity-list :class="this.addEntityVisible?'show':'not-show'"></entity-list>&ndash;&gt;-->
-<!--&lt;!&ndash;            <relation-list :class="this.addRelationVisible?'show':'not-show'"></relation-list>&ndash;&gt;-->
-<!--&lt;!&ndash;            <div class="block" style="overflow: hidden;">&ndash;&gt;-->
-<!--&lt;!&ndash;                <TypesettingGraph v-show="currentGraphId === graphIds.typesetting"></TypesettingGraph>&ndash;&gt;-->
-<!--&lt;!&ndash;                <ForceGraph v-if="currentGraphId === graphIds.force"></ForceGraph>&ndash;&gt;-->
-<!--&lt;!&ndash;            </div>&ndash;&gt;-->
-<!--            <a-col :md="24" :lg="17" :xl="17" xxl="20">-->
-<!--                <div class="block" style="overflow: hidden;">-->
-<!--                    <TypesettingGraph v-show="currentGraphId === graphIds.typesetting"></TypesettingGraph>-->
-<!--                    <ForceGraph v-if="currentGraphId === graphIds.force"></ForceGraph>-->
-<!--                </div>-->
-<!--            </a-col>-->
-<!--            <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">-->
-<!--                <div class="block" :style="this.heightStr">-->
-<!--                    <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>-->
-<!--                    <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list>-->
-<!--                    <pie :class="pieModalVisible?'show':'not-show'"></pie>-->
-<!--                </div>-->
-<!--            </a-col>-->
-
-<!--        </a-row>-->
-<!--        <a-modal :visible="showModal && addEntityVisible" :footer="null" @cancel="handleCloseEntityModal">-->
-<!--            <entity-list></entity-list>-->
-<!--        </a-modal>-->
-<!--        <a-modal :visible="showModal && addRelationVisible" :footer="null" @cancel="handleCloseRelationModal">-->
-<!--            <relation-list></relation-list>-->
-<!--        </a-modal>-->
-<!--&lt;!&ndash;        <a-modal :visible="showModal && pieModalVisible"&ndash;&gt;-->
-<!--&lt;!&ndash;                 :footer="null"&ndash;&gt;-->
-<!--&lt;!&ndash;                 :forceRender="true"&ndash;&gt;-->
-<!--&lt;!&ndash;                 @cancel="handleClosePieModal">&ndash;&gt;-->
-<!--&lt;!&ndash;            <pie></pie>&ndash;&gt;-->
-<!--&lt;!&ndash;        </a-modal>&ndash;&gt;-->
-
-<!--&lt;!&ndash;        <a-drawer&ndash;&gt;-->
-<!--&lt;!&ndash;            title="统计"&ndash;&gt;-->
-<!--&lt;!&ndash;            placement="right"&ndash;&gt;-->
-<!--&lt;!&ndash;            :closable="false"&ndash;&gt;-->
-<!--&lt;!&ndash;            :visible="pieDrawerVisible"&ndash;&gt;-->
-<!--&lt;!&ndash;            :after-visible-change="afterVisibleChange"&ndash;&gt;-->
-<!--&lt;!&ndash;            @close="onClose"&ndash;&gt;-->
-<!--&lt;!&ndash;        >&ndash;&gt;-->
-<!--&lt;!&ndash;          <pie></pie>&ndash;&gt;-->
-<!--&lt;!&ndash;        </a-drawer>&ndash;&gt;-->
-<!--    </div>-->
     <a-spin size="large" tip="加载编辑空间" :spinning="spinning">
         <div style="padding-bottom: 20px; background-color: #EEEFF0; width: 100%">
             <Header></Header>
@@ -84,9 +23,11 @@
                 </a-col>
                 <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">
                     <div class="block" :style="this.heightStr">
-                        <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>
-                        <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list>
+                        <!-- <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>
+                        <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list> -->
                         <pie :class="pieModalVisible?'show':'not-show'"></pie>
+                        <edit-entity></edit-entity>
+                        <!-- <edit-relation></edit-relation> -->
                     </div>
                 </a-col>
 
@@ -132,6 +73,9 @@
     import Pie from "./components/Pie";
     import TypeFilter from "./components/TypeFilter";
     import LargeGraph from "./components/LargeGraph";
+    import EditEntity from "@/views/graph2.0/components/EditEntity"
+    // import EditRelation from './components/EditRelation.vue';
+
     export default {
         name: "Editor",
         data(){
@@ -155,6 +99,8 @@
             RelationList,
             Pie,
             TypeFilter,
+            EditEntity,
+            // EditRelation,
         },
         computed: {
             ...mapGetters([
@@ -201,7 +147,7 @@
                 } else {
                     this.showModal = false;
                 }
-            })
+            });
         }
     }
 </script>

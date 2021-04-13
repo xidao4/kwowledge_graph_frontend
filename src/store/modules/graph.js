@@ -16,6 +16,7 @@ import{
 import {
     url2File
 } from '../../utils/util';
+import {getTokenByKey} from '../../utils/cache'
 
 import { message } from 'ant-design-vue'
 
@@ -135,6 +136,8 @@ const state = {
     nodesByTypesMap:{},
     nodesTypes:[],
     isNew: false,
+    forceShowEdgeLabel: false,
+    typesettingEdgeShowLabel: false
 };
 
 const graph = {
@@ -283,6 +286,7 @@ const graph = {
             state.nodesTypes = data;
         },
         clear_graphs(state) {
+            state.currentGraphId = 'typesetting';
             state.currentGraph = null;
             state.forceGraph = null;
             state.typesettingGraph = null;
@@ -297,23 +301,23 @@ const graph = {
             let baseNodes = [];
             let baseEdges = [];
             // TODO 基本数据来自后端，默认排版和力导模式一致，后期防御式编程？
-            if(data.fedges){
-                data.fedges.forEach((edge) => {
+            if(data.sedges){
+                data.sedges.forEach((edge) => {
                     baseEdges.push({
                         id: edge.id,
                         label: edge.label,
-                        type: edge.type,
+                        class: edge.class,
                         source: edge.source,
                         target: edge.target
                     })
                 });
             }
-            if(data.fnodes){
-                data.fnodes.forEach((node) => {
+            if(data.snodes){
+                data.snodes.forEach((node) => {
                     baseNodes.push({
                         id: node.id,
                         label: node.label,
-                        type: node.type
+                        class: node.class
                     })
                 });
             }
@@ -321,7 +325,13 @@ const graph = {
                 nodes: baseNodes,
                 edges: baseEdges
             }
-        }
+        },
+        set_forceShowEdgeLabel(state, data){
+            state.forceShowEdgeLabel = data;
+        },
+        set_typesettingEdgeShowLabel(state, data){
+            state.typesettingEdgeShowLabel = data;
+        },
     },
     actions: {
         // getAll:async ({commit,state},data)=>{
@@ -399,9 +409,9 @@ const graph = {
                 message.error('文件下载失败')
             }
         },
-        save: async({state}) => {
+        save: async({state}, showMsg=true) => {
             let param = {
-                picId: state.picId,
+                picId: getTokenByKey('picId'),
             };
             if(state.forceGraph != null){
                 let data = state.forceGraph.save();
@@ -419,11 +429,18 @@ const graph = {
                 param.snodes = [];
                 param.sedges = [];
             }
+            console.log('to be saved', param);
             const res = await saveAPI(param);
             if(res.code >= 0) {
-                message.success('保存成功');
+                if(showMsg){
+                    message.success('保存成功');
+                }
             } else {
-                message.error('文件下载失败');
+                if(showMsg){
+                    message.error('图谱初次保存失败，请注意保存');
+                }else {
+                    console.error('图谱初次保存失败！')
+                }
             }
         },
         thumbnail: async({rootState, state}, url) => {
@@ -440,9 +457,8 @@ const graph = {
         },
         // 根据picId获取已有图谱数据（非上传文件获取）
         getPicElements: async({state, commit}) => {
-            let picId = state.picId;
             const res = await getPicElementsAPI({
-                picId: picId
+                picId: getTokenByKey('picId')
             });
             if(res.code < 0) {
                 message.error("图谱获取失败");
@@ -461,32 +477,32 @@ const graph = {
                 let baseNodes = [];
                 let baseEdges = [];
                 // TODO 现在是假设f和s的基本数据一致，后期防御式编程？
-                if(resData.fedges){
-                    resData.fedges.forEach((edge) => {
+                if(resData.sedges){
+                    resData.sedges.forEach((edge) => {
                         baseEdges.push({
                             id: edge.id,
                             label: edge.label,
-                            type: edge.type,
+                            oriLabel: edge.oriLabel,
+                            class: edge.class,
                             source: edge.source,
                             target: edge.target
                         })
                     });
                 }
-                if(resData.fnodes){
-                    resData.fnodes.forEach((node) => {
+                if(resData.snodes){
+                    resData.snodes.forEach((node) => {
                         baseNodes.push({
                             id: node.id,
                             label: node.label,
-                            type: node.type
+                            oriLabel: node.oriLabel,
+                            class: node.class
                         })
                     });
                 }
                 commit('set_currentGraphData', {
                     nodes: baseNodes,
                     edges: baseEdges
-                })
-                console.log('base', state.currentGraphData);
-                console.log('show', state.currentShowGraphData);
+                });
             }
         },
         getPicTypes:async({commit},data)=>{
