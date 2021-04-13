@@ -260,7 +260,7 @@ export default {
   position: absolute;
   margin-left: 25%;
   margin-top: -7%;
-  z-index:1
+  z-index:1999
 }
 .editRelation{
     position: relative;
