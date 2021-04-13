@@ -12,6 +12,7 @@ import{
     getPicTypesAPI,
     searchAPI,
     getNodesByTypesAPI,
+    getNodeTypesAPI,
 } from "../../api/graph";
 import {
     url2File
@@ -24,7 +25,7 @@ const state = {
     graphInfo: [
         'hi'
     ],
-    picId: '',
+    picId: '0',//为测试方便
     relationTypeSet: new Set(),
     currentGraph: null,
     forceGraph: null,
@@ -133,7 +134,7 @@ const state = {
     edgesTypeCntMap:{},
     searchNodes:[],
     searchEdges:[],
-    nodesByTypesMap:{},
+    nodesByTypesMap:{},//useless
     nodesTypes:[],
     isNew: false,
     forceShowEdgeLabel: false,
@@ -279,7 +280,7 @@ const graph = {
         set_searchEdges(state,data){
             state.searchEdges=data;
         },
-        set_nodesByTypesMap(state,data){
+        set_nodesByTypesMap(state,data){//useless
             state.nodesByTypesMap={...data};
         },
         set_nodesTypes(state,data) {
@@ -515,7 +516,7 @@ const graph = {
                 commit('set_edgesTypeCntMap',res.edgesMap);
             }else{
                 console.log('getPicTypesAPI.code<0');
-                message.error(res);
+                message.error(res.data);
             }
         },
         search:async({commit},data)=>{
@@ -528,28 +529,41 @@ const graph = {
                 commit('set_searchEdges',res.edges);
             }else{
                 console.log('searchAPI.code<0');
-                message.error(res);
+                message.error(res.data);
             }
         },
-        getNodesByTypesMap:async({commit,state},data)=>{
+        getNodesByTypesMap:async({commit,state},data)=>{//useless
             const res=await getNodesByTypesAPI(data);
             if(res===null){
                 console.log("getNodesByTypesAPI=null");
                 message.error(res);
             }else if(res.code>=0){
                 commit('set_nodesByTypeMap',res);
+
+                let types=[];
+                let useless=[];
+                for(let[key,value] of state.nodesByTypeMap){
+                    types.push(key);
+                    useless.push(value);
+                }
+                commit('set_nodesTypes',types);
             }else{
                 console.log('getNodesByTypesAPI.code<0');
-                message.error(res);
+                message.error(res.data);
             }
-            let types=[];
-            let useless=[];
-            for(let[key,value] of state.nodesByTypeMap){
-                types.push(key);
-                useless.push(value);
-            }
-            commit('set_nodesTypes',types);
         },
+        getNodeTypes:async({commit},data)=>{
+            const res=await getNodeTypesAPI(data);
+            if(res===null){
+                console.log("getNodeTypesAPI=null");
+                message.error(res);
+            }else if(res.code>=0){
+                commit('set_nodesTypes',res);
+            }else{
+                console.log('getNodeTypesAPI.code<0');
+                message.error(res.data);
+            }
+        }
     }
 };
 

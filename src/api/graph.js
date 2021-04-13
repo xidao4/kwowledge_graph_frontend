@@ -130,7 +130,7 @@ export function searchAPI(data){
   })
 }
 
-//获取 类型-节点集合 的Map a
+//获取 类型-节点集合 的Map useless
 export function getNodesByTypesAPI(data){
   return axios({
     url:`${api.graphPre}/getNodesByTypes`,
@@ -138,3 +138,15 @@ export function getNodesByTypesAPI(data){
     data
   })
 }
+// <<<<<<< HEAD
+// =======
+
+//获取 类型数组
+export function getNodeTypesAPI(data){
+  return axios({
+    url:`${api.graphPre}/getNodeTypes`,
+    method:'POST',
+    data
+  })
+}
+// >>>>>>> feat/我的图谱+统计+搜索+筛选
