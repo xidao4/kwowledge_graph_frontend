@@ -1,4 +1,7 @@
 const getters={
+    nodeId: state => state.graph.nodeId,
+    labelList: state => state.graph.labelList,
+    relationId: state => state.graph.relationId,
     showGraphEdges: state => state.graph.showGraphEdges,
     showGraphNodes: state => state.graph.showGraphNodes,
     graphInfo: state => state.graph.graphInfo,

@@ -25,6 +25,11 @@ const state = {
     graphInfo: [
         'hi'
     ],
+    //这两个用来生成唯一id
+    nodeId: 0,
+    relationId: 0,
+    //labelList用来添加关系时选择实体节点
+    labelList: [],
     picId: '0',//为测试方便
     relationTypeSet: new Set(),
     currentGraph: null,
@@ -144,6 +149,12 @@ const state = {
 const graph = {
     state,
     mutations: {
+        set_nodeId(state){
+            state.nodeId++;
+        },
+        set_relationId(state){
+            state.relationId++;
+        },
         set_graph(state, data) {
             state.graphInfo = data
         },
@@ -267,6 +278,9 @@ const graph = {
         },
         set_currentGraphData(state, data) {
             state.currentGraphData = {...data}
+            for(let i=0;i<data.nodes.length;i++){
+                state.labelList.push(data.nodes[i].oriLabel)
+            }
         },
         set_nodesTypeCntMap(state,data){
             state.nodesTypeCntMap=data;
@@ -292,6 +306,7 @@ const graph = {
             state.forceGraph = null;
             state.typesettingGraph = null;
             state.currentGraphData = {};
+            state.labelList=[];
             state.currentShowGraphData = {};
             state.currentSetLayout = null;
         },

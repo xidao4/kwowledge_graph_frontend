@@ -16,13 +16,13 @@
               ]"
                 placeholder="请选择实体"
                 style="width: 85%;"
+                @change="handleSelectChange1"
         >
           <a-select-option
-                  :value="node.name"
-                  v-for="(node, index) in showGraphNodes"
+                  v-for="(node, index) in this.labelList"
                   :key="index"
           >
-            {{ node.name }}
+            {{ node }}
           </a-select-option>
         </a-select>
       </a-form-item>
@@ -34,13 +34,13 @@
               ]"
                 placeholder="请选择实体"
                 style="width: 85%;"
+                @change="handleSelectChange2"
         >
           <a-select-option
-                  :value="node.name"
-                  v-for="(node, index) in showGraphNodes"
+                  v-for="(node, index) in this.labelList"
                   :key="index"
           >
-            {{ node.name }}
+            {{ node }}
           </a-select-option>
         </a-select>
       </a-form-item>
@@ -77,7 +77,7 @@ export default {
     return {
       addRelationForm: this.$form.createForm(this, { name: "addRelationForm" }),
       height: (window.screen.height * 0.8 + 5) + 'px',
-      relationValueTips:'请输入关系值'
+      relationValueTips:'请输入关系值',
     };
   },
   props: ["triggerGraphDraw"],
@@ -88,11 +88,15 @@ export default {
       "picId",
       "showGraphEdges",
       "addRelationVisible",
+      "currentGraph",
+      "currentGraphData",
+      "labelList",
+      "relationId"
     ]),
   },
   methods: {
     ...mapActions(["addRelation"]),
-    ...mapMutations(["add_showGraphEdges", "set_addRelationVisible"]),
+    ...mapMutations(["add_showGraphEdges", "set_addRelationVisible","set_relationId"]),
     async confirmAddRelation() {
       var that=this
       console.log(this.addRelationForm.getFieldValue('relationValue'))
@@ -103,8 +107,8 @@ export default {
       //   name: that.addRelationForm.getFieldValue('relationValue')
       // };
       let newData = {
-        node1: that.addRelationForm.getFieldValue('selectSourceNode'),
-        node2: that.addRelationForm.getFieldValue('selectTargetNode'),
+        node1: this.labelList[that.addRelationForm.getFieldValue('selectSourceNode')],
+        node2: this.labelList[that.addRelationForm.getFieldValue('selectTargetNode')],
         name: that.addRelationForm.getFieldValue('relationValue'),
         color: "#000",
       };
@@ -126,12 +130,39 @@ export default {
       }
       this.set_addRelationVisible(false);
       this.addRelationForm.resetFields();
+      let tempSource=''
+      let tempTarget=''
+      console.log(this.currentGraphData.nodes)
+      for(let i=0;i<this.currentGraphData.nodes.length;i++){
+        if(newData.node1===this.currentGraphData.nodes[i].oriLabel){
+          tempSource=this.currentGraphData.nodes[i].id
+        }
+        if(newData.node2===this.currentGraphData.nodes[i].oriLabel){
+          tempTarget=this.currentGraphData.nodes[i].id
+        }
+      }
+      let model={
+        id:  `relation-${this.relationId}`,
+        label: newData.name,
+        type: 'quadratic',
+        source: tempSource,
+        target: tempTarget,
+        endArrow: true
+      }
+      console.log('relationModel',model)
+      this.currentGraph.addItem('edge',model)
       // await this.addRelation(data);
       // this.add_showGraphEdges(newData);
     },
     onClose() {
       this.set_addRelationVisible(false);
     },
+    handleSelectChange1(value){
+
+    },
+    handleSelectChange2(value){
+
+    }
   },
 };
 </script>

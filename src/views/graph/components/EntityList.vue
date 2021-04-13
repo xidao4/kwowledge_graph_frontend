@@ -67,10 +67,10 @@ export default {
   },
   props: ["triggerGraphDraw"],
   computed: {
-    ...mapGetters(["colorList", "showGraphNodes", "picId","addEntityVisible","currentGraph","currentGraphData"]),
+    ...mapGetters(["colorList", "showGraphNodes", "picId","addEntityVisible","currentGraph","currentGraphData","nodeId"]),
   },
   methods: {
-    ...mapMutations(["add_showGraphNodes","set_addEntityVisible"]),
+    ...mapMutations(["add_showGraphNodes","set_addEntityVisible","set_nodeId"]),
     ...mapActions(["addEntity"]),
     handleAdd() {
       this.name = {
@@ -95,9 +95,11 @@ export default {
         // this.triggerGraphDraw();
         console.log('graphData',this.currentGraphData)
         console.log('graph',this.currentGraph)
-        const model = {
-          id: this.name.value,
+        console.log('myNodeid',this.nodeId)
+        let model = {
+          id:  `node-${this.nodeId}`,
           label: this.name.value,
+          oriLabel: this.name.value,
           address: 'cq',
           x: 200+Math.random()*100,
           y: 150+Math.random()*100,
@@ -105,8 +107,17 @@ export default {
             fill:'#E65D6E'
           }
         };
+        console.log('myModel',model)
         this.currentGraph.addItem('node',model)
         this.currentGraph.refresh()
+        this.currentGraphData.nodes.push({
+          id:  `node-${this.nodeId}`,
+          class: this.type.value,
+          label: this.name.value,
+          oriLabel: this.name.value,
+        })
+        this.set_nodeId();
+        console.log('after update',this.currentGraphData)
         this.set_addEntityVisible(false)
         this.name.value = "";
         this.type.value= "";
