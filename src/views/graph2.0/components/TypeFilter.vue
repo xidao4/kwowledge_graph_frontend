@@ -1,16 +1,21 @@
 <template>
 <div class="block">
-  <span :style="{ marginRight: 8 }">类型筛选 :</span>
-  <template v-for="(tag,index) in nodesTypes">
-    <a-checkable-tag
-        :key="tag"
-        :checked="selectedTags.indexOf(tag) > -1"
-        v-model="checkList[index]"
-        @change="checked => handleChange(tag, checked)"
-    >
-      {{ tag }}
-    </a-checkable-tag>
-  </template>
+    <div class="inner-block">
+        <span :style="{ marginRight: 8 }">类型筛选 :</span>
+        <template v-for="(tag,index) in nodesTypes">
+<!--        <template v-for="(tag,index) in tags">-->
+            <!--      <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" xxl="6">-->
+            <a-checkable-tag
+                :key="tag"
+                :checked="selectedTags.indexOf(tag) > -1"
+                v-model="checkList[index]"
+                @change="checked => handleChange(tag, checked)"
+            >
+                {{ tag }}
+            </a-checkable-tag>
+            <!--      </a-col>-->
+        </template>
+    </div>
 </div>
 </template>
 
@@ -27,7 +32,9 @@ export default {
     },
   data() {
     return {
-      // tags: ['Movies', 'Books', 'Music', 'Sports'],
+      tags: ['Movies', 'Books', 'Music', 'Sports','Movies', 'Books', 'Music', 'Sports','Movies', 'Books', 'Music', 'Sports',
+          'Movies', 'Books', 'Music', 'Sports','Movies', 'Books', 'Music', 'Sports','Movies', 'Books', 'Music', 'Sports',
+          'Movies', 'Books', 'Music', 'Sports','Movies', 'Books', 'Music', 'Sports','Movies', 'Books', 'Music', 'Sports'],
       // checkList:[true,true,true,true],
       checkList:[],
       selectedTags: [],
@@ -76,9 +83,17 @@ export default {
 <style scoped>
 .block {
     min-height: 100px;
-    padding: 2vw;
+    padding: 1vw;
     display: flex;
     justify-content: space-evenly;
-    align-items: center;
+    /*align-items: center;*/
+}
+.inner-block{
+    width:95%;
+    height:100%;
+    margin:auto;
+    /*text-align: center;!*使元素水平居中 *!*/
+    vertical-align: middle;/*使元素垂直居中 */
+    overflow-y:auto;
 }
 </style>

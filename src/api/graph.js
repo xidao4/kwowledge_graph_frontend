@@ -138,8 +138,6 @@ export function getNodesByTypesAPI(data){
     data
   })
 }
-// <<<<<<< HEAD
-// =======
 
 //获取 类型数组
 export function getNodeTypesAPI(data){
@@ -149,4 +147,4 @@ export function getNodeTypesAPI(data){
     data
   })
 }
-// >>>>>>> feat/我的图谱+统计+搜索+筛选
+
