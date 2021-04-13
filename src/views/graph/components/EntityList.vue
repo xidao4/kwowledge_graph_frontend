@@ -67,7 +67,7 @@ export default {
   },
   props: ["triggerGraphDraw"],
   computed: {
-    ...mapGetters(["colorList", "showGraphNodes", "picId","addEntityVisible"]),
+    ...mapGetters(["colorList", "showGraphNodes", "picId","addEntityVisible","currentGraphData","currentShowGraphData"]),
   },
   methods: {
     ...mapMutations(["add_showGraphNodes","set_addEntityVisible"]),
@@ -93,6 +93,13 @@ export default {
         //   type: this.type.value
         // });
         // this.triggerGraphDraw();
+        console.log('graphData',this.currentGraphData)
+        console.log('graphData',this.currentShowGraphData)
+        let model={
+          id: this.name.value,
+          label: this.name.value
+        }
+        this.currentGraphData.addItem('node',model)
         this.set_addEntityVisible(false)
         this.name.value = "";
         this.type.value= "";

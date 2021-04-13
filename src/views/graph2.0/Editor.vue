@@ -23,10 +23,10 @@
                 </a-col>
                 <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">
                     <div class="block" :style="this.heightStr">
-                        <!-- <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>
-                        <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list> -->
+                        <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>
+                        <!-- <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list> -->
                         <pie :class="pieModalVisible?'show':'not-show'"></pie>
-                        <edit-entity></edit-entity>
+                        <!-- <edit-entity></edit-entity> -->
                         <!-- <edit-relation></edit-relation> -->
                     </div>
                 </a-col>
