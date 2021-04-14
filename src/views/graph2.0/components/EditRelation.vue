@@ -56,10 +56,12 @@
       </a-form-item>
       <div @click="colorInputClick1"> 
       <a-form-item label="颜色:">
-        <a-input
-            :value="colors1"
-            disabled
-        />
+<!--        <a-input-->
+<!--            :value="colors1"-->
+<!--            disabled-->
+<!--        />-->
+        <div class="colorBlock" :style="'background-color: ' + colors1">
+        </div>
       </a-form-item>
       </div>
     </a-form>
@@ -86,10 +88,12 @@
         </a-form-item>
         <div @click="colorInputClick2"> 
         <a-form-item label="颜色:">
-            <a-input
-                :value="colors2"
-                disabled
-            />
+<!--            <a-input-->
+<!--                :value="colors2"-->
+<!--                disabled-->
+<!--            />-->
+          <div class="colorBlock" :style="'background-color: ' + colors2">
+          </div>
         </a-form-item>
         </div>
     </a-form>
@@ -117,12 +121,18 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex'
+  import {mapGetters, mapMutations} from 'vuex'
 import {Sketch} from 'vue-color'
 export default {
   name: "EditRelation",
   components: {
       'sketch-picker': Sketch
+  },
+  computed: {
+    ...mapGetters([
+      "currentGraph",
+      "currentGraphData",
+    ]),
   },
   data(){
       return{
@@ -181,7 +191,8 @@ export default {
         console.log(data)
     },
     handleDeleteRelation(){
-
+      //假设关系值已经传过来
+      this.currentGraph.removeItem(entity)
     }
   }
 };
@@ -200,7 +211,7 @@ export default {
   position: absolute;
   margin-left: 28%;
   margin-top: -7%;
-  z-index:1
+  z-index:9999
 }
 .editRelation{
     position: relative;
@@ -209,5 +220,15 @@ export default {
     display: flex;
     justify-content: center;
     margin-top: 26%;
+}
+.colorBlock{
+  width: 20px;
+  height: 20px;
+  float: left;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+.colorBlock:hover {
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
 }
 </style>

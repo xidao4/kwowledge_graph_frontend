@@ -283,9 +283,11 @@ const graph = {
         },
         set_currentGraphData(state, data) {
             state.currentGraphData = {...data}
+            console.log('添加labelList')
             for(let i=0;i<data.nodes.length;i++){
                 state.labelList.push(data.nodes[i].oriLabel)
             }
+            console.log(state.labelList)
         },
         set_nodesTypeCntMap(state,data){
             state.nodesTypeCntMap={...data};

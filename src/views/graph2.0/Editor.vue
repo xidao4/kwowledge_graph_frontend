@@ -23,9 +23,9 @@
                 </a-col>
                 <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">
                     <div class="block" :style="this.heightStr">
-<!--                        <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>-->
-                        <!-- <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list> -->
-<!--                        <pie :class="pieModalVisible?'show':'not-show'"></pie>-->
+                        <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>
+                         <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list>
+                        <pie :class="pieModalVisible?'show':'not-show'"></pie>
                          <edit-entity v-if="showEditNodeModalIn"></edit-entity>
                         <edit-relation v-if="showEditEdgeModalIn"></edit-relation>
                     </div>
@@ -74,7 +74,7 @@
     import TypeFilter from "./components/TypeFilter";
     import LargeGraph from "./components/LargeGraph";
     import EditEntity from "@/views/graph2.0/components/EditEntity"
-    // import EditRelation from './components/EditRelation.vue';
+    import EditRelation from './components/EditRelation.vue';
 
     export default {
         name: "Editor",
@@ -102,7 +102,7 @@
             Pie,
             TypeFilter,
             EditEntity,
-            // EditRelation,
+            EditRelation,
         },
         computed: {
             ...mapGetters([
