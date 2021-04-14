@@ -1,6 +1,7 @@
 import G6 from '@antv/g6';
 import insertCss from 'insert-css';
 import { isNumber, isArray } from '@antv/util';
+import store from '../../store';
 // Custom super node
 insertCss(`
               .g6-component-contextmenu {
@@ -1138,9 +1139,16 @@ export const bindListener = (graph) => {
     graph.on('node:click', (e) => {
         clearAllClickedState();
         graph.setItemState(e.item, 'selected', true);
+        store.commit('set_currentItem', e.item);
+        store.commit('set_showEditEdgeModal', false);
+        store.commit('set_showEditNodeModal', true);
+        console.log('clickclick================', store.state.graph.showEditNodeModal);
     });
     graph.on('edge:click', (e) => {
         clearAllClickedState();
+        store.commit('set_currentItem', e.item);
+        store.commit('set_showEditNodeModal', false);
+        store.commit('set_showEditEdgeModal', true);
         graph.setItemState(e.item, 'selected', true);
     });
     graph.on('canvas:click', (e) => {
@@ -1156,14 +1164,15 @@ export const bindListener = (graph) => {
         });
     });
     graph.on('combo:dragenter', (e) => {
-        console.log('dragenter')
+        // console.log('dragenter')
         graph.setItemState(e.item, 'dragenter', true);
     });
     graph.on('combo:dragleave', (e) => {
+        // console.log('dragleave')
         graph.setItemState(e.item, 'dragenter', false);
     });
     graph.on('combo:mouseenter', (evt) => {
-        console.log('active')
+        // console.log('active')
         const { item } = evt;
         graph.setItemState(item, 'active', true);
     });
