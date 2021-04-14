@@ -182,6 +182,7 @@ export default {
     ...mapGetters([
       "currentGraph",
       "currentGraphData",
+      "currentItem"
     ]),
   },
   methods:{
@@ -239,7 +240,7 @@ export default {
     },
     handleDeleteEntity(){
       //假设实体值已经传过来
-      this.currentGraph.removeItem(entity)
+      this.currentGraph.removeItem(this.currentItem)
     },
     showModal(){
         this.visible=true

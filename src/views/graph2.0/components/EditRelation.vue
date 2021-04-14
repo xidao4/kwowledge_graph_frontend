@@ -141,6 +141,11 @@ export default {
       "currentItem"
     ]),
   },
+  mounted() {
+    console.log('editRelation!')
+    console.log(this.currentItem)
+    console.log('currentGraphData',this.currentGraphData)
+  },
   data(){
       return{
           colors1: '#333333',
@@ -197,7 +202,19 @@ export default {
             labelContent: that.editRelationForm2.getFieldValue('content'),
             fill: that.colors2
         }
-        console.log(data)
+        this.currentGraph.updateItem(this.currentItem,{
+          type: that.editRelationForm1.getFieldValue('shape'),
+          label: data.labelContent,
+          style:{
+            lineWidth: that.editRelationForm1.getFieldValue('lineWidth'),
+            lineDash: that.editRelationForm1.getFieldValue('virtual')==='dashed'?[5,15]:0,
+            stroke: that.colors1,
+          },
+          labelCfg:{
+            fill: that.colors2,
+            fontSize: that.editRelationForm2.getFieldValue('size'),
+          }
+        })
     },
     handleDeleteRelation(){
       //假设关系值已经传过来
