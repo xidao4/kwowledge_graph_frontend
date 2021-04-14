@@ -259,7 +259,7 @@
             }
             this.set_currentGraph(this.typesettingGraph);
             console.log('types', this.boardTypes);
-            // TODO 用boardTypes指代
+            // TODO 用boardTypes指代？加载时间的问题
             this.set_currentShowBoard('1');
             this.$emit('finished');
         },

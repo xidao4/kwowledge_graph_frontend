@@ -1,6 +1,6 @@
 <template>
 <div>
-    <a-dropdown :trigger="['click']" class="myDropDown">
+    <a-dropdown :trigger="['click']" class="myDropDown" :style="{width: width}">
         <a-input
             placeholder="输入关键字"
             class="ant-dropdown-link"
@@ -30,6 +30,12 @@ import { setHighlight,cancelHighlight } from '../../../components/g6/Graph.js';
 
 export default {
     name: "Search",
+    props: {
+        width: {
+            type: String,
+            default: '200px'
+        }
+    },
     data(){
         return{
             list:[
@@ -132,7 +138,7 @@ export default {
 
 <style scoped>
 .myDropDown{
-    width:200px;
+    width:300px;
     margin-right: 10px;
 }
 .myBtn{
