@@ -31,7 +31,7 @@ const getAll = (options) => {
         ...graphData2
     }, 0, { 'Custom-Header': Mock.mock('@guid') })
 };
-
+//
 // Mock.mock(/\/api\/graph\/save/, 'post', save);
 // Mock.mock(/\/api\/graph\/thumbnail/, 'post', thumbnail);
 // Mock.mock(/\/api\/graph\/getPicElements/, 'post', getPicElement);
