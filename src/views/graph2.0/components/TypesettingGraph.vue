@@ -52,7 +52,8 @@
                 'currentSetLayout',
                 'typesettingEdgeShowLabel',
                 'currentShowCombos',
-                'currentCombos'
+                'currentCombos',
+                'boardTypes,'
             ])
         },
         methods: {
@@ -64,7 +65,8 @@
                 'set_typesettingEdgeShowLabel',
                 'set_currentCombos',
                 'set_currentShowGraphData',
-                'set_currentShowGraphData_typesetting'
+                'set_currentShowGraphData_typesetting',
+                'set_currentShowBoard'
             ]),
             ...mapActions([
                 'getPicElements',
@@ -158,6 +160,47 @@
                     width,
                     height,
                     modes: mode,
+                    defaultCombo: {
+                        type: 'circle',
+                        style: {
+                            // fill: '#D99CA8',
+                            stroke: '#D99CA8',
+                            lineWidth: 2,
+                        },
+                        labelCfg: {
+                            refY: 15,
+                            position: 'bottom',
+                        },
+                    },
+                    comboStateStyles: {
+                        dragenter: {
+                            shadowColor: '#D99CA8',
+                            lineWidth: 0,
+                            fill: '#fff',
+                            shadowBlur: 10,
+                            // stroke: '#f00'
+                        },
+                        selected: {
+                            stroke: "#D99CA8",
+                            fill: "#fff",
+                            shadowBlur: 10,
+                            shadowColor: "#D99CA8",
+                            textShape:
+                                {
+                                    fontWeight: 500
+                                }
+                        },
+                        active: {
+                            stroke: "#D99CA8",
+                            fill: "#fff",
+                            shadowBlur: 10,
+                            shadowColor: "#D99CA8",
+                            textShape:
+                                {
+                                    fontWeight: 500
+                                }
+                        },
+                    },
                     plugins: [tooltip],
                     minZoom: 0.25,
                     maxZoom: 2,
@@ -215,6 +258,9 @@
                 this.reDraw(this.currentShowGraphData.typesetting);
             }
             this.set_currentGraph(this.typesettingGraph);
+            console.log('types', this.boardTypes);
+            // TODO 用boardTypes指代
+            this.set_currentShowBoard('1');
             this.$emit('finished');
         },
     }

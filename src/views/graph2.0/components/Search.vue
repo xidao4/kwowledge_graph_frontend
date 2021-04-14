@@ -117,11 +117,12 @@ export default {
             }
         },
         stopSearch(){
+            this.isSearching=false;
+            this.inputText='';
             //将searchNodes、Edges中的节点、边的style设置为初始状态
             cancelHighlight(this.currentGraph,this.searchNodes,this.searchEdges);
 
-            this.isSearching=false;
-            this.inputText='';
+
             this.set_searchEdges([]);
             this.set_searchNodes([]);
         }

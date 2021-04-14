@@ -1140,16 +1140,13 @@ export const bindListener = (graph) => {
         clearAllClickedState();
         graph.setItemState(e.item, 'selected', true);
         store.commit('set_currentItem', e.item);
-        store.commit('set_showEditEdgeModal', false);
-        store.commit('set_showEditNodeModal', true);
-        console.log('clickclick================', store.state.graph.showEditNodeModal);
+        store.commit('set_currentShowBoard', store.state.graph.boardTypes.entityEdit);
     });
     graph.on('edge:click', (e) => {
         clearAllClickedState();
-        store.commit('set_currentItem', e.item);
-        store.commit('set_showEditNodeModal', false);
-        store.commit('set_showEditEdgeModal', true);
         graph.setItemState(e.item, 'selected', true);
+        store.commit('set_currentItem', e.item);
+        store.commit('set_currentShowBoard', store.state.graph.boardTypes.relationEdit);
     });
     graph.on('canvas:click', (e) => {
         clearAllClickedState();

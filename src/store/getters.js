@@ -1,4 +1,7 @@
 const getters={
+    nodeId: state => state.graph.nodeId,
+    labelList: state => state.graph.labelList,
+    relationId: state => state.graph.relationId,
     showGraphEdges: state => state.graph.showGraphEdges,
     showGraphNodes: state => state.graph.showGraphNodes,
     graphInfo: state => state.graph.graphInfo,
@@ -34,8 +37,10 @@ const getters={
     currentCombos: state=>state.graph.currentCombos,
     currentShowCombos: state=>state.graph.currentShowCombos,
     currentItem: state=>state.graph.currentItem,
-    showEditNodeModal: state=>state.graph.showEditNodeModal,
-    showEditEdgeModal: state=>state.graph.showEditEdgeModal,
+    // showEditNodeModal: state=>state.graph.showEditNodeModal,
+    // showEditEdgeModal: state=>state.graph.showEditEdgeModal,
+    boardTypes: state=>state.graph.boardTypes,
+    currentShowBoard: state=>state.graph.currentShowBoard,
 
     colorList: state=>state.util.colorList,
 
@@ -43,8 +48,8 @@ const getters={
     userInfo: state=>state.user.userInfo,
     picsInfo: state=>state.user.picsInfo,//a
     userHistory: state=>state.user.userHistory,
-    addEntityVisible: state=>state.util.addEntityVisible,
-    addRelationVisible: state=>state.util.addRelationVisible,
-    pieModalVisible: state=>state.util.pieModalVisible,
+    // addEntityVisible: state=>state.util.addEntityVisible,
+    // addRelationVisible: state=>state.util.addRelationVisible,
+    // pieModalVisible: state=>state.util.pieModalVisible,
 };
 export default getters

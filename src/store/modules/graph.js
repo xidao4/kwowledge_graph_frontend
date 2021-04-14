@@ -25,7 +25,12 @@ const state = {
     graphInfo: [
         'hi'
     ],
-    picId: '0',//为测试方便
+    picId: '',//方便测试by ljy 6075ab0c1f3a46144cf5c4c1
+    //这两个用来生成唯一id
+    nodeId: 0,
+    relationId: 0,
+    //labelList用来添加关系时选择实体节点
+    labelList: [],
     relationTypeSet: new Set(),
     currentGraph: null,
     forceGraph: null,
@@ -143,12 +148,27 @@ const state = {
     currentShowCombos: true,
     currentItem: null,
     showEditNodeModal: false,
-    showEditEdgeModal: false
+    showEditEdgeModal: false,
+    boardTypes: {
+        none: '0',
+        pie: '1',
+        entityList: '2',
+        relationList: '3',
+        entityEdit: '4',
+        relationEdit: '5',
+    },
+    currentShowBoard: '1',
 };
 
 const graph = {
     state,
     mutations: {
+        set_nodeId(state){
+            state.nodeId++;
+        },
+        set_relationId(state){
+            state.relationId++;
+        },
         set_graph(state, data) {
             state.graphInfo = data
         },
@@ -272,12 +292,18 @@ const graph = {
         },
         set_currentGraphData(state, data) {
             state.currentGraphData = {...data}
+            console.log('添加labelList')
+            for(let i=0;i<data.nodes.length;i++){
+                state.labelList.push(data.nodes[i].oriLabel)
+            }
+            console.log(state.labelList)
         },
         set_nodesTypeCntMap(state,data){
-            state.nodesTypeCntMap=data;
+            state.nodesTypeCntMap={...data};
         },
         set_edgesTypeCntMap(state,data){
-            state.edgesTypeCntMap=data;
+            state.edgesTypeCntMap={...data};
+            console.log('set_edgesTypeCntMap: edgesTypeCntMap',state.edgesTypeCntMap);
         },
         set_searchNodes(state,data){
             state.searchNodes=data;
@@ -297,6 +323,7 @@ const graph = {
             state.forceGraph = null;
             state.typesettingGraph = null;
             state.currentGraphData = {};
+            state.labelList=[];
             state.currentShowGraphData = {};
             state.currentSetLayout = null;
             state.currentCombos = [];
@@ -367,6 +394,9 @@ const graph = {
         set_showEditEdgeModal(state, data){
             state.showEditEdgeModal = data;
         },
+        set_currentShowBoard(state, data){
+            state.currentShowBoard = data;
+        }
     },
     actions: {
         // getAll:async ({commit,state},data)=>{
@@ -547,14 +577,16 @@ const graph = {
                 });
             }
         },
-        getPicTypes:async({commit},data)=>{
+        getPicTypes:async({commit,state},data)=>{
             const res=await getPicTypesAPI(data);
             if(res===null){
                 console.log('getPicTypesAPI=null');
                 message.error(res);
             }else if(res.code>=0){
-                commit('set_nodesTypeCntMap',res.nodesMap);
-                commit('set_edgesTypeCntMap',res.edgesMap);
+                commit('set_nodesTypeCntMap',res.data.nodesMap);
+                console.log('res.data.edgesMap',res.data.edgesMap);
+                commit('set_edgesTypeCntMap',res.data.edgesMap);
+                console.log('getPicTypes: state.edgesTypeCntMap',state.edgesTypeCntMap);
             }else{
                 console.log('getPicTypesAPI.code<0');
                 message.error(res.data);
@@ -566,8 +598,10 @@ const graph = {
                 console.log('searchAPI=null');
                 message.error(res);
             }else if(res.code>=0){
-                commit('set_searchNodes',res.nodes);
-                commit('set_searchEdges',res.edges);
+
+                commit('set_searchNodes',res.data.nodes);
+
+                commit('set_searchEdges',res.data.edges);
             }else{
                 console.log('searchAPI.code<0');
                 message.error(res.data);
@@ -599,7 +633,7 @@ const graph = {
                 console.log("getNodeTypesAPI=null");
                 message.error(res);
             }else if(res.code>=0){
-                commit('set_nodesTypes',res);
+                commit('set_nodesTypes',res.data);
             }else{
                 console.log('getNodeTypesAPI.code<0');
                 message.error(res.data);

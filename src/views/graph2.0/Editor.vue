@@ -23,19 +23,19 @@
                 </a-col>
                 <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">
                     <div class="block" :style="this.heightStr">
-<!--                        <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>-->
-                        <!-- <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list> -->
-<!--                        <pie :class="pieModalVisible?'show':'not-show'"></pie>-->
-                         <edit-entity v-if="showEditNodeModalIn"></edit-entity>
-                        <edit-relation v-if="showEditEdgeModalIn"></edit-relation>
+                        <entity-list :class="currentShowBoard === boardTypes.entityList?'show':'not-show'"></entity-list>
+                         <relation-list :class="currentShowBoard === boardTypes.relationList?'show':'not-show'"></relation-list>
+                        <pie :class="currentShowBoard === boardTypes.pie?'show':'not-show'"></pie>
+                         <edit-entity v-if="currentShowBoard === boardTypes.entityEdit"></edit-entity>
+                        <edit-relation v-if="currentShowBoard === boardTypes.relationEdit"></edit-relation>
                     </div>
                 </a-col>
 
             </a-row>
-            <a-modal :visible="showModal && addEntityVisible" :footer="null" @cancel="handleCloseEntityModal">
+            <a-modal :visible="showModal && currentShowBoard === boardTypes.entityList" :footer="null" @cancel="handleCloseEntityModal">
                 <entity-list></entity-list>
             </a-modal>
-            <a-modal :visible="showModal && addRelationVisible" :footer="null" @cancel="handleCloseRelationModal">
+            <a-modal :visible="showModal && currentShowBoard === boardTypes.relationList" :footer="null" @cancel="handleCloseRelationModal">
                 <relation-list></relation-list>
             </a-modal>
             <!--        <a-modal :visible="showModal && pieModalVisible"-->
@@ -74,7 +74,7 @@
     import TypeFilter from "./components/TypeFilter";
     import LargeGraph from "./components/LargeGraph";
     import EditEntity from "@/views/graph2.0/components/EditEntity"
-    // import EditRelation from './components/EditRelation.vue';
+    import EditRelation from './components/EditRelation.vue';
 
     export default {
         name: "Editor",
@@ -84,8 +84,6 @@
                 heightStr: "height: "+(window.screen.height * 0.8 + 5)+'px',
                 upHeightStr:"height: "+(window.screen.height * 0.15 )+'px',
                 spinning: true,
-                showEditNodeModalIn: false,
-                showEditEdgeModalIn: false
             }
         },
         components: {
@@ -102,7 +100,7 @@
             Pie,
             TypeFilter,
             EditEntity,
-            // EditRelation,
+            EditRelation,
         },
         computed: {
             ...mapGetters([
@@ -112,8 +110,9 @@
                 'addRelationVisible',
                 'pieModalVisible',
                 'isNew',
-                'showEditEdgeModal',
-                'showEditNodeModal'
+                'picId',
+                'boardTypes',
+                'currentShowBoard'
             ]),
         },
         methods:{
@@ -121,16 +120,17 @@
                 "set_addRelationVisible",
                 "set_addEntityVisible",
                 "set_pieModalVisible",
-                "set_addEntityVisible"
+                "set_addEntityVisible",
+                'set_currentShowBoard'
             ]),
             ...mapActions([
                 'getPicElements'
             ]),
             handleCloseEntityModal(){
-                this.set_addEntityVisible(false)
+                this.set_currentShowBoard(this.boardTypes.none)
             },
             handleCloseRelationModal(){
-                this.set_addRelationVisible(false)
+                this.set_currentShowBoard(this.boardTypes.none)
             },
             handleClosePieModal(){
                 this.set_pieModalVisible(false);
@@ -152,13 +152,19 @@
                     this.showModal = false;
                 }
             });
+            console.log('picId',this.picId);
         },
         watch: {
             showEditNodeModal: {
                 immediate: true,
                 handler(){
                     this.showEditNodeModalIn = this.showEditNodeModal;
-                    console.log('showshow=================', this.showEditNodeModalIn)
+                }
+            },
+            showEditEdgeModal: {
+                immediate: true,
+                handler(){
+                    this.showEditEdgeModalIn = this.showEditEdgeModal;
                 }
             }
         }

@@ -1,7 +1,7 @@
 <template>
 <div class="block">
     <div class="inner-block">
-        <span :style="{ marginRight: 8 }">类型筛选 :</span>
+        <span :style="{ marginRight: 8 }">类型筛选  </span>
         <template v-for="(tag,index) in nodesTypes">
 <!--        <template v-for="(tag,index) in tags">-->
             <!--      <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" xxl="6">-->
@@ -48,6 +48,7 @@ export default {
         ])
     },
     async mounted(){
+        console.log('TypeFilter: picId',this.picId);
         await this.getNodeTypes({
             picId:this.picId
         });
@@ -82,15 +83,15 @@ export default {
 
 <style scoped>
 .block {
-    min-height: 100px;
-    padding: 1vw;
+    min-height: 70px;
+    padding: 2vw;
     display: flex;
     justify-content: space-evenly;
-    /*align-items: center;*/
+    align-items: center;
 }
 .inner-block{
     width:95%;
-    height:100%;
+    height:80%;
     margin:auto;
     /*text-align: center;!*使元素水平居中 *!*/
     vertical-align: middle;/*使元素垂直居中 */
