@@ -160,7 +160,12 @@
                 immediate: true,
                 handler(){
                     this.showEditNodeModalIn = this.showEditNodeModal;
-                    console.log('showshow=================', this.showEditNodeModalIn)
+                }
+            },
+            showEditEdgeModal: {
+                immediate: true,
+                handler(){
+                    this.showEditEdgeModalIn = this.showEditEdgeModal;
                 }
             }
         }
