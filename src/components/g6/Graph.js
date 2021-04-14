@@ -1150,6 +1150,7 @@ export const bindListener = (graph) => {
     });
     graph.on('canvas:click', (e) => {
         clearAllClickedState();
+        store.commit('set_currentShowBoard', store.state.graph.boardTypes.pie);
     });
     // graph.on('combo:click', (e) => {
     //     console.log('selected')
