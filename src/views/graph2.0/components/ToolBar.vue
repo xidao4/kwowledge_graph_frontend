@@ -15,8 +15,8 @@
       <a-switch class="margin-left-s"
                 :checked="currentGraphId === graphIds.force?forceShowEdgeLabel:typesettingEdgeShowLabel"
                 @change="changeLabelShow">
-        <a-icon slot="checkedChildren" type="check" />
-        <a-icon slot="unCheckedChildren" type="close" />
+        <a-icon slot="checkedChildren" type="eye" />
+        <a-icon slot="unCheckedChildren" type="eye-invisible" />
       </a-switch>
     </a-tooltip>
 

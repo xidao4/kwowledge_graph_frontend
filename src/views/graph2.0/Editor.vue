@@ -23,11 +23,11 @@
                 </a-col>
                 <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">
                     <div class="block" :style="this.heightStr">
-<!--                        <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>-->
-<!--                         <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list>-->
-<!--                        <pie :class="pieModalVisible?'show':'not-show'"></pie>-->
-<!--                         <edit-entity></edit-entity>-->
-                         <edit-relation></edit-relation>
+                        <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>
+                         <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list>
+                        <pie :class="pieModalVisible?'show':'not-show'"></pie>
+                         <edit-entity v-if="showEditNodeModalIn"></edit-entity>
+                        <edit-relation v-if="showEditEdgeModalIn"></edit-relation>
                     </div>
                 </a-col>
 
@@ -84,6 +84,8 @@
                 heightStr: "height: "+(window.screen.height * 0.8 + 5)+'px',
                 upHeightStr:"height: "+(window.screen.height * 0.15 )+'px',
                 spinning: true,
+                showEditNodeModalIn: false,
+                showEditEdgeModalIn: false
             }
         },
         components: {
@@ -111,6 +113,8 @@
                 'pieModalVisible',
                 'isNew',
                 'picId',
+                'showEditEdgeModal',
+                'showEditNodeModal'
             ]),
         },
         methods:{
@@ -150,6 +154,20 @@
                 }
             });
             console.log('picId',this.picId);
+        },
+        watch: {
+            showEditNodeModal: {
+                immediate: true,
+                handler(){
+                    this.showEditNodeModalIn = this.showEditNodeModal;
+                }
+            },
+            showEditEdgeModal: {
+                immediate: true,
+                handler(){
+                    this.showEditEdgeModalIn = this.showEditEdgeModal;
+                }
+            }
         }
     }
 </script>
