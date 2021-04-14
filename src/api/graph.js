@@ -97,9 +97,12 @@ export function saveAPI(data) {
 
 export function thumbnailAPI(data) {
   return axios({
-    url: `${api.graphPre}/thumbnail`,
+    url: `${api.graphPre}/thumbnail/${data.picId}/${data.userId}/${data.picName}`,
     method: 'POST',
     data,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
   })
 }
 

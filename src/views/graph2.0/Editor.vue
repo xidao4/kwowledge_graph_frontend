@@ -26,8 +26,8 @@
                         <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>
                          <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list>
                         <pie :class="pieModalVisible?'show':'not-show'"></pie>
-                        <!-- <edit-entity></edit-entity> -->
-                        <!-- <edit-relation></edit-relation> -->
+                         <edit-entity v-if="showEditNodeModalIn"></edit-entity>
+                        <edit-relation v-if="showEditEdgeModalIn"></edit-relation>
                     </div>
                 </a-col>
 
@@ -74,7 +74,7 @@
     import TypeFilter from "./components/TypeFilter";
     import LargeGraph from "./components/LargeGraph";
     import EditEntity from "@/views/graph2.0/components/EditEntity"
-    // import EditRelation from './components/EditRelation.vue';
+    import EditRelation from './components/EditRelation.vue';
 
     export default {
         name: "Editor",
@@ -84,6 +84,8 @@
                 heightStr: "height: "+(window.screen.height * 0.8 + 5)+'px',
                 upHeightStr:"height: "+(window.screen.height * 0.15 )+'px',
                 spinning: true,
+                showEditNodeModalIn: false,
+                showEditEdgeModalIn: false
             }
         },
         components: {
@@ -100,7 +102,7 @@
             Pie,
             TypeFilter,
             EditEntity,
-            // EditRelation,
+            EditRelation,
         },
         computed: {
             ...mapGetters([
@@ -111,6 +113,8 @@
                 'pieModalVisible',
                 'isNew',
                 'picId',
+                'showEditEdgeModal',
+                'showEditNodeModal'
             ]),
         },
         methods:{
@@ -150,6 +154,20 @@
                 }
             });
             console.log('picId',this.picId);
+        },
+        watch: {
+            showEditNodeModal: {
+                immediate: true,
+                handler(){
+                    this.showEditNodeModalIn = this.showEditNodeModal;
+                }
+            },
+            showEditEdgeModal: {
+                immediate: true,
+                handler(){
+                    this.showEditEdgeModalIn = this.showEditEdgeModal;
+                }
+            }
         }
     }
 </script>

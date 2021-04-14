@@ -74,10 +74,12 @@
       </a-form-item>
       <div @click="colorInputClick1"> 
       <a-form-item label="边框色:">
-        <a-input
-            :value="colors1"
-            disabled
-        />
+<!--        <a-input-->
+<!--            :value="colors1"-->
+<!--            disabled-->
+<!--        />-->
+        <div class="colorBlock" :style="'background-color: ' + colors1">
+        </div>
       </a-form-item>
       </div>
       <div v-show="isShowColors1" class="color-select-layer"> 
@@ -85,10 +87,12 @@
       </div> 
       <div @click="colorInputClick2"> 
       <a-form-item label="填充色:">
-        <a-input
-            :value="colors2"
-            disabled
-        />
+<!--        <a-input-->
+<!--            :value="colors2"-->
+<!--            disabled-->
+<!--        />-->
+        <div class="colorBlock" :style="'background-color: ' + colors2">
+        </div>
       </a-form-item>
       </div>
     </a-form>
@@ -115,10 +119,12 @@
         </a-form-item>
         <div @click="colorInputClick3"> 
         <a-form-item label="颜色:">
-            <a-input
-                :value="colors3"
-                disabled
-            />
+<!--            <a-input-->
+<!--                :value="colors3"-->
+<!--                disabled-->
+<!--            />-->
+          <div class="colorBlock" :style="'background-color: ' + colors3">
+          </div>
         </a-form-item>
         </div>
     </a-form>
@@ -275,4 +281,15 @@ export default {
     display: inline-block;
     width: 0;
 }
+.colorBlock{
+  width: 20px;
+  height: 20px;
+  float: left;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+.colorBlock:hover {
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+}
+
 </style>

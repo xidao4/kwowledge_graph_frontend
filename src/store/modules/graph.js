@@ -146,6 +146,9 @@ const state = {
     typesettingEdgeShowLabel: false,
     currentCombos: [],
     currentShowCombos: true,
+    currentItem: null,
+    showEditNodeModal: false,
+    showEditEdgeModal: false
 };
 
 const graph = {
@@ -280,9 +283,11 @@ const graph = {
         },
         set_currentGraphData(state, data) {
             state.currentGraphData = {...data}
+            console.log('添加labelList')
             for(let i=0;i<data.nodes.length;i++){
                 state.labelList.push(data.nodes[i].oriLabel)
             }
+            console.log(state.labelList)
         },
         set_nodesTypeCntMap(state,data){
             state.nodesTypeCntMap={...data};
@@ -370,7 +375,16 @@ const graph = {
                 nodes: data.nodes,
                 edges: data.edges
             };
-        }
+        },
+        set_currentItem(state, data){
+            state.currentItem = data;
+        },
+        set_showEditNodeModal(state, data){
+            state.showEditNodeModal = data;
+        },
+        set_showEditEdgeModal(state, data){
+            state.showEditEdgeModal = data;
+        },
     },
     actions: {
         // getAll:async ({commit,state},data)=>{
@@ -484,12 +498,19 @@ const graph = {
         },
         thumbnail: async({rootState, state}, url) => {
             let picId = state.picId;
-            const res = await thumbnailAPI({
-                picId: picId,
-                userId: rootState.userId,
-                picName: picId,
-                file: url2File(url, picId)
-            });
+            let file = url2File(url, picId);
+            const data = new FormData();
+            data.append('file', file);
+            data.append('picId', JSON.stringify(picId));
+            data.append('userId', JSON.stringify(rootState.userId));
+            data.append('picName', picId);
+            const res = await thumbnailAPI(data);
+            // const res = await thumbnailAPI({
+            //     picId: picId,
+            //     userId: rootState.userId,
+            //     picName: picId,
+            //     file: url2File(url, picId)
+            // });
             if(res.code < 0) {
                 console.log('文件下载失败');
             }
