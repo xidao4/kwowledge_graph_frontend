@@ -466,10 +466,10 @@ const graph = {
         // TODO 后端重构，传url
         downloadFile: async({state}) => {
             const res = await downloadAPI({
-                picId: state.picId
+                picId: getTokenByKey('picId')
             });
-            if(res) {
-                return res;
+            if(res.code >= 0) {
+                return res.data;
             } else {
                 message.error('文件下载失败')
             }
