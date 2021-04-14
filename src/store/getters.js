@@ -36,6 +36,9 @@ const getters={
     typesettingEdgeShowLabel: state=>state.graph.typesettingEdgeShowLabel,
     currentCombos: state=>state.graph.currentCombos,
     currentShowCombos: state=>state.graph.currentShowCombos,
+    currentItem: state=>state.graph.currentItem,
+    showEditNodeModal: state=>state.graph.showEditNodeModal,
+    showEditEdgeModal: state=>state.graph.showEditEdgeModal,
 
     colorList: state=>state.util.colorList,
 
