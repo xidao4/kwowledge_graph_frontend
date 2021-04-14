@@ -1,6 +1,6 @@
 <template>
     <div class="page-div">
-        <router-link to="/largeGraph">largeGraphTest</router-link>
+<!--        <router-link to="/largeGraph">largeGraphTest</router-link>-->
         <a-row>
             <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" xxl="6">
                 <Upload class="myDiv"></Upload>
