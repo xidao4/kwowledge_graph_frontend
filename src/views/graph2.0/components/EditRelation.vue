@@ -159,6 +159,9 @@ export default {
   },
   methods:{
     ...mapMutations([
+      'set_currentShowGraphData',
+      'set_currentShowGraphData_typesetting',
+      'set_currentGraphData'
     ]),
     handleSelectChangeShape(value) {
       console.log(value);
@@ -240,11 +243,17 @@ export default {
           }
         })
       console.log('之后currentItem',this.currentItem)
+      let temp=this.currentGraph.save()
+      this.set_currentShowGraphData_typesetting(temp)
+      this.set_currentGraphData(temp)
       // this.currentGraph.refreshItem(this.currentItem)
     },
     handleDeleteRelation(){
       //假设关系值已经传过来
       this.currentGraph.removeItem(this.currentItem)
+      let temp=this.currentGraph.save()
+      this.set_currentShowGraphData_typesetting(temp)
+      this.set_currentGraphData(temp)
     }
   }
 };

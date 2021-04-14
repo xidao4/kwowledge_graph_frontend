@@ -55,6 +55,17 @@
         >
         </a-input>
       </a-form-item>
+      <a-form-item label="关系类型">
+        <a-input
+          v-decorator="[
+                'relationType',
+                { rules: [{ required: true, message: '请输入关系值!' }] },
+              ]"
+          placeholder="请输入关系类型"
+          style="width: 85%;"
+        >
+        </a-input>
+      </a-form-item>
       <a-tag
               style="cursor: pointer; border-style: solid;"
               @click="confirmAddRelation"
@@ -92,12 +103,14 @@ export default {
       "currentGraphData",
       "labelList",
       "relationId",
-      "currentShowGraphData"
+      "currentShowGraphData",
     ]),
   },
   methods: {
     ...mapActions(["addRelation"]),
-    ...mapMutations(["add_showGraphEdges", "set_addRelationVisible","set_relationId"]),
+    ...mapMutations(["add_showGraphEdges", "set_addRelationVisible","set_relationId",'set_currentShowGraphData',
+      'set_currentShowGraphData_typesetting',
+      'set_currentGraphData']),
     async confirmAddRelation() {
       var that=this
       console.log(this.addRelationForm.getFieldValue('relationValue'))
@@ -111,6 +124,7 @@ export default {
         node1: this.labelList[that.addRelationForm.getFieldValue('selectSourceNode')],
         node2: this.labelList[that.addRelationForm.getFieldValue('selectTargetNode')],
         name: that.addRelationForm.getFieldValue('relationValue'),
+        relationType:that.addRelationForm.getFieldValue('relationType'),
         color: "#000",
       };
       console.log('newData',newData)
@@ -145,6 +159,7 @@ export default {
       }
       let model={
         id:  `relation-${this.relationId}`,
+        class: newData.relationType,
         label: newData.name,
         oriLabel: newData.name,
         type: 'quadratic',
@@ -154,14 +169,17 @@ export default {
       }
       console.log('relationModel',model)
       this.currentGraph.addItem('edge',model)
-      this.currentGraphData.edges.push({
-        class:'c0',
-        id:`relation-${this.relationId}`,
-        label: newData.name,
-        oriLabel: newData.name,
-        source: model.source,
-        target: model.target
-      })
+      // this.currentGraphData.edges.push({
+      //   class:'c0',
+      //   id:`relation-${this.relationId}`,
+      //   label: newData.name,
+      //   oriLabel: newData.name,
+      //   source: model.source,
+      //   target: model.target
+      // })
+      let temp=this.currentGraph.save()
+      this.set_currentShowGraphData_typesetting(temp)
+      this.set_currentGraphData(temp)
       this.set_relationId();
       // await this.addRelation(data);
       // this.add_showGraphEdges(newData);

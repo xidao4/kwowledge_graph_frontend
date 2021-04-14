@@ -70,7 +70,9 @@ export default {
     ...mapGetters(["colorList", "showGraphNodes", "picId","addEntityVisible","currentGraph","currentGraphData","nodeId","currentShowGraphData"]),
   },
   methods: {
-    ...mapMutations(["add_showGraphNodes","set_addEntityVisible","set_nodeId"]),
+    ...mapMutations(["add_showGraphNodes","set_addEntityVisible","set_nodeId",'set_currentShowGraphData',
+      'set_currentShowGraphData_typesetting',
+      'set_currentGraphData']),
     ...mapActions(["addEntity"]),
     handleAdd() {
       this.name = {
@@ -116,7 +118,9 @@ export default {
           label: this.name.value,
           oriLabel: this.name.value,
         })
-
+        let temp=this.currentGraph.save()
+        this.set_currentShowGraphData_typesetting(temp)
+        this.set_currentGraphData(temp)
         this.set_nodeId();
         console.log('after update',this.currentGraphData)
         this.set_addEntityVisible(false)
