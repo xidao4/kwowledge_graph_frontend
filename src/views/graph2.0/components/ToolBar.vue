@@ -60,6 +60,8 @@ export default {
       'typesettingGraph',
       'typesettingEdgeShowLabel',
       'forceShowEdgeLabel',
+      'boardTypes',
+      'currentShowBoard'
     ])
   },
   mounted(){
@@ -82,25 +84,19 @@ export default {
       'set_addRelationVisible',
       'set_pieModalVisible',
       'set_forceShowEdgeLabel',
-      'set_typesettingEdgeShowLabel'
+      'set_typesettingEdgeShowLabel',
+      'set_currentShowBoard'
     ]),
     handleAddEntity(){
-      this.set_addRelationVisible(false);
-      this.set_addEntityVisible(true);
-      this.set_pieModalVisible(false);
+      this.set_currentShowBoard(this.boardTypes.entityList);
     },
     confirmAddRelation(){
-      this.set_addEntityVisible(false);
-      this.set_addRelationVisible(true);
-      this.set_pieModalVisible(false);
+      this.set_currentShowBoard(this.boardTypes.relationList);
     },
     showPieModal(){
-      this.set_pieModalVisible(true);
-      this.set_addEntityVisible(false);
-      this.set_addRelationVisible(false);
+      this.set_currentShowBoard(this.boardTypes.pie);
     },
     changeLabelShow(value){
-      console.log(`choose ${value}`)
       if(value){
         this.labelTip = '隐藏关系名'
       } else {
