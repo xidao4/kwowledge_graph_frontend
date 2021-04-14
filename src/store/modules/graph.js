@@ -274,8 +274,8 @@ const graph = {
             state.nodesTypeCntMap={...data};
         },
         set_edgesTypeCntMap(state,data){
-            state.edgesTypeCntMap={...data};
-            console.log('set_edgesTypeCntMap: edgesTypeCntMap',state.edgesTypeCntMap);
+            state.edgesTypeCntMap=data;
+            console.log('set_edgesTypeCntMap: state.edgesTypeCntMap',state.edgesTypeCntMap);
         },
         set_searchNodes(state,data){
             state.searchNodes=data;
@@ -536,7 +536,11 @@ const graph = {
                 message.error(res);
             }else if(res.code>=0){
                 commit('set_nodesTypeCntMap',res.data.nodesMap);
+
                 console.log('res.data.edgesMap',res.data.edgesMap);
+                // for(let[key,value] of res.data.edgesMap){
+                //     console.log(key,value);
+                // }
                 commit('set_edgesTypeCntMap',res.data.edgesMap);
                 console.log('getPicTypes: state.edgesTypeCntMap',state.edgesTypeCntMap);
             }else{

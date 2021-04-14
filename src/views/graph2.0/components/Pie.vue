@@ -87,6 +87,8 @@ export default {
   watch:{
       pieModalVisible(){
         // Invalid attempt to iterate non-iterable instance
+        console.log('wathc pieModalVisible: this.edgesTypeCntMap',this.edgesTypeCntMap);
+
         for(let[key,value] of this.edgesTypeCntMap){
           this.edgesFormat.push({
             value:value,
@@ -111,7 +113,7 @@ export default {
       await this.getPicTypes({
           picId:this.picId
       })
-      console.log('Pie: edgesTypeCntMap',this.edgesTypeCntMap);
+      console.log('Pie mounted: this.edgesTypeCntMap',this.edgesTypeCntMap);
 
   },
   methods:{
