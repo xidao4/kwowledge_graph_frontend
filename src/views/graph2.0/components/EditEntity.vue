@@ -54,10 +54,23 @@
             style="margin-right:24%;margin-top:2%"
     >
       <a-form-item label="大小：">
-        <a-input
-            v-decorator="['size', { rules: [{ required: false, message: '请输入实体大小!' }] }]"
-            :maxLength="2"
-        />
+        <a-select
+          v-decorator="[
+            'size',
+            { rules: [{ required: false, message: '请选择实体的形状!' }] },
+            ]"
+          @change="handleSelectChangeSize"
+        >
+          <a-select-option value="big">
+            大
+          </a-select-option>
+          <a-select-option value="medium">
+          中
+          </a-select-option>
+          <a-select-option value="small">
+          小
+          </a-select-option>
+        </a-select>
       </a-form-item>
       <a-form-item label="形状：">
         <a-select
@@ -67,21 +80,21 @@
             ]"
             @change="handleSelectChangeShape"
         >
-            <a-select-option  v-for="item in this.shapeList" :key="item" :value="item">
-            {{item}}
+            <a-select-option  v-for="item in this.shapeList" :key="item.key" :value="item.value">
+            {{item.key}}
             </a-select-option>  
         </a-select>
       </a-form-item>
-      <div @click="colorInputClick1"> 
-      <a-form-item label="边框色:">
-<!--        <a-input-->
-<!--            :value="colors1"-->
-<!--            disabled-->
-<!--        />-->
-        <div class="colorBlock" :style="'background-color: ' + colors1">
-        </div>
-      </a-form-item>
-      </div>
+<!--      <div @click="colorInputClick1"> -->
+<!--      <a-form-item label="边框色:">-->
+<!--&lt;!&ndash;        <a-input&ndash;&gt;-->
+<!--&lt;!&ndash;            :value="colors1"&ndash;&gt;-->
+<!--&lt;!&ndash;            disabled&ndash;&gt;-->
+<!--&lt;!&ndash;        />&ndash;&gt;-->
+<!--        <div class="colorBlock" :style="'background-color: ' + colors1">-->
+<!--        </div>-->
+<!--      </a-form-item>-->
+<!--      </div>-->
       <div v-show="isShowColors1" class="color-select-layer"> 
         <sketch-picker :value="colors1" @input="colorValueChange1"></sketch-picker>
       </div> 
@@ -110,27 +123,24 @@
         :wrapper-col="{ lg: {span: 14}, xl: {span: 15} }"
         style="margin-right:24%;margin-top:2%"
     >
-        <a-form-item label="大小：">
-            <a-input
-                v-decorator="['size', { rules: [{ required: false, message: '请输入字体大小!' }] }]"
-                :maxLength="2"
-                suffix="px"
-            />
+        <a-form-item label="实体值：">
+          <a-input
+            v-decorator="['content', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
+          />
         </a-form-item>
-        <div @click="colorInputClick3"> 
-        <a-form-item label="颜色:">
+        <a-form-item label="实体类型：">
+          <a-input
+            v-decorator="['entityType', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
+          />
+        </a-form-item>
+<!--        <a-form-item label="大小：">-->
 <!--            <a-input-->
-<!--                :value="colors3"-->
-<!--                disabled-->
+<!--                v-decorator="['size', { rules: [{ required: false, message: '请输入字体大小!' }] }]"-->
+<!--                :maxLength="2"-->
+<!--                suffix="px"-->
 <!--            />-->
-          <div class="colorBlock" :style="'background-color: ' + colors3">
-          </div>
-        </a-form-item>
-        </div>
+<!--        </a-form-item>-->
     </a-form>
-    <div v-show="isShowColors3" class="color-select-layer"> 
-        <sketch-picker :value="colors3" @input="colorValueChange3"></sketch-picker>
-    </div> 
 
     <div class="tagList">
         <a-tag
@@ -163,13 +173,11 @@ export default {
   },
   data(){
       return{
-          shapeList:['圆形','矩形','菱形','三角形','椭圆','自定义'],
+          shapeList:[{key:'圆形', value: 'circle'},{key:'矩形', value: 'rect'},{key:'椭圆', value: 'ellipse'},{key:'菱形', value: 'diamond'}],
           colors1: '#333333',
-          colors2: '#ffffff',
-          colors3: '#000000',
+          colors2:'#E65D6E',
           isShowColors1: false,
           isShowColors2: false,
-          isShowColors3: false,
           editEntityForm1: this.$form.createForm(this, { name: "editEntityForm1" }),
           editEntityForm2: this.$form.createForm(this, { name: "editEntityForm2" }),
           visible: false,
@@ -190,6 +198,9 @@ export default {
     ]),
     handleSelectChangeShape(value) {
       console.log(value);
+    },
+    handleSelectChangeSize(value){
+
     },
     // 颜色输入框点击事件处理
     colorInputClick1 () {
@@ -217,26 +228,72 @@ export default {
         this.colors2 = val.hex
         console.log('after select:',this.colors2)
     },
-    colorInputClick3 () {
-        this.isShowColors1=false
-        this.isShowColors2=false
-        this.isShowColors3 = !this.isShowColors3
-    },
-    colorValueChange3 (val) {
-        // 取颜色对象的十六进制值
-        this.colors3 = val.hex
-    },
     handleChangeEntity(){
-        var that=this
+        let that=this
         let data={
             lineWidth: that.editEntityForm1.getFieldValue('size'),
             type: that.editEntityForm1.getFieldValue('shape'),
+            entityType: that.editEntityForm2.getFieldValue('entityType'),
             stroke: that.colors1,
             fill1: that.colors2,
             fontSize: that.editEntityForm2.getFieldValue('size'),
-            fill2: that.colors3
+            label: that.editEntityForm2.getFieldValue('content'),
         }
-        console.log(data)
+        console.log('我的大小',data.lineWidth)
+        console.log(this.currentItem)
+        let tempSize='';
+        if(data.type==='circle'){
+          if(data.lineWidth==='big'){tempSize=60}
+          else if(data.lineWidth==='medium'){tempSize=40}
+          else if(data.lineWidth==='small'){tempSize=30}
+        }
+        else if(data.type==='rect'){
+          if(data.lineWidth==='big'){tempSize=[60,60]}
+          else if(data.lineWidth==='medium'){tempSize=[40,40]}
+          else if(data.lineWidth==='small'){tempSize=[30,30]}
+        }
+        else if(data.type==='ellipse'){
+          if(data.lineWidth==='big'){tempSize=[80,70]}
+          else if(data.lineWidth==='medium'){tempSize=[60,40]}
+          else if(data.lineWidth==='small'){tempSize=[50,30]}
+        }
+        else if(data.type==='diamond'){
+          if(data.lineWidth==='big'){tempSize=[90,70]}
+          else if(data.lineWidth==='medium'){tempSize=[80,60]}
+          else if(data.lineWidth==='small'){tempSize=[50,30]}
+        }
+        console.log('转换后的大小,',tempSize)
+        this.currentGraph.clearItemStates(this.currentItem,'selected')
+        this.currentGraph.updateItem(this.currentItem,{
+          type: data.type,
+          label: data.label,
+          size: tempSize,
+          style:{
+            fill: data.fill1,
+            stroke: data.stroke,
+            lineWidth: 1
+          },
+          stateStyles:{
+            selected: {
+              shadowColor: data.fill1,
+              lineWidth: 0,
+              fill: data.fill1,
+              stroke: data.stroke,
+              shadowBlur: 15,
+            },
+            highlight: {
+              fill: 'rgb(223, 234, 255)',
+              // stroke: '#4572d9',
+              stroke:'#ff0',
+              lineWidth: 2,
+              // text-shape: {
+              //     fontWeight: 500
+              // }
+            },
+          }
+        })
+        this.currentGraph.setItemState(this.currentItem,'selected',true)
+
     },
     handleDeleteEntity(){
       //假设实体值已经传过来

@@ -30,7 +30,7 @@
             <a-select-option value="line">
             直线
             </a-select-option>
-            <a-select-option value="arc">
+            <a-select-option value="quadratic">
             曲线
             </a-select-option>
             <a-select-option value="polyline">
@@ -79,28 +79,28 @@
         :wrapper-col="{ lg: {span: 14}, xl: {span: 15} }"
         style="margin-right:24%;margin-top:2%"
     >
-      <a-form-item label="内容：">
-        <a-input
-          v-decorator="['content', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
-        />
-      </a-form-item>
-        <a-form-item label="大小：">
-            <a-input
-                v-decorator="['size', { rules: [{ required: false, message: '请输入字体大小!' }] }]"
-                :maxLength="2"
-                suffix="px"
-            />
+        <a-form-item label="内容：">
+          <a-input
+            v-decorator="['content', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
+          />
         </a-form-item>
-        <div @click="colorInputClick2"> 
-        <a-form-item label="颜色:">
+<!--        <a-form-item label="大小：">-->
 <!--            <a-input-->
-<!--                :value="colors2"-->
-<!--                disabled-->
+<!--                v-decorator="['size', { rules: [{ required: false, message: '请输入字体大小!' }] }]"-->
+<!--                :maxLength="2"-->
+<!--                suffix="px"-->
 <!--            />-->
-          <div class="colorBlock" :style="'background-color: ' + colors2">
-          </div>
-        </a-form-item>
-        </div>
+<!--        </a-form-item>-->
+<!--        <div @click="colorInputClick2"> -->
+<!--        <a-form-item label="颜色:">-->
+<!--&lt;!&ndash;            <a-input&ndash;&gt;-->
+<!--&lt;!&ndash;                :value="colors2"&ndash;&gt;-->
+<!--&lt;!&ndash;                disabled&ndash;&gt;-->
+<!--&lt;!&ndash;            />&ndash;&gt;-->
+<!--          <div class="colorBlock" :style="'background-color: ' + colors2">-->
+<!--          </div>-->
+<!--        </a-form-item>-->
+<!--        </div>-->
     </a-form>
     <div v-show="isShowColors2" class="color-select-layer"> 
         <sketch-picker :value="colors2" @input="colorValueChange2"></sketch-picker>
@@ -128,6 +128,7 @@
 <script>
   import {mapGetters, mapMutations} from 'vuex'
 import {Sketch} from 'vue-color'
+  import G6 from "@antv/g6";
 export default {
   name: "EditRelation",
   components: {
@@ -148,7 +149,7 @@ export default {
   },
   data(){
       return{
-          colors1: '#333333',
+          colors1: '#E65D6E',
           colors2: '#ffffff',
           isShowColors1: false,
           isShowColors2: false,
@@ -196,25 +197,50 @@ export default {
         let data={
             lineWidth: that.editRelationForm1.getFieldValue('lineWidth'),
             type: that.editRelationForm1.getFieldValue('shape'),
-            lineDash: that.editRelationForm1.getFieldValue('virtual')==='dashed'?[5,15]:0,
+            lineDash: that.editRelationForm1.getFieldValue('virtual')==='dashed'?[1,2]:0,
             stroke: that.colors1,
             fontSize: that.editRelationForm2.getFieldValue('size'),
             labelContent: that.editRelationForm2.getFieldValue('content'),
             fill: that.colors2
         }
+        console.log('确保表单数据无误',data)
+        console.log('之前currentItem',this.currentItem)
+        this.currentGraph.clearItemStates(this.currentItem,'selected')
         this.currentGraph.updateItem(this.currentItem,{
-          type: that.editRelationForm1.getFieldValue('shape'),
+          type: data.type,
           label: data.labelContent,
           style:{
-            lineWidth: that.editRelationForm1.getFieldValue('lineWidth'),
-            lineDash: that.editRelationForm1.getFieldValue('virtual')==='dashed'?[5,15]:0,
-            stroke: that.colors1,
+            lineWidth: data.lineWidth,
+            lineDash: data.lineDash,
+            stroke: data.stroke,
+            endArrow: {
+              path: G6.Arrow.triangle(),
+              fill: data.stroke
+            },
           },
-          labelCfg:{
-            fill: that.colors2,
-            fontSize: that.editRelationForm2.getFieldValue('size'),
+          // labelCfg:{
+          //   fill: that.colors2,
+          //   fontSize: that.editRelationForm2.getFieldValue('size'),
+          // },
+          stateStyles:{
+            selected: {
+              shadowColor: data.stroke,
+              fill: data.stroke,
+              shadowBlur: 5,
+              stroke: data.stroke
+            },
+            noneLabel: {
+              fill: '#fff',
+              stroke: '#fff'
+            },
+            highlight:{
+              stroke:'#ff0',
+              lineWidth: 2,
+            }
           }
         })
+      console.log('之后currentItem',this.currentItem)
+      // this.currentGraph.refreshItem(this.currentItem)
     },
     handleDeleteRelation(){
       //假设关系值已经传过来
