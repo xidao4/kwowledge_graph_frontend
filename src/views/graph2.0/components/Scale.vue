@@ -2,7 +2,9 @@
     <div>
         <a-dropdown>
             <a-button @click="e => e.preventDefault()"
-                      type="primary" size="small" > {{ratioStr}} <a-icon type="down" /> </a-button>
+                      :type="type" size="small" > {{ratioStr}}
+                <a-icon type="down" v-if="type==='primary'"/>
+            </a-button>
 <!--            <a class="ant-dropdown-link" @click="e => e.preventDefault()">-->
 <!--                {{ratioStr}} <a-icon type="down" />-->
 <!--            </a>-->
@@ -54,6 +56,12 @@
     ]
     export default {
         name: "tmpToolBar",
+        props: {
+            type: {
+                type: String,
+                default: 'primary'
+            }
+        },
         data(){
             return {
                 ratios

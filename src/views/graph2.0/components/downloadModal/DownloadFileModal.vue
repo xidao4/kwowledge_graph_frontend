@@ -67,16 +67,26 @@
             async download(){
                 this.loading = true;
                 this.btnText = btnTextType.fileLoading;
-                let res = await this.downloadAct();
-                console.log('res', res)
-                let blob = new Blob([res]);
-                let url = URL.createObjectURL(blob);
-                let name = this.name || "知识图谱";
-                let fileLink = document.createElement("a");
-                fileLink.href = url;
-                fileLink.download = name + "." + this.type;
-                fileLink.click();
-                window.URL.revokeObjectURL(url);
+                let url = await this.downloadAct();
+                console.log('download res', url);
+                // let blob = new Blob([res]);
+                // let url = URL.createObjectURL(blob);
+                // let name = this.name || "知识图谱";
+                // let fileLink = document.createElement("a");
+                // fileLink.href = url;
+                // fileLink.download = name + "." + this.type;
+                // fileLink.click();
+                // window.URL.revokeObjectURL(url);
+                // document.body.removeChild(fileLink);
+
+                fetch(url).then(res => res.blob()).then(blob => { // 将链接地址字符内容转变成blob地址
+                    a.href = URL.createObjectURL(blob)
+                    a.download = name + "." + this.type;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                });
+
                 setTimeout(()=>{
                     this.loading = false;
                     this.btnText = btnTextType.download;

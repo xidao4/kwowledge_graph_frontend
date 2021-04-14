@@ -46,6 +46,7 @@
                 'currentGraphData',
                 'currentShowGraphData',
                 'forceShowEdgeLabel',
+                'boardTypes'
             ])
         },
         methods: {
@@ -55,7 +56,8 @@
                 'set_currentGraph',
                 'set_forceShowEdgeLabel',
                 'set_isNew',
-                'set_currentShowGraphData_force'
+                'set_currentShowGraphData_force',
+                'set_currentShowBoard'
             ]),
             ...mapActions([
                 'getPicElements',
@@ -164,6 +166,7 @@
                 this.reDraw(this.currentShowGraphData.force);
             }
             this.set_currentGraph(this.forceGraph);
+            this.set_currentShowBoard(this.boardTypes.pie);
             this.$emit('finished')
         },
     }
