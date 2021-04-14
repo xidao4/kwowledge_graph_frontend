@@ -91,7 +91,8 @@ export default {
       "currentGraph",
       "currentGraphData",
       "labelList",
-      "relationId"
+      "relationId",
+      "currentShowGraphData"
     ]),
   },
   methods: {

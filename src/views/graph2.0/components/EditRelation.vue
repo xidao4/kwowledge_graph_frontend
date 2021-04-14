@@ -79,6 +79,11 @@
         :wrapper-col="{ lg: {span: 14}, xl: {span: 15} }"
         style="margin-right:24%;margin-top:2%"
     >
+      <a-form-item label="内容：">
+        <a-input
+          v-decorator="['content', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
+        />
+      </a-form-item>
         <a-form-item label="大小：">
             <a-input
                 v-decorator="['size', { rules: [{ required: false, message: '请输入字体大小!' }] }]"
@@ -132,6 +137,8 @@ export default {
     ...mapGetters([
       "currentGraph",
       "currentGraphData",
+      "currentShowGraphData",
+      "currentItem"
     ]),
   },
   data(){
@@ -178,6 +185,7 @@ export default {
         console.log('after select:',this.colors2)
     },
     handleChangeRelation(){
+        console.log('两个data差异',this.currentShowGraphData,this.currentGraphData)
         var that=this
         console.log(this.editRelationForm1.getFieldValue('virtual'))
         let data={
@@ -186,13 +194,14 @@ export default {
             lineDash: that.editRelationForm1.getFieldValue('virtual')==='dashed'?[5,15]:0,
             stroke: that.colors1,
             fontSize: that.editRelationForm2.getFieldValue('size'),
+            labelContent: that.editRelationForm2.getFieldValue('content'),
             fill: that.colors2
         }
         console.log(data)
     },
     handleDeleteRelation(){
       //假设关系值已经传过来
-      this.currentGraph.removeItem(entity)
+      this.currentGraph.removeItem(this.currentItem)
     }
   }
 };

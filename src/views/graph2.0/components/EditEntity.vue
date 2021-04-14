@@ -154,7 +154,7 @@
 
 <script>
 
-import {mapMutations} from 'vuex'
+  import {mapGetters, mapMutations} from 'vuex'
 import {Sketch} from 'vue-color'
 export default {
   name: "EditEntity",
@@ -177,6 +177,12 @@ export default {
           cropShape: '',
           entityName: ''
       }
+  },
+  computed: {
+    ...mapGetters([
+      "currentGraph",
+      "currentGraphData",
+    ]),
   },
   methods:{
     ...mapMutations([
@@ -232,7 +238,8 @@ export default {
         console.log(data)
     },
     handleDeleteEntity(){
-
+      //假设实体值已经传过来
+      this.currentGraph.removeItem(entity)
     },
     showModal(){
         this.visible=true
@@ -245,6 +252,7 @@ export default {
     },
     handleChange({ fileList }) {
       this.fileList = fileList;
+      console.log('加载后',this.fileList)
     },
     handleChangeShape(value){
       this.cropShape=value
@@ -254,6 +262,9 @@ export default {
 </script>
 
 <style scoped>
+.editEntity{
+  overflow-y:scroll  /*只是y方向*/
+}
 .spanItem{
     margin-left: 5%;
     z-index: 0;
