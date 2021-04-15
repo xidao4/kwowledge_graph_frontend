@@ -1182,18 +1182,22 @@ export const bindListener = (graph) => {
 
 export const setHighlight=(graph,searchNodes,searchEdges)=>{
     searchNodes.forEach((node)=>{
-        graph.setItemState(graph.findById(node.get('id')),'highlight',true);
+        console.log('5555 setHighlight: node',node);
+        // let mapNode=new Map(Object.entries(node));
+        // console.log('5555 setHighlight new Map(node)',mapNode);
+        graph.setItemState(graph.findById(node.id),'highlight',true);
     })
     searchEdges.forEach((edge)=>{
-        graph.setItemState(graph.findById(edge.get('id')),'highlight',true);
+        console.log('5555 setHighlight: edge',edge);
+        graph.setItemState(graph.findById(edge.id),'highlight',true);
     })
 }
 export const cancelHighlight=(graph,searchNodes,searchEdges)=>{
     searchNodes.forEach((node)=>{
-        graph.setItemState(graph.findById(node.get('id')),'highlight',false);
+        graph.setItemState(graph.findById(node.id),'highlight',false);
     })
     searchEdges.forEach((edge)=>{
-        graph.setItemState(graph.findById(edge.get('id')),'highlight',false);
+        graph.setItemState(graph.findById(edge.id),'highlight',false);
     })
 }
 export const hideItem=(graph,type)=>{
