@@ -132,7 +132,7 @@
             ]"
             @change="handleSelectChangeShape"
         >
-            <a-select-option  v-for="item in this.shapeList" :key="item.key" :value="item.value">
+            <a-select-option  v-for="item in this.customizeElement" :key="item.key" :value="item.value">
             {{item.key}}
             </a-select-option>  
         </a-select>
@@ -224,7 +224,7 @@
     });
   }
 
-  import {mapGetters, mapMutations} from 'vuex'
+  import {mapActions, mapGetters, mapMutations} from 'vuex'
   import {Sketch} from 'vue-color'
   import { getToken } from '@/utils/auth'
   import axios from "axios";
@@ -235,7 +235,6 @@ export default {
   },
   data(){
       return{
-          shapeList:[{key:'圆形', value: 'circle'},{key:'矩形', value: 'rect'},{key:'椭圆', value: 'ellipse'},{key:'菱形', value: 'diamond'}],
           colors1: '#333333',
           colors2:'#E65D6E',
           isShowColors1: false,
@@ -253,6 +252,7 @@ export default {
           },
           previewVisible: false,
           previewImage: '',
+          customizeImgUrl: ''
       }
   },
   computed: {
@@ -263,7 +263,12 @@ export default {
       "currentGraphData",
       "currentItem",
       'boardTypes',
+      'customizeElement'
     ]),
+  },
+  mounted() {
+    console.log('看看mounted时是否取到picId',this.picId)
+    this.getPicCustomizeElements(this.picId)
   },
   methods:{
     ...mapMutations([
@@ -271,6 +276,10 @@ export default {
       'set_currentShowGraphData_typesetting',
       'set_currentGraphData',
       'set_currentShowBoard'
+    ]),
+    ...mapActions([
+      'bindUrlToPic',
+      'getPicCustomizeElements'
     ]),
     handleSelectChangeShape(value) {
       console.log(value);
@@ -345,7 +354,7 @@ export default {
         }
         console.log('转换后的大小,',tempSize)
         this.currentGraph.clearItemStates(this.currentItem,'selected')
-        this.currentGraph.updateItem(this.currentItem,{
+        let cfg={
           type: data.type,
           label: data.label,
           size: tempSize,
@@ -372,7 +381,12 @@ export default {
               // }
             },
           }
-        })
+        }
+        if(data.type.length>9){
+          cfg.img=data.type
+          cfg.type='image'
+        }
+        this.currentGraph.updateItem(this.currentItem,cfg)
         this.currentGraph.setItemState(this.currentItem,'selected',true)
         let temp=this.currentGraph.save()
         this.set_currentShowGraphData_typesetting(temp)
@@ -415,13 +429,15 @@ export default {
     },
     handleAddPicElement(){
       this.fileList=[]
-      this.entityName=''
-      // this.uploadImage(this.myFile,this.entityName)
-      if(this.customizeSignal===1) {
-        this.$message.success('自定义成功')
-      }else{
-        this.$message.error('自定义失败')
+      let data={
+        picId:this.picId,
+        customizeImgUrl:this.customizeImgUrl,
+        customizeEntityName: this.entityName
       }
+      console.log('前')
+      this.bindUrlToPic(data)
+      console.log('后')
+      this.getPicCustomizeElements(this.picId)
     },
     uploadImage(file) {
       console.log('调用上传图片')
@@ -436,7 +452,7 @@ export default {
         .then(response => {
         // handle success
         console.log('success!!',response)
-        let imgUrl=response
+        this.customizeImgUrl=response
 
       }).catch(error => {
         // handle error
