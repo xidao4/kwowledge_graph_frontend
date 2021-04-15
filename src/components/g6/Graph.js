@@ -1107,6 +1107,29 @@ export const processNodesEdges = (
     };
 };
 
+export function processCombos(
+    nodes
+) {
+    let combosList = [];
+    console.log('nodes=========================', nodes);
+    nodes.forEach((node) => {
+        node.comboId = node.class;
+        if(combosList.indexOf(node.comboId) === -1){
+            combosList.push(node.comboId);
+        }
+    });
+    let combos = [];
+    combosList.forEach(combo => {
+        combos.push({
+            id: combo,
+            label: combo
+        })
+    });
+    return {
+        nodes, combos
+    }
+}
+
 export const bindListener = (graph) => {
     function refreshDragedNodePosition(e) {
         const model = e.item.get('model');

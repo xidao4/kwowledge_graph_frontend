@@ -9,7 +9,7 @@
     import G6 from '@antv/g6';
     import { GraphLayoutPredict } from '@antv/vis-predict-engine'
     import { message } from 'ant-design-vue'
-    import { processNodesEdges, bindListener, cssStr } from '../../../components/g6/Graph.js';
+    import { processNodesEdges, bindListener, cssStr, processCombos } from '../../../components/g6/Graph.js';
     import insertCss from 'insert-css';
     const tooltip = new G6.Tooltip({
         offsetX: 10,
@@ -207,10 +207,13 @@
                     fitCenter: true,
                     fitViewPadding: 20,
                 });
+                let tmpData = JSON.parse(JSON.stringify(data));
+                const processRes = processCombos(tmpData.nodes, this.typesettingEdgeShowLabel);
+                this.set_currentCombos(processRes.combos);
                 if(this.currentShowCombos){
-                    graph.data({nodes: data.nodes, edges: data.edges, combos: this.currentCombos});
+                    graph.data({nodes: processRes.nodes, edges: data.edges, combos: processRes.combos});
                 } else {
-                    graph.data({nodes: data.nodes, edges: data.edges});
+                    graph.data({nodes: processRes.nodes, edges: data.edges});
                 }
                 graph.render();
                 bindListener(graph);

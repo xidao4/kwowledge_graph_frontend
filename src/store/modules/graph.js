@@ -145,7 +145,7 @@ const state = {
     forceShowEdgeLabel: false,
     typesettingEdgeShowLabel: false,
     currentCombos: [],
-    currentShowCombos: true,
+    currentShowCombos: false,
     currentItem: null,
     showEditNodeModal: false,
     showEditEdgeModal: false,
