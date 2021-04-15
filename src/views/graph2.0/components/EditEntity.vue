@@ -1,49 +1,92 @@
 <template>
   <div class="editEntity">
     <h3 style="margin-left:39%;padding-top:2%;padding-bottom:1%;">编辑实体</h3>
-    <a-button type="primary" style="float:right;margin-bottom:2%;margin-right:2%" @click="showModal">
-      自定义图元
-    </a-button>
-    <a-modal
-      title="自定义图元"
-      :visible="visible"
-      @ok="handleOk"
-      @cancel="handleCancel"
-    >
-      <a-upload
-      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+<!--    <a-button type="primary" style="float:right;margin-bottom:2%;margin-right:2%" @click="showModal">-->
+<!--      自定义图元-->
+<!--    </a-button>-->
+<!--    <a-modal-->
+<!--      title="自定义图元"-->
+<!--      :visible="visible"-->
+<!--      @ok="handleOk"-->
+<!--      @cancel="handleCancel"-->
+<!--    >-->
+<!--      <a-upload-->
+<!--      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"-->
+<!--      list-type="picture-card"-->
+<!--      :file-list="fileList"-->
+<!--      @change="handleChange"-->
+<!--      >-->
+<!--        <div v-if="fileList.length < 1">-->
+<!--          <a-icon type="plus" />-->
+<!--          <div class="ant-upload-text">-->
+<!--            Upload-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </a-upload>-->
+<!--      <div style="float:right;margin-right:20%">-->
+<!--        <div>-->
+<!--          <span>裁剪类型：</span>-->
+<!--          <a-select style="width: 120px" @change="handleChangeShape">-->
+<!--            <a-select-option value="circle">-->
+<!--              圆形-->
+<!--            </a-select-option>-->
+<!--            <a-select-option value="rect">-->
+<!--              方形-->
+<!--            </a-select-option>-->
+<!--            <a-select-option value="ellipse">-->
+<!--              椭圆-->
+<!--            </a-select-option>-->
+<!--          </a-select>-->
+<!--        </div>-->
+<!--        <div style="margin-top:13%">-->
+<!--          <span>图元名称：</span>-->
+<!--          <a-input :value="entityName" style="width: 120px"></a-input>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </a-modal>-->
+    <a-divider />
+    <span class="spanItem">自定义图元</span>
+    <a-divider />
+    <a-upload
+      name="mFile"
+      :multiple="false"
+      :headers="headers"
+      action="http://118.182.96.49:8001/api/user/picElement"
       list-type="picture-card"
       :file-list="fileList"
       @change="handleChange"
-      >
-        <div v-if="fileList.length < 1">
-          <a-icon type="plus" />
-          <div class="ant-upload-text">
-            Upload
-          </div>
-        </div>
-      </a-upload>
-      <div style="float:right;margin-right:20%">
-        <div>
-          <span>裁剪类型：</span>
-          <a-select style="width: 120px" @change="handleChangeShape">
-            <a-select-option value="circle">
-              圆形
-            </a-select-option>
-            <a-select-option value="rect">
-              方形
-            </a-select-option>
-            <a-select-option value="ellipse">
-              椭圆
-            </a-select-option>
-          </a-select>
-        </div>
-        <div style="margin-top:13%">
-          <span>图元名称：</span>
-          <a-input :value="entityName" style="width: 120px"></a-input>
+      style="margin-left: 5%;margin-top: 3%"
+    >
+      <div v-if="fileList.length < 1">
+        <a-icon type="plus" />
+        <div class="ant-upload-text">
+          Upload
         </div>
       </div>
-    </a-modal>
+    </a-upload>
+    <div style="float:right;margin-top: 3%;margin-right: -10%">
+      <div>
+        <span>裁剪类型：</span>
+        <a-select style="width: 40%" @change="handleChangeShape">
+          <a-select-option value="circle">
+            圆形
+          </a-select-option>
+          <a-select-option value="rect">
+            方形
+          </a-select-option>
+          <a-select-option value="ellipse">
+            椭圆
+          </a-select-option>
+        </a-select>
+      </div>
+      <div style="margin-top:13%">
+        <span>图元名称：</span>
+        <a-input :value="entityName" style="width: 40%"></a-input>
+      </div>
+      <div style="margin-top:6%;margin-left: -20%;margin-bottom: 8%">
+        <a-button>添加图元</a-button>
+      </div>
+    </div>
     <a-divider />
     <span class="spanItem">实体</span>
     <a-divider />
@@ -165,7 +208,8 @@
 <script>
 
   import {mapGetters, mapMutations} from 'vuex'
-import {Sketch} from 'vue-color'
+  import {Sketch} from 'vue-color'
+  import { getToken } from '@/utils/auth'
 export default {
   name: "EditEntity",
   components: {
@@ -183,7 +227,11 @@ export default {
           visible: false,
           fileList:[],
           cropShape: '',
-          entityName: ''
+          entityName: '',
+          headers: {
+            authorization: 'authorization-text',
+            token: getToken()
+          },
       }
   },
   computed: {
@@ -316,9 +364,19 @@ export default {
     handleCancel(){
         this.visible=false
     },
-    handleChange({ fileList }) {
-      this.fileList = fileList;
-      console.log('加载后',this.fileList)
+    handleChange(info) {
+      console.log(info)
+      let fileList = [...info.fileList];
+      if (info.file.status === 'done') {
+        if(info.file.response.code >= 0){
+          let resData = info.file.response.data;
+          console.log('upload res', resData);
+        } else {
+          this.$message.error(`图片上传失败.`);
+        }
+      } else if (info.file.status === 'error') {
+        this.$message.error(`图片上传失败.`);
+      }
     },
     handleChangeShape(value){
       this.cropShape=value
@@ -351,7 +409,7 @@ export default {
 .tagList{
     display: flex;
     justify-content: center;
-    margin-top: 26%;
+    margin-top: 20%;
 }
 .ant-upload-picture-card-wrapper {
     zoom: 1;

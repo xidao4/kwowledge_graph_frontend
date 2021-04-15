@@ -79,7 +79,7 @@
         :wrapper-col="{ lg: {span: 14}, xl: {span: 15} }"
         style="margin-right:24%;margin-top:2%"
     >
-        <a-form-item label="内容：">
+        <a-form-item label="关系值：">
           <a-input
             v-decorator="['content', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
           />
