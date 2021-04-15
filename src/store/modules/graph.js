@@ -157,7 +157,7 @@ const state = {
         entityEdit: '4',
         relationEdit: '5',
     },
-    currentShowBoard: '1',
+    currentShowBoard: '0',
 };
 
 const graph = {
@@ -299,11 +299,11 @@ const graph = {
             console.log(state.labelList)
         },
         set_nodesTypeCntMap(state,data){
-            state.nodesTypeCntMap={...data};
+            state.nodesTypeCntMap=data;
         },
         set_edgesTypeCntMap(state,data){
             state.edgesTypeCntMap=data;
-            console.log('set_edgesTypeCntMap: state.edgesTypeCntMap',state.edgesTypeCntMap);
+            console.log('6666 set_edgesTypeCntMap: state.edgesTypeCntMap',state.edgesTypeCntMap);
 
         },
         set_searchNodes(state,data){
@@ -584,15 +584,17 @@ const graph = {
                 console.log('getPicTypesAPI=null');
                 message.error(res);
             }else if(res.code>=0){
-                commit('set_nodesTypeCntMap',res.data.nodesMap);
+                commit('set_nodesTypeCntMap',new Map(Object.entries(res.data.nodesMap)));
 
-                console.log('res.data.edgesMap',res.data.edgesMap);
-                console.log('typeof res.data.edgesMap',typeof(res.data.edgesMap));
                 // for(let[key,value] of res.data.edgesMap){
                 //     console.log(key,value);
                 // }
-                commit('set_edgesTypeCntMap',res.data.edgesMap);
-                console.log('getPicTypes: state.edgesTypeCntMap',state.edgesTypeCntMap);
+                // console.log('6666 new Map(res.data.edgesMap)',new Map(res.data.edgesMap));
+                // console.log('6666 typeof(new Map(res.data.edgesMap))',typeof(new Map(res.data.edgesMap)));
+                console.log('6666 res.data.edgesMap',new Map(Object.entries(res.data.edgesMap)));
+                console.log('6666 typeof(res.data.edgesMap)',typeof(new Map(Object.entries(res.data.edgesMap))));
+                commit('set_edgesTypeCntMap',new Map(Object.entries(res.data.edgesMap)));
+                console.log('6666 getPicTypes: state.edgesTypeCntMap',state.edgesTypeCntMap);
             }else{
                 console.log('getPicTypesAPI.code<0');
                 message.error(res.data);
@@ -604,9 +606,9 @@ const graph = {
                 console.log('searchAPI=null');
                 message.error(res);
             }else if(res.code>=0){
-
+                console.log('5555 searchAPI.data.nodes',res.data.nodes);
                 commit('set_searchNodes',res.data.nodes);
-
+                console.log('5555 searchAPI.data.edges',res.data.edges);
                 commit('set_searchEdges',res.data.edges);
             }else{
                 console.log('searchAPI.code<0');

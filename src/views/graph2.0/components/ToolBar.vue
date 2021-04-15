@@ -146,6 +146,7 @@ export default {
     },
     showPieModal(){
       this.set_currentShowBoard(this.boardTypes.pie);
+      console.log('6666 this.currentShowBoard统计按钮后', this.currentShowBoard);
     },
     changeLabelShow(){
       let value = !this.showLabelBool;

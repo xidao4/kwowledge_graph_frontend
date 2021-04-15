@@ -5,7 +5,6 @@
             placeholder="输入关键字"
             class="ant-dropdown-link"
             @click="e => e.preventDefault()"
-            maxLength=10
             v-model="inputText"/>
         <a-menu
             slot="overlay"
@@ -75,7 +74,7 @@ export default {
         await this.getHistory({
             userId:this.userId
         })
-        console.log('userHistory',this.userHistory);
+        console.log('5555 userHistory',this.userHistory);
     },
     methods: {
         ...mapMutations([
@@ -115,6 +114,8 @@ export default {
                     picId:this.picId,
                     //picId:getTokenByKey('picId'),
                 })//等待的圈
+                console.log('5555 searchNodes',this.searchNodes);
+                console.log('5555 searchEdges',this.searchEdges);
                 //将searchNodes、Edges中的节点、边的style设置为highlight
                 setHighlight(this.currentGraph,this.searchNodes,this.searchEdges);
                 //重新获取最新的搜索记录

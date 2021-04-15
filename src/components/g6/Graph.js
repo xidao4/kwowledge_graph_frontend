@@ -1180,8 +1180,6 @@ export const bindListener = (graph) => {
     });
 };
 
-// <<<<<<< HEAD
-// =======
 export const setHighlight=(graph,searchNodes,searchEdges)=>{
     searchNodes.forEach((node)=>{
         graph.setItemState(graph.findById(node.get('id')),'highlight',true);
@@ -1199,23 +1197,28 @@ export const cancelHighlight=(graph,searchNodes,searchEdges)=>{
     })
 }
 export const hideItem=(graph,type)=>{
+    console.log('4444 tag|节点类型',type);
     const nodesByType=graph.findAll('node',(node)=>{
-        return node.get('class')===type;
+        console.log('4444 node',node);
+        console.log('4444 node.class',node.get('model').class);
+        return node.get('model').class===type;
     })
+    console.log('4444 hideItem',nodesByType);
     nodesByType.forEach((node)=>{
         graph.hideItem(node);
     })
 }
 export const showItem=(graph,type)=>{
+    console.log('4444 tag|节点类型',type);
     const nodesByType=graph.findAll('node',(node)=>{
-        return node.get('class')===type;
+        return node.get('model').class===type;
     })
+    console.log('4444 showItem',nodesByType);
     nodesByType.forEach((node)=>{
         graph.showItem(node);
     })
 }
 
-// >>>>>>> feat/我的图谱+统计+搜索+筛选
 export const cssStr = `
   .g6-component-tooltip {
     position: absolute;
