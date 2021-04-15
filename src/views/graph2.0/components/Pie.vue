@@ -9,6 +9,7 @@
 <script>
 import * as echarts from 'echarts';
 import {mapActions, mapGetters} from "vuex";
+import {getTokenByKey} from "../../../utils/cache";
 
 export default {
   name: "Pie",
@@ -90,10 +91,11 @@ export default {
         console.log('wathc pieModalVisible: this.edgesTypeCntMap',this.edgesTypeCntMap);
 
         for(let[key,value] of this.edgesTypeCntMap){
-          this.edgesFormat.push({
-            value:value,
-            name:key
-          });
+          // this.edgesFormat.push({
+          //   value:value,
+          //   name:key
+          // });
+            console.log(key,value);
         }
         this.optionEdge.get('series')[0].set('data',this.edgesFormat);
 
@@ -112,9 +114,10 @@ export default {
       console.log('Pie: picId',this.picId);
       await this.getPicTypes({
           picId:this.picId
+          //picId:getTokenByKey('picId'),
       })
       console.log('Pie mounted: this.edgesTypeCntMap',this.edgesTypeCntMap);
-
+      console.log('type of this.edgesTypeCntMap',typeof(this.edgesTypeCntMap));
   },
   methods:{
     ...mapActions([

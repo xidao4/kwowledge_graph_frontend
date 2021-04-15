@@ -27,6 +27,7 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import { setHighlight,cancelHighlight } from '../../../components/g6/Graph.js';
+import {getTokenByKey} from "../../../utils/cache";
 
 export default {
     name: "Search",
@@ -86,6 +87,7 @@ export default {
                 keyWord:key,
                 userId:this.userId,
                 picId:this.picId
+                //picId:getTokenByKey('picId'),
             })//等待的圈
             console.log('searchNodes',this.searchNodes);
             console.log('searchEdges',this.searchEdges);
@@ -104,7 +106,8 @@ export default {
                 await this.search({
                     keyWord:this.inputText,
                     userId:this.userId,
-                    picId:this.picId
+                    picId:this.picId,
+                    //picId:getTokenByKey('picId'),
                 })//等待的圈
                 //将searchNodes、Edges中的节点、边的style设置为highlight
                 setHighlight(this.currentGraph,this.searchNodes,this.searchEdges);

@@ -24,6 +24,7 @@
 
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import { hideItem,showItem } from '../../../components/g6/Graph.js';
+import {getTokenByKey} from '../../../utils/cache'
 
 export default {
     name: "TypeFilter",
@@ -51,6 +52,7 @@ export default {
         console.log('TypeFilter: picId',this.picId);
         await this.getNodeTypes({
             picId:this.picId
+            //picId:getTokenByKey('picId'),
         });
         for(let i=0;i<this.nodesTypes.length;i++){
             this.checkList.push(true);

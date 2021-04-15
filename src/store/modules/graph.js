@@ -25,7 +25,7 @@ const state = {
     graphInfo: [
         'hi'
     ],
-    picId: '',//方便测试by ljy 6075ab0c1f3a46144cf5c4c1
+    picId: '6075ab0c1f3a46144cf5c4c1',//方便测试by ljy 6075ab0c1f3a46144cf5c4c1
     //这两个用来生成唯一id
     nodeId: 0,
     relationId: 0,
@@ -295,6 +295,7 @@ const graph = {
         set_edgesTypeCntMap(state,data){
             state.edgesTypeCntMap=data;
             console.log('set_edgesTypeCntMap: state.edgesTypeCntMap',state.edgesTypeCntMap);
+
         },
         set_searchNodes(state,data){
             state.searchNodes=data;
@@ -574,6 +575,7 @@ const graph = {
                 commit('set_nodesTypeCntMap',res.data.nodesMap);
 
                 console.log('res.data.edgesMap',res.data.edgesMap);
+                console.log('typeof res.data.edgesMap',typeof(res.data.edgesMap));
                 // for(let[key,value] of res.data.edgesMap){
                 //     console.log(key,value);
                 // }
