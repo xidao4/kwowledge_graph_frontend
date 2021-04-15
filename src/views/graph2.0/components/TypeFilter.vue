@@ -24,6 +24,7 @@
 
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import { hideItem,showItem } from '../../../components/g6/Graph.js';
+import {getTokenByKey} from '../../../utils/cache'
 
 export default {
     name: "TypeFilter",
@@ -48,13 +49,16 @@ export default {
         ])
     },
     async mounted(){
-        console.log('TypeFilter: picId',this.picId);
+        console.log('4444 TypeFilter: picId',this.picId);
+        console.log('4444 currentGraph',this.currentGraph);
         await this.getNodeTypes({
             picId:this.picId
+            //picId:getTokenByKey('picId'),
         });
         for(let i=0;i<this.nodesTypes.length;i++){
             this.checkList.push(true);
         }
+        this.selectedTags=this.nodesTypes;
     },
     methods: {
         ...mapMutations([
@@ -68,13 +72,17 @@ export default {
             const nextSelectedTags = checked
                 ? [...selectedTags, tag]
                 : selectedTags.filter(t => t !== tag);
-            console.log('你选择的节点类型有: ', nextSelectedTags);
+            console.log('4444 你选择的节点类型有: ', nextSelectedTags);
             this.selectedTags = nextSelectedTags;
 
             if(checked){
+                console.log('4444 checked',checked);
                 showItem(this.currentGraph,tag);
+                //TODO 增加分组的圈
             }else{
+                console.log('4444 checked',checked);
                 hideItem(this.currentGraph,tag);
+                //TODO 去除分组的圈
             }
         },
     }

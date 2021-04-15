@@ -46,7 +46,7 @@ const getters={
 
     userId: state=>state.user.userId,
     userInfo: state=>state.user.userInfo,
-    picsInfo: state=>state.user.picsInfo,//a
+    picsInfo: state=>state.user.picsInfo,
     userHistory: state=>state.user.userHistory,
     // addEntityVisible: state=>state.util.addEntityVisible,
     // addRelationVisible: state=>state.util.addRelationVisible,

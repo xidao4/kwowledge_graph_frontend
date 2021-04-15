@@ -1,7 +1,7 @@
 <template>
 <div>
 <!--  <div id="chartPie" class="pie-wrap"></div>-->
-  <div id="chartPie" :style="this.heightStr"></div>
+  <div id="nodePie" :style="this.heightStr"></div>
   <div id="edgePie" :style="this.heightStr"></div>
 </div>
 </template>
@@ -9,6 +9,7 @@
 <script>
 import * as echarts from 'echarts';
 import {mapActions, mapGetters} from "vuex";
+import {getTokenByKey} from "../../../utils/cache";
 
 export default {
   name: "Pie",
@@ -71,48 +72,107 @@ export default {
           }
         ]
       },
+      optionNode:{
+        title: {
+          text: '节点类型统计',
+          left: 'center'
+        },
+        tooltip: {
+          trigger: 'item'
+        },
+        series: [
+          {
+            name: '边类型',
+            type: 'pie',
+            radius: '50%',
+            data: [],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
+          }
+        ]
+      },
       nodesFormat:[],
       edgesFormat:[],
-
     }
   },
   computed:{
     ...mapGetters([
-        'pieModalVisible',
+        // 'pieModalVisible',
         'nodesTypeCntMap',
         'edgesTypeCntMap',
         'picId',
+        'boardTypes',
+        'currentShowBoard',
     ])
   },
   watch:{
-      pieModalVisible(){
-        // Invalid attempt to iterate non-iterable instance
-        for(let[key,value] of this.edgesTypeCntMap){
-          this.edgesFormat.push({
-            value:value,
-            name:key
-          });
-        }
-        this.optionEdge.get('series')[0].set('data',this.edgesFormat);
+      currentShowBoard:{
+          immediate:true,
+          handler(data){
+              console.log('6666 currentShowBoard',this.currentShowBoard);
+              console.log('6666 handler(data)',data);
 
-        this.$nextTick(()=>{
-          this.drawChartPie();
-          this.drawEdgePie();
-        })
-        // this.chartPie.removeAttribute('_echarts_instance_');
+              if(data===this.boardTypes.pie){
+                  this.nodesFormat=[];
+                  this.edgesFormat=[];
+
+
+                  console.log('6666 watch currentShowBoard: this.nodesTypeCntMap',this.nodesTypeCntMap);
+                  for(let[key,value] of this.nodesTypeCntMap){
+                      this.nodesFormat.push({
+                          value:value,
+                          name:key
+                      })
+                  }
+                  this.optionNode.series[0].data=this.nodesFormat;
+
+                  console.log('6666 watch currentShowBoard: this.edgesTypeCntMap',this.edgesTypeCntMap);
+                  for(let[key,value] of this.edgesTypeCntMap){
+                      // this.edgesFormat.push(
+                      //     new Map([
+                      //       ['value',value],
+                      //       ['name',key]
+                      //     ])
+                      // );
+                      this.edgesFormat.push({
+                          value:value,
+                          name:key
+                      })
+                  }
+                  console.log('6666 this.edgesFormat',this.edgesFormat);
+                  this.optionEdge.series[0].data=this.edgesFormat;
+                  console.log('6666 this.optionEdge',this.optionEdge);
+
+
+                  this.$nextTick(()=>{
+                      this.drawNodePie();
+                      console.log('7777-1');
+                      this.drawEdgePie();
+                      console.log('7777-2');
+                  })
+                  // this.chartPie.removeAttribute('_echarts_instance_');
+              }
+          }
       }
+
   },
   async mounted(){
       // window.addEventListener('resize', ()=>{
       //   this.chartPie.resize();
       //   this.edgesPie.resize();
       // })
-      console.log('Pie: picId',this.picId);
+      console.log('6666 Pie: picId',this.picId);
       await this.getPicTypes({
           picId:this.picId
+          //picId:getTokenByKey('picId'),
       })
-      console.log('Pie: edgesTypeCntMap',this.edgesTypeCntMap);
-
+      console.log('6666 Pie mounted: this.edgesTypeCntMap',this.edgesTypeCntMap);
+      console.log('6666 type of this.edgesTypeCntMap',typeof(this.edgesTypeCntMap));
   },
   methods:{
     ...mapActions([
@@ -121,6 +181,12 @@ export default {
     drawChartPie(){
       this.chartPie = echarts.init(document.getElementById('chartPie'));
       this.option1 && this.chartPie.setOption(this.option1);
+    },
+    drawNodePie(){
+        this.nodePie=echarts.init(document.getElementById('nodePie'));
+        console.log('7777 this.nodePie',this.nodePie);
+        this.optionNode && this.nodePie.setOption(this.optionNode);
+        console.log('7777 this.nodePie',this.nodePie);
     },
     drawEdgePie(){
         this.edgePie=echarts.init(document.getElementById('edgePie'));
@@ -136,4 +202,7 @@ export default {
 /*  height:400px;*/
 /*  !*height: 50%;*!*/
 /*}*/
+.nodePie{
+  margin-top: 80px;
+}
 </style>

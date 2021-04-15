@@ -1109,6 +1109,29 @@ export const processNodesEdges = (
     };
 };
 
+export function processCombos(
+    nodes
+) {
+    let combosList = [];
+    console.log('nodes=========================', nodes);
+    nodes.forEach((node) => {
+        node.comboId = node.class;
+        if(combosList.indexOf(node.comboId) === -1){
+            combosList.push(node.comboId);
+        }
+    });
+    let combos = [];
+    combosList.forEach(combo => {
+        combos.push({
+            id: combo,
+            label: combo
+        })
+    });
+    return {
+        nodes, combos
+    }
+}
+
 export const bindListener = (graph) => {
     function refreshDragedNodePosition(e) {
         const model = e.item.get('model');
@@ -1182,42 +1205,49 @@ export const bindListener = (graph) => {
     });
 };
 
-// <<<<<<< HEAD
-// =======
 export const setHighlight=(graph,searchNodes,searchEdges)=>{
     searchNodes.forEach((node)=>{
-        graph.setItemState(graph.findById(node.get('id')),'highlight',true);
+        console.log('5555 setHighlight: node',node);
+        // let mapNode=new Map(Object.entries(node));
+        // console.log('5555 setHighlight new Map(node)',mapNode);
+        graph.setItemState(graph.findById(node.id),'highlight',true);
     })
     searchEdges.forEach((edge)=>{
-        graph.setItemState(graph.findById(edge.get('id')),'highlight',true);
+        console.log('5555 setHighlight: edge',edge);
+        graph.setItemState(graph.findById(edge.id),'highlight',true);
     })
 }
 export const cancelHighlight=(graph,searchNodes,searchEdges)=>{
     searchNodes.forEach((node)=>{
-        graph.setItemState(graph.findById(node.get('id')),'highlight',false);
+        graph.setItemState(graph.findById(node.id),'highlight',false);
     })
     searchEdges.forEach((edge)=>{
-        graph.setItemState(graph.findById(edge.get('id')),'highlight',false);
+        graph.setItemState(graph.findById(edge.id),'highlight',false);
     })
 }
 export const hideItem=(graph,type)=>{
+    console.log('4444 tag|节点类型',type);
     const nodesByType=graph.findAll('node',(node)=>{
-        return node.get('class')===type;
+        console.log('4444 node',node);
+        console.log('4444 node.class',node.get('model').class);
+        return node.get('model').class===type;
     })
+    console.log('4444 hideItem',nodesByType);
     nodesByType.forEach((node)=>{
         graph.hideItem(node);
     })
 }
 export const showItem=(graph,type)=>{
+    console.log('4444 tag|节点类型',type);
     const nodesByType=graph.findAll('node',(node)=>{
-        return node.get('class')===type;
+        return node.get('model').class===type;
     })
+    console.log('4444 showItem',nodesByType);
     nodesByType.forEach((node)=>{
         graph.showItem(node);
     })
 }
 
-// >>>>>>> feat/我的图谱+统计+搜索+筛选
 export const cssStr = `
   .g6-component-tooltip {
     position: absolute;

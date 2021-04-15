@@ -38,23 +38,24 @@
             <a-modal :visible="showModal && currentShowBoard === boardTypes.relationList" :footer="null" @cancel="handleCloseRelationModal">
                 <relation-list></relation-list>
             </a-modal>
-            <!--        <a-modal :visible="showModal && pieModalVisible"-->
-            <!--                 :footer="null"-->
-            <!--                 :forceRender="true"-->
-            <!--                 @cancel="handleClosePieModal">-->
-            <!--            <pie></pie>-->
-            <!--        </a-modal>-->
+<!--            <a-modal :visible="showModal && currentShowBoard === boardTypes.pie"-->
+<!--                     :footer="null"-->
+<!--                     :forceRender="true"-->
+<!--                     @cancel="handleClosePieModal">-->
+<!--                <pie></pie>-->
+<!--            </a-modal>-->
 
-            <!--        <a-drawer-->
-            <!--            title="统计"-->
-            <!--            placement="right"-->
-            <!--            :closable="false"-->
-            <!--            :visible="pieDrawerVisible"-->
-            <!--            :after-visible-change="afterVisibleChange"-->
-            <!--            @close="onClose"-->
-            <!--        >-->
-            <!--          <pie></pie>-->
-            <!--        </a-drawer>-->
+            <a-drawer
+                title="统计"
+                placement="right"
+                :closable="false"
+                :visible="showModal && currentShowBoard === boardTypes.pie"
+                :after-visible-change="afterVisibleChange"
+                @close="handleClosePieModal"
+                class="myDrawer"
+            >
+                <pie></pie>
+            </a-drawer>
         </div>
     </a-spin>
 </template>
@@ -133,11 +134,12 @@
                 this.set_currentShowBoard(this.boardTypes.none)
             },
             handleClosePieModal(){
-                this.set_pieModalVisible(false);
+                this.set_currentShowBoard(this.boardTypes.none);
             },
             stopSpinning(){
                 this.spinning = false;
             },
+            afterVisibleChange(){},
         },
         mounted() {
             if(window.innerWidth < 992){
@@ -195,4 +197,7 @@
     width: 80%;
     margin-left: 10%;
 }
+/*.myDrawer{*/
+/*    width:300px;*/
+/*}*/
 </style>
