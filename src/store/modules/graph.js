@@ -293,8 +293,9 @@ const graph = {
         set_currentGraphData(state, data) {
             state.currentGraphData = {...data}
             console.log('添加labelList')
+            state.labelList=[]
             for(let i=0;i<data.nodes.length;i++){
-                state.labelList.push(data.nodes[i].oriLabel)
+                state.labelList.push(data.nodes[i].label)
             }
             console.log(state.labelList)
         },
@@ -346,6 +347,7 @@ const graph = {
                     })
                 });
             }
+            state.labelList=[]
             if(data.snodes){
                 data.snodes.forEach((node) => {
                     baseNodes.push({
@@ -353,13 +355,13 @@ const graph = {
                         label: node.label,
                         class: node.class
                     })
+                    state.labelList.push(node.label)
                 });
             }
             state.currentGraphData = {
                 nodes: baseNodes,
                 edges: baseEdges
             };
-
         },
         set_forceShowEdgeLabel(state, data){
             state.forceShowEdgeLabel = data;

@@ -84,6 +84,17 @@
             v-decorator="['content', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
           />
         </a-form-item>
+        <a-form-item label="关系类型">
+          <a-input
+            v-decorator="[
+                  'relationType',
+                  { rules: [{ required: false, message: '请输入关系值!' }] },
+                ]"
+            placeholder="请输入关系类型"
+            style="width: 85%;"
+          >
+          </a-input>
+        </a-form-item>
 <!--        <a-form-item label="大小：">-->
 <!--            <a-input-->
 <!--                v-decorator="['size', { rules: [{ required: false, message: '请输入字体大小!' }] }]"-->
@@ -204,7 +215,8 @@ export default {
             stroke: that.colors1,
             fontSize: that.editRelationForm2.getFieldValue('size'),
             labelContent: that.editRelationForm2.getFieldValue('content'),
-            fill: that.colors2
+            fill: that.colors2,
+            relationType: that.editRelationForm2.getFieldValue('relationType'),
         }
         console.log('确保表单数据无误',data)
         console.log('之前currentItem',this.currentItem)
@@ -212,6 +224,7 @@ export default {
         this.currentGraph.updateItem(this.currentItem,{
           type: data.type,
           label: data.labelContent,
+          class: data.relationType,
           style:{
             lineWidth: data.lineWidth,
             lineDash: data.lineDash,

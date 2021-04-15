@@ -12,7 +12,7 @@
         <a-select
                 v-decorator="[
                 'selectSourceNode',
-                { rules: [{ required: true, message: '请至少选择一个实体!' }] },
+                { rules: [{ required: false, message: '请至少选择一个实体!' }] },
               ]"
                 placeholder="请选择实体"
                 style="width: 85%;"
@@ -30,7 +30,7 @@
         <a-select
                 v-decorator="[
                 'selectTargetNode',
-                { rules: [{ required: true, message: '请至少选择一个实体!' }] },
+                { rules: [{ required: false, message: '请至少选择一个实体!' }] },
               ]"
                 placeholder="请选择实体"
                 style="width: 85%;"
@@ -48,7 +48,7 @@
         <a-input
                 v-decorator="[
                 'relationValue',
-                { rules: [{ required: true, message: '请输入关系值!' }] },
+                { rules: [{ required: false, message: '请输入关系值!' }] },
               ]"
                 placeholder="请输入关系值"
                 style="width: 85%;"
@@ -59,7 +59,7 @@
         <a-input
           v-decorator="[
                 'relationType',
-                { rules: [{ required: true, message: '请输入关系值!' }] },
+                { rules: [{ required: false, message: '请输入关系值!' }] },
               ]"
           placeholder="请输入关系类型"
           style="width: 85%;"
@@ -106,6 +106,9 @@ export default {
       "currentShowGraphData",
     ]),
   },
+  mounted() {
+    console.log('我的选择列表呢',this.labelList)
+  },
   methods: {
     ...mapActions(["addRelation"]),
     ...mapMutations(["add_showGraphEdges", "set_addRelationVisible","set_relationId",'set_currentShowGraphData',
@@ -147,13 +150,12 @@ export default {
       this.addRelationForm.resetFields();
       let tempSource=''
       let tempTarget=''
-      console.log(this.currentGraphData.edges)
-
+      console.log(this.currentGraphData)
       for(let i=0;i<this.currentGraphData.nodes.length;i++){
-        if(newData.node1===this.currentGraphData.nodes[i].oriLabel){
+        if(newData.node1===this.currentGraphData.nodes[i].label){
           tempSource=this.currentGraphData.nodes[i].id
         }
-        if(newData.node2===this.currentGraphData.nodes[i].oriLabel){
+        if(newData.node2===this.currentGraphData.nodes[i].label){
           tempTarget=this.currentGraphData.nodes[i].id
         }
       }
@@ -169,6 +171,7 @@ export default {
       }
       console.log('relationModel',model)
       this.currentGraph.addItem('edge',model)
+      this.currentGraph.refresh()
       // this.currentGraphData.edges.push({
       //   class:'c0',
       //   id:`relation-${this.relationId}`,

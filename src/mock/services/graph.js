@@ -32,7 +32,7 @@ const getAll = (options) => {
     }, 0, { 'Custom-Header': Mock.mock('@guid') })
 };
 //
-Mock.mock(/\/api\/graph\/save/, 'post', save);
-Mock.mock(/\/api\/graph\/thumbnail/, 'post', thumbnail);
-Mock.mock(/\/api\/graph\/getPicElements/, 'post', getPicElement);
-Mock.mock(/\/api\/graph\/getAll/, 'post', getAll);
+// Mock.mock(/\/api\/graph\/save/, 'post', save);
+// Mock.mock(/\/api\/graph\/thumbnail/, 'post', thumbnail);
+// Mock.mock(/\/api\/graph\/getPicElements/, 'post', getPicElement);
+// Mock.mock(/\/api\/graph\/getAll/, 'post', getAll);

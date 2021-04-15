@@ -121,6 +121,7 @@ export default {
         let temp=this.currentGraph.save()
         this.set_currentShowGraphData_typesetting(temp)
         this.set_currentGraphData(temp)
+        console.log('添加完后的Data',this.currentGraphData)
         this.set_nodeId();
         console.log('after update',this.currentGraphData)
         this.set_addEntityVisible(false)
