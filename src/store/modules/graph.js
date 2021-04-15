@@ -148,7 +148,16 @@ const state = {
     currentShowCombos: true,
     currentItem: null,
     showEditNodeModal: false,
-    showEditEdgeModal: false
+    showEditEdgeModal: false,
+    boardTypes: {
+        none: '0',
+        pie: '1',
+        entityList: '2',
+        relationList: '3',
+        entityEdit: '4',
+        relationEdit: '5',
+    },
+    currentShowBoard: '1',
 };
 
 const graph = {
@@ -386,6 +395,9 @@ const graph = {
         set_showEditEdgeModal(state, data){
             state.showEditEdgeModal = data;
         },
+        set_currentShowBoard(state, data){
+            state.currentShowBoard = data;
+        }
     },
     actions: {
         // getAll:async ({commit,state},data)=>{
@@ -455,10 +467,10 @@ const graph = {
         // TODO 后端重构，传url
         downloadFile: async({state}) => {
             const res = await downloadAPI({
-                picId: state.picId
+                picId: getTokenByKey('picId')
             });
-            if(res) {
-                return res;
+            if(res.code >= 0) {
+                return res.data;
             } else {
                 message.error('文件下载失败')
             }

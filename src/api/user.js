@@ -5,7 +5,6 @@ const api = {
 }
 
 export function loginAPI(data) {
-    console.log('login',data)
     return axios({
         url: `${api.graphPre}/login`,
         method: 'POST',

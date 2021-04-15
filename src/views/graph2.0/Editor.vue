@@ -1,6 +1,6 @@
 <template>
     <a-spin size="large" tip="加载编辑空间" :spinning="spinning">
-        <div style="padding-bottom: 20px; background-color: #EEEFF0; width: 100%">
+        <div style="padding-bottom: 150px; background-color: #EEEFF0; width: 100%">
             <Header></Header>
             <tool-bar></tool-bar>
             <a-row class="row">
@@ -23,19 +23,19 @@
                 </a-col>
                 <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">
                     <div class="block" :style="this.heightStr">
-                        <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>
-                         <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list>
-                        <pie :class="pieModalVisible?'show':'not-show'"></pie>
-                         <edit-entity v-if="showEditNodeModalIn"></edit-entity>
-                        <edit-relation v-if="showEditEdgeModalIn"></edit-relation>
+                        <entity-list :class="currentShowBoard === boardTypes.entityList?'show':'not-show'"></entity-list>
+                         <relation-list :class="currentShowBoard === boardTypes.relationList?'show':'not-show'"></relation-list>
+                        <pie :class="currentShowBoard === boardTypes.pie?'show':'not-show'"></pie>
+                         <edit-entity v-if="currentShowBoard === boardTypes.entityEdit"></edit-entity>
+                        <edit-relation v-if="currentShowBoard === boardTypes.relationEdit"></edit-relation>
                     </div>
                 </a-col>
 
             </a-row>
-            <a-modal :visible="showModal && addEntityVisible" :footer="null" @cancel="handleCloseEntityModal">
+            <a-modal :visible="showModal && currentShowBoard === boardTypes.entityList" :footer="null" @cancel="handleCloseEntityModal">
                 <entity-list></entity-list>
             </a-modal>
-            <a-modal :visible="showModal && addRelationVisible" :footer="null" @cancel="handleCloseRelationModal">
+            <a-modal :visible="showModal && currentShowBoard === boardTypes.relationList" :footer="null" @cancel="handleCloseRelationModal">
                 <relation-list></relation-list>
             </a-modal>
             <!--        <a-modal :visible="showModal && pieModalVisible"-->
@@ -84,8 +84,6 @@
                 heightStr: "height: "+(window.screen.height * 0.8 + 5)+'px',
                 upHeightStr:"height: "+(window.screen.height * 0.15 )+'px',
                 spinning: true,
-                showEditNodeModalIn: false,
-                showEditEdgeModalIn: false
             }
         },
         components: {
@@ -113,8 +111,8 @@
                 'pieModalVisible',
                 'isNew',
                 'picId',
-                'showEditEdgeModal',
-                'showEditNodeModal'
+                'boardTypes',
+                'currentShowBoard'
             ]),
         },
         methods:{
@@ -122,16 +120,17 @@
                 "set_addRelationVisible",
                 "set_addEntityVisible",
                 "set_pieModalVisible",
-                "set_addEntityVisible"
+                "set_addEntityVisible",
+                'set_currentShowBoard'
             ]),
             ...mapActions([
                 'getPicElements'
             ]),
             handleCloseEntityModal(){
-                this.set_addEntityVisible(false)
+                this.set_currentShowBoard(this.boardTypes.none)
             },
             handleCloseRelationModal(){
-                this.set_addRelationVisible(false)
+                this.set_currentShowBoard(this.boardTypes.none)
             },
             handleClosePieModal(){
                 this.set_pieModalVisible(false);

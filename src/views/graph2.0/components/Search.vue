@@ -1,6 +1,6 @@
 <template>
 <div>
-    <a-dropdown :trigger="['click']" class="myDropDown">
+    <a-dropdown :trigger="['click']" class="myDropDown" :style="{width: width}">
         <a-input
             placeholder="输入关键字"
             class="ant-dropdown-link"
@@ -31,6 +31,12 @@ import {getTokenByKey} from "../../../utils/cache";
 
 export default {
     name: "Search",
+    props: {
+        width: {
+            type: String,
+            default: '200px'
+        }
+    },
     data(){
         return{
             list:[
@@ -135,7 +141,7 @@ export default {
 
 <style scoped>
 .myDropDown{
-    width:200px;
+    width:300px;
     margin-right: 10px;
 }
 .myBtn{

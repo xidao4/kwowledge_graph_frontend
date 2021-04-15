@@ -67,7 +67,7 @@ export default {
   },
   props: ["triggerGraphDraw"],
   computed: {
-    ...mapGetters(["colorList", "showGraphNodes", "picId","addEntityVisible","currentGraph","currentGraphData","nodeId"]),
+    ...mapGetters(["colorList", "showGraphNodes", "picId","addEntityVisible","currentGraph","currentGraphData","nodeId","currentShowGraphData"]),
   },
   methods: {
     ...mapMutations(["add_showGraphNodes","set_addEntityVisible","set_nodeId"]),
@@ -116,6 +116,7 @@ export default {
           label: this.name.value,
           oriLabel: this.name.value,
         })
+
         this.set_nodeId();
         console.log('after update',this.currentGraphData)
         this.set_addEntityVisible(false)
