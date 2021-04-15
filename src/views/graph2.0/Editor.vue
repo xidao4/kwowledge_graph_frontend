@@ -44,6 +44,12 @@
 <!--                     @cancel="handleClosePieModal">-->
 <!--                <pie></pie>-->
 <!--            </a-modal>-->
+            <a-modal :visible="showModal && currentShowBoard === boardTypes.entityEdit" :footer="null" @cancel="handleCloseEditRelationModal">
+                <edit-entity></edit-entity>
+            </a-modal>
+            <a-modal :visible="showModal && currentShowBoard === boardTypes.relationEdit" :footer="null" @cancel="handleCloseEditRelationModal">
+                <edit-relation></edit-relation>
+            </a-modal>
 
             <a-drawer
                 title="统计"
@@ -131,6 +137,12 @@
                 this.set_currentShowBoard(this.boardTypes.none)
             },
             handleCloseRelationModal(){
+                this.set_currentShowBoard(this.boardTypes.none)
+            },
+            handleCloseEditEntityModal(){
+                this.set_currentShowBoard(this.boardTypes.none)
+            },
+            handleCloseEditRelationModal(){
                 this.set_currentShowBoard(this.boardTypes.none)
             },
             handleClosePieModal(){

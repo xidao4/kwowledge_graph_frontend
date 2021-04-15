@@ -91,7 +91,6 @@
                   { rules: [{ required: false, message: '请输入关系值!' }] },
                 ]"
             placeholder="请输入关系类型"
-            style="width: 85%;"
           >
           </a-input>
         </a-form-item>
@@ -150,7 +149,8 @@ export default {
       "currentGraph",
       "currentGraphData",
       "currentShowGraphData",
-      "currentItem"
+      "currentItem",
+      'boardTypes',
     ]),
   },
   mounted() {
@@ -172,7 +172,8 @@ export default {
     ...mapMutations([
       'set_currentShowGraphData',
       'set_currentShowGraphData_typesetting',
-      'set_currentGraphData'
+      'set_currentGraphData',
+      'set_currentShowBoard'
     ]),
     handleSelectChangeShape(value) {
       console.log(value);
@@ -260,6 +261,7 @@ export default {
       this.set_currentShowGraphData_typesetting(temp)
       this.set_currentGraphData(temp)
       // this.currentGraph.refreshItem(this.currentItem)
+      this.set_currentShowBoard(this.boardTypes.none)
     },
     handleDeleteRelation(){
       //假设关系值已经传过来
@@ -267,6 +269,7 @@ export default {
       let temp=this.currentGraph.save()
       this.set_currentShowGraphData_typesetting(temp)
       this.set_currentGraphData(temp)
+      this.set_currentShowBoard(this.boardTypes.none)
     }
   }
 };
