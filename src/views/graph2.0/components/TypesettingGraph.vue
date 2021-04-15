@@ -22,7 +22,7 @@
             outDiv.innerHTML =
                 `<ul>
                     <li id='expand'>名称: ${model.oriLabel || model.id}</li>
-                    <li id='hide'>类型: ${model.type}</li>
+                    <li id='hide'>类型: ${model.class}</li>
                 </ul>`;
             return outDiv;
         },
