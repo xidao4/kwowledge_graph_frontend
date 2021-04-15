@@ -38,6 +38,12 @@
             <a-modal :visible="showModal && currentShowBoard === boardTypes.relationList" :footer="null" @cancel="handleCloseRelationModal">
                 <relation-list></relation-list>
             </a-modal>
+            <a-modal :visible="showModal && currentShowBoard === boardTypes.entityEdit" :footer="null" @cancel="handleCloseEditRelationModal">
+                <edit-entity></edit-entity>
+            </a-modal>
+            <a-modal :visible="showModal && currentShowBoard === boardTypes.relationEdit" :footer="null" @cancel="handleCloseEditRelationModal">
+                <edit-relation></edit-relation>
+            </a-modal>
             <!--        <a-modal :visible="showModal && pieModalVisible"-->
             <!--                 :footer="null"-->
             <!--                 :forceRender="true"-->
@@ -130,6 +136,12 @@
                 this.set_currentShowBoard(this.boardTypes.none)
             },
             handleCloseRelationModal(){
+                this.set_currentShowBoard(this.boardTypes.none)
+            },
+            handleCloseEditEntityModal(){
+                this.set_currentShowBoard(this.boardTypes.none)
+            },
+            handleCloseEditRelationModal(){
                 this.set_currentShowBoard(this.boardTypes.none)
             },
             handleClosePieModal(){

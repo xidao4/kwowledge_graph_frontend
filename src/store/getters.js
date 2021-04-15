@@ -51,5 +51,6 @@ const getters={
     // addEntityVisible: state=>state.util.addEntityVisible,
     // addRelationVisible: state=>state.util.addRelationVisible,
     // pieModalVisible: state=>state.util.pieModalVisible,
+    customizeElement: state => state.graph.customizeElement,
 };
 export default getters

@@ -104,6 +104,7 @@ export default {
       "labelList",
       "relationId",
       "currentShowGraphData",
+      'boardTypes',
     ]),
   },
   mounted() {
@@ -113,7 +114,7 @@ export default {
     ...mapActions(["addRelation"]),
     ...mapMutations(["add_showGraphEdges", "set_addRelationVisible","set_relationId",'set_currentShowGraphData',
       'set_currentShowGraphData_typesetting',
-      'set_currentGraphData']),
+      'set_currentGraphData','set_currentShowBoard']),
     async confirmAddRelation() {
       var that=this
       console.log(this.addRelationForm.getFieldValue('relationValue'))
@@ -184,6 +185,7 @@ export default {
       this.set_currentShowGraphData_typesetting(temp)
       this.set_currentGraphData(temp)
       this.set_relationId();
+      this.set_currentShowBoard(this.boardTypes.none)
       // await this.addRelation(data);
       // this.add_showGraphEdges(newData);
     },

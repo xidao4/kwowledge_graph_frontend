@@ -67,12 +67,12 @@ export default {
   },
   props: ["triggerGraphDraw"],
   computed: {
-    ...mapGetters(["colorList", "showGraphNodes", "picId","addEntityVisible","currentGraph","currentGraphData","nodeId","currentShowGraphData"]),
+    ...mapGetters(["colorList", "showGraphNodes", "picId","addEntityVisible","currentGraph","currentGraphData","nodeId","currentShowGraphData",'boardTypes',]),
   },
   methods: {
     ...mapMutations(["add_showGraphNodes","set_addEntityVisible","set_nodeId",'set_currentShowGraphData',
       'set_currentShowGraphData_typesetting',
-      'set_currentGraphData']),
+      'set_currentGraphData','set_currentShowBoard']),
     ...mapActions(["addEntity"]),
     handleAdd() {
       this.name = {
@@ -127,6 +127,7 @@ export default {
         this.set_addEntityVisible(false)
         this.name.value = "";
         this.type.value= "";
+        this.set_currentShowBoard(this.boardTypes.none)
       }
     },
     handleNameChange() {

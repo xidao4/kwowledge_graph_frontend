@@ -51,12 +51,21 @@
       name="mFile"
       :multiple="false"
       :headers="headers"
-      action="http://118.182.96.49:8001/api/user/picElement"
+      action="http://118.182.96.49:8001/api/graph/picElement"
+      :customRequest="uploadImage"
       list-type="picture-card"
       :file-list="fileList"
       @change="handleChange"
       style="margin-left: 5%;margin-top: 3%"
     >
+<!--    <a-upload-->
+<!--      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"-->
+<!--      list-type="picture-card"-->
+<!--      :file-list="fileList"-->
+<!--      @preview="handlePreview"-->
+<!--      @change="handleChange"-->
+<!--      style="margin-left: 5%;margin-top: 3%"-->
+<!--    >-->
       <div v-if="fileList.length < 1">
         <a-icon type="plus" />
         <div class="ant-upload-text">
@@ -64,27 +73,27 @@
         </div>
       </div>
     </a-upload>
-    <div style="float:right;margin-top: 3%;margin-right: -10%">
-      <div>
-        <span>裁剪类型：</span>
-        <a-select style="width: 40%" @change="handleChangeShape">
-          <a-select-option value="circle">
-            圆形
-          </a-select-option>
-          <a-select-option value="rect">
-            方形
-          </a-select-option>
-          <a-select-option value="ellipse">
-            椭圆
-          </a-select-option>
-        </a-select>
-      </div>
-      <div style="margin-top:13%">
+    <a-modal :visible="previewVisible" :footer="null" @cancel="handlePreviewCancel">
+      <img alt="example" style="width: 100%" :src="previewImage" />
+    </a-modal>
+    <div style="float:right;margin-top: 3%;margin-right: 0%;width:50%">
+<!--      <div>-->
+<!--        <span>裁剪类型：</span>-->
+<!--        <a-select style="width: 40%" @change="handleChangeShape">-->
+<!--          <a-select-option value="circle">-->
+<!--            圆形-->
+<!--          </a-select-option>-->
+<!--          <a-select-option value="rect">-->
+<!--            方形-->
+<!--          </a-select-option>-->
+<!--        </a-select>-->
+<!--      </div>-->
+      <div style="margin-top:3%">
         <span>图元名称：</span>
         <a-input :value="entityName" style="width: 40%"></a-input>
       </div>
-      <div style="margin-top:6%;margin-left: -20%;margin-bottom: 8%">
-        <a-button>添加图元</a-button>
+      <div style="margin-top:6%;margin-right: -20%">
+        <a-button @click="handleAddPicElement">添加图元</a-button>
       </div>
     </div>
     <a-divider />
@@ -206,10 +215,19 @@
 
 
 <script>
+  function getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  }
 
   import {mapGetters, mapMutations} from 'vuex'
   import {Sketch} from 'vue-color'
   import { getToken } from '@/utils/auth'
+  import axios from "axios";
 export default {
   name: "EditEntity",
   components: {
@@ -229,23 +247,30 @@ export default {
           cropShape: '',
           entityName: '',
           headers: {
-            authorization: 'authorization-text',
-            token: getToken()
+            "Content-Type": "application/x-www-form-urlencoded",
+            "authorization": 'authorization-text',
+            "token": getToken()
           },
+          previewVisible: false,
+          previewImage: '',
       }
   },
   computed: {
     ...mapGetters([
+      "picId",
+      "userId",
       "currentGraph",
       "currentGraphData",
-      "currentItem"
+      "currentItem",
+      'boardTypes',
     ]),
   },
   methods:{
     ...mapMutations([
       'set_currentShowGraphData',
       'set_currentShowGraphData_typesetting',
-      'set_currentGraphData'
+      'set_currentGraphData',
+      'set_currentShowBoard'
     ]),
     handleSelectChangeShape(value) {
       console.log(value);
@@ -313,6 +338,11 @@ export default {
           else if(data.lineWidth==='medium'){tempSize=[80,60]}
           else if(data.lineWidth==='small'){tempSize=[50,30]}
         }
+        else{
+          if(data.lineWidth==='big'){tempSize=60}
+          else if(data.lineWidth==='medium'){tempSize=40}
+          else if(data.lineWidth==='small'){tempSize=30}
+        }
         console.log('转换后的大小,',tempSize)
         this.currentGraph.clearItemStates(this.currentItem,'selected')
         this.currentGraph.updateItem(this.currentItem,{
@@ -347,6 +377,7 @@ export default {
         let temp=this.currentGraph.save()
         this.set_currentShowGraphData_typesetting(temp)
         this.set_currentGraphData(temp)
+        this.set_currentShowBoard(this.boardTypes.none)
     },
     handleDeleteEntity(){
       //假设实体值已经传过来
@@ -354,6 +385,7 @@ export default {
       let temp=this.currentGraph.save()
       this.set_currentShowGraphData_typesetting(temp)
       this.set_currentGraphData(temp)
+      this.set_currentShowBoard(this.boardTypes.none)
     },
     showModal(){
         this.visible=true
@@ -364,23 +396,70 @@ export default {
     handleCancel(){
         this.visible=false
     },
-    handleChange(info) {
-      console.log(info)
-      let fileList = [...info.fileList];
-      if (info.file.status === 'done') {
-        if(info.file.response.code >= 0){
-          let resData = info.file.response.data;
-          console.log('upload res', resData);
-        } else {
-          this.$message.error(`图片上传失败.`);
-        }
-      } else if (info.file.status === 'error') {
-        this.$message.error(`图片上传失败.`);
-      }
-    },
+    // handleChange(info) {
+    //   console.log(info)
+    //   let fileList = [...info.fileList];
+    //   if (info.file.status === 'done') {
+    //     if(info.file.response.code >= 0){
+    //       let resData = info.file.response.data;
+    //       console.log('upload res', resData);
+    //     } else {
+    //       this.$message.error(`图片上传失败.`);
+    //     }
+    //   } else if (info.file.status === 'error') {
+    //     this.$message.error(`图片上传失败.`);
+    //   }
+    // },
     handleChangeShape(value){
       this.cropShape=value
-    }
+    },
+    handleAddPicElement(){
+      this.fileList=[]
+      this.entityName=''
+      // this.uploadImage(this.myFile,this.entityName)
+      if(this.customizeSignal===1) {
+        this.$message.success('自定义成功')
+      }else{
+        this.$message.error('自定义失败')
+      }
+    },
+    uploadImage(file) {
+      console.log('调用上传图片')
+      let formData = new FormData()
+      formData.append('mFile', file.file)
+      console.log('myFormData',formData.get('mFile'))
+      let that=this
+      let config = {
+        headers: that.headers
+      }
+      axios.post('http://118.182.96.49:8001/api/graph/picElement',formData,config)
+        .then(response => {
+        // handle success
+        console.log('success!!',response)
+        let imgUrl=response
+
+      }).catch(error => {
+        // handle error
+        this.$message.error(`图片上传失败.`);
+      }).then(() => {
+        // always executed
+      });
+    },
+    handlePreviewCancel(){
+      this.previewVisible = false;
+    },
+    async handlePreview(file) {
+      console.log('图片url',file)
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj);
+      }
+      this.previewImage = file.url || file.preview;
+      this.previewVisible = true;
+    },
+    handleChange({ fileList }) {
+      this.fileList = fileList;
+      console.log(this.fileList)
+    },
   }
 };
 </script>

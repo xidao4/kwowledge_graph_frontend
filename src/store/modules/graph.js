@@ -22,6 +22,7 @@ import {getTokenByKey} from '../../utils/cache'
 import { message } from 'ant-design-vue'
 
 const state = {
+    customizeElement: [{key:'圆形', value: 'circle'},{key:'矩形', value: 'rect'},{key:'椭圆', value: 'ellipse'},{key:'菱形', value: 'diamond'}],
     graphInfo: [
         'hi'
     ],
@@ -165,6 +166,12 @@ const graph = {
     mutations: {
         set_nodeId(state){
             state.nodeId++;
+        },
+        set_customizeElement(state,data){
+
+        },
+        add_customizeElement(state,data){
+
         },
         set_relationId(state){
             state.relationId++;
