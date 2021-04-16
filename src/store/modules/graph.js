@@ -159,6 +159,7 @@ const state = {
         relationEdit: '5',
     },
     currentShowBoard: '0',
+    checkList:[],//类型筛选用
 };
 
 const graph = {
@@ -406,6 +407,9 @@ const graph = {
         },
         set_currentShowBoard(state, data){
             state.currentShowBoard = data;
+        },
+        set_checkList(state,data){
+            state.checkedList=data;
         }
     },
     actions: {

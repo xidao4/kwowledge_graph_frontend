@@ -67,7 +67,19 @@ export default {
   },
   props: ["triggerGraphDraw"],
   computed: {
-    ...mapGetters(["colorList", "showGraphNodes", "picId","addEntityVisible","currentGraph","currentGraphData","nodeId","currentShowGraphData",'boardTypes',]),
+    ...mapGetters([
+        "colorList",
+        "showGraphNodes",
+        "picId",
+        "addEntityVisible",
+        "currentGraph",
+        "currentGraphData",
+        "nodeId",
+        "currentShowGraphData",
+        "nodesTypes",
+        'checkList',
+        'boardTypes',
+    ]),
   },
   methods: {
     ...mapMutations(["add_showGraphNodes","set_addEntityVisible","set_nodeId",'set_currentShowGraphData',
@@ -83,6 +95,8 @@ export default {
         ...validateEntityType(this.type.value),
         value: this.type.value,
       };
+
+
 
       if (this.name.errorMsg === null && this.type.errorMsg === null) {
         // this.add_showGraphNodes({
@@ -125,6 +139,13 @@ export default {
         this.set_nodeId();
         console.log('after update',this.currentGraphData)
         this.set_addEntityVisible(false)
+        //类型筛选相关
+        if(this.nodesTypes.indexOf(this.type.value)===-1){
+          this.nodesTypes.push(this.type.value);
+        }
+        console.log('4444 新增节点有新类型 this.nodesTypes',this.nodesTypes);
+        this.checkList.push(true);
+
         this.name.value = "";
         this.type.value= "";
         this.set_currentShowBoard(this.boardTypes.none)
