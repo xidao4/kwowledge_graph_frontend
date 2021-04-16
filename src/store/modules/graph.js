@@ -666,10 +666,10 @@ const graph = {
             state.customizeElement=[{key:'圆形', value: 'circle'},{key:'矩形', value: 'rect'},{key:'椭圆', value: 'ellipse'},{key:'菱形', value: 'diamond'}]
             const res=await getPicCustomizeElementsAPI(data);
             console.log('获取用户自定义的所有图元',res)
-            for(let i=0;i<res.length;i++){
+            for(let i=0;i<res.data.length;i++){
                 state.customizeElement.push({
-                    key: res.customizeEntityName,
-                    value: res.customizeImgUrl
+                    key: res.data[i].customizeEntityName,
+                    value: res.data[i].customizeImgUrl
                 })
             }
         },

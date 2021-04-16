@@ -90,7 +90,7 @@
 <!--      </div>-->
       <div style="margin-top:3%">
         <span>图元名称：</span>
-        <a-input :value="entityName" style="width: 40%"></a-input>
+        <a-input v-model="entityName" style="width: 40%"></a-input>
       </div>
       <div style="margin-top:6%;margin-right: -20%">
         <a-button @click="handleAddPicElement">添加图元</a-button>
@@ -236,7 +236,8 @@ export default {
   data(){
       return{
           colors1: '#333333',
-          colors2:'#E65D6E',
+          colors2: '#333333',
+          // colors2:  this.currentItem._cfg.styles.active.fill,
           isShowColors1: false,
           isShowColors2: false,
           editEntityForm1: this.$form.createForm(this, { name: "editEntityForm1" }),
@@ -272,6 +273,8 @@ export default {
     this.getPicCustomizeElements({
       picId:this.picId}
       )
+    console.log('看看传进来的参数',this.currentItem)
+    console.log(this.currentItem._cfg.styles.active.fill)
   },
   methods:{
     ...mapMutations([
@@ -431,19 +434,22 @@ export default {
     handleChangeShape(value){
       this.cropShape=value
     },
-    handleAddPicElement(){
+    async handleAddPicElement(){
       this.fileList=[]
       let data={
         picId:this.picId,
         customizeImgUrl:this.customizeImgUrl,
         customizeEntityName: this.entityName
       }
+      console.log('customizeEntityName:',this.entityName)
+      console.log('绑定的data',data)
       console.log('前')
-      this.bindUrlToPic(data)
+      await this.bindUrlToPic(data)
       console.log('后')
-      this.getPicCustomizeElements({
+      await this.getPicCustomizeElements({
         picId: this.picId
       })
+      this.entityName=''
     },
     uploadImage(file) {
       console.log('调用上传图片')
@@ -460,7 +466,7 @@ export default {
         .then(response => {
         // handle success
         console.log('success!!',response.data.data)
-        this.customizeImgUrl=response
+        this.customizeImgUrl=response.data.data
         if(this.customizeImgUrl!=='') {
           console.log('强行改变状态')
           this.fileList[0].status = 'done'
