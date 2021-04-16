@@ -1,51 +1,67 @@
 <template>
-    <div style="padding-bottom: 20px; background-color: #EEEFF0; width: 100%">
-        <Header></Header>
-<!--        <div class="spin">-->
-<!--            <a-spin size="large" tip="初始化编辑空间"/>-->
-<!--        </div>-->
-        <tool-bar></tool-bar>
-        <a-row class="row">
-            <a-col :xs="15" :sm="15" :md="15" :lg="17" :xl="17" xxl="20">
-                <div class="block"></div>
-            </a-col>
-            <a-col :xs="9" :sm="9" :md="9" :lg="7" :xl="7" xxl="4">
-                <LayoutBlock class="block"></LayoutBlock>
-            </a-col>
-        </a-row>
-        <a-row class="row" id="graphRow">
-<!--            <entity-list :class="this.addEntityVisible?'show':'not-show'"></entity-list>-->
-<!--            <relation-list :class="this.addRelationVisible?'show':'not-show'"></relation-list>-->
-<!--            <div class="block" style="overflow: hidden;">-->
-<!--                <TypesettingGraph v-show="currentGraphId === graphIds.typesetting"></TypesettingGraph>-->
-<!--                <ForceGraph v-if="currentGraphId === graphIds.force"></ForceGraph>-->
-<!--            </div>-->
-            <a-col :md="24" :lg="17" :xl="17" xxl="20">
-                <div class="block" style="overflow: hidden;">
-                    <TypesettingGraph v-show="currentGraphId === graphIds.typesetting"></TypesettingGraph>
-                    <ForceGraph v-if="currentGraphId === graphIds.force"></ForceGraph>
-                </div>
-            </a-col>
-            <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">
-                <div class="block" :style="this.heightStr">
-                    <entity-list :class="addEntityVisible?'show':'not-show'"></entity-list>
-                    <relation-list :class="addRelationVisible?'show':'not-show'"></relation-list>
-                </div>
-            </a-col>
+    <a-spin size="large" tip="加载编辑空间" :spinning="spinning">
+        <div style="padding-bottom: 150px; background-color: #EEEFF0; width: 100%">
+            <Header></Header>
+            <tool-bar></tool-bar>
+            <a-row class="row">
+                <a-col :xs="15" :sm="15" :md="15" :lg="17" :xl="17" xxl="20">
+                    <TypeFilter class="block" :style="this.upHeightStr"></TypeFilter>
+                </a-col>
+                <a-col :xs="9" :sm="9" :md="9" :lg="7" :xl="7" xxl="4">
+                    <LayoutBlock class="block" :style="this.upHeightStr"></LayoutBlock>
+                </a-col>
+            </a-row>
+            <a-row class="row" id="graphRow">
+                <a-col :md="24" :lg="17" :xl="17" xxl="20">
+                    <div class="block" style="overflow: hidden;">
+                        <TypesettingGraph v-if="currentGraphId === graphIds.typesetting" @finished="stopSpinning"></TypesettingGraph>
+                        <ForceGraph v-if="currentGraphId === graphIds.force" @finished="stopSpinning"></ForceGraph>
+<!--                                            <TypesettingGraph v-show="false"></TypesettingGraph>-->
+<!--                                            <ForceGraph v-if="false"></ForceGraph>-->
+<!--                        <LargeGraph v-if="true" @finished="stopSpinning"></LargeGraph>-->
+                    </div>
+                </a-col>
+                <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">
+                    <div class="block" :style="this.heightStr">
+                        <entity-list :class="currentShowBoard === boardTypes.entityList?'show':'not-show'"></entity-list>
+                         <relation-list :class="currentShowBoard === boardTypes.relationList?'show':'not-show'"></relation-list>
+                        <pie :class="currentShowBoard === boardTypes.pie?'show':'not-show'"></pie>
+                         <edit-entity v-if="currentShowBoard === boardTypes.entityEdit"></edit-entity>
+                        <edit-relation v-if="currentShowBoard === boardTypes.relationEdit"></edit-relation>
+                    </div>
+                </a-col>
 
-        </a-row>
-        <a-modal :visible="showModal && addEntityVisible" :footer="null" @cancel="handleCloseEntityModal">
-            <entity-list></entity-list>
-        </a-modal>
-        <a-modal :visible="showModal && addRelationVisible" :footer="null" @cancel="handleCloseRelationModal">
-            <relation-list></relation-list>
-        </a-modal>
-    </div>
+            </a-row>
+            <a-row class="row" id="pieAtBottom">
+                <a-col :xs="24" :sm="24" :md="24" :lg="24" v-show="showModal && currentShowBoard === boardTypes.pie">
+                    <pie-bottom class="block"></pie-bottom>
+                </a-col>
+            </a-row>
+            <a-modal :visible="showModal && currentShowBoard === boardTypes.entityList" :footer="null" @cancel="handleCloseEntityModal">
+                <entity-list></entity-list>
+            </a-modal>
+            <a-modal :visible="showModal && currentShowBoard === boardTypes.relationList" :footer="null" @cancel="handleCloseRelationModal">
+                <relation-list></relation-list>
+            </a-modal>
+<!--            <a-modal :visible="showModal && currentShowBoard === boardTypes.pie"-->
+<!--                     :footer="null"-->
+<!--                     :forceRender="true"-->
+<!--                     @cancel="handleClosePieModal">-->
+<!--                <pie></pie>-->
+<!--            </a-modal>-->
+            <a-modal :visible="showModal && currentShowBoard === boardTypes.entityEdit" :footer="null" @cancel="handleCloseEditRelationModal">
+                <edit-entity></edit-entity>
+            </a-modal>
+            <a-modal :visible="showModal && currentShowBoard === boardTypes.relationEdit" :footer="null" @cancel="handleCloseEditRelationModal">
+                <edit-relation></edit-relation>
+            </a-modal>
+        </div>
+    </a-spin>
 </template>
 
 <script>
     import Header from "./components/Header";
-    import {mapGetters,mapMutations} from 'vuex';
+    import { mapGetters, mapMutations, mapActions } from 'vuex';
     import TypesettingGraph from "./components/TypesettingGraph";
     import ForceGraph from './components/ForceGraph';
     import LayoutBlock from "./components/LayoutBlock";
@@ -54,15 +70,26 @@
     import ToolBar from "./components/ToolBar.vue"
     import EntityList from "@/views/graph/components/EntityList"
     import RelationList from "@/views/graph/components/RelationList"
+    import Pie from "./components/Pie";
+    import TypeFilter from "./components/TypeFilter";
+    import LargeGraph from "./components/LargeGraph";
+    import EditEntity from "@/views/graph2.0/components/EditEntity"
+    import EditRelation from './components/EditRelation.vue';
+    import PieBottom from "./components/PieBottom";
+
     export default {
         name: "Editor",
         data(){
             return {
                 showModal: false,
-                heightStr: "height: "+(window.screen.height * 0.8 + 5)+'px'
+                heightStr: "height: "+(window.screen.height * 0.8 + 5)+'px',
+                upHeightStr:"height: "+(window.screen.height * 0.15 )+'px',
+                spinning: true,
             }
         },
         components: {
+          PieBottom,
+            LargeGraph,
             ACol,
             ARow,
             LayoutBlock,
@@ -72,23 +99,47 @@
             ToolBar,
             EntityList,
             RelationList,
+            Pie,
+            TypeFilter,
+            EditEntity,
+            EditRelation,
         },
         computed: {
             ...mapGetters([
                 'currentGraphId',
                 'graphIds',
-                'addEntityVisible',
-                'addRelationVisible'
+                'isNew',
+                'picId',
+                'boardTypes',
+                'currentShowBoard'
             ]),
         },
         methods:{
-            ...mapMutations(["set_addRelationVisible","set_addEntityVisible"]),
+            ...mapMutations([
+                'set_currentShowBoard'
+            ]),
+            ...mapActions([
+                'getPicElements'
+            ]),
             handleCloseEntityModal(){
-                this.set_addEntityVisible(false)
+                this.set_currentShowBoard(this.boardTypes.none)
             },
             handleCloseRelationModal(){
-                this.set_addRelationVisible(false)
-            }
+                this.set_currentShowBoard(this.boardTypes.none)
+            },
+            handleCloseEditEntityModal(){
+                this.set_currentShowBoard(this.boardTypes.none)
+            },
+            handleCloseEditRelationModal(){
+                this.set_currentShowBoard(this.boardTypes.none)
+            },
+            handleClosePieModal(){
+                this.set_currentShowBoard(this.boardTypes.none);
+            },
+            stopSpinning(){
+                this.spinning = false;
+            },
+            afterVisibleChange(){},
         },
         mounted() {
             if(window.innerWidth < 992){
@@ -102,23 +153,24 @@
                 } else {
                     this.showModal = false;
                 }
-            })
+            });
         }
     }
 </script>
 
 <style scoped>
 
-.spin{
-    text-align: center;
-    border-radius: 4px;
-    padding: 30px 50px;
-    margin: 20px 0;
-    min-width: 400px;
-}
+/*.spin{*/
+/*    text-align: center;*/
+/*    border-radius: 4px;*/
+/*    padding: 30px 50px;*/
+/*    margin: 20px 0;*/
+/*    min-width: 400px;*/
+/*}*/
 .row {
     margin: 15px;
 }
+
 .block {
     margin: 0 8px;
     background-color: white;
@@ -131,4 +183,7 @@
     width: 80%;
     margin-left: 10%;
 }
+/*.myDrawer{*/
+/*    width:300px;*/
+/*}*/
 </style>

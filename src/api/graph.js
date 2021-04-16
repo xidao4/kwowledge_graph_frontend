@@ -1,4 +1,5 @@
 import { axios } from '@/utils/request'
+import { getToken } from '@/utils/auth'
 
 const api = {
   graphPre: '/api/graph'
@@ -82,8 +83,7 @@ export function downloadAPI(data) {
   return axios({
     url: `${api.graphPre}/download`,
     method: 'POST',
-    data,
-    responseType: "arraybuffer",//设置数据格式
+    data
   })
 }
 
@@ -97,16 +97,80 @@ export function saveAPI(data) {
 
 export function thumbnailAPI(data) {
   return axios({
-    url: `${api.graphPre}/thumbnail`,
+    url: `${api.graphPre}/thumbnail/${data.picId}/${data.userId}/${data.picName}`,
+    method: 'POST',
+    data: data.file,
+    headers: {
+      'Content-Type': 'multipart/form-data;boundary = ' + new Date().getTime()
+    },
+  })
+}
+
+export function getPicElementsAPI(data) {
+  console.log('get', data);
+  return axios({
+    url: `${api.graphPre}/getPicElements`,
     method: 'POST',
     data,
   })
 }
 
-export function getPicElementsAPI(data) {
+//根据picId获取 节点的类型-个数 和 边的类型-个数 两个map
+export function getPicTypesAPI(data){
   return axios({
-    url: `${api.graphPre}/getPicElements`,
-    method: 'POST',
+    url:`${api.graphPre}/getPicTypes`,
+    method:'POST',
+    data
+  })
+}
+
+//模糊匹配
+export function searchAPI(data){
+  return axios({
+    url:`${api.graphPre}/search`,
+    method:'POST',
+    data
+  })
+}
+
+//获取 类型-节点集合 的Map useless
+export function getNodesByTypesAPI(data){
+  return axios({
+    url:`${api.graphPre}/getNodesByTypes`,
+    method:'POST',
+    data
+  })
+}
+
+//获取 类型数组
+export function getNodeTypesAPI(data){
+  return axios({
+    url:`${api.graphPre}/getNodeTypes`,
+    method:'POST',
+    data
+  })
+}
+
+//将自定义图片的url和picId、entityName绑定
+export function bindUrlToPicAPI(data){
+  return axios({
+    url:`${api.graphPre}/bindUrlToPic`,
+    method:'POST',
     data,
+    headers: {
+      "authorization": 'authorization-text',
+      "token": getToken()
+    }
+  })
+}
+
+
+//获取用户自定义的所有图元
+export function getPicCustomizeElementsAPI(data){
+  return axios({
+    url:`${api.graphPre}/getPicCustomizeElements`,
+    method:'POST',
+    data,
+
   })
 }

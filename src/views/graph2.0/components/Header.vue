@@ -123,6 +123,8 @@
                 'set_currentGraph',
                 'set_showDownloadImgModal',
                 'set_showDownloadFileModal',
+                'clear_graphs',
+                'set_isNew'
             ]),
             ...mapActions({
                 saveAct: 'save',
@@ -143,20 +145,20 @@
             },
             changeCurrentGraph(key){
                 this.set_currentGraphId(key);
-                if(key === this.graphIds.force){
-                    // this.set_currentGraph(this.forceGraph)
-                } else if(key === this.graphIds.typesetting){
-                    this.set_currentGraph(this.typesettingGraph)
-                }
+                // if(key === this.graphIds.force){
+                //     // this.set_currentGraph(this.forceGraph)
+                // } else if(key === this.graphIds.typesetting){
+                //     this.set_currentGraph(this.typesettingGraph)
+                // }
             },
             toggleHandler (val) {
                 const _t = this
                 _t.isExpand = val !== undefined ? val : !_t.isExpand
             },
-            async save(){
+            save(){
                 this.loading = true;
                 this.btnText = btnTextType.saveLoading;
-                await this.saveAct();
+                this.saveAct();
                 this.loading = false;
                 this.btnText = btnTextType.save;
             },
@@ -164,6 +166,8 @@
                 let imgUrl = this.currentGraph.toDataURL('image/jpeg', '#FFFFFF');
                 this.$router.go(-1);
                 this.thumbnail(imgUrl);
+                this.clear_graphs();
+                this.set_isNew(false);
             }
         },
     }

@@ -14,8 +14,6 @@ Vue.use(Antd);
 
 Vue.prototype.$echarts = echarts;
 
-
-
 new Vue({
   router,
   store,

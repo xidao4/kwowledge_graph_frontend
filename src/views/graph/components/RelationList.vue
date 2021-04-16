@@ -12,17 +12,16 @@
         <a-select
                 v-decorator="[
                 'selectSourceNode',
-                { rules: [{ required: true, message: '请至少选择一个实体!' }] },
               ]"
                 placeholder="请选择实体"
                 style="width: 85%;"
+                @change="handleSelectChange1"
         >
           <a-select-option
-                  :value="node.name"
-                  v-for="(node, index) in showGraphNodes"
+                  v-for="(node, index) in this.labelList"
                   :key="index"
           >
-            {{ node.name }}
+            {{ node }}
           </a-select-option>
         </a-select>
       </a-form-item>
@@ -30,17 +29,16 @@
         <a-select
                 v-decorator="[
                 'selectTargetNode',
-                { rules: [{ required: true, message: '请至少选择一个实体!' }] },
               ]"
                 placeholder="请选择实体"
                 style="width: 85%;"
+                @change="handleSelectChange2"
         >
           <a-select-option
-                  :value="node.name"
-                  v-for="(node, index) in showGraphNodes"
+                  v-for="(node, index) in this.labelList"
                   :key="index"
           >
-            {{ node.name }}
+            {{ node }}
           </a-select-option>
         </a-select>
       </a-form-item>
@@ -48,10 +46,19 @@
         <a-input
                 v-decorator="[
                 'relationValue',
-                { rules: [{ required: true, message: '请输入关系值!' }] },
               ]"
                 placeholder="请输入关系值"
                 style="width: 85%;"
+        >
+        </a-input>
+      </a-form-item>
+      <a-form-item label="关系类型">
+        <a-input
+          v-decorator="[
+                'relationType',
+              ]"
+          placeholder="请输入关系类型"
+          style="width: 85%;"
         >
         </a-input>
       </a-form-item>
@@ -70,6 +77,7 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from "vuex";
 import { message } from "ant-design-vue";
+import G6 from "@antv/g6";
 
 export default {
   name: "RelationList",
@@ -77,7 +85,7 @@ export default {
     return {
       addRelationForm: this.$form.createForm(this, { name: "addRelationForm" }),
       height: (window.screen.height * 0.8 + 5) + 'px',
-      relationValueTips:'请输入关系值'
+      relationValueTips:'请输入关系值',
     };
   },
   props: ["triggerGraphDraw"],
@@ -88,29 +96,35 @@ export default {
       "picId",
       "showGraphEdges",
       "addRelationVisible",
+      "currentGraph",
+      "currentGraphData",
+      "labelList",
+      "relationId",
+      "currentShowGraphData",
+      'boardTypes',
     ]),
   },
+  mounted() {
+    console.log('我的选择列表呢',this.labelList)
+  },
   methods: {
-    ...mapActions(["addRelation"]),
-    ...mapMutations(["add_showGraphEdges", "set_addRelationVisible"]),
+    ...mapActions(["addRelation","save"]),
+    ...mapMutations(["add_showGraphEdges", "set_addRelationVisible","set_relationId",'set_currentShowGraphData',
+      'set_currentShowGraphData_typesetting',
+      'set_currentGraphData','set_currentShowBoard']),
     async confirmAddRelation() {
       var that=this
       console.log(this.addRelationForm.getFieldValue('relationValue'))
-      // let data = {
-      //   node1: that.addRelationForm.getFieldValue('selectSourceNode'),
-      //   node2: that.addRelationForm.getFieldValue('selectTargetNode'),
-      //   picId: this.picId,
-      //   name: that.addRelationForm.getFieldValue('relationValue')
-      // };
       let newData = {
-        node1: that.addRelationForm.getFieldValue('selectSourceNode'),
-        node2: that.addRelationForm.getFieldValue('selectTargetNode'),
+        node1: this.labelList[that.addRelationForm.getFieldValue('selectSourceNode')],
+        node2: this.labelList[that.addRelationForm.getFieldValue('selectTargetNode')],
         name: that.addRelationForm.getFieldValue('relationValue'),
+        relationType:that.addRelationForm.getFieldValue('relationType'),
         color: "#000",
       };
       console.log('newData',newData)
-      if (newData.node1 == null || newData.node2 == null || newData.name == null) {
-        message.error("增加关系失败，实体和关系值不能为空");
+      if (newData.node1 ==='' || newData.node2 ==='' || newData.name ==='' || newData.relationType==='') {
+        message.error("增加关系失败，任一字段不能为空");
         return;
       }
       for (let i = 0; i < this.showGraphEdges.length; i++) {
@@ -126,12 +140,55 @@ export default {
       }
       this.set_addRelationVisible(false);
       this.addRelationForm.resetFields();
-      // await this.addRelation(data);
-      // this.add_showGraphEdges(newData);
+      let tempSource=''
+      let tempTarget=''
+      console.log(this.currentGraphData)
+      for(let i=0;i<this.currentGraphData.nodes.length;i++){
+        if(newData.node1===this.currentGraphData.nodes[i].label){
+          tempSource=this.currentGraphData.nodes[i].id
+        }
+        if(newData.node2===this.currentGraphData.nodes[i].label){
+          tempTarget=this.currentGraphData.nodes[i].id
+        }
+      }
+      console.log('model的edge',this.currentGraphData)
+      let model={
+        id:  `relation-${this.relationId}`,
+        class: newData.relationType,
+        label: newData.name,
+        oriLabel: newData.name,
+        type: 'quadratic',
+        source: tempSource,
+        target: tempTarget,
+        style:{
+          stroke: '#D99CA8',
+          cursor: 'pointer',
+          fillOpacity: 1,
+          endArrow: {
+            path: G6.Arrow.triangle(),
+            fill: "#D99CA8"
+          },
+        }
+      }
+      console.log('relationModel',model)
+      this.currentGraph.addItem('edge',model)
+      this.currentGraph.refresh()
+      let temp=this.currentGraph.save()
+      this.set_currentShowGraphData_typesetting(temp)
+      this.set_currentGraphData(temp)
+      this.set_relationId();
+      this.set_currentShowBoard(this.boardTypes.none)
+      this.save()
     },
     onClose() {
       this.set_addRelationVisible(false);
     },
+    handleSelectChange1(value){
+
+    },
+    handleSelectChange2(value){
+
+    }
   },
 };
 </script>

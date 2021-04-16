@@ -26,11 +26,12 @@
 
 <script>
     import { mapGetters, mapMutations, mapActions } from 'vuex';
+    import { getToken } from '@/utils/auth'
 
     const btnTextType = {
         download: '下载',
         fileLoading: '生成中...',
-    }
+    };
 
     export default {
         name: "DownloadFileModal",
@@ -67,16 +68,20 @@
             async download(){
                 this.loading = true;
                 this.btnText = btnTextType.fileLoading;
-                let res = await this.downloadAct();
-                console.log('res', res)
-                let blob = new Blob([res]);
-                let url = URL.createObjectURL(blob);
-                let name = this.name || "知识图谱";
-                let fileLink = document.createElement("a");
-                fileLink.href = url;
-                fileLink.download = name + "." + this.type;
-                fileLink.click();
-                window.URL.revokeObjectURL(url);
+                let url = await this.downloadAct();
+                fetch(url, {
+                    headers:{
+                        'token': getToken()
+                    }
+                }).then(res => res.blob()).then(blob => { // 将链接地址字符内容转变成blob地址
+                    let fileLink = document.createElement("a");
+                    fileLink.href = URL.createObjectURL(blob)
+                    fileLink.download = name + "." + this.type;
+                    document.body.appendChild(fileLink);
+                    fileLink.click();
+                    document.body.removeChild(fileLink);
+                });
+
                 setTimeout(()=>{
                     this.loading = false;
                     this.btnText = btnTextType.download;

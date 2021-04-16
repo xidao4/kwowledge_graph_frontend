@@ -67,11 +67,25 @@ export default {
   },
   props: ["triggerGraphDraw"],
   computed: {
-    ...mapGetters(["colorList", "showGraphNodes", "picId","addEntityVisible"]),
+    ...mapGetters([
+        "colorList",
+        "showGraphNodes",
+        "picId",
+        "addEntityVisible",
+        "currentGraph",
+        "currentGraphData",
+        "nodeId",
+        "currentShowGraphData",
+        "nodesTypes",
+        'checkList',
+        'boardTypes',
+    ]),
   },
   methods: {
-    ...mapMutations(["add_showGraphNodes","set_addEntityVisible"]),
-    ...mapActions(["addEntity"]),
+    ...mapMutations(["add_showGraphNodes","set_addEntityVisible","set_nodeId",'set_currentShowGraphData',
+      'set_currentShowGraphData_typesetting',
+      'set_currentGraphData','set_currentShowBoard']),
+    ...mapActions(["addEntity","save"]),
     handleAdd() {
       this.name = {
         ...validateEntityName(this.name.value, null, this.showGraphNodes),
@@ -82,20 +96,59 @@ export default {
         value: this.type.value,
       };
 
+
+
       if (this.name.errorMsg === null && this.type.errorMsg === null) {
-        // this.add_showGraphNodes({
-        //   name: this.name.value,
-        //   color: this.colorValue,
-        // });
-        // this.addEntity({
-        //   picId: this.picId,
-        //   name: this.name.value,
-        //   type: this.type.value
-        // });
-        // this.triggerGraphDraw();
+
+        let model = {
+          id:  `node-${this.nodeId}`,
+          label: this.name.value,
+          oriLabel: this.name.value,
+          class: this.type.value,
+          address: 'cq',
+          size:25,
+          x: 200+Math.random()*100,
+          y: 150+Math.random()*100,
+          style:{
+            fill:'#E65D6E'
+          },
+          labelCfg:{
+            position: 'bottom',
+            offset: 5,
+            style: {
+              fill: '#191b1c',
+              fontSize: 12,
+              lineWidth: 3,
+            },
+          }
+        };
+        console.log('myModel',model)
+        this.currentGraph.addItem('node',model)
+        this.currentGraph.refresh()
+        this.currentGraphData.nodes.push({
+          id:  `node-${this.nodeId}`,
+          class: this.type.value,
+          label: this.name.value,
+          oriLabel: this.name.value,
+        })
+        let temp=this.currentGraph.save()
+        this.set_currentShowGraphData_typesetting(temp)
+        this.set_currentGraphData(temp)
+        console.log('添加完后的Data',this.currentGraphData)
+        this.set_nodeId();
+        console.log('after update',this.currentGraphData)
         this.set_addEntityVisible(false)
+        //类型筛选相关
+        if(this.nodesTypes.indexOf(this.type.value)===-1){
+          this.nodesTypes.push(this.type.value);
+        }
+        console.log('4444 新增节点有新类型 this.nodesTypes',this.nodesTypes);
+        this.checkList.push(true);
+
         this.name.value = "";
         this.type.value= "";
+        this.set_currentShowBoard(this.boardTypes.none)
+        this.save()
       }
     },
     handleNameChange() {

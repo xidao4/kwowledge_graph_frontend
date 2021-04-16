@@ -13,14 +13,19 @@
 
   export default {
     name: 'app',
+    provide (){
+      return {
+
+      }
+    },
     methods:{
 
     },
     data() {
       return {
-        zh_CN
+        zh_CN,
       };
-    }
+    },
   };
 </script>
 
@@ -28,5 +33,8 @@
 body{
   /*height: 100%;*/
   /*overflow: hidden;*/
+}
+#nprogress .bar {
+  background: #D99CA8 !important;
 }
 </style>

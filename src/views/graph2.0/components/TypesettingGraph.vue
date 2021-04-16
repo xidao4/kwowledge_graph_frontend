@@ -4,117 +4,57 @@
 </template>
 
 <script>
-    import {mapGetters, mapMutations} from 'vuex';
+    import {mapActions, mapGetters, mapMutations} from 'vuex';
     // import XBackground from '../../../components/g6/XBackground';
     import G6 from '@antv/g6';
     import { GraphLayoutPredict } from '@antv/vis-predict-engine'
     import { message } from 'ant-design-vue'
-
-    const testData = {
-        nodes: [
-            {
-                id: '0',
-                label: '0',
-            },
-            {
-                id: '1',
-                label: '1',
-            },
-            {
-                id: '2',
-                label: '2',
-            },
-            {
-                id: '3',
-                label: '3',
-            },
-            {
-                id: '4',
-                label: '4',
-            },
-            {
-                id: '5',
-                label: '5',
-            },
-            {
-                id: '6',
-                label: '6',
-            },
-            {
-                id: '7',
-                label: '7',
-            },
-            {
-                id: '8',
-                label: '8',
-            },
-            {
-                id: '9',
-                label: '9',
-            },
-        ],
-        edges: [
-            {
-                source: '0',
-                target: '1',
-            },
-            {
-                source: '0',
-                target: '2',
-            },
-            {
-                source: '0',
-                target: '3',
-            },
-            {
-                source: '0',
-                target: '4',
-            },
-            {
-                source: '0',
-                target: '5',
-            },
-            {
-                source: '0',
-                target: '7',
-            },
-            {
-                source: '0',
-                target: '8',
-            },
-            {
-                source: '0',
-                target: '9',
-            },
-            {
-                source: '2',
-                target: '3',
-            },
-            {
-                source: '4',
-                target: '5',
-            },
-            {
-                source: '4',
-                target: '6',
-            },
-            {
-                source: '5',
-                target: '6',
-            },
+    import { processNodesEdges, bindListener, cssStr, processCombos } from '../../../components/g6/Graph.js';
+    import insertCss from 'insert-css';
+    const tooltip = new G6.Tooltip({
+        offsetX: 10,
+        offsetY: 10,
+        itemTypes: ['node', 'edge'],
+        getContent: (e) => {
+            const outDiv = document.createElement('div');
+            outDiv.style.width = 'fit-content';
+            let model = e.item.getModel();
+            outDiv.innerHTML =
+                `<ul>
+                    <li id='expand'>名称: ${model.oriLabel || model.id}</li>
+                    <li id='hide'>类型: ${model.class}</li>
+                </ul>`;
+            return outDiv;
+        },
+    });
+    const mode = {
+        default: [
+            'drag-canvas',
+            'drag-node',
+            'shortcuts-call',
+            'drag-combo',
+            'collapse-expand-combo',
+            'click-select'
         ],
     };
     export default {
         name: "TypesettingGraph",
         data(){
             return {
-                predictLayout: '',
-                confidence: ''
             }
         },
         computed: {
             ...mapGetters([
-                'typesettingGraph'
+                'typesettingGraph',
+                'currentGraphData',
+                'currentShowGraphData',
+                'isNew',
+                'currentSetLayout',
+                'typesettingEdgeShowLabel',
+                'currentShowCombos',
+                'currentCombos',
+                'boardTypes',
+                'userId'
             ])
         },
         methods: {
@@ -122,64 +62,166 @@
                 'set_typesettingGraph',
                 'set_currentSetLayout',
                 'set_currentGraph',
-                'set_typesettingGraphRatio'
+                'set_typesettingGraphRatio',
+                'set_typesettingEdgeShowLabel',
+                'set_currentCombos',
+                'set_currentShowGraphData',
+                'set_currentShowGraphData_typesetting',
+                'set_currentShowBoard'
+            ]),
+            ...mapActions([
+                'getPicElements',
+                'save'
             ]),
             draw(data, layout){
                 const container = document.getElementById('typesetting');
                 const width = container.scrollWidth;
                 const height = window.screen.height * 0.8;
-                // const minimap = new G6.Minimap({
-                //     size: [200, 200],
-                //     className: 'minimap',
-                //     type: 'delegate',
-                // });
-                // const toolbar = new G6.ToolBar({
-                //     position: { x: 0, y: 130 },
-                // });
-                const menu = new G6.Menu();
-                // const grid = new G6.Grid();
-                // const background = new XBackground()
                 let graph = new G6.Graph({
                     container: container,
                     width,
                     height,
+                    groupByTypes: false,
+                    defaultCombo: {
+                        type: 'circle',
+                        style: {
+                            // fill: '#D99CA8',
+                            stroke: '#D99CA8',
+                            lineWidth: 2,
+                        },
+                        labelCfg: {
+                            refY: 15,
+                            position: 'bottom',
+                        },
+                    },
+                    comboStateStyles: {
+                        dragenter: {
+                            shadowColor: '#D99CA8',
+                            lineWidth: 0,
+                            fill: '#fff',
+                            shadowBlur: 10,
+                            // stroke: '#f00'
+                        },
+                        selected: {
+                            stroke: "#D99CA8",
+                            fill: "#fff",
+                            shadowBlur: 10,
+                            shadowColor: "#D99CA8",
+                            textShape:
+                                {
+                                    fontWeight: 500
+                                }
+                        },
+                        active: {
+                            stroke: "#D99CA8",
+                            fill: "#fff",
+                            shadowBlur: 10,
+                            shadowColor: "#D99CA8",
+                            textShape:
+                                {
+                                    fontWeight: 500
+                                }
+                        },
+                    },
                     layout: {
                         type: layout,
                         preventOverlap: true,
-                        nodeSize: 20,
+                        // nodeSize: 20,
+                        linkDistance: 25
                     },
-                    modes: {
-                        default: [
-                            'drag-canvas',
-                            'drag-node',
-                            'shortcuts-call',
-                            // 'zoom-canvas',
-                            {
-                                type: 'tooltip', // 提示框
-                                formatText(model) {
-                                    // 提示框文本内容
-                                    return '实体名: ' + model.label + '<br/> 类别: '
-                                        + (model.class === undefined ? '无' : model.class);
-                                },
-                            },],
-                    },
-                    defaultNode: {
-                        size: 20,
-                    },
-                    // fitView: true,
+                    modes: mode,
                     fitCenter: true,
                     fitViewPadding: 20,
-                    plugins: [toolbar, menu],
+                    plugins: [tooltip],
                     minZoom: 0.25,
                     maxZoom: 2
                 });
-                graph.data(data);
+                // 深拷贝
+                let tmpData = JSON.parse(JSON.stringify(data));
+                const processRes = processNodesEdges(tmpData.nodes, tmpData.edges, width, height, this.typesettingEdgeShowLabel);
+                bindListener(graph);
+                this.registerBehavior(graph, container);
+                this.set_currentCombos(processRes.combos);
+                if(this.currentShowCombos){
+                    graph.data({nodes: processRes.nodes, edges: processRes.edges, combos: processRes.combos});
+                } else {
+                    graph.data({nodes: processRes.nodes, edges: processRes.edges});
+                }
                 graph.render();
-
-                // graph.on('wheelzoom', () => {
-                //     let zoom = graph.getZoom();
-                //     console.log('ratio', zoom)
-                // });
+                this.set_currentShowGraphData_typesetting(graph.save());
+                this.set_typesettingGraph(graph);
+                this.save(false);
+            },
+            reDraw(data){
+                const container = document.getElementById('typesetting');
+                const width = container.scrollWidth;
+                const height = window.screen.height * 0.8;
+                let graph = new G6.Graph({
+                    container: container,
+                    width,
+                    height,
+                    modes: mode,
+                    defaultCombo: {
+                        type: 'circle',
+                        style: {
+                            // fill: '#D99CA8',
+                            stroke: '#D99CA8',
+                            lineWidth: 2,
+                        },
+                        labelCfg: {
+                            refY: 15,
+                            position: 'bottom',
+                        },
+                    },
+                    comboStateStyles: {
+                        dragenter: {
+                            shadowColor: '#D99CA8',
+                            lineWidth: 0,
+                            fill: '#fff',
+                            shadowBlur: 10,
+                            // stroke: '#f00'
+                        },
+                        selected: {
+                            stroke: "#D99CA8",
+                            fill: "#fff",
+                            shadowBlur: 10,
+                            shadowColor: "#D99CA8",
+                            textShape:
+                                {
+                                    fontWeight: 500
+                                }
+                        },
+                        active: {
+                            stroke: "#D99CA8",
+                            fill: "#fff",
+                            shadowBlur: 10,
+                            shadowColor: "#D99CA8",
+                            textShape:
+                                {
+                                    fontWeight: 500
+                                }
+                        },
+                    },
+                    plugins: [tooltip],
+                    minZoom: 0.25,
+                    maxZoom: 2,
+                    fitCenter: true,
+                    fitViewPadding: 20,
+                });
+                let tmpData = JSON.parse(JSON.stringify(data));
+                const processRes = processCombos(tmpData.nodes, this.typesettingEdgeShowLabel);
+                this.set_currentCombos(processRes.combos);
+                if(this.currentShowCombos){
+                    graph.data({nodes: processRes.nodes, edges: data.edges, combos: processRes.combos});
+                } else {
+                    graph.data({nodes: processRes.nodes, edges: data.edges});
+                }
+                graph.render();
+                bindListener(graph);
+                this.registerBehavior(graph, container);
+                this.set_typesettingGraph(graph);
+            },
+            registerBehavior(graph, container){
                 if (typeof window !== 'undefined'){
                     let that = this;
                     window.onresize = () => {
@@ -199,17 +241,32 @@
                         graph.changeSize(container.scrollWidth, window.screen.height * 0.8);
                     };
                 }
-                this.set_typesettingGraph(graph);
-            }
+            },
         },
         async mounted() {
-            const { predictLayout, confidence } = await GraphLayoutPredict.predict(testData);
-            this.predictLayout = predictLayout;
-            this.confidence = confidence;
-            this.draw(testData, predictLayout);
-            this.set_currentSetLayout(predictLayout);
-            message.success('预测布局: ' + predictLayout + ' 可信度: ' + confidence)
-            this.set_currentGraph(this.typesettingGraph)
+            insertCss(cssStr);
+            if(this.isNew){
+                if(!this.currentGraphData.nodes){
+                    await this.getPicElements();
+                }
+                if(!this.currentSetLayout){
+                    const { predictLayout, confidence } = await GraphLayoutPredict.predict(this.currentGraphData);
+                    this.set_currentSetLayout(predictLayout);
+                    message.success('预测布局: ' + predictLayout + ' 可信度: ' + confidence)
+                }
+                this.draw(this.currentGraphData, this.currentSetLayout);
+            } else {
+                if(!this.currentShowGraphData.typesetting){
+                    await this.getPicElements();
+                }
+                console.log('datadata======================', this.currentShowGraphData);
+                if(this.currentShowGraphData.typesetting) {
+                    this.reDraw(this.currentShowGraphData.typesetting);
+                }
+            }
+            this.set_currentGraph(this.typesettingGraph);
+            this.set_currentShowBoard(this.boardTypes.pie);
+            this.$emit('finished');
         },
     }
 </script>
