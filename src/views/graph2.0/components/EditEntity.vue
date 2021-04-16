@@ -456,12 +456,15 @@ export default {
       }
       console.log('超长picId',this.picId)
       console.log('userId很长？',this.userId)
-      axios.post(`http://118.182.96.49:8001/api/graph/uploadCustomizeImg/${this.picId}/${this.userId}/0`,formData,config)
+      axios.post(`http://118.182.96.49:8001/api/graph/uploadCustomizeImg/${this.picId}/0/0`,formData,config)
         .then(response => {
         // handle success
-        console.log('success!!',response)
+        console.log('success!!',response.data.data)
         this.customizeImgUrl=response
-
+        if(this.customizeImgUrl!=='') {
+          console.log('强行改变状态')
+          this.fileList[0].status = 'done'
+        }
       }).catch(error => {
         // handle error
         this.$message.error(`图片上传失败.`);
@@ -481,6 +484,7 @@ export default {
       this.previewVisible = true;
     },
     handleChange({ fileList }) {
+      console.log('上传图片状态改变')
       this.fileList = fileList;
       console.log(this.fileList)
     },
