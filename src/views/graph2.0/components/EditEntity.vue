@@ -156,7 +156,7 @@
 <!--            :value="colors2"-->
 <!--            disabled-->
 <!--        />-->
-        <div class="colorBlock" :style="'background-color: ' + colors2">
+        <div class="colorBlock" :style="'background-color: ' + colors2+';border: 1px solid #ffe5e5'">
         </div>
       </a-form-item>
       </div>
@@ -236,7 +236,7 @@ export default {
   data(){
       return{
           colors1: '#333333',
-          colors2: '#333333',
+          colors2: '#ffffff',
           // colors2:  this.currentItem._cfg.styles.active.fill,
           isShowColors1: false,
           isShowColors2: false,
