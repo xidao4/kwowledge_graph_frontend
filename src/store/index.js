@@ -17,7 +17,13 @@ Vue.use(Vuex);
 //     return modules
 // }, {});
 
-const PERSIST_PATHS = ['user', 'util', 'graph.picId', 'graph.currentCombos'];
+const PERSIST_PATHS = [
+    'user',
+    'graph.picId',
+    'graph.currentCombos',
+    'graph.currentGraphData',
+    'graph.currentShowGraphData',
+];
 
 const store = new Vuex.Store({
     state: {

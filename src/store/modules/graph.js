@@ -23,9 +23,6 @@ import { message } from 'ant-design-vue'
 
 const state = {
     customizeElement: [{key:'圆形', value: 'circle'},{key:'矩形', value: 'rect'},{key:'椭圆', value: 'ellipse'},{key:'菱形', value: 'diamond'}],
-    graphInfo: [
-        'hi'
-    ],
     picId: '',//方便测试by ljy 6075ab0c1f3a46144cf5c4c1
     //这两个用来生成唯一id
     nodeId: 0,

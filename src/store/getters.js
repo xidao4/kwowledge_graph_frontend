@@ -2,7 +2,6 @@ const getters={
     nodeId: state => state.graph.nodeId,
     labelList: state => state.graph.labelList,
     relationId: state => state.graph.relationId,
-    graphInfo: state => state.graph.graphInfo,
     picId: state=>state.graph.picId,
     customizeElement: state => state.graph.customizeElement,
     nodes: state=>state.graph.nodes,
