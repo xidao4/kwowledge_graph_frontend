@@ -1005,9 +1005,11 @@ export const processNodesEdges = (
         if(combosList.indexOf(node.comboId) === -1){
             combosList.push(node.comboId);
         }
+        console.log('修改了我的图元样式！！！！！')
         node.style = {
             fill: '#E65D6E',
-            stroke: '#D99CA8'
+            stroke: '#D99CA8',
+            lineWidth: 1
         };
         node.labelCfg = {
             position: 'bottom',
@@ -1107,6 +1109,29 @@ export const processNodesEdges = (
         combos
     };
 };
+
+export function processCombos(
+    nodes
+) {
+    let combosList = [];
+    console.log('nodes=========================', nodes);
+    nodes.forEach((node) => {
+        node.comboId = node.class;
+        if(combosList.indexOf(node.comboId) === -1){
+            combosList.push(node.comboId);
+        }
+    });
+    let combos = [];
+    combosList.forEach(combo => {
+        combos.push({
+            id: combo,
+            label: combo
+        })
+    });
+    return {
+        nodes, combos
+    }
+}
 
 export const bindListener = (graph) => {
     function refreshDragedNodePosition(e) {

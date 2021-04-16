@@ -1,4 +1,4 @@
-import{
+import {
     deleteEntityAPI,
     deleteRelationAPI,
     addEntityAPI,
@@ -12,7 +12,7 @@ import{
     getPicTypesAPI,
     searchAPI,
     getNodesByTypesAPI,
-    getNodeTypesAPI,
+    getNodeTypesAPI, getPicCustomizeElementsAPI,bindUrlToPicAPI
 } from "../../api/graph";
 import {
     url2File
@@ -22,6 +22,7 @@ import {getTokenByKey} from '../../utils/cache'
 import { message } from 'ant-design-vue'
 
 const state = {
+    customizeElement: [],
     graphInfo: [
         'hi'
     ],
@@ -145,7 +146,7 @@ const state = {
     forceShowEdgeLabel: false,
     typesettingEdgeShowLabel: false,
     currentCombos: [],
-    currentShowCombos: true,
+    currentShowCombos: false,
     currentItem: null,
     showEditNodeModal: false,
     showEditEdgeModal: false,
@@ -166,6 +167,12 @@ const graph = {
     mutations: {
         set_nodeId(state){
             state.nodeId++;
+        },
+        set_customizeElement(state,data){
+
+        },
+        add_customizeElement(state,data){
+
         },
         set_relationId(state){
             state.relationId++;
@@ -294,8 +301,9 @@ const graph = {
         set_currentGraphData(state, data) {
             state.currentGraphData = {...data}
             console.log('添加labelList')
+            state.labelList=[]
             for(let i=0;i<data.nodes.length;i++){
-                state.labelList.push(data.nodes[i].oriLabel)
+                state.labelList.push(data.nodes[i].label)
             }
             console.log(state.labelList)
         },
@@ -348,6 +356,7 @@ const graph = {
                     })
                 });
             }
+            state.labelList=[]
             if(data.snodes){
                 data.snodes.forEach((node) => {
                     baseNodes.push({
@@ -355,13 +364,13 @@ const graph = {
                         label: node.label,
                         class: node.class
                     })
+                    state.labelList.push(node.label)
                 });
             }
             state.currentGraphData = {
                 nodes: baseNodes,
                 edges: baseEdges
             };
-
         },
         set_forceShowEdgeLabel(state, data){
             state.forceShowEdgeLabel = data;
@@ -650,7 +659,28 @@ const graph = {
                 console.log('getNodeTypesAPI.code<0');
                 message.error(res.data);
             }
-        }
+        },
+        bindUrlToPic:async({commit,state},data)=>{
+            const res=await bindUrlToPicAPI(data);
+            if(res){
+                message.success('用户自定义图元成功')
+            }
+            else{
+                message.error('自定义失败')
+            }
+        },
+        getPicCustomizeElements:async({commit,state},data)=>{
+            const res=await getPicCustomizeElementsAPI(data);
+            console.log('获取用户自定义的所有图元',res)
+            state.customizeElement=[{key:'圆形', value: 'circle'},{key:'矩形', value: 'rect'},{key:'椭圆', value: 'ellipse'},{key:'菱形', value: 'diamond'}]
+            for(let i=0;i<res.length;i++){
+                state.customizeElement.push({
+                    key: res.customizeEntityName,
+                    value: res.customizeImgUrl
+                })
+            }
+        },
+
     }
 };
 

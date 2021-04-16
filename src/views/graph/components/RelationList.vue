@@ -12,7 +12,7 @@
         <a-select
                 v-decorator="[
                 'selectSourceNode',
-                { rules: [{ required: true, message: '请至少选择一个实体!' }] },
+                { rules: [{ required: false, message: '请至少选择一个实体!' }] },
               ]"
                 placeholder="请选择实体"
                 style="width: 85%;"
@@ -30,7 +30,7 @@
         <a-select
                 v-decorator="[
                 'selectTargetNode',
-                { rules: [{ required: true, message: '请至少选择一个实体!' }] },
+                { rules: [{ required: false, message: '请至少选择一个实体!' }] },
               ]"
                 placeholder="请选择实体"
                 style="width: 85%;"
@@ -48,10 +48,21 @@
         <a-input
                 v-decorator="[
                 'relationValue',
-                { rules: [{ required: true, message: '请输入关系值!' }] },
+                { rules: [{ required: false, message: '请输入关系值!' }] },
               ]"
                 placeholder="请输入关系值"
                 style="width: 85%;"
+        >
+        </a-input>
+      </a-form-item>
+      <a-form-item label="关系类型">
+        <a-input
+          v-decorator="[
+                'relationType',
+                { rules: [{ required: false, message: '请输入关系值!' }] },
+              ]"
+          placeholder="请输入关系类型"
+          style="width: 85%;"
         >
         </a-input>
       </a-form-item>
@@ -92,12 +103,18 @@ export default {
       "currentGraphData",
       "labelList",
       "relationId",
-      "currentShowGraphData"
+      "currentShowGraphData",
+      'boardTypes',
     ]),
+  },
+  mounted() {
+    console.log('我的选择列表呢',this.labelList)
   },
   methods: {
     ...mapActions(["addRelation"]),
-    ...mapMutations(["add_showGraphEdges", "set_addRelationVisible","set_relationId"]),
+    ...mapMutations(["add_showGraphEdges", "set_addRelationVisible","set_relationId",'set_currentShowGraphData',
+      'set_currentShowGraphData_typesetting',
+      'set_currentGraphData','set_currentShowBoard']),
     async confirmAddRelation() {
       var that=this
       console.log(this.addRelationForm.getFieldValue('relationValue'))
@@ -111,6 +128,7 @@ export default {
         node1: this.labelList[that.addRelationForm.getFieldValue('selectSourceNode')],
         node2: this.labelList[that.addRelationForm.getFieldValue('selectTargetNode')],
         name: that.addRelationForm.getFieldValue('relationValue'),
+        relationType:that.addRelationForm.getFieldValue('relationType'),
         color: "#000",
       };
       console.log('newData',newData)
@@ -133,18 +151,18 @@ export default {
       this.addRelationForm.resetFields();
       let tempSource=''
       let tempTarget=''
-      console.log(this.currentGraphData.edges)
-
+      console.log(this.currentGraphData)
       for(let i=0;i<this.currentGraphData.nodes.length;i++){
-        if(newData.node1===this.currentGraphData.nodes[i].oriLabel){
+        if(newData.node1===this.currentGraphData.nodes[i].label){
           tempSource=this.currentGraphData.nodes[i].id
         }
-        if(newData.node2===this.currentGraphData.nodes[i].oriLabel){
+        if(newData.node2===this.currentGraphData.nodes[i].label){
           tempTarget=this.currentGraphData.nodes[i].id
         }
       }
       let model={
         id:  `relation-${this.relationId}`,
+        class: newData.relationType,
         label: newData.name,
         oriLabel: newData.name,
         type: 'quadratic',
@@ -154,15 +172,20 @@ export default {
       }
       console.log('relationModel',model)
       this.currentGraph.addItem('edge',model)
-      this.currentGraphData.edges.push({
-        class:'c0',
-        id:`relation-${this.relationId}`,
-        label: newData.name,
-        oriLabel: newData.name,
-        source: model.source,
-        target: model.target
-      })
+      this.currentGraph.refresh()
+      // this.currentGraphData.edges.push({
+      //   class:'c0',
+      //   id:`relation-${this.relationId}`,
+      //   label: newData.name,
+      //   oriLabel: newData.name,
+      //   source: model.source,
+      //   target: model.target
+      // })
+      let temp=this.currentGraph.save()
+      this.set_currentShowGraphData_typesetting(temp)
+      this.set_currentGraphData(temp)
       this.set_relationId();
+      this.set_currentShowBoard(this.boardTypes.none)
       // await this.addRelation(data);
       // this.add_showGraphEdges(newData);
     },
