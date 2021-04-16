@@ -17,7 +17,6 @@ import {
 import {
     url2File
 } from '../../utils/util';
-import {getTokenByKey} from '../../utils/cache'
 
 import { message } from 'ant-design-vue'
 
@@ -482,11 +481,13 @@ const graph = {
         },
         thumbnail: async({rootState, state}, url) => {
             let picId = state.picId;
+            let formData = new FormData();
+            formData.append('mFile', url2File(url, picId));
             const res = await thumbnailAPI({
                 picId: picId,
                 userId: rootState.user.userId,
                 picName: picId,
-                file: url2File(url, picId)
+                file: formData
             });
             if(res.code < 0) {
                 console.error('缩略图保存失败');

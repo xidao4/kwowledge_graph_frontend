@@ -19,7 +19,6 @@
             const outDiv = document.createElement('div');
             outDiv.style.width = 'fit-content';
             let model = e.item.getModel();
-            console.log('xixi: ', model)
             outDiv.innerHTML =
                 `<ul>
                     <li id='expand'>名称: ${model.oriLabel || model.id}</li>
@@ -245,7 +244,6 @@
             },
         },
         async mounted() {
-            console.log('xixi:', this.$store.state)
             insertCss(cssStr);
             if(this.isNew){
                 if(!this.currentGraphData.nodes){
