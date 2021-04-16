@@ -99,8 +99,7 @@
             },
         },
         async mounted() {
-            console.log('????=============', this.$store.state);
-            this.testToken();
+            // this.testToken();
 
             await this.getUserPics({
                 userId:this.userId
