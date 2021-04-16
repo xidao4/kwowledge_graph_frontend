@@ -236,7 +236,7 @@ export default {
   data(){
       return{
           colors1: '#333333',
-          colors2: '#ffffff',
+          colors2: '#E65D6E',
           // colors2:  this.currentItem._cfg.styles.active.fill,
           isShowColors1: false,
           isShowColors2: false,
@@ -364,6 +364,8 @@ export default {
         let cfg={
           type: data.type,
           label: data.label,
+          oriLabel:data.label,
+          class: data.entityType,
           size: tempSize,
           style:{
             fill: data.fill1,
@@ -392,6 +394,8 @@ export default {
         if(data.type.length>9){
           cfg.img=data.type
           cfg.type='image'
+          delete cfg.style
+          delete cfg.stateStyles
         }
         this.currentGraph.updateItem(this.currentItem,cfg)
         this.currentGraph.setItemState(this.currentItem,'selected',true)
