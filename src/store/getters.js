@@ -6,6 +6,7 @@ const getters={
     showGraphNodes: state => state.graph.showGraphNodes,
     graphInfo: state => state.graph.graphInfo,
     picId: state=>state.graph.picId,
+    customizeElement: state => state.graph.customizeElement,
     nodes: state=>state.graph.nodes,
     links: state=>state.graph.links,
     showGraphInfo: state => state.graph.showGraphInfo,
@@ -52,6 +53,6 @@ const getters={
     // addEntityVisible: state=>state.util.addEntityVisible,
     // addRelationVisible: state=>state.util.addRelationVisible,
     // pieModalVisible: state=>state.util.pieModalVisible,
-    customizeElement: state => state.graph.customizeElement,
+
 };
 export default getters
