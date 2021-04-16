@@ -22,7 +22,7 @@ import {getTokenByKey} from '../../utils/cache'
 import { message } from 'ant-design-vue'
 
 const state = {
-    customizeElement: [],
+    customizeElement: [{key:'圆形', value: 'circle'},{key:'矩形', value: 'rect'},{key:'椭圆', value: 'ellipse'},{key:'菱形', value: 'diamond'}],
     graphInfo: [
         'hi'
     ],
@@ -663,9 +663,9 @@ const graph = {
             }
         },
         getPicCustomizeElements:async({commit,state},data)=>{
+            state.customizeElement=[{key:'圆形', value: 'circle'},{key:'矩形', value: 'rect'},{key:'椭圆', value: 'ellipse'},{key:'菱形', value: 'diamond'}]
             const res=await getPicCustomizeElementsAPI(data);
             console.log('获取用户自定义的所有图元',res)
-            state.customizeElement=[{key:'圆形', value: 'circle'},{key:'矩形', value: 'rect'},{key:'椭圆', value: 'ellipse'},{key:'菱形', value: 'diamond'}]
             for(let i=0;i<res.length;i++){
                 state.customizeElement.push({
                     key: res.customizeEntityName,

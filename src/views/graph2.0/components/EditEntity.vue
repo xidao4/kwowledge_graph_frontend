@@ -268,7 +268,10 @@ export default {
   },
   mounted() {
     console.log('看看mounted时是否取到picId',this.picId)
-    this.getPicCustomizeElements(this.picId)
+    console.log('看看mounted时的customizeElement',this.customizeElement)
+    this.getPicCustomizeElements({
+      picId:this.picId}
+      )
   },
   methods:{
     ...mapMutations([
@@ -314,6 +317,7 @@ export default {
         console.log('after select:',this.colors2)
     },
     handleChangeEntity(){
+        console.log('看看click时的customizeElement',this.customizeElement)
         let that=this
         let data={
             lineWidth: that.editEntityForm1.getFieldValue('size'),
@@ -437,7 +441,9 @@ export default {
       console.log('前')
       this.bindUrlToPic(data)
       console.log('后')
-      this.getPicCustomizeElements(this.picId)
+      this.getPicCustomizeElements({
+        picId: this.picId
+      })
     },
     uploadImage(file) {
       console.log('调用上传图片')
@@ -448,7 +454,9 @@ export default {
       let config = {
         headers: that.headers
       }
-      axios.post('http://118.182.96.49:8001/api/graph/picElement',formData,config)
+      console.log('超长picId',this.picId)
+      console.log('userId很长？',this.userId)
+      axios.post(`http://118.182.96.49:8001/api/graph/uploadCustomizeImg/${this.picId}/${this.userId}/0`,formData,config)
         .then(response => {
         // handle success
         console.log('success!!',response)
