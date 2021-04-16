@@ -150,3 +150,21 @@ export function getNodeTypesAPI(data){
   })
 }
 
+//将自定义图片的url和picId、entityName绑定
+export function bindUrlToPicAPI(data){
+  return axios({
+    url:`${api.graphPre}/bindUrlToPic`,
+    method:'POST',
+    data
+  })
+}
+
+
+//获取用户自定义的所有图元
+export function getPicCustomizeElementsAPI(data){
+  return axios({
+    url:`${api.graphPre}/getPicCustomizeElements`,
+    method:'POST',
+    data
+  })
+}

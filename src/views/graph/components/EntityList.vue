@@ -67,10 +67,12 @@ export default {
   },
   props: ["triggerGraphDraw"],
   computed: {
-    ...mapGetters(["colorList", "showGraphNodes", "picId","addEntityVisible","currentGraph","currentGraphData","nodeId","currentShowGraphData"]),
+    ...mapGetters(["colorList", "showGraphNodes", "picId","addEntityVisible","currentGraph","currentGraphData","nodeId","currentShowGraphData",'boardTypes',]),
   },
   methods: {
-    ...mapMutations(["add_showGraphNodes","set_addEntityVisible","set_nodeId"]),
+    ...mapMutations(["add_showGraphNodes","set_addEntityVisible","set_nodeId",'set_currentShowGraphData',
+      'set_currentShowGraphData_typesetting',
+      'set_currentGraphData','set_currentShowBoard']),
     ...mapActions(["addEntity"]),
     handleAdd() {
       this.name = {
@@ -116,12 +118,16 @@ export default {
           label: this.name.value,
           oriLabel: this.name.value,
         })
-
+        let temp=this.currentGraph.save()
+        this.set_currentShowGraphData_typesetting(temp)
+        this.set_currentGraphData(temp)
+        console.log('添加完后的Data',this.currentGraphData)
         this.set_nodeId();
         console.log('after update',this.currentGraphData)
         this.set_addEntityVisible(false)
         this.name.value = "";
         this.type.value= "";
+        this.set_currentShowBoard(this.boardTypes.none)
       }
     },
     handleNameChange() {
