@@ -36,7 +36,6 @@
                 <a-col :xs="24" :sm="24" :md="24" :lg="24" v-show="showModal && currentShowBoard === boardTypes.pie">
                     <pie-bottom class="block"></pie-bottom>
                 </a-col>
-<!--              <a-col :xs="0" :sm="0" :md="0" :lg="0" :xl="0" xxl="0"></a-col>-->
             </a-row>
             <a-modal :visible="showModal && currentShowBoard === boardTypes.entityList" :footer="null" @cancel="handleCloseEntityModal">
                 <entity-list></entity-list>
@@ -56,18 +55,6 @@
             <a-modal :visible="showModal && currentShowBoard === boardTypes.relationEdit" :footer="null" @cancel="handleCloseEditRelationModal">
                 <edit-relation></edit-relation>
             </a-modal>
-
-<!--            <a-drawer-->
-<!--                title="统计"-->
-<!--                placement="right"-->
-<!--                :closable="false"-->
-<!--                :visible="showModal && currentShowBoard === boardTypes.pie"-->
-<!--                :after-visible-change="afterVisibleChange"-->
-<!--                @close="handleClosePieModal"-->
-<!--                class="myDrawer"-->
-<!--            >-->
-<!--                <pie></pie>-->
-<!--            </a-drawer>-->
         </div>
     </a-spin>
 </template>

@@ -147,6 +147,10 @@ export default {
     showPieModal(){
       this.set_currentShowBoard(this.boardTypes.pie);
       console.log('6666 this.currentShowBoard统计按钮后', this.currentShowBoard);
+      if(this.showModal){
+        let bottombox = document.getElementById("nodePie2");
+        bottombox.scrollIntoView();
+      }
     },
     changeLabelShow(){
       let value = !this.showLabelBool;
