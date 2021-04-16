@@ -1,6 +1,7 @@
 <template>
 <div>
 <!--  <div id="chartPie" class="pie-wrap"></div>-->
+  <p>hhhhh</p>
   <div id="nodePie" :style="this.heightStr"></div>
   <div id="edgePie" :style="this.heightStr"></div>
 </div>
@@ -15,7 +16,7 @@ export default {
   name: "Pie",
   data(){
     return{
-      chartPie:null,
+      nodePie:null,
       edgePie:null,
       heightStr: "height: "+(window.screen.height * 0.8 + 5)/2+'px',
       option1: {
@@ -113,64 +114,28 @@ export default {
   watch:{
       currentShowBoard:{
           immediate:true,
-          handler(data){
+          async handler(data){
               console.log('6666 currentShowBoard',this.currentShowBoard);
               console.log('6666 handler(data)',data);
 
               if(data===this.boardTypes.pie){
-                  this.nodesFormat=[];
-                  this.edgesFormat=[];
-
-
-                  console.log('6666 watch currentShowBoard: this.nodesTypeCntMap',this.nodesTypeCntMap);
-                  for(let[key,value] of this.nodesTypeCntMap){
-                      this.nodesFormat.push({
-                          value:value,
-                          name:key
-                      })
-                  }
-                  this.optionNode.series[0].data=this.nodesFormat;
-
-                  console.log('6666 watch currentShowBoard: this.edgesTypeCntMap',this.edgesTypeCntMap);
-                  for(let[key,value] of this.edgesTypeCntMap){
-                      // this.edgesFormat.push(
-                      //     new Map([
-                      //       ['value',value],
-                      //       ['name',key]
-                      //     ])
-                      // );
-                      this.edgesFormat.push({
-                          value:value,
-                          name:key
-                      })
-                  }
-                  console.log('6666 this.edgesFormat',this.edgesFormat);
-                  this.optionEdge.series[0].data=this.edgesFormat;
-                  console.log('6666 this.optionEdge',this.optionEdge);
-
-
-                  this.$nextTick(()=>{
-                      this.drawNodePie();
-                      console.log('7777-1');
-                      this.drawEdgePie();
-                      console.log('7777-2');
-                  })
-                  // this.chartPie.removeAttribute('_echarts_instance_');
+                  await this.draw();
               }
           }
       }
 
   },
   async mounted(){
-      // window.addEventListener('resize', ()=>{
-      //   this.chartPie.resize();
-      //   this.edgesPie.resize();
-      // })
-      console.log('6666 Pie: picId',this.picId);
-      await this.getPicTypes({
-          picId:this.picId
-          //picId:getTokenByKey('picId'),
+      window.addEventListener('resize', ()=>{
+        this.nodePie.resize();
+        this.edgePie.resize();
       })
+      console.log('6666 Pie: picId',this.picId);
+      // await this.getPicTypes({
+      //     picId:this.picId
+      //     //picId:getTokenByKey('picId'),
+      // })
+      await this.draw();
       console.log('6666 Pie mounted: this.edgesTypeCntMap',this.edgesTypeCntMap);
       console.log('6666 type of this.edgesTypeCntMap',typeof(this.edgesTypeCntMap));
   },
@@ -187,11 +152,54 @@ export default {
         console.log('7777 this.nodePie',this.nodePie);
         this.optionNode && this.nodePie.setOption(this.optionNode);
         console.log('7777 this.nodePie',this.nodePie);
+        console.log('8888', this.optionNode)
     },
     drawEdgePie(){
         this.edgePie=echarts.init(document.getElementById('edgePie'));
         this.optionEdge && this.edgePie.setOption(this.optionEdge);
     },
+    async draw(){
+      await this.getPicTypes({
+        picId:this.picId
+      })
+
+      this.nodesFormat=[];
+      this.edgesFormat=[];
+
+      console.log('6666 watch currentShowBoard: this.nodesTypeCntMap',this.nodesTypeCntMap);
+      for(let[key,value] of this.nodesTypeCntMap){
+        this.nodesFormat.push({
+          value:value,
+          name:key
+        })
+      }
+      this.optionNode.series[0].data=this.nodesFormat;
+
+      console.log('6666 watch currentShowBoard: this.edgesTypeCntMap',this.edgesTypeCntMap);
+      for(let[key,value] of this.edgesTypeCntMap){
+        // this.edgesFormat.push(
+        //     new Map([
+        //       ['value',value],
+        //       ['name',key]
+        //     ])
+        // );
+        this.edgesFormat.push({
+          value:value,
+          name:key
+        })
+      }
+      console.log('6666 this.edgesFormat',this.edgesFormat);
+      this.optionEdge.series[0].data=this.edgesFormat;
+      console.log('6666 this.optionEdge',this.optionEdge);
+
+      this.$nextTick(()=>{
+        this.drawNodePie();
+        console.log('7777-1');
+        this.drawEdgePie();
+        console.log('7777-2');
+      })
+      // this.chartPie.removeAttribute('_echarts_instance_');
+    }
   }
 }
 </script>
