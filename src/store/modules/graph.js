@@ -26,7 +26,7 @@ const state = {
     graphInfo: [
         'hi'
     ],
-    picId: '6075ab0c1f3a46144cf5c4c1',//方便测试by ljy 6075ab0c1f3a46144cf5c4c1
+    picId: '',//方便测试by ljy 6075ab0c1f3a46144cf5c4c1
     //这两个用来生成唯一id
     nodeId: 0,
     relationId: 0,
@@ -476,7 +476,7 @@ const graph = {
         // TODO 后端重构，传url
         downloadFile: async({state}) => {
             const res = await downloadAPI({
-                picId: getTokenByKey('picId')
+                picId: state.picId
             });
             if(res.code >= 0) {
                 return res.data;
@@ -486,7 +486,7 @@ const graph = {
         },
         save: async({state}, showMsg=true) => {
             let param = {
-                picId: getTokenByKey('picId'),
+                picId: state.picId
             };
             if(state.forceGraph != null){
                 let data = state.forceGraph.save();
@@ -533,7 +533,7 @@ const graph = {
         // 根据picId获取已有图谱数据（非上传文件获取）
         getPicElements: async({state, commit}) => {
             const res = await getPicElementsAPI({
-                picId: getTokenByKey('picId')
+                picId: state.picId
             });
             if(res.code < 0) {
                 message.error("图谱获取失败");
