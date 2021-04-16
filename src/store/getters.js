@@ -4,6 +4,7 @@ const getters={
     relationId: state => state.graph.relationId,
     graphInfo: state => state.graph.graphInfo,
     picId: state=>state.graph.picId,
+    customizeElement: state => state.graph.customizeElement,
     nodes: state=>state.graph.nodes,
     links: state=>state.graph.links,
     showGraphInfo: state => state.graph.showGraphInfo,
@@ -44,6 +45,5 @@ const getters={
     userInfo: state=>state.user.userInfo,
     picsInfo: state=>state.user.picsInfo,
     userHistory: state=>state.user.userHistory,
-    customizeElement: state => state.graph.customizeElement,
 };
 export default getters

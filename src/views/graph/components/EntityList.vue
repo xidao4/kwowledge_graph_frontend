@@ -85,7 +85,7 @@ export default {
     ...mapMutations(["add_showGraphNodes","set_addEntityVisible","set_nodeId",'set_currentShowGraphData',
       'set_currentShowGraphData_typesetting',
       'set_currentGraphData','set_currentShowBoard']),
-    ...mapActions(["addEntity"]),
+    ...mapActions(["addEntity","save"]),
     handleAdd() {
       this.name = {
         ...validateEntityName(this.name.value, null, this.showGraphNodes),
@@ -99,28 +99,27 @@ export default {
 
 
       if (this.name.errorMsg === null && this.type.errorMsg === null) {
-        // this.add_showGraphNodes({
-        //   name: this.name.value,
-        //   color: this.colorValue,
-        // });
-        // this.addEntity({
-        //   picId: this.picId,
-        //   name: this.name.value,
-        //   type: this.type.value
-        // });
-        // this.triggerGraphDraw();
-        console.log('graphData',this.currentGraphData)
-        console.log('graph',this.currentGraph)
-        console.log('myNodeid',this.nodeId)
+
         let model = {
           id:  `node-${this.nodeId}`,
           label: this.name.value,
           oriLabel: this.name.value,
+          class: this.type.value,
           address: 'cq',
+          size:25,
           x: 200+Math.random()*100,
           y: 150+Math.random()*100,
           style:{
             fill:'#E65D6E'
+          },
+          labelCfg:{
+            position: 'bottom',
+            offset: 5,
+            style: {
+              fill: '#191b1c',
+              fontSize: 12,
+              lineWidth: 3,
+            },
           }
         };
         console.log('myModel',model)
@@ -149,6 +148,7 @@ export default {
         this.name.value = "";
         this.type.value= "";
         this.set_currentShowBoard(this.boardTypes.none)
+        this.save()
       }
     },
     handleNameChange() {

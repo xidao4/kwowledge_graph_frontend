@@ -12,7 +12,6 @@
         <a-select
                 v-decorator="[
                 'selectSourceNode',
-                { rules: [{ required: false, message: '请至少选择一个实体!' }] },
               ]"
                 placeholder="请选择实体"
                 style="width: 85%;"
@@ -30,7 +29,6 @@
         <a-select
                 v-decorator="[
                 'selectTargetNode',
-                { rules: [{ required: false, message: '请至少选择一个实体!' }] },
               ]"
                 placeholder="请选择实体"
                 style="width: 85%;"
@@ -48,7 +46,6 @@
         <a-input
                 v-decorator="[
                 'relationValue',
-                { rules: [{ required: false, message: '请输入关系值!' }] },
               ]"
                 placeholder="请输入关系值"
                 style="width: 85%;"
@@ -59,7 +56,6 @@
         <a-input
           v-decorator="[
                 'relationType',
-                { rules: [{ required: false, message: '请输入关系值!' }] },
               ]"
           placeholder="请输入关系类型"
           style="width: 85%;"
@@ -81,6 +77,7 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from "vuex";
 import { message } from "ant-design-vue";
+import G6 from "@antv/g6";
 
 export default {
   name: "RelationList",
@@ -111,19 +108,13 @@ export default {
     console.log('我的选择列表呢',this.labelList)
   },
   methods: {
-    ...mapActions(["addRelation"]),
+    ...mapActions(["addRelation","save"]),
     ...mapMutations(["add_showGraphEdges", "set_addRelationVisible","set_relationId",'set_currentShowGraphData',
       'set_currentShowGraphData_typesetting',
       'set_currentGraphData','set_currentShowBoard']),
     async confirmAddRelation() {
       var that=this
       console.log(this.addRelationForm.getFieldValue('relationValue'))
-      // let data = {
-      //   node1: that.addRelationForm.getFieldValue('selectSourceNode'),
-      //   node2: that.addRelationForm.getFieldValue('selectTargetNode'),
-      //   picId: this.picId,
-      //   name: that.addRelationForm.getFieldValue('relationValue')
-      // };
       let newData = {
         node1: this.labelList[that.addRelationForm.getFieldValue('selectSourceNode')],
         node2: this.labelList[that.addRelationForm.getFieldValue('selectTargetNode')],
@@ -132,8 +123,8 @@ export default {
         color: "#000",
       };
       console.log('newData',newData)
-      if (newData.node1 == null || newData.node2 == null || newData.name == null) {
-        message.error("增加关系失败，实体和关系值不能为空");
+      if (newData.node1 ==='' || newData.node2 ==='' || newData.name ==='' || newData.relationType==='') {
+        message.error("增加关系失败，任一字段不能为空");
         return;
       }
       for (let i = 0; i < this.showGraphEdges.length; i++) {
@@ -160,6 +151,7 @@ export default {
           tempTarget=this.currentGraphData.nodes[i].id
         }
       }
+      console.log('model的edge',this.currentGraphData)
       let model={
         id:  `relation-${this.relationId}`,
         class: newData.relationType,
@@ -168,26 +160,25 @@ export default {
         type: 'quadratic',
         source: tempSource,
         target: tempTarget,
-        endArrow: true
+        style:{
+          stroke: '#D99CA8',
+          cursor: 'pointer',
+          fillOpacity: 1,
+          endArrow: {
+            path: G6.Arrow.triangle(),
+            fill: "#D99CA8"
+          },
+        }
       }
       console.log('relationModel',model)
       this.currentGraph.addItem('edge',model)
       this.currentGraph.refresh()
-      // this.currentGraphData.edges.push({
-      //   class:'c0',
-      //   id:`relation-${this.relationId}`,
-      //   label: newData.name,
-      //   oriLabel: newData.name,
-      //   source: model.source,
-      //   target: model.target
-      // })
       let temp=this.currentGraph.save()
       this.set_currentShowGraphData_typesetting(temp)
       this.set_currentGraphData(temp)
       this.set_relationId();
       this.set_currentShowBoard(this.boardTypes.none)
-      // await this.addRelation(data);
-      // this.add_showGraphEdges(newData);
+      this.save()
     },
     onClose() {
       this.set_addRelationVisible(false);

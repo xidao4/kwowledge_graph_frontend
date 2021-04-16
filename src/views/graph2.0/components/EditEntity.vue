@@ -90,7 +90,7 @@
 <!--      </div>-->
       <div style="margin-top:3%">
         <span>图元名称：</span>
-        <a-input :value="entityName" style="width: 40%"></a-input>
+        <a-input v-model="entityName" style="width: 40%"></a-input>
       </div>
       <div style="margin-top:6%;margin-right: -20%">
         <a-button @click="handleAddPicElement">添加图元</a-button>
@@ -156,7 +156,7 @@
 <!--            :value="colors2"-->
 <!--            disabled-->
 <!--        />-->
-        <div class="colorBlock" :style="'background-color: ' + colors2">
+        <div class="colorBlock" :style="'background-color: ' + colors2+';border: 1px solid #ffe5e5'">
         </div>
       </a-form-item>
       </div>
@@ -236,7 +236,8 @@ export default {
   data(){
       return{
           colors1: '#333333',
-          colors2:'#E65D6E',
+          colors2: '#E65D6E',
+          // colors2:  this.currentItem._cfg.styles.active.fill,
           isShowColors1: false,
           isShowColors2: false,
           editEntityForm1: this.$form.createForm(this, { name: "editEntityForm1" }),
@@ -268,7 +269,12 @@ export default {
   },
   mounted() {
     console.log('看看mounted时是否取到picId',this.picId)
-    this.getPicCustomizeElements(this.picId)
+    console.log('看看mounted时的customizeElement',this.customizeElement)
+    this.getPicCustomizeElements({
+      picId:this.picId}
+      )
+    console.log('看看传进来的参数',this.currentItem)
+    console.log(this.currentItem._cfg.styles.active.fill)
   },
   methods:{
     ...mapMutations([
@@ -279,7 +285,8 @@ export default {
     ]),
     ...mapActions([
       'bindUrlToPic',
-      'getPicCustomizeElements'
+      'getPicCustomizeElements',
+      "save"
     ]),
     handleSelectChangeShape(value) {
       console.log(value);
@@ -314,6 +321,7 @@ export default {
         console.log('after select:',this.colors2)
     },
     handleChangeEntity(){
+        console.log('看看click时的customizeElement',this.customizeElement)
         let that=this
         let data={
             lineWidth: that.editEntityForm1.getFieldValue('size'),
@@ -357,6 +365,8 @@ export default {
         let cfg={
           type: data.type,
           label: data.label,
+          oriLabel:data.label,
+          class: data.entityType,
           size: tempSize,
           style:{
             fill: data.fill1,
@@ -385,6 +395,8 @@ export default {
         if(data.type.length>9){
           cfg.img=data.type
           cfg.type='image'
+          delete cfg.style
+          delete cfg.stateStyles
         }
         this.currentGraph.updateItem(this.currentItem,cfg)
         this.currentGraph.setItemState(this.currentItem,'selected',true)
@@ -392,6 +404,7 @@ export default {
         this.set_currentShowGraphData_typesetting(temp)
         this.set_currentGraphData(temp)
         this.set_currentShowBoard(this.boardTypes.none)
+        this.save()
     },
     handleDeleteEntity(){
       //假设实体值已经传过来
@@ -400,6 +413,7 @@ export default {
       this.set_currentShowGraphData_typesetting(temp)
       this.set_currentGraphData(temp)
       this.set_currentShowBoard(this.boardTypes.none)
+      this.save()
     },
     showModal(){
         this.visible=true
@@ -427,17 +441,22 @@ export default {
     handleChangeShape(value){
       this.cropShape=value
     },
-    handleAddPicElement(){
+    async handleAddPicElement(){
       this.fileList=[]
       let data={
         picId:this.picId,
         customizeImgUrl:this.customizeImgUrl,
         customizeEntityName: this.entityName
       }
+      console.log('customizeEntityName:',this.entityName)
+      console.log('绑定的data',data)
       console.log('前')
-      this.bindUrlToPic(data)
+      await this.bindUrlToPic(data)
       console.log('后')
-      this.getPicCustomizeElements(this.picId)
+      await this.getPicCustomizeElements({
+        picId: this.picId
+      })
+      this.entityName=''
     },
     uploadImage(file) {
       console.log('调用上传图片')
@@ -448,12 +467,17 @@ export default {
       let config = {
         headers: that.headers
       }
-      axios.post('http://118.182.96.49:8001/api/graph/picElement',formData,config)
+      console.log('超长picId',this.picId)
+      console.log('userId很长？',this.userId)
+      axios.post(`http://118.182.96.49:8001/api/graph/uploadCustomizeImg/${this.picId}/0/0`,formData,config)
         .then(response => {
         // handle success
-        console.log('success!!',response)
-        this.customizeImgUrl=response
-
+        console.log('success!!',response.data.data)
+        this.customizeImgUrl=response.data.data
+        if(this.customizeImgUrl!=='') {
+          console.log('强行改变状态')
+          this.fileList[0].status = 'done'
+        }
       }).catch(error => {
         // handle error
         this.$message.error(`图片上传失败.`);
@@ -473,6 +497,7 @@ export default {
       this.previewVisible = true;
     },
     handleChange({ fileList }) {
+      console.log('上传图片状态改变')
       this.fileList = fileList;
       console.log(this.fileList)
     },

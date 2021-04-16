@@ -28,29 +28,12 @@ const state={
       key: '粉色（默认）', color: '#FFB8C6'
     }
   },
-  addEntityVisible: true,
-  addRelationVisible: false,
-  pieModalVisible:false,
 };
 
 const util={
   state,
   mutations:{
-    set_addEntityVisible(state,data) {
-      console.log('data:',data)
-      console.log('state:',state.addEntityVisible)
-      state.addEntityVisible = data;
-      console.log('state:',state.addEntityVisible)
-    },
-    set_addRelationVisible(state,data) {
-      console.log('data',data)
-      console.log('state:',state.addRelationVisible)
-      state.addRelationVisible = data;
-      console.log('state:',state.addRelationVisible)
-    },
-    set_pieModalVisible(state,data){
-      state.pieModalVisible=data;
-    }
+
   },
   actions:{
 
