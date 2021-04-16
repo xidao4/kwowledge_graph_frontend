@@ -108,7 +108,7 @@ export default {
     console.log('我的选择列表呢',this.labelList)
   },
   methods: {
-    ...mapActions(["addRelation"]),
+    ...mapActions(["addRelation","save"]),
     ...mapMutations(["add_showGraphEdges", "set_addRelationVisible","set_relationId",'set_currentShowGraphData',
       'set_currentShowGraphData_typesetting',
       'set_currentGraphData','set_currentShowBoard']),
@@ -178,6 +178,7 @@ export default {
       this.set_currentGraphData(temp)
       this.set_relationId();
       this.set_currentShowBoard(this.boardTypes.none)
+      this.save()
     },
     onClose() {
       this.set_addRelationVisible(false);

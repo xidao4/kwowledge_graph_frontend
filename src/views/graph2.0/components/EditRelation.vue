@@ -136,7 +136,7 @@
 </template>
 
 <script>
-  import {mapGetters, mapMutations} from 'vuex'
+  import {mapActions, mapGetters, mapMutations} from 'vuex'
 import {Sketch} from 'vue-color'
   import G6 from "@antv/g6";
 export default {
@@ -174,6 +174,9 @@ export default {
       'set_currentShowGraphData_typesetting',
       'set_currentGraphData',
       'set_currentShowBoard'
+    ]),
+    ...mapActions([
+      "save"
     ]),
     handleSelectChangeShape(value) {
       console.log(value);
@@ -262,6 +265,7 @@ export default {
       this.set_currentGraphData(temp)
       // this.currentGraph.refreshItem(this.currentItem)
       this.set_currentShowBoard(this.boardTypes.none)
+      this.save()
     },
     handleDeleteRelation(){
       //假设关系值已经传过来
@@ -270,6 +274,7 @@ export default {
       this.set_currentShowGraphData_typesetting(temp)
       this.set_currentGraphData(temp)
       this.set_currentShowBoard(this.boardTypes.none)
+      this.save()
     }
   }
 };

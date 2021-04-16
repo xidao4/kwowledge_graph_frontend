@@ -85,7 +85,7 @@ export default {
     ...mapMutations(["add_showGraphNodes","set_addEntityVisible","set_nodeId",'set_currentShowGraphData',
       'set_currentShowGraphData_typesetting',
       'set_currentGraphData','set_currentShowBoard']),
-    ...mapActions(["addEntity"]),
+    ...mapActions(["addEntity","save"]),
     handleAdd() {
       this.name = {
         ...validateEntityName(this.name.value, null, this.showGraphNodes),
@@ -148,6 +148,7 @@ export default {
         this.name.value = "";
         this.type.value= "";
         this.set_currentShowBoard(this.boardTypes.none)
+        this.save()
       }
     },
     handleNameChange() {
