@@ -285,7 +285,8 @@ export default {
     ]),
     ...mapActions([
       'bindUrlToPic',
-      'getPicCustomizeElements'
+      'getPicCustomizeElements',
+      "save"
     ]),
     handleSelectChangeShape(value) {
       console.log(value);
@@ -403,6 +404,7 @@ export default {
         this.set_currentShowGraphData_typesetting(temp)
         this.set_currentGraphData(temp)
         this.set_currentShowBoard(this.boardTypes.none)
+        this.save()
     },
     handleDeleteEntity(){
       //假设实体值已经传过来
@@ -411,6 +413,7 @@ export default {
       this.set_currentShowGraphData_typesetting(temp)
       this.set_currentGraphData(temp)
       this.set_currentShowBoard(this.boardTypes.none)
+      this.save()
     },
     showModal(){
         this.visible=true
