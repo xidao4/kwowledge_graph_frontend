@@ -85,19 +85,7 @@ export default {
       };
 
       if (this.name.errorMsg === null && this.type.errorMsg === null) {
-        // this.add_showGraphNodes({
-        //   name: this.name.value,
-        //   color: this.colorValue,
-        // });
-        // this.addEntity({
-        //   picId: this.picId,
-        //   name: this.name.value,
-        //   type: this.type.value
-        // });
-        // this.triggerGraphDraw();
-        console.log('graphData',this.currentGraphData)
-        console.log('graph',this.currentGraph)
-        console.log('myNodeid',this.nodeId)
+
         let model = {
           id:  `node-${this.nodeId}`,
           label: this.name.value,
