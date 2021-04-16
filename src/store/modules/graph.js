@@ -511,21 +511,14 @@ const graph = {
         },
         thumbnail: async({rootState, state}, url) => {
             let picId = state.picId;
-            let file = url2File(url, picId);
-            const data = new FormData();
-            data.append('file', file);
-            data.append('picId', JSON.stringify(picId));
-            data.append('userId', JSON.stringify(rootState.userId));
-            data.append('picName', picId);
-            const res = await thumbnailAPI(data);
-            // const res = await thumbnailAPI({
-            //     picId: picId,
-            //     userId: rootState.userId,
-            //     picName: picId,
-            //     file: url2File(url, picId)
-            // });
+            const res = await thumbnailAPI({
+                picId: picId,
+                userId: rootState.user.userId,
+                picName: picId,
+                file: url2File(url, picId)
+            });
             if(res.code < 0) {
-                console.log('文件下载失败');
+                console.error('缩略图保存失败');
             }
         },
         // 根据picId获取已有图谱数据（非上传文件获取）

@@ -1,7 +1,7 @@
 <template>
   <a-config-provider :locale="zh_CN">
     <div id="app">
-      <transition name="fade-transform" mode="out-in">
+      <transition name="fade-transform" mode="out-in" v-if="isRouterAlive">
         <router-view/>
       </transition>
     </div>
@@ -13,16 +13,28 @@
 
   export default {
     name: 'app',
+    provide (){
+      return {
+        reload:this.reload
+      }
+    },
     methods:{
-
+      //解决强制刷新页面重新渲染问题
+      reload (){
+        this.isRouterAlive = false
+        this.$nextTick(function(){
+          this.isRouterAlive = true
+        })
+      }
     },
     data() {
       return {
-        zh_CN
+        zh_CN,
+        isRouterAlive:true
       };
     },
     created(){
-      console.log('refresh', this.$store.state)
+      console.log('refresh', this.$store.state);
       //在页面加载时读取sessionStorage里的状态信息
       if(sessionStorage.getItem("store")){
         this.$store.replaceState(Object.assign({},this.$store.state,JSON.parse(sessionStorage.getItem("store"))))
