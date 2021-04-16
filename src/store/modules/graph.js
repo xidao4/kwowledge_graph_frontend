@@ -158,7 +158,7 @@ const state = {
         entityEdit: '4',
         relationEdit: '5',
     },
-    currentShowBoard: '0',
+    currentShowBoard: '1',
     checkList:[],//类型筛选用
 };
 
