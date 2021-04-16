@@ -591,16 +591,10 @@ const graph = {
                 message.error(res);
             }else if(res.code>=0){
                 commit('set_nodesTypeCntMap',new Map(Object.entries(res.data.nodesMap)));
-
-                // for(let[key,value] of res.data.edgesMap){
-                //     console.log(key,value);
-                // }
-                // console.log('6666 new Map(res.data.edgesMap)',new Map(res.data.edgesMap));
-                // console.log('6666 typeof(new Map(res.data.edgesMap))',typeof(new Map(res.data.edgesMap)));
-                console.log('6666 res.data.edgesMap',new Map(Object.entries(res.data.edgesMap)));
-                console.log('6666 typeof(res.data.edgesMap)',typeof(new Map(Object.entries(res.data.edgesMap))));
+                //console.log('6666 res.data.edgesMap',new Map(Object.entries(res.data.edgesMap)));
+                //console.log('6666 typeof(res.data.edgesMap)',typeof(new Map(Object.entries(res.data.edgesMap))));
                 commit('set_edgesTypeCntMap',new Map(Object.entries(res.data.edgesMap)));
-                console.log('6666 getPicTypes: state.edgesTypeCntMap',state.edgesTypeCntMap);
+                //console.log('6666 getPicTypes: state.edgesTypeCntMap',state.edgesTypeCntMap);
             }else{
                 console.log('getPicTypesAPI.code<0');
                 message.error(res.data);
