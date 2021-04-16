@@ -100,7 +100,7 @@ export function thumbnailAPI(data) {
     method: 'POST',
     data,
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'multipart/form-data;boundary = ' + new Date().getTime()
     },
   })
 }

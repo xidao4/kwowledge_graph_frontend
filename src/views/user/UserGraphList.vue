@@ -99,6 +99,7 @@
             },
         },
         async mounted() {
+            console.log('????=============', this.$store.state);
             this.testToken();
 
             await this.getUserPics({
