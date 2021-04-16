@@ -394,6 +394,8 @@ export default {
         if(data.type.length>9){
           cfg.img=data.type
           cfg.type='image'
+          delete cfg.style
+          delete cfg.stateStyles
         }
         this.currentGraph.updateItem(this.currentItem,cfg)
         this.currentGraph.setItemState(this.currentItem,'selected',true)
