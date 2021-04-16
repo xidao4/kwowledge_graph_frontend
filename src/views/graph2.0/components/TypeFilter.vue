@@ -37,7 +37,7 @@ export default {
           'Movies', 'Books', 'Music', 'Sports','Movies', 'Books', 'Music', 'Sports','Movies', 'Books', 'Music', 'Sports',
           'Movies', 'Books', 'Music', 'Sports','Movies', 'Books', 'Music', 'Sports','Movies', 'Books', 'Music', 'Sports'],
       // checkList:[true,true,true,true],
-      checkList:[],
+      // checkList:[],
       selectedTags: [],
     };
   },
@@ -46,6 +46,7 @@ export default {
             'picId',
             'nodesTypes',
             'currentGraph',
+            'checkList',
         ])
     },
     async mounted(){

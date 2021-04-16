@@ -41,6 +41,7 @@ const getters={
     // showEditEdgeModal: state=>state.graph.showEditEdgeModal,
     boardTypes: state=>state.graph.boardTypes,
     currentShowBoard: state=>state.graph.currentShowBoard,
+    checkList:state=>state.graph.checkList,
 
     colorList: state=>state.util.colorList,
 
