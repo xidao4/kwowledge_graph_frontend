@@ -1,4 +1,5 @@
 import { axios } from '@/utils/request'
+import { getToken } from '@/utils/auth'
 
 const api = {
   graphPre: '/api/graph'
@@ -155,7 +156,11 @@ export function bindUrlToPicAPI(data){
   return axios({
     url:`${api.graphPre}/bindUrlToPic`,
     method:'POST',
-    data
+    data,
+    headers: {
+      "authorization": 'authorization-text',
+      "token": getToken()
+    }
   })
 }
 
@@ -165,6 +170,7 @@ export function getPicCustomizeElementsAPI(data){
   return axios({
     url:`${api.graphPre}/getPicCustomizeElements`,
     method:'POST',
-    data
+    data,
+
   })
 }
