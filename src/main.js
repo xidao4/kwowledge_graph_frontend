@@ -14,12 +14,6 @@ Vue.use(Antd);
 
 Vue.prototype.$echarts = echarts;
 
-const options = {
-  namespace: 'pro__',
-  name: 'ls',
-  storage: 'local'
-};
-
 new Vue({
   router,
   store,

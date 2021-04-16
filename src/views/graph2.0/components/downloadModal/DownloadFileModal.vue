@@ -26,11 +26,12 @@
 
 <script>
     import { mapGetters, mapMutations, mapActions } from 'vuex';
+    import { getToken } from '@/utils/auth'
 
     const btnTextType = {
         download: '下载',
         fileLoading: '生成中...',
-    }
+    };
 
     export default {
         name: "DownloadFileModal",
@@ -68,23 +69,17 @@
                 this.loading = true;
                 this.btnText = btnTextType.fileLoading;
                 let url = await this.downloadAct();
-                console.log('download res', url);
-                // let blob = new Blob([res]);
-                // let url = URL.createObjectURL(blob);
-                // let name = this.name || "知识图谱";
-                // let fileLink = document.createElement("a");
-                // fileLink.href = url;
-                // fileLink.download = name + "." + this.type;
-                // fileLink.click();
-                // window.URL.revokeObjectURL(url);
-                // document.body.removeChild(fileLink);
-
-                fetch(url).then(res => res.blob()).then(blob => { // 将链接地址字符内容转变成blob地址
-                    a.href = URL.createObjectURL(blob)
-                    a.download = name + "." + this.type;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
+                fetch(url, {
+                    headers:{
+                        'token': getToken()
+                    }
+                }).then(res => res.blob()).then(blob => { // 将链接地址字符内容转变成blob地址
+                    let fileLink = document.createElement("a");
+                    fileLink.href = URL.createObjectURL(blob)
+                    fileLink.download = name + "." + this.type;
+                    document.body.appendChild(fileLink);
+                    fileLink.click();
+                    document.body.removeChild(fileLink);
                 });
 
                 setTimeout(()=>{

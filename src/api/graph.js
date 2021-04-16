@@ -98,7 +98,7 @@ export function thumbnailAPI(data) {
   return axios({
     url: `${api.graphPre}/thumbnail/${data.picId}/${data.userId}/${data.picName}`,
     method: 'POST',
-    data,
+    data: data.file,
     headers: {
       'Content-Type': 'multipart/form-data;boundary = ' + new Date().getTime()
     },

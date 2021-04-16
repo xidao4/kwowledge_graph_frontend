@@ -1,5 +1,4 @@
 import axios from 'axios'
-import store from '../store'
 import router from '@/router';
 import { setToken, getToken, removeToken } from '@/utils/auth'
 import { message } from 'ant-design-vue'
@@ -30,7 +29,6 @@ service.interceptors.response.use(
     response => {
     if (response && response.data.code >= 0 && response.data.data.token) {
       const token = response.data.data.token;
-      store.commit('set_token', token);
       setToken(token);
     }
     return response.data
@@ -40,7 +38,6 @@ service.interceptors.response.use(
     if (err.response.status === 406) {
       // 刷新token
       const { token } = err.response.headers;
-      store.commit('set_token', token);
       setToken(token);
     }
     if (err.response.status === 401) {

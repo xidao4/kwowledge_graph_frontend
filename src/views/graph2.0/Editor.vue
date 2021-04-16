@@ -113,9 +113,6 @@
             ...mapGetters([
                 'currentGraphId',
                 'graphIds',
-                'addEntityVisible',
-                'addRelationVisible',
-                'pieModalVisible',
                 'isNew',
                 'picId',
                 'boardTypes',
@@ -124,10 +121,6 @@
         },
         methods:{
             ...mapMutations([
-                "set_addRelationVisible",
-                "set_addEntityVisible",
-                "set_pieModalVisible",
-                "set_addEntityVisible",
                 'set_currentShowBoard'
             ]),
             ...mapActions([
@@ -166,21 +159,6 @@
                     this.showModal = false;
                 }
             });
-            console.log('picId',this.picId);
-        },
-        watch: {
-            showEditNodeModal: {
-                immediate: true,
-                handler(){
-                    this.showEditNodeModalIn = this.showEditNodeModal;
-                }
-            },
-            showEditEdgeModal: {
-                immediate: true,
-                handler(){
-                    this.showEditEdgeModalIn = this.showEditEdgeModal;
-                }
-            }
         }
     }
 </script>

@@ -53,7 +53,8 @@
                 'typesettingEdgeShowLabel',
                 'currentShowCombos',
                 'currentCombos',
-                'boardTypes,'
+                'boardTypes',
+                'userId'
             ])
         },
         methods: {
@@ -243,6 +244,7 @@
             },
         },
         async mounted() {
+            console.log('xixi:', this.$store.state)
             insertCss(cssStr);
             if(this.isNew){
                 if(!this.currentGraphData.nodes){
@@ -258,12 +260,13 @@
                 if(!this.currentShowGraphData.typesetting){
                     await this.getPicElements();
                 }
-                this.reDraw(this.currentShowGraphData.typesetting);
+                console.log('datadata======================', this.currentShowGraphData);
+                if(this.currentShowGraphData.typesetting) {
+                    this.reDraw(this.currentShowGraphData.typesetting);
+                }
             }
             this.set_currentGraph(this.typesettingGraph);
-            console.log('types', this.boardTypes);
-            // TODO 用boardTypes指代？加载时间的问题
-            this.set_currentShowBoard('1');
+            this.set_currentShowBoard(this.boardTypes.pie);
             this.$emit('finished');
         },
     }

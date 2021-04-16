@@ -43,48 +43,10 @@ const state = {
         force: 'force',
         typesetting: 'typesetting'
     },
-    nodes:[
-        {name:'node1'},
-        {name:'node2'}
-    ],
-    links:[
-
-    ],
-    showGraphNodes: [
-        {
-            name: '操作系统集团',
-            color: "#F5222D"
-        }, {
-            name: '浏览器有限公司',
-            color: "#FA541C"
-        }, {
-            name: 'HTML科技',
-            color: "#FAAD14"
-        }, {
-            name: 'JavaScript科技',
-            color: "#13C2C2"
-        }, {
-            name: 'CSS科技',
-            color: "#52C41A"
-        }, {
-            name: 'Chrome',
-            color: "#1890FF"
-        }, {
-            name: 'IE',
-            color: "#FFB8C6"
-        }, {
-            name: 'Firefox',
-            color: "#FFB8C6"
-        }, {
-            name: 'Safari',
-            color: "#FFB8C6"
-        }
-    ],
     forceGraphRatio: 1,
     typesettingGraphRatio: 1,
     currentStrength: 30,
     showGraphEdges: [],
-    currentPicId: '',
     currentSetLayout: null,
     forceLayout: [
         {
@@ -476,13 +438,12 @@ const graph = {
                 message.error('删除关系失败')
             }
         },
-        // 注意该接口返回值为ArrayBuffer，经拦截器已取出data
-        // TODO 后端重构，传url
         downloadFile: async({state}) => {
             const res = await downloadAPI({
                 picId: state.picId
             });
             if(res.code >= 0) {
+                console.log('download=======================', res.code)
                 return res.data;
             } else {
                 message.error('文件下载失败')
@@ -536,6 +497,7 @@ const graph = {
         },
         // 根据picId获取已有图谱数据（非上传文件获取）
         getPicElements: async({state, commit}) => {
+            console.log('xixi', state);
             const res = await getPicElementsAPI({
                 picId: state.picId
             });
