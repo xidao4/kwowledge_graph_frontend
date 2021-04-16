@@ -104,11 +104,22 @@ export default {
           id:  `node-${this.nodeId}`,
           label: this.name.value,
           oriLabel: this.name.value,
+          class: this.type.value,
           address: 'cq',
+          size:25,
           x: 200+Math.random()*100,
           y: 150+Math.random()*100,
           style:{
             fill:'#E65D6E'
+          },
+          labelCfg:{
+            position: 'bottom',
+            offset: 5,
+            style: {
+              fill: '#191b1c',
+              fontSize: 12,
+              lineWidth: 3,
+            },
           }
         };
         console.log('myModel',model)
