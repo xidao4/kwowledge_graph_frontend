@@ -81,7 +81,7 @@ export default {
         },
         series: [
           {
-            name: '边类型',
+            name: '节点类型',
             type: 'pie',
             radius: '50%',
             data: [],
