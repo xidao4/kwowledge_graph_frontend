@@ -598,7 +598,7 @@ export const processNodesEdges = (
                 stroke: '#fff'
             },
             highlight:{
-                fill: 'rgb(223, 234, 255)',
+                // fill: 'rgb(223, 234, 255)',
                 stroke:'#ff0',
                 lineWidth: 2,
             }

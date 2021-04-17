@@ -264,7 +264,9 @@ export default {
       "currentGraphData",
       "currentItem",
       'boardTypes',
-      'customizeElement'
+      'customizeElement',
+      'nodesTypes',
+      'checkList',
     ]),
   },
   mounted() {
@@ -281,7 +283,7 @@ export default {
       'set_currentShowGraphData',
       'set_currentShowGraphData_typesetting',
       'set_currentGraphData',
-      'set_currentShowBoard'
+      'set_currentShowBoard',
     ]),
     ...mapActions([
       'bindUrlToPic',
@@ -405,6 +407,13 @@ export default {
         this.set_currentGraphData(temp)
         this.set_currentShowBoard(this.boardTypes.none)
         this.save()
+
+        //类型筛选相关
+        if(this.nodesTypes.indexOf(data.entityType)===-1){
+          this.nodesTypes.push(data.entityType);
+        }
+        console.log('4444 新增节点有新类型 this.nodesTypes',this.nodesTypes);
+        this.checkList.push(true);
     },
     handleDeleteEntity(){
       //假设实体值已经传过来
