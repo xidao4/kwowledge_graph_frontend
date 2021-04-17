@@ -119,6 +119,23 @@ export default {
               fontSize: 12,
               lineWidth: 3,
             },
+          },
+          stateStyles:{
+            selected: {
+              shadowColor: '#E65D6E',
+              lineWidth: 0,
+              fill: '#E65D6E',
+              shadowBlur: 15,
+            },
+            highlight: {
+              fill: 'rgb(223, 234, 255)',
+              // stroke: '#4572d9',
+              stroke:'#ff0',
+              lineWidth: 2,
+              // text-shape: {
+              //     fontWeight: 500
+              // }
+            },
           }
         };
         console.log('myModel',model)
