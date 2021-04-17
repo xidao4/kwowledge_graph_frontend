@@ -169,6 +169,17 @@ export default {
             fill: "#D99CA8"
           },
         },
+        labelCfg:{
+          autoRotate: true,
+          style: {
+            stroke: '#fff',
+            fill: '#0f276e',
+            lineWidth: 4,
+            fontSize: 12,
+            lineAppendWidth: 10,
+            opacity: 1,
+          },
+        },
         selected: {
           shadowColor: "#D99CA8",
           fill: "#D99CA8",
