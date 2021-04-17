@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login snapshot 1`] = `
+<div class="card">
+  <div class="title">
+    登录 SuperCOIN
+  </div>
+  <form class="ant-form ant-form-horizontal">
+    <div class="ant-row ant-form-item">
+      <div class="ant-col ant-col-5 ant-form-item-label"><label for="coordinated_username" title="账号" class="ant-form-item-required">账号</label></div>
+      <div class="ant-col ant-col-19 ant-form-item-control-wrapper">
+        <div class="ant-form-item-control"><span class="ant-form-item-children"><input placeholder="请输入账号" type="text" maxlength="15" data-__meta="[object Object]" data-__field="[object Object]" id="coordinated_username" class="ant-input" style="border-radius: 20px; height: 40px;"></span>
+          <transition-stub appear="true"></transition-stub>
+        </div>
+      </div>
+    </div>
+    <div class="ant-row ant-form-item">
+      <div class="ant-col ant-col-5 ant-form-item-label"><label for="coordinated_password" title="密码" class="ant-form-item-required">密码</label></div>
+      <div class="ant-col ant-col-19 ant-form-item-control-wrapper">
+        <div class="ant-form-item-control"><span class="ant-form-item-children"><input placeholder="请输入密码" type="password" maxlength="15" data-__meta="[object Object]" data-__field="[object Object]" id="coordinated_password" class="ant-input" style="border-radius: 20px; height: 40px;"></span>
+          <transition-stub appear="true"></transition-stub>
+        </div>
+      </div>
+    </div>
+    <div style="text-align: center; width: 100%;"><button class="pan-btn pink-btn">
+        登录
+      </button></div>
+  </form>
+</div>
+`;
+
+exports[`Login.vue snapshot 1`] = `
+<div>
+  <div class="login">
+    <div class="home-chart"><img src="https://cdn.jsdelivr.net/gh/apache/echarts-website@asf-site/zh/images/index-home-pie.png?_v_=20200710_1"></div>
+    <div class="card">
+      <div class="title">
+        登录 SuperCOIN
+      </div>
+      <form class="ant-form ant-form-horizontal">
+        <div class="ant-row ant-form-item">
+          <div class="ant-col ant-col-5 ant-form-item-label"><label for="coordinated_username" title="账号" class="ant-form-item-required">账号</label></div>
+          <div class="ant-col ant-col-19 ant-form-item-control-wrapper">
+            <div class="ant-form-item-control"><span class="ant-form-item-children"><input placeholder="请输入账号" type="text" maxlength="15" data-__meta="[object Object]" data-__field="[object Object]" id="coordinated_username" class="ant-input" style="border-radius: 20px; height: 40px;"></span>
+              <transition-stub appear="true"></transition-stub>
+            </div>
+          </div>
+        </div>
+        <div class="ant-row ant-form-item">
+          <div class="ant-col ant-col-5 ant-form-item-label"><label for="coordinated_password" title="密码" class="ant-form-item-required">密码</label></div>
+          <div class="ant-col ant-col-19 ant-form-item-control-wrapper">
+            <div class="ant-form-item-control"><span class="ant-form-item-children"><input placeholder="请输入密码" type="password" maxlength="15" data-__meta="[object Object]" data-__field="[object Object]" id="coordinated_password" class="ant-input" style="border-radius: 20px; height: 40px;"></span>
+              <transition-stub appear="true"></transition-stub>
+            </div>
+          </div>
+        </div>
+        <div style="text-align: center; width: 100%;"><button class="pan-btn pink-btn">
+            登录
+          </button></div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

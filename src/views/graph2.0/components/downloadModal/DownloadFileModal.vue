@@ -75,18 +75,21 @@
                     }
                 }).then(res => res.blob()).then(blob => { // 将链接地址字符内容转变成blob地址
                     let fileLink = document.createElement("a");
-                    fileLink.href = URL.createObjectURL(blob)
+                    fileLink.href = URL.createObjectURL(blob);
                     fileLink.download = name + "." + this.type;
                     document.body.appendChild(fileLink);
                     fileLink.click();
                     document.body.removeChild(fileLink);
-                });
-
-                setTimeout(()=>{
                     this.loading = false;
                     this.btnText = btnTextType.download;
                     this.set_showDownloadFileModal(false)
-                }, 500)
+                });
+
+                // setTimeout(()=>{
+                //     this.loading = false;
+                //     this.btnText = btnTextType.download;
+                //     this.set_showDownloadFileModal(false)
+                // }, 500)
             },
         }
     }

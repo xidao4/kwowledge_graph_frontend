@@ -5,10 +5,9 @@
 
 <script>
     import {mapActions, mapGetters, mapMutations} from 'vuex';
-    // import XBackground from '../../../components/g6/XBackground';
     import G6 from '@antv/g6';
-    import { GraphLayoutPredict } from '@antv/vis-predict-engine'
-    import { message } from 'ant-design-vue'
+    import { GraphLayoutPredict } from '@antv/vis-predict-engine';
+    import { message } from 'ant-design-vue';
     import { processNodesEdges, bindListener, cssStr, processCombos } from '../../../components/g6/Graph.js';
     import insertCss from 'insert-css';
     const tooltip = new G6.Tooltip({
@@ -259,7 +258,6 @@
                 if(!this.currentShowGraphData.typesetting){
                     await this.getPicElements();
                 }
-                console.log('datadata======================', this.currentShowGraphData);
                 if(this.currentShowGraphData.typesetting) {
                     this.reDraw(this.currentShowGraphData.typesetting);
                 }
