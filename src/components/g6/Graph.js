@@ -33,6 +33,12 @@ insertCss(`
               .g6-component-contextmenu li:hover {
                 color: #aaaaaa;
                 }
+              .g6-minimap-container {
+                border: 1px solid #e2e2e2;
+              }
+              .g6-minimap-viewport {
+                border: 2px solid rgb(25, 128, 255);
+              }
             `);
 
 const { labelPropagation, louvain, findShortestPath } = G6.Algorithm;
@@ -515,7 +521,6 @@ export const processNodesEdges = (
         if(combosList.indexOf(node.comboId) === -1){
             combosList.push(node.comboId);
         }
-        console.log('修改了我的图元样式！！！！！')
         node.style = {
             fill: '#E65D6E',
             stroke: '#D99CA8',

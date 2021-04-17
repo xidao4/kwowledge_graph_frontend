@@ -36,6 +36,9 @@
             'click-select'
         ],
     };
+    const minimap = new G6.Minimap({
+        size: [150, 100],
+    });
     export default {
         name: "TypesettingGraph",
         data(){
@@ -131,7 +134,7 @@
                     modes: mode,
                     fitCenter: true,
                     fitViewPadding: 20,
-                    plugins: [tooltip],
+                    plugins: [tooltip, minimap],
                     minZoom: 0.25,
                     maxZoom: 2
                 });
