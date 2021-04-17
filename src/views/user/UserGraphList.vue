@@ -11,17 +11,17 @@
 <!--                    <div :style="height: 200px">-->
 <!--                    <div class="myDiv">-->
                         <a-card hoverable @click="editPic(item.id)" class="myDiv">
+                            <a-card-meta>
+                              <a slot="title">
+                                {{item.picName}}
+                              </a>
+                            </a-card-meta>
                             <img
                                 slot="cover"
                                 alt="example"
                                 v-bind:src=item.url
                                 class="myImg"
                             />
-                            <a-card-meta>
-                                <a slot="title">
-                                    {{item.picName}}
-                                </a>
-                            </a-card-meta>
                         </a-card>
 <!--                    </div>-->
                 </a-col>
@@ -115,15 +115,15 @@
             console.log('dataSource in userGraphList.vue 1',this.dataSource);
 
             // test data
-            for(let j=0;j<11;j++){
-                //console.log(j);
-                this.dataSource.push({
-                    id: j,
-                    picName: "火影忍者",
-                    url: "https://guide-blog-images.oss-cn-shenzhen.aliyuncs.com/2020-12/Java%E5%BC%82%E5%B8%B8%E7%B1%BB%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84%E5%9B%BE.png"
-                })
-            }
-            console.log('dataSource in userGraphList.vue 2',this.dataSource);
+            // for(let j=0;j<11;j++){
+            //     //console.log(j);
+            //     this.dataSource.push({
+            //         id: j,
+            //         picName: "火影忍者",
+            //         url: "https://guide-blog-images.oss-cn-shenzhen.aliyuncs.com/2020-12/Java%E5%BC%82%E5%B8%B8%E7%B1%BB%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84%E5%9B%BE.png"
+            //     })
+            // }
+            // console.log('dataSource in userGraphList.vue 2',this.dataSource);
         }
     }
 </script>
