@@ -79,6 +79,11 @@
         :wrapper-col="{ lg: {span: 14}, xl: {span: 15} }"
         style="margin-right:24%;margin-top:2%"
     >
+        <a-form-item label="大小：">
+          <a-input
+            v-decorator="['fontSize', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
+          />
+        </a-form-item>
         <a-form-item label="关系值：">
           <a-input
             v-decorator="['content', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
@@ -217,7 +222,7 @@ export default {
             type: that.editRelationForm1.getFieldValue('shape'),
             lineDash: that.editRelationForm1.getFieldValue('virtual')==='dashed'?[1,2]:0,
             stroke: that.colors1,
-            fontSize: that.editRelationForm2.getFieldValue('size'),
+            fontSize: that.editRelationForm2.getFieldValue('fontSize'),
             labelContent: that.editRelationForm2.getFieldValue('content'),
             fill: that.colors2,
             relationType: that.editRelationForm2.getFieldValue('relationType'),
@@ -242,6 +247,11 @@ export default {
           //   fill: that.colors2,
           //   fontSize: that.editRelationForm2.getFieldValue('size'),
           // },
+          labelCfg: {
+            style: {
+              fontSize: data.fontSize
+            },
+          },
           stateStyles:{
             selected: {
               shadowColor: data.stroke,

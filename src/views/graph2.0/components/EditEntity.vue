@@ -175,6 +175,11 @@
         :wrapper-col="{ lg: {span: 14}, xl: {span: 15} }"
         style="margin-right:24%;margin-top:2%"
     >
+      <a-form-item label="大小：">
+        <a-input
+          v-decorator="['myFontSize', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
+        />
+      </a-form-item>
         <a-form-item label="实体值：">
           <a-input
             v-decorator="['content', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
@@ -331,9 +336,10 @@ export default {
             entityType: that.editEntityForm2.getFieldValue('entityType'),
             stroke: that.colors1,
             fill1: that.colors2,
-            fontSize: that.editEntityForm2.getFieldValue('size'),
+            fontSize: that.editEntityForm2.getFieldValue('myFontSize'),
             label: that.editEntityForm2.getFieldValue('content'),
         }
+        console.log('我的字体大小呢',data.fontSize)
         console.log('我的大小',data.lineWidth)
         console.log(this.currentItem)
         let tempSize='';
@@ -374,6 +380,11 @@ export default {
             fill: data.fill1,
             stroke: data.stroke,
             lineWidth: 1
+          },
+          labelCfg: {
+            style: {
+              fontSize: data.fontSize
+            },
           },
           stateStyles:{
             selected: {
