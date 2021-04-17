@@ -6,7 +6,6 @@ import Vuex from 'vuex';
 const localVue = createLocalVue();
 localVue.use(Antd);
 localVue.use(Vuex);
-const store = new Vuex.Store({});
 
 
 describe('LayoutBlock', () => {
