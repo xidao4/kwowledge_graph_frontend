@@ -94,7 +94,6 @@ export default {
       "showGraphNodes",
       "relationTypeSet",
       "picId",
-      "showGraphEdges",
       "addRelationVisible",
       "currentGraph",
       "currentGraphData",
@@ -109,7 +108,7 @@ export default {
   },
   methods: {
     ...mapActions(["addRelation","save"]),
-    ...mapMutations(["add_showGraphEdges", "set_addRelationVisible","set_relationId",'set_currentShowGraphData',
+    ...mapMutations(["set_relationId",'set_currentShowGraphData',
       'set_currentShowGraphData_typesetting',
       'set_currentGraphData','set_currentShowBoard']),
     async confirmAddRelation() {
@@ -127,18 +126,6 @@ export default {
         message.error("增加关系失败，任一字段不能为空");
         return;
       }
-      for (let i = 0; i < this.showGraphEdges.length; i++) {
-        if (
-          this.showGraphEdges[i].node1 === newData.node1 &&
-          this.showGraphEdges[i].node2 === newData.node2 &&
-          this.showGraphEdges[i].name === newData.name &&
-          this.showGraphEdges[i].type === newData.type
-        ) {
-          message.error("增加关系失败，该关系已存在");
-          return;
-        }
-      }
-      this.set_addRelationVisible(false);
       this.addRelationForm.resetFields();
       let tempSource=''
       let tempTarget=''
@@ -180,20 +167,22 @@ export default {
             opacity: 1,
           },
         },
-        selected: {
-          shadowColor: "#D99CA8",
-          fill: "#D99CA8",
-          shadowBlur: 5,
-          stroke: "#D99CA8"
-        },
-        noneLabel: {
-          fill: '#fff',
-          stroke: '#fff'
-        },
-        highlight:{
-          fill: 'rgb(223, 234, 255)',
-          stroke:'#ff0',
-          lineWidth: 2,
+        stateStyles:{
+          selected: {
+            shadowColor: "#D99CA8",
+            fill: "#D99CA8",
+            shadowBlur: 5,
+            stroke: "#D99CA8"
+          },
+          noneLabel: {
+            fill: '#fff',
+            stroke: '#fff'
+          },
+          highlight:{
+            fill: 'rgb(223, 234, 255)',
+            stroke:'#ff0',
+            lineWidth: 2,
+          }
         }
       }
       console.log('relationModel',model)
@@ -207,7 +196,7 @@ export default {
       this.save()
     },
     onClose() {
-      this.set_addRelationVisible(false);
+
     },
     handleSelectChange1(value){
 
