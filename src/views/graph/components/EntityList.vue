@@ -109,7 +109,9 @@ export default {
           x: 200+Math.random()*100,
           y: 150+Math.random()*100,
           style:{
-            fill:'#E65D6E'
+            fill:'#E65D6E',
+            stroke: '#D99CA8',
+            lineWidth: 1,
           },
           labelCfg:{
             position: 'bottom',
@@ -117,7 +119,8 @@ export default {
             style: {
               fill: '#191b1c',
               fontSize: 12,
-              lineWidth: 3,
+              stroke: '#191b1c',
+              lineWidth: 0.1,
             },
           },
           stateStyles:{

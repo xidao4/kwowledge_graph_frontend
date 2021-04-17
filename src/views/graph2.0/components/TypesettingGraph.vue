@@ -36,6 +36,9 @@
             'click-select'
         ],
     };
+    const minimap = new G6.Minimap({
+        size: [150, 100],
+    });
     export default {
         name: "TypesettingGraph",
         data(){
