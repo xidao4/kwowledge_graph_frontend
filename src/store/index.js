@@ -23,6 +23,8 @@ const PERSIST_PATHS = [
     'graph.currentCombos',
     'graph.currentGraphData',
     'graph.currentShowGraphData',
+    'graph.nodeId',
+    'graph.relationId'
 ];
 
 const store = new Vuex.Store({
@@ -37,7 +39,7 @@ const store = new Vuex.Store({
     getters,
     plugins: [
         persistedState({
-            storage: window.sessionStorage,
+            // storage: window.sessionStorage,
             paths: PERSIST_PATHS
         })
     ]

@@ -530,6 +530,7 @@ const graph = {
                         })
                     });
                 }
+                state.labelList=[]
                 if(resData.snodes){
                     resData.snodes.forEach((node) => {
                         baseNodes.push({
@@ -538,6 +539,7 @@ const graph = {
                             oriLabel: node.oriLabel,
                             class: node.class
                         })
+                        state.labelList.push(node.label)
                     });
                 }
                 commit('set_currentGraphData', {
