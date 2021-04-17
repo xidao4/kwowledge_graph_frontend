@@ -69,7 +69,6 @@ export default {
   computed: {
     ...mapGetters([
         "colorList",
-        "showGraphNodes",
         "picId",
         "addEntityVisible",
         "currentGraph",
@@ -82,23 +81,23 @@ export default {
     ]),
   },
   methods: {
-    ...mapMutations(["add_showGraphNodes","set_addEntityVisible","set_nodeId",'set_currentShowGraphData',
+    ...mapMutations(["set_addEntityVisible","set_nodeId",'set_currentShowGraphData',
       'set_currentShowGraphData_typesetting',
       'set_currentGraphData','set_currentShowBoard']),
     ...mapActions(["addEntity","save"]),
     handleAdd() {
       this.name = {
-        ...validateEntityName(this.name.value, null, this.showGraphNodes),
+        // ...validateEntityName(this.name.value, null, this.showGraphNodes),
         value: this.name.value,
       };
       this.type = {
-        ...validateEntityType(this.type.value),
+        // ...validateEntityType(this.type.value),
         value: this.type.value,
       };
 
 
 
-      if (this.name.errorMsg === null && this.type.errorMsg === null) {
+      // if (this.name.errorMsg === null && this.type.errorMsg === null) {
 
         let model = {
           id:  `node-${this.nodeId}`,
@@ -149,17 +148,17 @@ export default {
         this.type.value= "";
         this.set_currentShowBoard(this.boardTypes.none)
         this.save()
-      }
+      // }
     },
     handleNameChange() {
       this.name = {
-        ...validateEntityName(this.name.value, null, this.showGraphNodes),
+        // ...validateEntityName(this.name.value, null, this.showGraphNodes),
         value: this.name.value,
       };
     },
     handleTypeChange() {
       this.type = {
-        ...validateEntityType(this.type.value),
+        // ...validateEntityType(this.type.value),
         value: this.type.value,
       };
     },
