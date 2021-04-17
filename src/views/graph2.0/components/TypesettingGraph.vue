@@ -134,7 +134,7 @@
                     modes: mode,
                     fitCenter: true,
                     fitViewPadding: 20,
-                    plugins: [tooltip, minimap],
+                    plugins: [tooltip],
                     minZoom: 0.25,
                     maxZoom: 2
                 });
