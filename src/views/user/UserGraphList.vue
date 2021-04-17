@@ -1,12 +1,12 @@
 <template>
     <div class="page-div">
 <!--        <router-link to="/largeGraph">largeGraphTest</router-link>-->
-        <a-row>
-            <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" xxl="6">
+        <a-row >
+            <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" xxl="6" class="myBox">
                 <Upload class="myUpload"></Upload>
             </a-col>
             <template v-for="(item,index) in this.dataSource">
-                <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" xxl="6">
+                <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" xxl="6" class="myBox">
                   <div class="myDiv" @click="editPic(item.id)">
                       <a-button type="link">
                         {{item.picName}}
@@ -164,7 +164,7 @@
 
 
 .page-div{
-    width:80%;
+    width:85%;
     margin:auto auto;
     type:flex ;
     justify:space-around;
@@ -181,5 +181,8 @@
     height:160px;
     width:100%;
 
+}
+.myBox{
+  padding:23px 13px;
 }
 </style>
