@@ -69,7 +69,6 @@ export default {
   computed: {
     ...mapGetters([
         "colorList",
-        "showGraphNodes",
         "picId",
         "addEntityVisible",
         "currentGraph",
@@ -82,23 +81,23 @@ export default {
     ]),
   },
   methods: {
-    ...mapMutations(["add_showGraphNodes","set_addEntityVisible","set_nodeId",'set_currentShowGraphData',
+    ...mapMutations(["set_nodeId",'set_currentShowGraphData',
       'set_currentShowGraphData_typesetting',
       'set_currentGraphData','set_currentShowBoard']),
     ...mapActions(["addEntity","save"]),
     handleAdd() {
       this.name = {
-        ...validateEntityName(this.name.value, null, this.showGraphNodes),
+        // ...validateEntityName(this.name.value, null, this.showGraphNodes),
         value: this.name.value,
       };
       this.type = {
-        ...validateEntityType(this.type.value),
+        // ...validateEntityType(this.type.value),
         value: this.type.value,
       };
 
 
 
-      if (this.name.errorMsg === null && this.type.errorMsg === null) {
+      // if (this.name.errorMsg === null && this.type.errorMsg === null) {
 
         let model = {
           id:  `node-${this.nodeId}`,
@@ -120,24 +119,42 @@ export default {
               fontSize: 12,
               lineWidth: 3,
             },
+          },
+          stateStyles:{
+            selected: {
+              shadowColor: '#E65D6E',
+              lineWidth: 0,
+              fill: '#E65D6E',
+              shadowBlur: 15,
+            },
+            highlight: {
+              fill: 'rgb(223, 234, 255)',
+              // stroke: '#4572d9',
+              stroke:'#ff0',
+              lineWidth: 2,
+              // text-shape: {
+              //     fontWeight: 500
+              // }
+            },
           }
         };
         console.log('myModel',model)
         this.currentGraph.addItem('node',model)
-        this.currentGraph.refresh()
-        this.currentGraphData.nodes.push({
-          id:  `node-${this.nodeId}`,
-          class: this.type.value,
-          label: this.name.value,
-          oriLabel: this.name.value,
-        })
+        // this.currentGraph.refresh()
+        // this.currentGraphData.nodes.push({
+        //   id:  `node-${this.nodeId}`,
+        //   class: this.type.value,
+        //   label: this.name.value,
+        //   oriLabel: this.name.value,
+        // })
         let temp=this.currentGraph.save()
         this.set_currentShowGraphData_typesetting(temp)
         this.set_currentGraphData(temp)
+        this.save()
         console.log('添加完后的Data',this.currentGraphData)
         this.set_nodeId();
         console.log('after update',this.currentGraphData)
-        this.set_addEntityVisible(false)
+        // this.set_addEntityVisible(false)
         //类型筛选相关
         if(this.nodesTypes.indexOf(this.type.value)===-1){
           this.nodesTypes.push(this.type.value);
@@ -148,18 +165,18 @@ export default {
         this.name.value = "";
         this.type.value= "";
         this.set_currentShowBoard(this.boardTypes.none)
-        this.save()
-      }
+
+      // }
     },
     handleNameChange() {
       this.name = {
-        ...validateEntityName(this.name.value, null, this.showGraphNodes),
+        // ...validateEntityName(this.name.value, null, this.showGraphNodes),
         value: this.name.value,
       };
     },
     handleTypeChange() {
       this.type = {
-        ...validateEntityType(this.type.value),
+        // ...validateEntityType(this.type.value),
         value: this.type.value,
       };
     },

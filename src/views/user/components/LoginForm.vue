@@ -31,11 +31,9 @@
 </template>
 
 <script>
-    import AFormItem from "ant-design-vue/es/form/FormItem";
     import { mapActions } from 'vuex';
     export default {
         name: "Login",
-        components: {AFormItem},
         data(){
             return {
                 formLayout: 'horizontal',

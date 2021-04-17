@@ -54,11 +54,8 @@
 
 <script>
     import { mapGetters, mapMutations } from 'vuex';
-    import ARow from "ant-design-vue/es/grid/Row";
-    import ACol from "ant-design-vue/es/grid/Col";
     export default {
         name: "LayoutBlock",
-        components: {ACol, ARow},
         data(){
             return {
                 nodeStrength: 1
@@ -101,16 +98,13 @@
             changeGroup(value){
                 let data = this.currentShowGraphData.typesetting;
                 if(value){
-                    console.log('show', {nodes: data.nodes, edges: data.edges, combos: this.currentCombos})
                     this.typesettingGraph.data({nodes: data.nodes, edges: data.edges, combos: this.currentCombos});
                     this.currentGraph.data({nodes: data.nodes, edges: data.edges, combos: this.currentCombos})
                 } else {
-                    console.log('not show', {nodes: data.nodes, edges: data.edges})
                     this.typesettingGraph.data({nodes: data.nodes, edges: data.edges});
                     this.currentGraph.data({nodes: data.nodes, edges: data.edges})
                 }
                 this.typesettingGraph.render();
-                console.log(`group choose ${value}`)
                 this.set_currentShowCombos(value);
             }
         },
@@ -120,20 +114,20 @@
                 handler(){
                     let that = this;
                     // console.log('g', that.currentGraph);
-                    setTimeout(() => {
-                        that.currentGraph.updateLayout({
-                            nodeStrength: that.nodeStrength * 20
-                        });
-                    }, 1000);
-                    this.forceGraph.updateLayout({
+                    // setTimeout(() => {
+                    //     that.currentGraph && that.currentGraph.updateLayout({
+                    //         nodeStrength: that.nodeStrength * 20
+                    //     });
+                    // }, 1000);
+                    that.currentGraph && that.currentGraph.updateLayout({
+                        nodeStrength: that.nodeStrength * 20
+                    });
+                    this.forceGraph && this.forceGraph.updateLayout({
                         nodeStrength: that.nodeStrength * 20
                     });
                 }
             }
         },
-        mounted() {
-            console.log('111??', this.currentShowGraphData.typesetting)
-        }
     }
 </script>
 

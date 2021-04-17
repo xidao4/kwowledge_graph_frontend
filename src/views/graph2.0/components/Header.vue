@@ -30,15 +30,6 @@
             <DownloadImgModal :type="chosenFileType"></DownloadImgModal>
             <DownloadFileModal :type="chosenFileType"></DownloadFileModal>
         </a-page-header>
-        <Handler
-                v-if="false"
-                class="handler"
-                mode="horizontal"
-                position="bottom"
-                :expand="isExpand"
-                :callback="toggleHandler"
-        >
-        </Handler>
     </div>
 </template>
 
@@ -47,7 +38,6 @@
     import { message } from 'ant-design-vue'
     import DownloadImgModal from "./downloadModal/DownloadImgModal";
     import DownloadFileModal from "./downloadModal/DownloadFileModal";
-    import Handler from "./Handler";
     const fileType = {
         png: 'png',
         jpeg: 'jpeg',
@@ -65,7 +55,6 @@
     export default {
         name: "Header",
         components: {
-            Handler,
             DownloadFileModal,
             DownloadImgModal,
         },
@@ -113,8 +102,6 @@
                 'forceGraph',
                 'typesettingGraph',
                 'currentGraph',
-                'showDownloadImgModal',
-                'showDownloadJsonModal',
             ])
         },
         methods: {
@@ -150,10 +137,6 @@
                 // } else if(key === this.graphIds.typesetting){
                 //     this.set_currentGraph(this.typesettingGraph)
                 // }
-            },
-            toggleHandler (val) {
-                const _t = this
-                _t.isExpand = val !== undefined ? val : !_t.isExpand
             },
             save(){
                 this.loading = true;

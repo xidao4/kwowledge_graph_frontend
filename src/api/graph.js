@@ -174,3 +174,12 @@ export function getPicCustomizeElementsAPI(data){
 
   })
 }
+
+export function getFileByUrl(data){
+  return axios({
+    url:`${url}`,
+    method:'POST',
+    data,
+    responseType: 'blob'
+  })
+}
