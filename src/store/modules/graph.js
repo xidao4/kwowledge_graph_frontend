@@ -316,6 +316,7 @@ const graph = {
             }
             state.labelList=[]
             if(data.snodes){
+                console.log('初始化时的labelList')
                 data.snodes.forEach((node) => {
                     baseNodes.push({
                         id: node.id,
@@ -324,6 +325,7 @@ const graph = {
                     })
                     state.labelList.push(node.label)
                 });
+                console.log(state.labelList)
             }
             state.currentGraphData = {
                 nodes: baseNodes,

@@ -81,7 +81,7 @@ export default {
     ]),
   },
   methods: {
-    ...mapMutations(["set_addEntityVisible","set_nodeId",'set_currentShowGraphData',
+    ...mapMutations(["set_nodeId",'set_currentShowGraphData',
       'set_currentShowGraphData_typesetting',
       'set_currentGraphData','set_currentShowBoard']),
     ...mapActions(["addEntity","save"]),
@@ -123,20 +123,21 @@ export default {
         };
         console.log('myModel',model)
         this.currentGraph.addItem('node',model)
-        this.currentGraph.refresh()
-        this.currentGraphData.nodes.push({
-          id:  `node-${this.nodeId}`,
-          class: this.type.value,
-          label: this.name.value,
-          oriLabel: this.name.value,
-        })
+        // this.currentGraph.refresh()
+        // this.currentGraphData.nodes.push({
+        //   id:  `node-${this.nodeId}`,
+        //   class: this.type.value,
+        //   label: this.name.value,
+        //   oriLabel: this.name.value,
+        // })
         let temp=this.currentGraph.save()
         this.set_currentShowGraphData_typesetting(temp)
         this.set_currentGraphData(temp)
+        this.save()
         console.log('添加完后的Data',this.currentGraphData)
         this.set_nodeId();
         console.log('after update',this.currentGraphData)
-        this.set_addEntityVisible(false)
+        // this.set_addEntityVisible(false)
         //类型筛选相关
         if(this.nodesTypes.indexOf(this.type.value)===-1){
           this.nodesTypes.push(this.type.value);
@@ -147,7 +148,7 @@ export default {
         this.name.value = "";
         this.type.value= "";
         this.set_currentShowBoard(this.boardTypes.none)
-        this.save()
+
       // }
     },
     handleNameChange() {
