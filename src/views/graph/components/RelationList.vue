@@ -168,6 +168,21 @@ export default {
             path: G6.Arrow.triangle(),
             fill: "#D99CA8"
           },
+        },
+        selected: {
+          shadowColor: "#D99CA8",
+          fill: "#D99CA8",
+          shadowBlur: 5,
+          stroke: "#D99CA8"
+        },
+        noneLabel: {
+          fill: '#fff',
+          stroke: '#fff'
+        },
+        highlight:{
+          fill: 'rgb(223, 234, 255)',
+          stroke:'#ff0',
+          lineWidth: 2,
         }
       }
       console.log('relationModel',model)
