@@ -668,7 +668,7 @@ export const bindListener = (graph) => {
     });
     graph.on('node:drag', function (e) {
         // layout.execute();
-        // refreshDragedNodePosition(e);
+        refreshDragedNodePosition(e);
     });
     graph.on('node:dragend', function (e) {
         e.item.get('model').fx = null;
