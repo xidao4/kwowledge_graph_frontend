@@ -3,58 +3,31 @@
 <!--        <router-link to="/largeGraph">largeGraphTest</router-link>-->
         <a-row>
             <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" xxl="6">
-                <Upload class="myDiv"></Upload>
-<!--                <Upload></Upload>-->
+                <Upload class="myUpload"></Upload>
             </a-col>
             <template v-for="(item,index) in this.dataSource">
                 <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" xxl="6">
-<!--                    <div :style="height: 200px">-->
-<!--                    <div class="myDiv">-->
-                        <a-card hoverable @click="editPic(item.id)" class="myDiv">
-                            <a-card-meta>
-                              <a slot="title">
-                                {{item.picName}}
-                              </a>
-                            </a-card-meta>
-                            <img
-                                slot="cover"
-                                alt="example"
-                                v-bind:src=item.url
-                                class="myImg"
-                            />
-                        </a-card>
-<!--                    </div>-->
+                  <div class="myDiv">
+                      <a-button type="link">
+                        {{item.picName}}
+                      </a-button>
+                    <img
+                        slot="cover"
+                        alt="example"
+                        v-bind:src=item.url
+                        class="myImg"
+                    />
+                  </div>
+<!--                        <a-card hoverable @click="editPic(item.id)" class="myDiv">-->
+<!--                            <a-card-meta>-->
+<!--                              <a slot="title">-->
+<!--                                {{item.picName}}-->
+<!--                              </a>-->
+<!--                            </a-card-meta>-->
+<!--                        </a-card>-->
                 </a-col>
             </template>
         </a-row>
-
-
-
-<!--        <a-list-->
-<!--            rowKey="id"-->
-<!--            :grid="{gutter: 12, lg: 3, md: 2, sm: 1, xs: 1}"-->
-<!--            :dataSource="dataSource"-->
-<!--        >-->
-<!--            <a-list-item slot="renderItem" slot-scope="item">-->
-<!--                <template v-if="!item || item.id === undefined" style="margin: auto auto;">-->
-<!--                    <Upload></Upload>-->
-<!--                </template>-->
-<!--                <template v-else>-->
-<!--                    <a-card hoverable @click="editPic(item.id)">-->
-<!--                        <img-->
-<!--                            slot="cover"-->
-<!--                            alt="example"-->
-<!--                            v-bind:src=item.url-->
-<!--                        />-->
-<!--                        <a-card-meta>-->
-<!--                            <a slot="title">-->
-<!--                                {{item.picName}}-->
-<!--                            </a>-->
-<!--                        </a-card-meta>-->
-<!--                    </a-card>-->
-<!--                </template>-->
-<!--            </a-list-item>-->
-<!--        </a-list>-->
     </div>
 </template>
 
@@ -64,7 +37,6 @@
     import Upload from "./components/Upload";
 
     let dataSource = [];
-    //dataSource.push({});
 
     export default {
         name: "UserGraphList",
@@ -99,8 +71,6 @@
             },
         },
         async mounted() {
-            // this.testToken();
-
             await this.getUserPics({
                 userId:this.userId
             });
@@ -191,6 +161,8 @@
     height: 100%;
     margin: auto auto;
 }
+
+
 .page-div{
     width:80%;
     margin:auto auto;
@@ -198,10 +170,16 @@
     justify:space-around;
     align:middle;
 }
+.myUpload{
+    height: 200px;
+}
 .myDiv{
-    height: 220px;
+  border:1px dashed #D99CA8;
+  height:200px;
 }
 .myImg{
-    height:90%;
+    height:160px;
+    width:100%;
+
 }
 </style>
