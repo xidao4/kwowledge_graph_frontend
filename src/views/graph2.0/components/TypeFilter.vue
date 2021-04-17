@@ -100,7 +100,7 @@ export default {
 }
 .inner-block{
     width:95%;
-    height:80%;
+    height:95%;
     margin:auto;
     /*text-align: center;!*使元素水平居中 *!*/
     vertical-align: middle;/*使元素垂直居中 */
