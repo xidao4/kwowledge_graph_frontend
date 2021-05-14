@@ -14,17 +14,12 @@
     >
       <a-form-item label="宽度：">
         <a-input
-            v-decorator="['lineWidth', { rules: [{ required: false, message: '请输入宽度!' }] }]"
-            :maxLength="2"
+            v-model="lineWidth"
             suffix="px"
         />
       </a-form-item>
       <a-form-item label="形状：">
         <a-select
-            v-decorator="[
-            'shape',
-            { rules: [{ required: false, message: '请选择关系的形状!' }] },
-            ]"
             @change="handleSelectChangeShape"
         >
             <a-select-option value="line">
@@ -40,10 +35,6 @@
       </a-form-item>
       <a-form-item label="虚实">
         <a-select
-            v-decorator="[
-            'virtual',
-            { rules: [{ required: false, message: '请选择关系的虚实!' }] },
-            ]"
             @change="handleSelectChangeVirtual"
         >
             <a-select-option value="solid">
@@ -56,10 +47,6 @@
       </a-form-item>
       <div @click="colorInputClick1"> 
       <a-form-item label="颜色:">
-<!--        <a-input-->
-<!--            :value="colors1"-->
-<!--            disabled-->
-<!--        />-->
         <div class="colorBlock" :style="'background-color: ' + colors1">
         </div>
       </a-form-item>
@@ -81,41 +68,21 @@
     >
         <a-form-item label="大小：">
           <a-input
-            v-decorator="['fontSize', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
+            v-model="fontSize"
           />
         </a-form-item>
         <a-form-item label="关系值：">
           <a-input
-            v-decorator="['content', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
+            v-model="content"
           />
         </a-form-item>
         <a-form-item label="关系类型">
           <a-input
-            v-decorator="[
-                  'relationType',
-                  { rules: [{ required: false, message: '请输入关系值!' }] },
-                ]"
+            v-model="relationType"
             placeholder="请输入关系类型"
           >
           </a-input>
         </a-form-item>
-<!--        <a-form-item label="大小：">-->
-<!--            <a-input-->
-<!--                v-decorator="['size', { rules: [{ required: false, message: '请输入字体大小!' }] }]"-->
-<!--                :maxLength="2"-->
-<!--                suffix="px"-->
-<!--            />-->
-<!--        </a-form-item>-->
-<!--        <div @click="colorInputClick2"> -->
-<!--        <a-form-item label="颜色:">-->
-<!--&lt;!&ndash;            <a-input&ndash;&gt;-->
-<!--&lt;!&ndash;                :value="colors2"&ndash;&gt;-->
-<!--&lt;!&ndash;                disabled&ndash;&gt;-->
-<!--&lt;!&ndash;            />&ndash;&gt;-->
-<!--          <div class="colorBlock" :style="'background-color: ' + colors2">-->
-<!--          </div>-->
-<!--        </a-form-item>-->
-<!--        </div>-->
     </a-form>
     <div v-show="isShowColors2" class="color-select-layer"> 
         <sketch-picker :value="colors2" @input="colorValueChange2"></sketch-picker>
@@ -161,7 +128,16 @@ export default {
   mounted() {
     console.log('editRelation!')
     console.log(this.currentItem)
-    console.log('currentGraphData',this.currentGraphData)
+    this.colors1=this.currentItem._cfg.styles.selected.fill
+    this.fontSize=this.currentItem._cfg.model.labelCfg.style.fontSize
+    this.content=this.currentItem._cfg.model.oriLabel
+    this.relationType=this.currentItem._cfg.model.class
+    if(this.currentItem._cfg.model.style.lineWidth===undefined) {
+      this.lineWidth = this.currentItem._cfg.model.style.active.lineWidth
+    }
+    else{
+      this.lineWidth = this.currentItem._cfg.model.style.lineWidth
+    }
   },
   data(){
       return{
@@ -171,6 +147,12 @@ export default {
           isShowColors2: false,
           editRelationForm1: this.$form.createForm(this, { name: "editRelationForm1" }),
           editRelationForm2: this.$form.createForm(this, { name: "editRelationForm2" }),
+          lineWidth:'',
+          shape:"",
+          virtual:'',
+          fontSize:'',
+          content:'',
+          relationType:''
       }
   },
   methods:{
@@ -184,10 +166,10 @@ export default {
       "save"
     ]),
     handleSelectChangeShape(value) {
-      console.log(value);
+      this.shape=value
     },
     handleSelectChangeVirtual(value) {
-      console.log(value);
+      this.virtual=value
     },
     // 颜色输入框点击事件处理
     colorInputClick1 () {
@@ -218,14 +200,14 @@ export default {
         var that=this
         console.log(this.editRelationForm1.getFieldValue('virtual'))
         let data={
-            lineWidth: that.editRelationForm1.getFieldValue('lineWidth'),
-            type: that.editRelationForm1.getFieldValue('shape'),
-            lineDash: that.editRelationForm1.getFieldValue('virtual')==='dashed'?[1,2]:0,
+            lineWidth: that.lineWidth,
+            type: that.shape,
+            lineDash: that.virtual==='dashed'?[1,2]:0,
             stroke: that.colors1,
-            fontSize: that.editRelationForm2.getFieldValue('fontSize'),
-            labelContent: that.editRelationForm2.getFieldValue('content'),
+            fontSize: that.fontSize,
+            labelContent: that.content,
             fill: that.colors2,
-            relationType: that.editRelationForm2.getFieldValue('relationType'),
+            relationType: that.relationType,
         }
         console.log('确保表单数据无误',data)
         console.log('之前currentItem',this.currentItem)

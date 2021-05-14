@@ -225,7 +225,6 @@ export default {
     this.content=this.currentItem._cfg.model.oriLabel
     this.entityType=this.currentItem._cfg.model.class
     this.defaultShape=this.currentItem._cfg.currentShape
-    console.log('我的形状呢？？',this.defaultShape)
   },
   methods:{
     ...mapMutations([
