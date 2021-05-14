@@ -113,7 +113,6 @@ export default {
       'set_currentGraphData','set_currentShowBoard']),
     async confirmAddRelation() {
       var that=this
-      console.log(this.addRelationForm.getFieldValue('relationValue'))
       let newData = {
         node1: this.labelList[that.addRelationForm.getFieldValue('selectSourceNode')],
         node2: this.labelList[that.addRelationForm.getFieldValue('selectTargetNode')],
@@ -121,8 +120,8 @@ export default {
         relationType:that.addRelationForm.getFieldValue('relationType'),
         color: "#000",
       };
-      console.log('newData',newData)
-      if (newData.node1 ==='' || newData.node2 ==='' || newData.name ==='' || newData.relationType==='') {
+      console.log('什么都不选的newData',newData)
+      if (newData.node1 ===undefined || newData.node2 ===undefined || newData.name ===undefined || newData.relationType===undefined) {
         message.error("增加关系失败，任一字段不能为空");
         return;
       }
@@ -140,7 +139,7 @@ export default {
       }
       console.log('model的edge',this.currentGraphData)
       let model={
-        id:  `relation-${this.relationId}`,
+        id:  `relation-${newData.name}`,
         class: newData.relationType,
         label: newData.name,
         oriLabel: newData.name,
@@ -185,9 +184,15 @@ export default {
           }
         }
       }
-      console.log('relationModel',model)
+      let tempEdges=this.currentGraph.save().edges
+      console.log('看看我的nodes',tempEdges)
+      for(let i=0;i<tempEdges.length;i++){
+        if(tempEdges[i].oriLabel===model.oriLabel && tempEdges[i].source===model.source && tempEdges[i].target===model.target){
+          this.$message.error('不能添加重复的关系')
+          return ;
+        }
+      }
       this.currentGraph.addItem('edge',model)
-      // this.currentGraph.refresh()
       let temp=this.currentGraph.save()
       this.set_currentShowGraphData_typesetting(temp)
       this.set_currentGraphData(temp)
