@@ -187,7 +187,7 @@ export default {
       }
       console.log('relationModel',model)
       this.currentGraph.addItem('edge',model)
-      this.currentGraph.refresh()
+      // this.currentGraph.refresh()
       let temp=this.currentGraph.save()
       this.set_currentShowGraphData_typesetting(temp)
       this.set_currentGraphData(temp)

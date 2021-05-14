@@ -527,7 +527,7 @@ export const processNodesEdges = (
             lineWidth: 1
         };
         node.labelCfg = {
-            position: 'bottom',
+            // position: 'cen',
             offset: 5,
             style: {
                 fill: global.node.labelCfg.style.fill,

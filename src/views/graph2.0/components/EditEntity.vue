@@ -378,7 +378,7 @@ export default {
           size: tempSize,
           style:{
             fill: data.fill1,
-            stroke: data.stroke,
+            stroke: data.fill1,
             lineWidth: 1
           },
           labelCfg: {
@@ -408,8 +408,8 @@ export default {
         if(data.type.length>9){
           cfg.img=data.type
           cfg.type='image'
-          delete cfg.style
-          delete cfg.stateStyles
+          // delete cfg.style
+          // delete cfg.stateStyles
         }
         this.currentGraph.updateItem(this.currentItem,cfg)
         this.currentGraph.setItemState(this.currentItem,'selected',true)
