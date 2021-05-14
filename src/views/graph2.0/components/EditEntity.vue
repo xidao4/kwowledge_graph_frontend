@@ -45,10 +45,6 @@
     >
       <a-form-item label="大小：">
         <a-select
-          v-decorator="[
-            'size',
-            { rules: [{ required: false, message: '请选择实体的形状!' }] },
-            ]"
           @change="handleSelectChangeSize"
         >
           <a-select-option value="big">
@@ -64,11 +60,8 @@
       </a-form-item>
       <a-form-item label="形状：">
         <a-select
-            v-decorator="[
-            'shape',
-            { rules: [{ required: false, message: '请选择实体的形状!' }] },
-            ]"
             @change="handleSelectChangeShape"
+            :default-value="this.defaultShape"
         >
             <a-select-option  v-for="item in this.customizeElement" :key="item.key" :value="item.value">
             {{item.key}}
@@ -115,17 +108,17 @@
     >
       <a-form-item label="大小：">
         <a-input
-          v-decorator="['myFontSize', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
+          v-model="myFontSize"
         />
       </a-form-item>
         <a-form-item label="实体值：">
           <a-input
-            v-decorator="['content', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
+            v-model="content"
           />
         </a-form-item>
         <a-form-item label="实体类型：">
           <a-input
-            v-decorator="['entityType', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
+            v-model="entityType"
           />
         </a-form-item>
 <!--        <a-form-item label="大小：">-->
@@ -196,7 +189,13 @@ export default {
           },
           previewVisible: false,
           previewImage: '',
-          customizeImgUrl: ''
+          customizeImgUrl: '',
+          size:'',
+          shape:'',
+          myFontSize: '',
+          content: '',
+          entityType: '',
+          defaultShape: '',
       }
   },
   computed: {
@@ -220,6 +219,13 @@ export default {
       )
     console.log('看看传进来的参数',this.currentItem)
     console.log(this.currentItem._cfg.styles.active.fill)
+    console.log('看看mounted时能不能拿到data里面的数据',this.colors2)
+    this.colors2=this.currentItem._cfg.styles.selected.fill
+    this.myFontSize=this.currentItem._cfg.model.labelCfg.style.fontSize
+    this.content=this.currentItem._cfg.model.oriLabel
+    this.entityType=this.currentItem._cfg.model.class
+    this.defaultShape=this.currentItem._cfg.currentShape
+    console.log('我的形状呢？？',this.defaultShape)
   },
   methods:{
     ...mapMutations([
@@ -234,10 +240,11 @@ export default {
       "save"
     ]),
     handleSelectChangeShape(value) {
-      console.log(value);
+      this.shape=value
     },
     handleSelectChangeSize(value){
-
+      this.size=value
+      console.log('我选择了：',this.size)
     },
     // 颜色输入框点击事件处理
     colorInputClick1 () {
@@ -269,17 +276,15 @@ export default {
         console.log('看看click时的customizeElement',this.customizeElement)
         let that=this
         let data={
-            lineWidth: that.editEntityForm1.getFieldValue('size'),
-            type: that.editEntityForm1.getFieldValue('shape'),
-            entityType: that.editEntityForm2.getFieldValue('entityType'),
+            lineWidth: that.size,
+            type: that.shape,
+            entityType: that.entityType,
             stroke: that.colors1,
             fill1: that.colors2,
-            fontSize: that.editEntityForm2.getFieldValue('myFontSize'),
-            label: that.editEntityForm2.getFieldValue('content'),
+            fontSize: that.myFontSize,
+            label: that.content,
         }
-        console.log('我的字体大小呢',data.fontSize)
-        console.log('我的大小',data.lineWidth)
-        console.log(this.currentItem)
+        console.log('看看能不能活的数据',data)
         let tempSize='';
         if(data.type==='circle'){
           if(data.lineWidth==='big'){tempSize=60}
@@ -306,7 +311,6 @@ export default {
           else if(data.lineWidth==='medium'){tempSize=40}
           else if(data.lineWidth==='small'){tempSize=30}
         }
-        console.log('转换后的大小,',tempSize)
         this.currentGraph.clearItemStates(this.currentItem,'selected')
         let cfg={
           type: data.type,
