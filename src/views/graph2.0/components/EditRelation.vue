@@ -139,6 +139,23 @@ export default {
       this.lineWidth = this.currentItem._cfg.model.style.lineWidth
     }
   },
+  watch:{
+    currentItem:{
+      immediate:true,
+      handler(){
+        this.colors1=this.currentItem._cfg.styles.selected.fill
+        this.fontSize=this.currentItem._cfg.model.labelCfg.style.fontSize
+        this.content=this.currentItem._cfg.model.oriLabel
+        this.relationType=this.currentItem._cfg.model.class
+        if(this.currentItem._cfg.model.style.lineWidth===undefined) {
+          this.lineWidth = this.currentItem._cfg.model.style.active.lineWidth
+        }
+        else{
+          this.lineWidth = this.currentItem._cfg.model.style.lineWidth
+        }
+      }
+    }
+  },
   data(){
       return{
           colors1: '#E65D6E',

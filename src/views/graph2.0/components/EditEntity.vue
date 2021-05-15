@@ -226,6 +226,18 @@ export default {
     this.entityType=this.currentItem._cfg.model.class
     this.defaultShape=this.currentItem._cfg.currentShape
   },
+  watch:{
+    currentItem:{
+      immediate:true,
+      handler(){
+        this.colors2=this.currentItem._cfg.styles.selected.fill
+        this.myFontSize=this.currentItem._cfg.model.labelCfg.style.fontSize
+        this.content=this.currentItem._cfg.model.oriLabel
+        this.entityType=this.currentItem._cfg.model.class
+        this.defaultShape=this.currentItem._cfg.currentShape
+      }
+    }
+  },
   methods:{
     ...mapMutations([
       'set_currentShowGraphData',
