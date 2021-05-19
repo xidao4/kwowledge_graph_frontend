@@ -61,7 +61,7 @@
       <a-form-item label="形状：">
         <a-select
             @change="handleSelectChangeShape"
-            :default-value="this.defaultShape"
+            v-model="this.shape"
         >
             <a-select-option  v-for="item in this.customizeElement" :key="item.key" :value="item.value">
             {{item.key}}
@@ -224,17 +224,19 @@ export default {
     this.myFontSize=this.currentItem._cfg.model.labelCfg.style.fontSize
     this.content=this.currentItem._cfg.model.oriLabel
     this.entityType=this.currentItem._cfg.model.class
-    this.defaultShape=this.currentItem._cfg.currentShape
+    this.shape=this.currentItem._cfg.currentShape
   },
   watch:{
     currentItem:{
       immediate:true,
       handler(){
+        console.log('看看传进来的参数',this.currentItem)
         this.colors2=this.currentItem._cfg.styles.selected.fill
         this.myFontSize=this.currentItem._cfg.model.labelCfg.style.fontSize
         this.content=this.currentItem._cfg.model.oriLabel
         this.entityType=this.currentItem._cfg.model.class
-        this.defaultShape=this.currentItem._cfg.currentShape
+        this.shape=this.currentItem._cfg.currentShape
+        console.log('为啥不变呢',this.defaultShape)
       }
     }
   },
