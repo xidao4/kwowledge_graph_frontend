@@ -20,6 +20,7 @@
       </a-form-item>
       <a-form-item label="形状：">
         <a-select
+            v-model="this.shape"
             @change="handleSelectChangeShape"
         >
             <a-select-option value="line">
@@ -35,6 +36,7 @@
       </a-form-item>
       <a-form-item label="虚实">
         <a-select
+            v-model="this.virtual"
             @change="handleSelectChangeVirtual"
         >
             <a-select-option value="solid">
@@ -128,6 +130,8 @@ export default {
   mounted() {
     console.log('editRelation!')
     console.log(this.currentItem)
+    this.shape=this.currentItem._cfg.model.type
+    this.virtual=Array.isArray(this.currentItem._cfg.model.style.lineDash)?'dashed':'solid'
     this.colors1=this.currentItem._cfg.styles.selected.fill
     this.fontSize=this.currentItem._cfg.model.labelCfg.style.fontSize
     this.content=this.currentItem._cfg.model.oriLabel
@@ -143,6 +147,8 @@ export default {
     currentItem:{
       immediate:true,
       handler(){
+        this.shape=this.currentItem._cfg.model.type
+        this.virtual=Array.isArray(this.currentItem._cfg.model.style.lineDash)?'dashed':'solid'
         this.colors1=this.currentItem._cfg.styles.selected.fill
         this.fontSize=this.currentItem._cfg.model.labelCfg.style.fontSize
         this.content=this.currentItem._cfg.model.oriLabel

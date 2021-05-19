@@ -45,6 +45,7 @@
     >
       <a-form-item label="大小：">
         <a-select
+          v-model="this.size"
           @change="handleSelectChangeSize"
         >
           <a-select-option value="big">
@@ -217,6 +218,26 @@ export default {
     this.getPicCustomizeElements({
       picId:this.picId}
       )
+    if(this.currentItem._cfg.currentShape==='rect'){
+      if(this.currentItem._cfg.model.size[0]===30){this.size='small'}
+      else if(this.currentItem._cfg.model.size[0]===40){this.size='medium'}
+      else if(this.currentItem._cfg.model.size[0]===60){this.size='big'}
+    }
+    else if(this.currentItem._cfg.currentShape==='circle'){
+      if(this.currentItem._cfg.model.size===25){this.size='small'}
+      else if(this.currentItem._cfg.model.size===40){this.size='medium'}
+      else if(this.currentItem._cfg.model.size===60){this.size='big'}
+    }
+    else if(this.currentItem._cfg.currentShape==='ellipse'){
+      if(this.currentItem._cfg.model.size[0]===50){this.size='small'}
+      else if(this.currentItem._cfg.model.size[0]===60){this.size='medium'}
+      else if(this.currentItem._cfg.model.size[0]===80){this.size='big'}
+    }
+    else if(this.currentItem._cfg.currentShape==='diamond'){
+      if(this.currentItem._cfg.model.size[0]===50){this.size='small'}
+      else if(this.currentItem._cfg.model.size[0]===80){this.size='medium'}
+      else if(this.currentItem._cfg.model.size[0]===90){this.size='big'}
+    }
     console.log('看看传进来的参数',this.currentItem)
     console.log(this.currentItem._cfg.styles.active.fill)
     console.log('看看mounted时能不能拿到data里面的数据',this.colors2)
@@ -230,6 +251,26 @@ export default {
     currentItem:{
       immediate:true,
       handler(){
+        if(this.currentItem._cfg.currentShape==='rect'){
+          if(this.currentItem._cfg.model.size[0]===30){this.size='small'}
+          else if(this.currentItem._cfg.model.size[0]===40){this.size='medium'}
+          else if(this.currentItem._cfg.model.size[0]===60){this.size='big'}
+        }
+        else if(this.currentItem._cfg.currentShape==='circle'){
+          if(this.currentItem._cfg.model.size===25){this.size='small'}
+          else if(this.currentItem._cfg.model.size===40){this.size='medium'}
+          else if(this.currentItem._cfg.model.size===60){this.size='big'}
+        }
+        else if(this.currentItem._cfg.currentShape==='ellipse'){
+          if(this.currentItem._cfg.model.size[0]===50){this.size='small'}
+          else if(this.currentItem._cfg.model.size[0]===60){this.size='medium'}
+          else if(this.currentItem._cfg.model.size[0]===80){this.size='big'}
+        }
+        else if(this.currentItem._cfg.currentShape==='diamond'){
+          if(this.currentItem._cfg.model.size[0]===50){this.size='small'}
+          else if(this.currentItem._cfg.model.size[0]===80){this.size='medium'}
+          else if(this.currentItem._cfg.model.size[0]===90){this.size='big'}
+        }
         console.log('看看传进来的参数',this.currentItem)
         this.colors2=this.currentItem._cfg.styles.selected.fill
         this.myFontSize=this.currentItem._cfg.model.labelCfg.style.fontSize
@@ -297,12 +338,16 @@ export default {
             fontSize: that.myFontSize,
             label: that.content,
         }
+        if(data.lineWidth===''){
+          this.$message.error('实体大小必填！')
+          return;
+        }
         console.log('看看能不能活的数据',data)
         let tempSize='';
         if(data.type==='circle'){
           if(data.lineWidth==='big'){tempSize=60}
           else if(data.lineWidth==='medium'){tempSize=40}
-          else if(data.lineWidth==='small'){tempSize=30}
+          else if(data.lineWidth==='small'){tempSize=25}
         }
         else if(data.type==='rect'){
           if(data.lineWidth==='big'){tempSize=[60,60]}
