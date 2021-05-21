@@ -12,7 +12,8 @@ const state = {
     token: '',
     userId: '',//方便测试by ljy
     userInfo: {
-        username: 'test'
+        username: 'test',
+        userType: 'normal'
     },
     picsInfo:{},//a
     userHistory:[],
@@ -54,7 +55,13 @@ const user = {
                 commit('set_userId', resData.userId);
                 commit('set_userInfo', resData);
                 setToken(resData.token);
-                router.push('/home');
+                // 根据用户身份类型来判断会跳转到哪个页面
+                if(resData.userType!=='professional') {
+                    router.push('/search');
+                }
+                else{
+                    router.push('/home');
+                }
             } else {
                 message.error(resData)
             }

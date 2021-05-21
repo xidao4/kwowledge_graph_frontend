@@ -44,5 +44,9 @@ const getters={
     userInfo: state=>state.user.userInfo,
     picsInfo: state=>state.user.picsInfo,
     userHistory: state=>state.user.userHistory,
+    searchString: state=>state.search.searchString,
+    searchResult: state=>state.search.searchResult,
+    allPageNum:state=>state.search.allPageNum,
+    currentPageNum: state=>state.search.currentPageNum,
 };
 export default getters

@@ -3,16 +3,41 @@ import { getToken } from '@/utils/auth'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 const whiteList = ['/login'];
+const normalUser=['/search','/searchList','/searchDetail']
+import user from "./store/modules/user";
+import {message} from "ant-design-vue";
+
 router.beforeEach(async(to, from, next) => {
     NProgress.start();
     const hasToken = getToken();
     if (hasToken) {
         if (to.path === '/login') {
             // 导向首页
-            next({path: '/'});
+            if(user.state.userInfo.userType==='normal'){
+                console.log('不是这个么')
+                next({path: '/search'});
+            }
+            else{
+                next({path: '/'});
+            }
             NProgress.done()
         } else {
-            next();
+            if(user.state.userInfo.userType==='normal'){
+                if(normalUser.indexOf(to.path)!==-1){
+                    next()
+                }
+                else{
+                    message.error('没有权限访问')
+                }
+            }
+            else{
+                if(normalUser.indexOf(to.path)!==-1){
+                    message.error('没有权限访问')
+                }
+                else{
+                    next()
+                }
+            }
             NProgress.done()
         }
     } else {

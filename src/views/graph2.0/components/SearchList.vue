@@ -4,7 +4,7 @@
       <div>
         <img src="https://cdn.jsdelivr.net/gh/apache/echarts-website@asf-site/zh/images/index-home-pie.png?_v_=20200710_1">
         <form class="search-form">
-          <input v-model="searchString" placeholder="搜你想搜" class="search-input" @keydown.enter="searchContent">
+          <input v-model="searchCondition" placeholder="搜你想搜" class="search-input" @keydown.enter="searchContent">
         </form>
       </div>
       <a-divider />
@@ -18,11 +18,17 @@
 <script>
   import $ from 'jquery'
   import SearchCard from "./SearchCard";
+  import {mapGetters,mapMutations,mapActions} from 'vuex'
   export default {
     name: "SearchList",
+    computed:{
+      ...mapGetters([
+        "searchString"
+      ])
+    },
     data(){
       return{
-        searchString:"",
+        searchCondition:  this.searchString,
         searchCardContent:[
           {name:'唐人街探案3',description:"继曼谷、纽约之后，东京再出大案。唐人街神探唐仁（王宝强 饰）、秦风（刘昊然 饰）" +
               "受侦探野田昊（妻夫木聪 饰）的邀请前往破案。“CRIMASTER世界侦探排行榜”中的侦探们闻讯后也齐聚东京，加入挑战，" +
@@ -42,13 +48,15 @@
     },
     methods:{
       searchContent(){
-        console.log(this.searchString)
+        console.log(this.searchCondition)
         this.$router.push({
           path:`/searchList`
         })
       }
     },
     mounted() {
+      console.log('现在是什么',this.searchString)
+      this.searchCondition=this.searchString
       $('.search-input').focus(function(){
         $(this).parent().addClass('focus');
       }).blur(function(){

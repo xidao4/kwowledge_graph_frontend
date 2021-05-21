@@ -1,0 +1,21 @@
+import { axios } from '@/utils/request'
+
+const api = {
+  searchPre: '/api/search'
+}
+
+export function getSearchResultFirstAPI(data) {
+  return axios({
+    url: `${api.searchPre}/getSearchResultFirst`,
+    method: 'POST',
+    data: data,
+  })
+}
+
+export function getSearchResultSecondAPI(data) {
+  return axios({
+    url: `${api.searchPre}/getSearchResultSecond`,
+    method: 'POST',
+    data: data,
+  })
+}

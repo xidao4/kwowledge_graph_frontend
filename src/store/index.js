@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import getters from './getters'
+import search from "./modules/search";
 import graph from './modules/graph'
 import user from './modules/user'
 import util from './modules/util'
@@ -34,6 +35,7 @@ const store = new Vuex.Store({
     modules: {
         graph,
         user,
+        search,
         util
     },
     getters,

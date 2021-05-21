@@ -8,6 +8,7 @@
 </template>
 
 <script>
+  import {mapGetters,mapMutations,mapActions} from 'vuex'
   import $ from 'jquery'
   export default {
     name: "SearchKG",
@@ -16,9 +17,18 @@
         searchString:''
       }
     },
+    computed: {
+      ...mapGetters([
+        "searchString"
+      ]),
+    },
     methods:{
+      ...mapMutations([
+        'set_searchString'
+      ]),
       searchContent(){
         console.log(this.searchString)
+        this.set_searchString(this.searchString)
         this.$router.push({
           path:`/searchList`
         })
