@@ -25,7 +25,8 @@
 <style scoped lang="scss">
   h2{
     color: #1a0dab;
-
+    font-size: 20px;
+    font-weight: normal;
   }
   .underline-hover{
     padding:5px;
