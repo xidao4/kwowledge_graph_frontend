@@ -33,6 +33,16 @@ const routes = [
     component: ()=> import('@/views/graph2.0/components/SearchKG'),
   },
   {
+    path: '/searchList',
+    name: 'searchList',
+    component: ()=> import('@/views/graph2.0/components/SearchList'),
+  },
+  {
+    path: '/searchDetail',
+    name: 'searchDetail',
+    component: ()=> import('@/views/graph2.0/components/SearchDetail'),
+  },
+  {
     path: '/editor',
     name: 'editor',
     component: ()=> import('@/views/graph2.0/Editor'),

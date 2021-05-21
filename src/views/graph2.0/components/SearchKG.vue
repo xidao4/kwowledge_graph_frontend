@@ -19,6 +19,9 @@
     methods:{
       searchContent(){
         console.log(this.searchString)
+        this.$router.push({
+          path:`/searchList`
+        })
       }
     },
     mounted() {
@@ -92,116 +95,6 @@
    }
   }
 
-  .search-button {
-    position: absolute;
-    top: 10px;
-    left: 15px;
-    height: 20px;
-    width: 20px;
-    padding: 0;
-    margin: 0;
-    border: none;
-    background: none;
-    outline: none!important;
-    cursor: pointer;
-
-  & svg {
-      width: 20px;
-      height: 20px;
-      fill: #5a6674;
-    }
-  }
-
-  .search-option {
-    position: absolute;
-    text-align: right;
-    top: 10px;
-    right: 15px;
-
-  div {
-    position: relative;
-    display: inline-block;
-    margin: 0 1px;
-    cursor: pointer;
-
-  input {
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0.01;
-    cursor: pointer;
-  }
-
-  span {
-    position: absolute;
-    display: block;
-    text-align: center;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    background: #929AA3;
-    color: #fff;
-    font-size: 9px;
-    letter-spacing: 1px;
-    line-height: 1;
-    text-transform: uppercase;
-    padding: 4px 7px;
-    border-radius: 12px;
-    top: -18px;
-    transition: all .2s ease-in-out;
-
-  &::after {
-     content: '';
-     position: absolute;
-     bottom: -3px;
-     left: 50%;
-     transform: translateX(-50%);
-     border-top: 4px solid #929AA3;
-     border-left: 4px solid transparent;
-     border-right: 4px solid transparent;
-     transition: all .2s ease-in-out;
-   }
-  }
-
-  &:hover span {
-     opacity: 1;
-     top: -21px;
-   }
-
-  label {
-    display: block;
-    cursor: pointer;
-  }
-
-  svg {
-    height: 20px;
-    width: 20px;
-    fill: #5a6674;
-    opacity: 0.6;
-    transition: all .2s ease-in-out;
-    pointer-events: none;
-  }
-
-  &:hover svg {
-     opacity: 1;
-   }
-
-  input:checked + label svg {
-    fill: $color;
-    opacity: .9;
-  }
-
-  input:checked + label span {
-    background: $color;
-
-  &::after {
-     border-top-color: $color;
-   }
-  }
-  }
-
-
-  }
   img{
     width: 30px;
     height: 30px;
