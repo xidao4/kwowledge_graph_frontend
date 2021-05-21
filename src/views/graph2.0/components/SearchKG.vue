@@ -2,7 +2,7 @@
   <body>
     <form class="search-form">
       <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/搜索.png" id="searchIcon"/>
-      <input type="search" value="" placeholder="搜你想搜" class="search-input">
+      <input v-model="searchString" placeholder="搜你想搜" class="search-input" @keydown.enter="searchContent">
     </form>
   </body>
 </template>
@@ -11,10 +11,15 @@
   import $ from 'jquery'
   export default {
     name: "SearchKG",
+    data(){
+      return{
+        searchString:''
+      }
+    },
     methods:{
-      onSearch(value) {
-        console.log(value);
-      },
+      searchContent(){
+        console.log(this.searchString)
+      }
     },
     mounted() {
       $('.search-input').focus(function(){
