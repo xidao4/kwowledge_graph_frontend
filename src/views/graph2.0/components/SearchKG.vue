@@ -1,6 +1,6 @@
 <template>
   <body>
-    <form class="search-form">
+    <form class="search-form" onkeypress="return event.keyCode !== 13;">
       <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/搜索.png" id="searchIcon"/>
       <input v-model="searchString" placeholder="搜你想搜" class="search-input" @keydown.enter="searchContent">
     </form>
