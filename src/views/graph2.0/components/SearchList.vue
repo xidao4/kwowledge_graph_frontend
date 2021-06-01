@@ -11,6 +11,9 @@
       <div class="contentPart">
         <search-card v-for="item in this.searchCardContent" :movie-description="item.description" :movie-name="item.name"></search-card>
       </div>
+      <div class="pageBox">
+        <a-pagination :default-current="1" v-model="currentPage" :total="100" class="pageBar" :defaultPageSize="6" :hideOnSinglePage="true" @change="changePageNum"/>
+      </div>
     </div>
   </body>
 </template>
@@ -28,6 +31,7 @@
     },
     data(){
       return{
+        currentPage: '',
         searchCondition:  this.searchString,
         searchCardContent:[
           {name:'唐人街探案3',description:"继曼谷、纽约之后，东京再出大案。唐人街神探唐仁（王宝强 饰）、秦风（刘昊然 饰）" +
@@ -52,6 +56,9 @@
         this.$router.push({
           path:`/searchList`
         })
+      },
+      changePageNum(pageNum,pageSize){
+        //pageNum改变后的页码，pageSize都是6
       }
     },
     mounted() {
@@ -127,5 +134,14 @@ $color: #e24040;
 }
   body{
     overflow: auto;
+  }
+  .pageBox{
+    width: 46%;
+    height: 100px;
+    margin-left: 12%;
+    margin-bottom: 1.3%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>

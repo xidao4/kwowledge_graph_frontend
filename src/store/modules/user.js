@@ -55,6 +55,7 @@ const user = {
                 commit('set_userId', resData.userId);
                 commit('set_userInfo', resData);
                 setToken(resData.token);
+                console.log('登录成功啦')
                 // 根据用户身份类型来判断会跳转到哪个页面
                 if(resData.userType!=='professional') {
                     router.push('/search');
