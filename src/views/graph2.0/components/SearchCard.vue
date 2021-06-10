@@ -17,7 +17,7 @@
         this.$router.push({
           path:`/searchDetail`
         })
-      }
+      },
     }
   }
 </script>

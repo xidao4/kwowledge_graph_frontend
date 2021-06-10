@@ -1,6 +1,7 @@
 <template>
   <body>
-    <div>
+    <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/message.png" class="myBot" @click="showBox"/>
+    <div :class="{'bgContent':isVirtual}">
       <div>
         <img src="https://cdn.jsdelivr.net/gh/apache/echarts-website@asf-site/zh/images/index-home-pie.png?_v_=20200710_1">
         <form class="search-form">
@@ -15,6 +16,16 @@
         <a-pagination :default-current="1" v-model="currentPage" :total="100" class="pageBar" :defaultPageSize="6" :hideOnSinglePage="true" @change="changePageNum"/>
       </div>
     </div>
+    <JwChat-index
+      :taleList="list"
+      @enter="bindEnter"
+      v-model="inputMsg"
+      :showRightBox="false"
+      :config="config"
+      :toolConfig="tool"
+      :class="{'chatBox':ifNotShowBox,'contentBox':true}"
+      scrollType="scroll"
+    />
   </body>
 </template>
 
@@ -44,7 +55,27 @@
           {name:'咒怨 呪怨',description:"东京近郊一间屋被传是阴森鬼屋，说但凡拜访者进入，都会离奇毙命或神秘失踪。传说当年该屋的主人曾因突至的狂性大发斩死妻子"},
           {name:'死寂 Dead Silence',description:"童谣本应该充满欢声笑语，但世界上偏偏有这么一些童谣，让人听了毛骨悚然。小镇拉文斯•法尔就流传着这样一个恐怖的童谣：小心来自玛丽•肖的凝视；她没有孩子，只有玩偶；如果你看到她，不要尖叫；否则她会扯开你的嘴巴撕掉你的舌头。这个小镇一直就在笼罩在这个童谣的诅咒之下，只要有玩偶出现的地方，就有人遇害，死状一样，都是舌头被割下。"},
           {name:'孤儿怨 Orphan',description:"意外流产让满心期待宝宝降生的约翰（Peter Sarsgaard 饰）和凯特（Vera Farmiga 维拉•法米加 饰）深受打击，凯特精神几近崩溃，而他们的婚姻也岌岌可危。为了挽救濒临破败婚姻，这对夫妇前往孤儿院希望收养一个孩子。在这里，他们见到了有些特立独行的小女孩伊斯特（Isabelle Fuhrman 伊莎贝尔•福尔曼 饰）。小女孩所散发出的独特气质吸引了约翰夫妇，最终伊斯特成为他们家庭中的一员。"},
-        ]
+        ],
+        inputMsg:'',
+        list:[
+          {
+            "date": "2020/04/25 21:19:07",
+            "text": { "text": "智能机器人为你回答" },
+            "mine": false,
+            "name": "智能机器人",
+            "img": "https://ydl8023.oss-cn-beijing.aliyuncs.com/avatar19.png"
+          },
+        ],
+        config:{
+          img: 'https://cdn.jsdelivr.net/gh/apache/echarts-website@asf-site/zh/images/index-home-pie.png?_v_=20200710_1',
+          name: 'SuperChat',
+          dept: '想你所想',
+        },
+        tool:{
+          show:[]
+        },
+        ifNotShowBox:true,
+        isVirtual:false
       }
     },
     components:{
@@ -59,6 +90,30 @@
       },
       changePageNum(pageNum,pageSize){
         //pageNum改变后的页码，pageSize都是6
+      },
+      bindEnter(){
+        const msg=this.inputMsg
+        const msgObj = {
+          "date": "2020/05/20 23:19:07",
+          "text": { "text": msg },
+          "mine": true,
+          "name": "我",
+          "img": "https://ydl8023.oss-cn-beijing.aliyuncs.com/柴犬.jpeg"
+        }
+        this.list.push(msgObj)
+        const msgObj2 = {
+          "date": "2020/05/20 23:19:07",
+          "text": { "text": "我不好" },
+          "mine": false,
+          "name": "智能机器人",
+          "img": "https://ydl8023.oss-cn-beijing.aliyuncs.com/avatar19.png"
+        }
+        this.list.push(msgObj2)
+      },
+      showBox(){
+        this.ifNotShowBox=!this.ifNotShowBox
+        this.isVirtual=!this.isVirtual
+        console.log(this.ifNotShowBox)
       }
     },
     mounted() {
@@ -143,5 +198,30 @@ $color: #e24040;
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+.myBot{
+  position: fixed;
+  top: 80%;
+  left: 80%;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+.myBot:hover{
+  box-shadow: 0 3px 3px rgba(51, 51, 51, .25);
+  -webkit-transform: translateY(-2px);
+  -moz-transform: translateY(-2px);
+  transform: translateY(-2px)
+}
+.chatBox{
+  display: none;
+}
+  .contentBox{
+    position: fixed;
+    top: 10%;
+    left: 24%;
+  }
+  .bgContent{
+    opacity: 0.3;
   }
 </style>

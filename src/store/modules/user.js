@@ -58,10 +58,10 @@ const user = {
                 console.log('登录成功啦')
                 // 根据用户身份类型来判断会跳转到哪个页面
                 if(resData.userType!=='professional') {
-                    router.push('/search');
+                    router.push('/home');
                 }
                 else{
-                    router.push('/home');
+                    router.push('/search');
                 }
             } else {
                 message.error(resData)
