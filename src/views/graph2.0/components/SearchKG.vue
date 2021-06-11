@@ -12,12 +12,14 @@
     <JwChat-index
       :taleList="list"
       @enter="bindEnter"
+      @clickTalk="changeRole"
       v-model="inputMsg"
       :showRightBox="false"
       :config="config"
       :toolConfig="tool"
       :class="{'chatBox':ifNotShowBox}"
       scrollType="scroll"
+      id="chatpage"
     />
   </body>
 </template>
@@ -46,7 +48,8 @@
           dept: '想你所想',
         },
         tool:{
-          show:[]
+          show:['img'],
+          callback:this.toolEvent
         },
         ifNotShowBox:true,
         isShow:true
@@ -101,6 +104,12 @@
       },
       showBox(){
         this.ifNotShowBox=!this.ifNotShowBox
+      },
+      changeRole(){
+        console.log('切换角色')
+      },
+      toolEvent(type, plyload) {
+        console.log('tools', type, plyload)
       }
     },
     mounted() {
@@ -109,6 +118,8 @@
       }).blur(function(){
         $(this).parent().removeClass('focus');
       })
+      document.getElementsByClassName('header')[0].setAttribute('style', 'background-color: #123456 !important')
+      document.getElementsByClassName('el-button')[0].setAttribute('style', 'border-color: #123456 !important;background-color: #123456 !important')
     }
   }
 </script>
@@ -217,5 +228,16 @@
   }
   .show{
     display: none;
+  }
+
+  .ChatPage .header[data-v-561fedf6] {
+    background-color: #ffffff !important;
+    display: flex;
+    margin: 0 auto;
+    padding-left: 12px;
+    align-items: center;
+    height: 60px;
+    position: relative;
+    color: #fff;
   }
 </style>

@@ -14,7 +14,6 @@ router.beforeEach(async(to, from, next) => {
         if (to.path === '/login') {
             // 导向首页
             if(user.state.userInfo.userType==='normal'){
-                console.log('不是这个么')
                 next({path: '/search'});
             }
             else{
