@@ -3,7 +3,7 @@ import { getToken } from '@/utils/auth'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 const whiteList = ['/login'];
-const normalUser=['/search','/searchList','/searchDetail']
+const normalUser=['/search','/searchList','/searchDetail','/experience']
 import user from "./store/modules/user";
 import {message} from "ant-design-vue";
 

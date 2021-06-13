@@ -12,7 +12,7 @@ const routes = [
   },
   {
     path: '/',
-    redirect: '/home'
+    redirect: '/login'
   },
   {
     path: '/home',
@@ -26,6 +26,11 @@ const routes = [
         component: () => import('@/views/user/UserGraphList')
       }
     ]
+  },
+  {
+    path: '/experience',
+    name: 'experience',
+    component: ()=> import('@/views/graph2.0/components/ExperienceHome'),
   },
   {
     path: '/search',
