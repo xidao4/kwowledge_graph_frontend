@@ -137,13 +137,18 @@
   $color: #e24040;
 
   body {
-    height: 100vh;
-    margin: 0;
-    background: #DEDEDE;
-    color: #5a6674;
-    font-size: 13px;
-    font-family: 'Roboto', sans-serif;
-    overflow: hidden;
+    /*height: 100vh;*/
+    /*margin: 0;*/
+    /*background: #DEDEDE;*/
+    /*color: #5a6674;*/
+    /*font-size: 13px;*/
+    /*font-family: 'Roboto', sans-serif;*/
+    /*overflow: hidden;*/
+    background: url("http://img3.doubanio.com/pview/event_poster/raw/public/54aebce8fa99ce3.jpg");
+    background-size: 100% 100%;
+    height: 100%;
+    position: fixed;
+    width: 100%
   }
 
 
@@ -152,8 +157,8 @@
   --------------------*/
   .search-form {
     position: relative;
-    top: 46%;
-    left: 50%;
+    top: 44%;
+    left: 49%;
     width: 480px;
     height: 50px;
     border-radius: 40px;
