@@ -10,6 +10,8 @@ import {message} from "ant-design-vue";
 router.beforeEach(async(to, from, next) => {
     NProgress.start();
     const hasToken = getToken();
+    //测试用by ydl，之后要删掉
+    user.state.userInfo.userType='normal'
     if (hasToken) {
         if (to.path === '/login') {
             // 导向首页

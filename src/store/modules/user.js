@@ -56,12 +56,14 @@ const user = {
                 commit('set_userInfo', resData);
                 setToken(resData.token);
                 console.log('登录成功啦')
+                console.log('为什么总是报没有权限',resData.userType)
                 // 根据用户身份类型来判断会跳转到哪个页面
                 if(resData.userType!=='professional') {
+                    console.log('hi')
                     router.push('/search');
                 }
                 else{
-                    router.push('/normal');
+                    router.push('/home');
                 }
             } else {
                 message.error(resData)

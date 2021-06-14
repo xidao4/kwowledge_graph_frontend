@@ -48,5 +48,9 @@ const getters={
     searchResult: state=>state.search.searchResult,
     allPageNum:state=>state.search.allPageNum,
     currentPageNum: state=>state.search.currentPageNum,
+
+    roleId: state=>state.chat.roleId,
+    roleSentence: state=>state.chat.roleSentence,
+    chatAnswer: state=>state.chat.chatAnswer
 };
 export default getters

@@ -1,13 +1,13 @@
 <template>
   <body>
     <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/message.png" class="myBot" @click="showBox"/>
-    <form class="search-form" onkeypress="return event.keyCode !== 13;">
+    <form class="search-form" onkeypress="return event.keyCode !== 13;" :class="{'bgContent':isVirtual}">
       <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/搜索.png" id="searchIcon"/>
       <input v-model="searchString" placeholder="搜你想搜" class="search-input" @keydown.enter="searchContent">
-      <div :class="{'itemList':true,'show':isShow}">
-        <li @click="searchContentList">电影图谱1</li>
-        <li>电影图谱2</li>
-      </div>
+<!--      <div :class="{'itemList':true,'show':isShow}">-->
+<!--        <li @click="searchContentList">电影图谱1</li>-->
+<!--        <li>电影图谱2</li>-->
+<!--      </div>-->
     </form>
     <JwChat-index
       :taleList="list"
@@ -21,11 +21,32 @@
       scrollType="scroll"
       id="chatpage"
     />
+    <a-modal
+      title="角色选择"
+      :visible="roleVisible"
+      @ok="handleOk"
+      @cancel="handleCancel"
+    >
+      <div class="roleList">
+        <div v-for="(item,i) in roleSentence" @click="change(i)">
+          <img :src="item.avatarUrl" class="avatar">
+          <div style="width: 120px;text-align: center;">
+            {{item.name}}
+          </div>
+        </div>
+      </div>
+      <br/>
+      <div class="selectRole">
+        <h3>您选择的角色是：</h3>
+        {{roleSentence[tempRoleId].name}}
+      </div>
+    </a-modal>
   </body>
 </template>
 
 <script>
   import {mapGetters,mapMutations,mapActions} from 'vuex'
+  import {message} from "ant-design-vue";
   import $ from 'jquery'
   export default {
     name: "SearchKG",
@@ -33,17 +54,17 @@
       return{
         searchString:'',
         inputMsg:'',
-        list:[
-          {
-            "date": "2020/04/25 21:19:07",
-            "text": { "text": "智能机器人为你回答" },
-            "mine": false,
-            "name": "智能机器人",
-            "img": "https://ydl8023.oss-cn-beijing.aliyuncs.com/avatar19.png"
-          },
-        ],
+        // list:[
+        //   {
+        //     "text": { "text": "智能机器人为你回答" },
+        //     "mine": false,
+        //     "name": "智能机器人",
+        //     "img": "https://ydl8023.oss-cn-beijing.aliyuncs.com/avatar19.png"
+        //   },
+        // ],
+        list:[],
         config:{
-          img: 'https://cdn.jsdelivr.net/gh/apache/echarts-website@asf-site/zh/images/index-home-pie.png?_v_=20200710_1',
+          img: 'http://i3.sinaimg.cn/gm/j/n/2008-12-30/U1850P115T9D289891F364DT20081230185442_c.jpg',
           name: 'SuperChat',
           dept: '想你所想',
         },
@@ -52,8 +73,13 @@
           callback:this.toolEvent
         },
         ifNotShowBox:true,
-        isShow:true
+        isShow:true,
+        isVirtual:false,
+        roleVisible: false,
+        tempRoleId: 0,
       }
+    },
+    components:{
     },
     watch:{
       searchString(){
@@ -62,12 +88,19 @@
     },
     computed: {
       ...mapGetters([
-        "searchString"
+        "searchString",
+        "roleId",
+        "roleSentence",
+        "chatAnswer"
+      ]),
+      ...mapActions([
+        "getChatAnswer"
       ]),
     },
     methods:{
       ...mapMutations([
-        'set_searchString'
+        'set_searchString',
+        'set_roleId'
       ]),
       searchContent(){
         console.log(this.searchString)
@@ -83,33 +116,69 @@
           path:`/searchList`
         })
       },
-      bindEnter(){
+      async bindEnter(){
         const msg=this.inputMsg
+        if(msg===''){
+          message.error('聊天内容不能为空')
+          return ;
+        }
         const msgObj = {
-          "date": "2020/05/20 23:19:07",
           "text": { "text": msg },
           "mine": true,
           "name": "我",
           "img": "https://ydl8023.oss-cn-beijing.aliyuncs.com/柴犬.jpeg"
         }
         this.list.push(msgObj)
+        await this.getChatAnswer(msg)
+        let that=this
         const msgObj2 = {
-          "date": "2020/05/20 23:19:07",
-          "text": { "text": "我不好" },
+          "text": { "text": that.chatAnswer },
           "mine": false,
-          "name": "智能机器人",
-          "img": "https://ydl8023.oss-cn-beijing.aliyuncs.com/avatar19.png"
+          "name": that.roleSentence[that.roleId].name,
+          "img": that.roleSentence[that.roleId].avatarUrl
         }
         this.list.push(msgObj2)
       },
       showBox(){
+        var that=this
         this.ifNotShowBox=!this.ifNotShowBox
+        this.isVirtual=!this.isVirtual
+        this.list.push({
+          "text": { "text": that.roleSentence[that.roleId].firstSentence},
+          "mine": false,
+          "name": that.roleSentence[that.roleId].name,
+          "img": that.roleSentence[that.roleId].avatarUrl
+          })
+        if(this.isVirtual===false){
+          this.list=[]
+          this.set_roleId(0)
+        }
       },
       changeRole(){
         console.log('切换角色')
+        this.roleVisible=true
       },
       toolEvent(type, plyload) {
         console.log('tools', type, plyload)
+      },
+      handleOk(e) {
+        this.set_roleId(this.tempRoleId)
+        this.roleVisible = false;
+        this.list=[]
+        this.list.push({
+          "text": { "text": this.roleSentence[this.roleId].firstSentence},
+          "mine": false,
+          "name": this.roleSentence[this.roleId].name,
+          "img": this.roleSentence[this.roleId].avatarUrl
+        })
+      },
+      handleCancel(e) {
+        this.roleVisible = false;
+        this.tempRoleId=this.roleId
+      },
+      change(i){
+        console.log(i)
+        this.tempRoleId=i
       }
     },
     mounted() {
@@ -118,8 +187,9 @@
       }).blur(function(){
         $(this).parent().removeClass('focus');
       })
-      document.getElementsByClassName('header')[0].setAttribute('style', 'background-color: #123456 !important')
-      document.getElementsByClassName('el-button')[0].setAttribute('style', 'border-color: #123456 !important;background-color: #123456 !important')
+      document.getElementsByClassName('header')[0].setAttribute('style', 'background-color: #F6CEE3 !important;')
+      document.getElementsByClassName('el-button')[0].setAttribute('style', 'border-color: #F6CEE3 !important;background-color: #F6CEE3 !important')
+      // document.getElementsByClassName('cover')[0].setAttribute('style', 'cursor: auto;')
     }
   }
 </script>
@@ -144,7 +214,7 @@
     /*font-size: 13px;*/
     /*font-family: 'Roboto', sans-serif;*/
     /*overflow: hidden;*/
-    background: url("http://img3.doubanio.com/pview/event_poster/raw/public/54aebce8fa99ce3.jpg");
+    background: url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fspider.nosdn.127.net%2F056b09f38fcd0ac720b1079cd991b5de.jpeg&refer=http%3A%2F%2Fspider.nosdn.127.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1626164318&t=15c176c5ef8893498c63826ae749178a");
     background-size: 100% 100%;
     height: 100%;
     position: fixed;
@@ -157,8 +227,8 @@
   --------------------*/
   .search-form {
     position: relative;
-    top: 44%;
-    left: 49%;
+    top: 38%;
+    left: 30%;
     width: 480px;
     height: 50px;
     border-radius: 40px;
@@ -204,6 +274,7 @@
     height: 60px;
     cursor: pointer;
     border-radius: 10%;
+    background-color: #ffffff;
   }
   .myBot:hover{
     box-shadow: 0 3px 3px rgba(51, 51, 51, .25);
@@ -244,5 +315,23 @@
     height: 60px;
     position: relative;
     color: #fff;
+  }
+  .bgContent{
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .roleList{
+    display: flex;
+    /*justify-content: center;*/
+    flex-wrap: wrap;
+  }
+  .avatar{
+    width: 100px;
+    height:100px;
+    margin: 10px;
+    cursor: pointer;
+  }
+  .selectRole{
+    margin-left: 10px;
   }
 </style>

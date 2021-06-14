@@ -5,6 +5,7 @@ import search from "./modules/search";
 import graph from './modules/graph'
 import user from './modules/user'
 import util from './modules/util'
+import chat from "./modules/chat";
 import persistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex);
@@ -36,6 +37,7 @@ const store = new Vuex.Store({
         graph,
         user,
         search,
+        chat,
         util
     },
     getters,
