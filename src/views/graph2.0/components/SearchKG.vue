@@ -3,11 +3,21 @@
     <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/message.png" class="myBot" @click="showBox"/>
     <form class="search-form" onkeypress="return event.keyCode !== 13;" :class="{'bgContent':isVirtual}">
       <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/搜索.png" id="searchIcon"/>
-      <input v-model="searchString" placeholder="搜你想搜" class="search-input" @keydown.enter="searchContent">
+      <input v-model="searchString" placeholder="搜你想搜" class="search-input" @keydown.enter="searchContentList">
 <!--      <div :class="{'itemList':true,'show':isShow}">-->
 <!--        <li @click="searchContentList">电影图谱1</li>-->
 <!--        <li>电影图谱2</li>-->
 <!--      </div>-->
+      <a-upload
+        name="mFile"
+        :multiple="false"
+        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        @change="handleChange"
+        :customRequest="uploadImage"
+        class="upload"
+      >
+        <a-button> <a-icon type="upload" />上传图片</a-button>
+      </a-upload>
     </form>
     <JwChat-index
       :taleList="list"
@@ -48,10 +58,17 @@
   import {mapGetters,mapMutations,mapActions} from 'vuex'
   import {message} from "ant-design-vue";
   import $ from 'jquery'
+  import { getToken } from '@/utils/auth'
+  import axios from "axios";
   export default {
     name: "SearchKG",
     data(){
       return{
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "authorization": 'authorization-text',
+          "token": getToken()
+        },
         searchString:'',
         inputMsg:'',
         // list:[
@@ -69,7 +86,7 @@
           dept: '想你所想',
         },
         tool:{
-          show:['img'],
+          show:['file'],
           callback:this.toolEvent
         },
         ifNotShowBox:true,
@@ -77,6 +94,7 @@
         isVirtual:false,
         roleVisible: false,
         tempRoleId: 0,
+        resList: []
       }
     },
     components:{
@@ -91,16 +109,18 @@
         "searchString",
         "roleId",
         "roleSentence",
-        "chatAnswer"
-      ]),
-      ...mapActions([
-        "getChatAnswer"
+        "chatAnswer",
       ]),
     },
     methods:{
       ...mapMutations([
         'set_searchString',
-        'set_roleId'
+        'set_roleId',
+        'set_searchResult'
+      ]),
+      ...mapActions([
+        "getChatAnswer",
+        "getSearchAnswer"
       ]),
       searchContent(){
         console.log(this.searchString)
@@ -110,11 +130,12 @@
         //   path:`/searchList`
         // })
       },
-      searchContentList(){
+      async searchContentList(){
         this.set_searchString(this.searchString)
         this.$router.push({
-          path:`/searchList`
+          path: `/searchList`
         })
+        await this.getSearchAnswer()
       },
       async bindEnter(){
         const msg=this.inputMsg
@@ -149,6 +170,14 @@
           "name": that.roleSentence[that.roleId].name,
           "img": that.roleSentence[that.roleId].avatarUrl
           })
+        if(this.roleId===0){
+          this.list.push({
+            "text": { "text": "点击用户头像还能切换不同的对话角色哟"},
+            "mine": false,
+            "name": that.roleSentence[that.roleId].name,
+            "img": that.roleSentence[that.roleId].avatarUrl
+          })
+        }
         if(this.isVirtual===false){
           this.list=[]
           this.set_roleId(0)
@@ -160,6 +189,42 @@
       },
       toolEvent(type, plyload) {
         console.log('tools', type, plyload)
+        console.log('调用上传图片')
+        let formData = new FormData()
+        formData.append('mFile', plyload[0])
+        console.log('myFormData',formData.get('mFile'))
+        let that=this
+        let config = {
+          headers: that.headers
+        }
+        this.picId='1111' //测试用
+        axios.post(`http://118.182.96.49:8001/api/graph/uploadCustomizeImg/${this.picId}/0/0`,formData,config)
+          .then(response => {
+            // handle success
+            console.log('success!!',response.contentList)
+            response.contentList=['111','222','3333']
+            for(let i=0;i<response.contentList.length;i++){
+              that.resList.push({
+                id: `system`+{i},
+                text: response.contentList[i]
+              })
+            }
+            that.list.push({
+              "mine": false,
+              "name": that.roleSentence[that.roleId].name,
+              "img": that.roleSentence[that.roleId].avatarUrl,
+              "text":{
+                system:{
+                  title:'看图说话',
+                  subtitle:'你可是想问:',
+                  content:that.resList
+                }
+              }
+            })
+          }).catch(error => {
+          this.$message.error(`图片上传失败.`);
+        }).then(() => {
+        });
       },
       handleOk(e) {
         this.set_roleId(this.tempRoleId)
@@ -179,7 +244,40 @@
       change(i){
         console.log(i)
         this.tempRoleId=i
-      }
+      },
+      handleChange(info) {
+        if (info.file.status !== 'uploading') {
+          console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+          this.$message.success(`${info.file.name} file uploaded successfully`);
+        } else if (info.file.status === 'error') {
+          this.$message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+      uploadImage(file) {
+        console.log('调用上传图片')
+        let formData = new FormData()
+        console.log(file.file)
+        formData.append('mFile', file.file)
+        console.log('myFormData',formData.get('mFile'))
+        let that=this
+        let config = {
+          headers: that.headers
+        }
+        axios.post(`http://118.182.96.49:8001/api/search/uploadScene`,formData,config)
+          .then(response => {
+            // handle success
+            console.log('success!!',response.contentList)
+            this.set_searchResult(response.contentList)
+          }).catch(error => {
+          this.$message.error(`图片上传失败.`);
+        }).then(() => {
+          this.$router.push({
+            path: `/searchList`
+          })
+        });
+      },
     },
     mounted() {
       $('.search-input').focus(function(){
@@ -273,8 +371,8 @@
     width: 60px;
     height: 60px;
     cursor: pointer;
-    border-radius: 10%;
-    background-color: #ffffff;
+    border-radius: 50%;
+    background-color: #000000;
   }
   .myBot:hover{
     box-shadow: 0 3px 3px rgba(51, 51, 51, .25);
@@ -333,5 +431,13 @@
   }
   .selectRole{
     margin-left: 10px;
+  }
+  .upload{
+    position: fixed;
+    float: right;
+    left: 72%;
+    top: 19%;
+    margin-right: 30px;
+    /*<!--transform: translate(0, -50%);-->*/
   }
 </style>

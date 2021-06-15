@@ -1,7 +1,8 @@
 <template>
   <div class="myCard">
-    <h2><span class="underline-hover" @click="toDetail">{{movieName}}</span></h2>
+    <h2><span class="underline-hover">{{movieName}}</span></h2>
     <div class="demo">{{movieDescription}}</div>
+    <div class="seeMore" @click="seeMore">查看该词条在图谱中的位置</div>
   </div>
 </template>
 
@@ -13,11 +14,9 @@
       movieDescription:String
     },
     methods:{
-      toDetail(){
-        this.$router.push({
-          path:`/searchDetail`
-        })
-      },
+      seeMore(){
+        console.log('拿着props里面的movieName去迭代二里面的图谱中查找')
+      }
     }
   }
 </script>
@@ -27,6 +26,7 @@
     color: #1a0dab;
     font-size: 20px;
     font-weight: normal;
+    margin-bottom: 2px;
   }
   .underline-hover{
     padding:5px;
@@ -58,7 +58,7 @@
   width: 46%;
   height: 100px;
   margin-left: 12%;
-  margin-bottom: 1.3%;
+  margin-bottom: 2%;
 }
 .demo {
   max-height: 60px;
@@ -87,5 +87,13 @@
   position: relative;
   left:100%;
   transform: translate(-100%,-100%);
+}
+.seeMore{
+  font-size: 12px;
+  color: blue;
+  cursor: pointer;
+  margin-left: 2em;
+  padding-top: 3px;
+  margin-bottom: 10px;
 }
 </style>
