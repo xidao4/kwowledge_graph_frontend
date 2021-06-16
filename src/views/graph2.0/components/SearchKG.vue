@@ -1,12 +1,12 @@
 <template>
   <body>
     <div class="imgList">
-      <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/message.png" class="myBot1" @click="showBox"/>
-      <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/message.png" class="myBot2" @click="showBox"/>
-      <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/message.png" class="myBot3" @click="logoutBox"/>
+      <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/atm.png" class="myBot1" @click="showBox"/>
+      <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/bussiness-man.png" class="myBot2" @click="showBox"/>
+      <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/double-arro- right.png" class="myBot3" @click="logoutBox"/>
     </div>
     <form class="search-form" onkeypress="return event.keyCode !== 13;" :class="{'bgContent':isVirtual}">
-      <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/搜索.png" id="searchIcon"/>
+      <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/搜索 (1).png" id="searchIcon"/>
       <input v-model="searchString" placeholder="搜你想搜" class="search-input" @keydown.enter="searchContentList">
 <!--      <div :class="{'itemList':true,'show':isShow}">-->
 <!--        <li @click="searchContentList">电影图谱1</li>-->

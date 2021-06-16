@@ -1,7 +1,8 @@
 <template>
   <body>
 <!--    <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/message.png" class="myBot" @click="showBox"/>-->
-    <div :class="{'bgContent':isVirtual}">
+    <div class="bodyStyle"></div>
+    <div class="bgContent">
       <div>
         <img src="http://i3.sinaimg.cn/gm/j/n/2008-12-30/U1850P115T9D289891F364DT20081230185442_c.jpg">
         <form class="search-form" onkeypress="return event.keyCode !== 13;">
@@ -129,16 +130,25 @@
 $color: #e24040;
 
 body {
-  background: url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fspider.nosdn.127.net%2F056b09f38fcd0ac720b1079cd991b5de.jpeg&refer=http%3A%2F%2Fspider.nosdn.127.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1626164318&t=15c176c5ef8893498c63826ae749178a");
-  background-size: 100% 100%;
-  height: 100%;
-  position: fixed;
-  width: 100%;
-  margin: 0;
+  /*background: url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fspider.nosdn.127.net%2F056b09f38fcd0ac720b1079cd991b5de.jpeg&refer=http%3A%2F%2Fspider.nosdn.127.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1626164318&t=15c176c5ef8893498c63826ae749178a");*/
+  /*background-size: 100% 100%;*/
+  /*height: 100%;*/
+  /*position: fixed;*/
+  /*width: 100%;*/
+  /*margin: 0;*/
   color: #5a6674;
   font-size: 13px;
   font-family: 'Roboto', sans-serif;
   overflow: hidden;
+}
+.bodyStyle{
+  background: url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fspider.nosdn.127.net%2F056b09f38fcd0ac720b1079cd991b5de.jpeg&refer=http%3A%2F%2Fspider.nosdn.127.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1626164318&t=15c176c5ef8893498c63826ae749178a");
+  background-size: 100% 100%;
+  opacity: 0.5;
+  height: 100%;
+  position: fixed;
+  width: 100%;
+  margin: 0;
 }
 img{
   width: 8%;
@@ -217,6 +227,12 @@ $color: #e24040;
   left: 24%;
 }
 .bgContent{
-  opacity: 0.3;
+  /*opacity: 0.3;*/
+  /*border: 1px solid black;*/
+  z-index: 11;
+}
+.contentPart{
+  z-index: 111;
+  opacity: 1;
 }
 </style>
