@@ -137,7 +137,7 @@
       },
       async searchContentList(){
         this.set_searchString(this.searchString)
-        await this.getSearchAnswer()
+        // await this.getSearchAnswer()
         this.$router.push({
           path: `/searchList`
         })

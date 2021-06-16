@@ -39,7 +39,7 @@
 
 <style scoped lang="scss">
   h2{
-    color: #1a0dab;
+    color: #cd6657;
     font-size: 20px;
     font-weight: normal;
     /*margin-bottom: 2px;*/

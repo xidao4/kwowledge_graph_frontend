@@ -3,7 +3,7 @@
 <!--    <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/message.png" class="myBot" @click="showBox"/>-->
     <div :class="{'bgContent':isVirtual}">
       <div>
-        <img src="https://cdn.jsdelivr.net/gh/apache/echarts-website@asf-site/zh/images/index-home-pie.png?_v_=20200710_1">
+        <img src="http://i3.sinaimg.cn/gm/j/n/2008-12-30/U1850P115T9D289891F364DT20081230185442_c.jpg">
         <form class="search-form" onkeypress="return event.keyCode !== 13;">
           <input v-model="searchCondition" placeholder="搜你想搜" class="search-input" @keydown.enter="searchContent">
         </form>
@@ -129,7 +129,11 @@
 $color: #e24040;
 
 body {
-  height: 100vh;
+  background: url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fspider.nosdn.127.net%2F056b09f38fcd0ac720b1079cd991b5de.jpeg&refer=http%3A%2F%2Fspider.nosdn.127.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1626164318&t=15c176c5ef8893498c63826ae749178a");
+  background-size: 100% 100%;
+  height: 100%;
+  position: fixed;
+  width: 100%;
   margin: 0;
   color: #5a6674;
   font-size: 13px;
@@ -137,15 +141,15 @@ body {
   overflow: hidden;
 }
 img{
-  width: 4%;
-  height: 4%;
-  margin-left: 6%;
+  width: 8%;
+  height: 8%;
+  margin-left: 2%;
   margin-top: 2%;
 }
 $color: #e24040;
 .search-form {
   position: relative;
-  margin-top: -2%;
+  margin-top: -1.8%;
   margin-left: 32%;
   width: 600px;
   height: 50px;
