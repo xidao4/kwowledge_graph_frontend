@@ -347,9 +347,9 @@
     height: 50px;
     border-radius: 40px;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
     transform: translate(-50%, -50%);
     background: #fff;
-    transition: all 0.3s ease;
 
   &.focus {
      box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15);
@@ -390,6 +390,8 @@
     border-radius: 50%;
     background-color: #ffffff;
     margin:40px;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
   }
   .myBot1:hover{
     box-shadow: 0 3px 3px rgba(51, 51, 51, .25);
@@ -407,6 +409,8 @@
     border-radius: 50%;
     background-color: #ffffff;
     margin:40px;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
   }
   .myBot2:hover{
     box-shadow: 0 3px 3px rgba(51, 51, 51, .25);
@@ -424,6 +428,8 @@
     border-radius: 50%;
     background-color: #ffffff;
     margin:40px;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
   }
   .myBot3:hover{
     box-shadow: 0 3px 3px rgba(51, 51, 51, .25);

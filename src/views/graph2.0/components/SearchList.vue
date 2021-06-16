@@ -1,7 +1,11 @@
 <template>
   <body>
+
 <!--    <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/message.png" class="myBot" @click="showBox"/>-->
     <div class="bodyStyle"></div>
+    <div class="imgList">
+      <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/double-arro- right.png" class="myBot3" @click="logoutBox"/>
+    </div>
     <div class="bgContent">
       <div>
         <img src="http://i3.sinaimg.cn/gm/j/n/2008-12-30/U1850P115T9D289891F364DT20081230185442_c.jpg">
@@ -11,7 +15,7 @@
       </div>
       <a-divider />
       <div class="contentPart">
-        <search-card v-for="item in this.searchResult" :movie-description="item.info" :movie-name="item.title"></search-card>
+        <search-card v-for="item in this.searchResult" :movie-description="item.info" :movie-name="item.title" id="ccc"></search-card>
       </div>
 <!--      <div class="pageBox">-->
 <!--        <a-pagination :default-current="1" v-model="currentPage" :total="100" class="pageBar" :defaultPageSize="6" :hideOnSinglePage="true" @change="changePageNum"/>-->
@@ -72,6 +76,9 @@
       SearchCard
     },
     methods:{
+      ...mapMutations([
+        'logout'
+      ]),
       ...mapActions([
         "getSearchAnswer"
       ]),
@@ -82,6 +89,9 @@
       },
       changePageNum(pageNum,pageSize){
         //pageNum改变后的页码，pageSize都是6
+      },
+      logoutBox(){
+        this.logout()
       },
       bindEnter(){
         const msg=this.inputMsg
@@ -235,4 +245,30 @@ $color: #e24040;
   z-index: 111;
   opacity: 1;
 }
+.myBot3{
+  position: fixed;
+  top: 80%;
+  left: 87%;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: #ffffff;
+  margin:40px;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+.myBot3:hover{
+  box-shadow: 0 3px 3px rgba(51, 51, 51, .25);
+  -webkit-transform: translateY(-2px);
+  -moz-transform: translateY(-2px);
+  transform: translateY(-2px)
+}
+  .imgList{
+    z-index: 111;
+  }
+  #ccc{
+    z-index: 111;
+  }
+
 </style>

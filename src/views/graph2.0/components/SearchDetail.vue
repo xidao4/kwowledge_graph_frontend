@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="imgList">
+      <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/double-arro- right.png" class="myBot3" @click="logoutBox"/>
+    </div>
     <div class="infoBar">
       <div class="info">
         <div class="information">
@@ -32,7 +35,7 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters} from 'vuex'
+  import {mapActions, mapGetters,mapMutations} from 'vuex'
   import G6 from '@antv/g6';
   import {setHighlight} from '../../../components/g6/Graph.js';
 
@@ -49,11 +52,17 @@
       ])
     },
     methods:{
+      ...mapMutations([
+        'logout'
+      ]),
       ...mapActions([
         'getSearchAnswerDetail'
       ]),
       onSearch(value){
         setHighlight(this.myGraph,this.searchNodes,this.searchEdges);
+      },
+      logoutBox(){
+        this.logout()
       },
       async initG6(){
         let processedEdges = [...this.searchResultDetail.edges];
@@ -106,7 +115,7 @@
           const shape = ev.target;
           const node = ev.item;
           console.log('我点击了！！！',node._cfg.model.label)
-          this.getSearchAnswerDetail(node._cfg.model.label)
+          this.getSearchAnswerDetail('林黛玉')
         });
       }
     },
@@ -160,5 +169,24 @@
     width: 760px; height: 400px;
     position: absolute; left: 50%; top: 50%;
     transform: translate(-50%, -50%);
+  }
+  .myBot3{
+    position: fixed;
+    top: 80%;
+    left: 87%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: #ffffff;
+    margin:40px;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+  }
+  .myBot3:hover{
+    box-shadow: 0 3px 3px rgba(51, 51, 51, .25);
+    -webkit-transform: translateY(-2px);
+    -moz-transform: translateY(-2px);
+    transform: translateY(-2px)
   }
 </style>
