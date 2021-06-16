@@ -56,22 +56,22 @@ const search={
         }
       ],
       edges: [
-        {
-          "id": "5",
-          "label": "hit_edge_1",
-          "source": "1",
-          "type": "test_type_1",
-          "class": "c0",
-          "target": "2"
-        },
-        {
-          "id": "6",
-          "label": "edge_1",
-          "source": "1",
-          "type": "test_type_2",
-          "class": "c0",
-          "target": "2"
-        },
+        // {
+        //   "id": "5",
+        //   "label": "hit_edge_1",
+        //   "source": "1",
+        //   "type": "test_type_1",
+        //   "class": "c0",
+        //   "target": "2"
+        // },
+        // {
+        //   "id": "6",
+        //   "label": "edge_1",
+        //   "source": "1",
+        //   "type": "test_type_2",
+        //   "class": "c0",
+        //   "target": "2"
+        // },
         {
           "id": "7",
           "label": "hit_edge_2",

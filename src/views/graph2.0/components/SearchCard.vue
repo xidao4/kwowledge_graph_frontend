@@ -28,7 +28,7 @@
       ]),
       async seeMore(){
         console.log('拿着props里面的movieName去迭代二里面的图谱中查找',this.movieName)
-        await this.getSearchAnswerDetail(this.movieName)
+        // await this.getSearchAnswerDetail(this.movieName)
         this.$router.push({
           path: `/searchDetail`
         })
