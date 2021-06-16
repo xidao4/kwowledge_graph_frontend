@@ -81,6 +81,9 @@
   line-height: 20px;
   overflow: hidden;
   text-indent: 2em;
+  color: black;
+  font-weight: bold;
+  opacity: 1;
 }
 /*.demo::before{*/
 /*  float: left;*/
