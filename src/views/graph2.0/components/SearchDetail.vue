@@ -32,9 +32,9 @@
 </template>
 
 <script>
-  import {mapGetters,mapMutations,mapActions} from 'vuex'
+  import {mapActions, mapGetters} from 'vuex'
   import G6 from '@antv/g6';
-  import { setHighlight,cancelHighlight } from '../../../components/g6/Graph.js';
+  import {setHighlight} from '../../../components/g6/Graph.js';
 
   export default {
     name: "SearchDetail",
@@ -56,11 +56,16 @@
         setHighlight(this.myGraph,this.searchNodes,this.searchEdges);
       },
       async initG6(){
+        let processedEdges = [...this.searchResultDetail.edges];
+        processedEdges.forEach((edge) => {
+          edge.type = 'arc';
+          edge.curveOffset = 30;
+        });
         const initData = {
           // 点集
           nodes: this.searchResultDetail.nodes,
           // 边集
-          edges: this.searchResultDetail.edges,
+          edges: processedEdges,
         };
         const graph = new G6.Graph({
           container: 'mountNode', // 指定挂载容器
@@ -92,12 +97,6 @@
                 fill: '#000', // 节点标签文字颜色
               },
             },
-          },
-          // 边在默认状态下的样式配置（style）和其他配置
-          defaultEdge: {
-            // ...                 // 边的其他配置
-            // 边样式配置
-            type: 'arc',
           },
         });
         this.myGraph=graph;
