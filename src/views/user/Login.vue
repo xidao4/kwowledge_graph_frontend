@@ -2,7 +2,11 @@
     <div>
         <div class="login">
             <div class="home-chart">
-                <img src="https://cdn.jsdelivr.net/gh/apache/echarts-website@asf-site/zh/images/index-home-pie.png?_v_=20200710_1">
+                <img src="http://i3.sinaimg.cn/gm/j/n/2008-12-30/U1850P115T9D289891F364DT20081230185442_c.jpg">
+                <div class="function">
+                    <h2>搜索</h2>
+                    <h2>问答</h2>
+                </div>
             </div>
             <LoginForm></LoginForm>
         </div>
@@ -21,10 +25,12 @@
 
 <style scoped>
 .home-chart{
-
+    position: absolute;
+    top: 70px;
+    left: 160px;
 }
 .home-chart img {
-    height: 400px;
+    height: 130px;
 }
 .login{
     padding: 70px;
@@ -32,6 +38,15 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    margin-left: 30%;
+}
+h2{
+    font-size: 36px;
+    font-weight: bold;
+    font-family: STFangsong;
+}
+.function{
+    margin-left: 35%;
 }
 
 @media screen and (max-width:1000px){

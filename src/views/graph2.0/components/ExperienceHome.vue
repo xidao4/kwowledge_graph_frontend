@@ -27,7 +27,7 @@
 
 <style scoped lang="scss">
 .homePage{
-  background: url("http://img3.doubanio.com/pview/event_poster/raw/public/54aebce8fa99ce3.jpg");
+  background: url("https://ydl8023.oss-cn-beijing.aliyuncs.com/20210617004925.png");
   background-size: 100% 100%;
   height: 100%;
   position: fixed;
