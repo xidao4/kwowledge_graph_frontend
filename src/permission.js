@@ -13,13 +13,17 @@ router.beforeEach(async(to, from, next) => {
     //测试用by ydl，之后要删掉
     user.state.userInfo.userType='normal'
     if (hasToken) {
-        if (to.path === '/login') {
+        if(to.path==='/experience'){
+            next();
+            NProgress.done()
+        }
+        else if (to.path === '/login') {
             // 导向首页
             if(user.state.userInfo.userType==='normal'){
                 next({path: '/search'});
             }
             else{
-                next({path: '/'});
+                next({path: '/home'});
             }
             NProgress.done()
         } else {
@@ -29,11 +33,13 @@ router.beforeEach(async(to, from, next) => {
                 }
                 else{
                     message.error('没有权限访问')
+                    next({path: '/experience'});
                 }
             }
             else{
                 if(normalUser.indexOf(to.path)!==-1){
                     message.error('没有权限访问')
+                    next({path: '/experience'});
                 }
                 else{
                     next()
@@ -42,7 +48,12 @@ router.beforeEach(async(to, from, next) => {
             NProgress.done()
         }
     } else {
-        if (whiteList.indexOf(to.path) !== -1) {
+        if(to.path==='/experience'){
+            next()
+            console.log('?????')
+            NProgress.done()
+        }
+        else if (whiteList.indexOf(to.path) !== -1) {
             next()
         } else {
             next(`/login?redirect=${to.path}`);

@@ -1,21 +1,37 @@
 <template>
   <div class="myCard">
-    <h2><span class="underline-hover">{{movieName}}</span></h2>
+    <h2 @click="seeMore"><span class="underline-hover">{{movieName}}</span></h2>
     <div class="demo">{{movieDescription}}</div>
-    <div class="seeMore" @click="seeMore">查看该词条在图谱中的位置</div>
   </div>
 </template>
 
 <script>
+  import {mapGetters,mapMutations,mapActions} from 'vuex'
+  import {message} from "ant-design-vue";
+
   export default {
     name: "SearchCard",
     props:{
       movieName: String,
       movieDescription:String
     },
+    computed: {
+      ...mapGetters([
+      ]),
+    },
     methods:{
-      seeMore(){
-        console.log('拿着props里面的movieName去迭代二里面的图谱中查找')
+      ...mapMutations([
+        'set_searchResultDetail',
+      ]),
+      ...mapActions([
+        "getSearchAnswerDetail"
+      ]),
+      async seeMore(){
+        console.log('拿着props里面的movieName去迭代二里面的图谱中查找',this.movieName)
+        await this.getSearchAnswerDetail(this.movieName)
+        this.$router.push({
+          path: `/searchDetail`
+        })
       }
     }
   }
@@ -26,7 +42,7 @@
     color: #1a0dab;
     font-size: 20px;
     font-weight: normal;
-    margin-bottom: 2px;
+    /*margin-bottom: 2px;*/
   }
   .underline-hover{
     padding:5px;

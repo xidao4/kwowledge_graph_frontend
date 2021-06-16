@@ -1,5 +1,6 @@
 import {
   getSearchAnswerAPI,
+  getSearchAnswerDetailAPI
   // getSearchResultFirstAPI,
   // getSearchResultSecondAPI
 } from "../../api/search";
@@ -21,12 +22,83 @@ const search={
       {title:'死寂 Dead Silence',info:"童谣本应该充满欢声笑语，但世界上偏偏有这么一些童谣，让人听了毛骨悚然。小镇拉文斯•法尔就流传着这样一个恐怖的童谣：小心来自玛丽•肖的凝视；她没有孩子，只有玩偶；如果你看到她，不要尖叫；否则她会扯开你的嘴巴撕掉你的舌头。这个小镇一直就在笼罩在这个童谣的诅咒之下，只要有玩偶出现的地方，就有人遇害，死状一样，都是舌头被割下。"},
       {title:'孤儿怨 Orphan',info:"意外流产让满心期待宝宝降生的约翰（Peter Sarsgaard 饰）和凯特（Vera Farmiga 维拉•法米加 饰）深受打击，凯特精神几近崩溃，而他们的婚姻也岌岌可危。为了挽救濒临破败婚姻，这对夫妇前往孤儿院希望收养一个孩子。在这里，他们见到了有些特立独行的小女孩伊斯特（Isabelle Fuhrman 伊莎贝尔•福尔曼 饰）。小女孩所散发出的独特气质吸引了约翰夫妇，最终伊斯特成为他们家庭中的一员。"},
     ],
+    searchResultDetail:{
+      categories: 'person',
+      info: '林黛玉是中国古典名著《红楼梦》的女主角，史太君的外孙女，贾宝玉的姑表妹。字颦颦（宝玉赠），海棠诗社别号潇湘妃子，花签芙蓉，情榜评为“情情”。在大观园中住在潇湘馆，馆前竹林密布，象征其本性正直清高。',
+      ending: '在通行程高本后40回中，林黛玉因贾府安排宝玉和宝钗成婚，气郁而死。脂砚斋批注中明确提到，林黛玉是泪尽而亡。新红学开创者俞平伯认为，林黛玉先病死然后宝钗嫁给宝玉。张爱玲认为，奉元妃命，宝玉宝钗结婚，而黛玉抑郁而死（《红楼梦魇》）。',
+      reason: '啊哈哈哈',
+      img: 'https://ydl8023.oss-cn-beijing.aliyuncs.com/20210614112437.png',
+      title: '林黛玉',
+      nodes: [
+        {
+          "id": "0",
+          "label": "hit_node_1",
+          "type": "type_1",
+          "class": "c0"
+        },
+        {
+          "id": "1",
+          "label": "hit_node_2",
+          "type": "type_1",
+          "class": "c1"
+        },
+        {
+          "id": "2",
+          "label": "node_1",
+          "type": "type_2",
+          "class": "c1"
+        },
+        {
+          "id": "3",
+          "label": "node_2",
+          "type": "type_3",
+          "class": "c0"
+        }
+      ],
+      edges: [
+        {
+          "id": "5",
+          "label": "hit_edge_1",
+          "source": "1",
+          "type": "test_type_1",
+          "class": "c0",
+          "target": "2"
+        },
+        {
+          "id": "6",
+          "label": "edge_1",
+          "source": "1",
+          "type": "test_type_2",
+          "class": "c0",
+          "target": "2"
+        },
+        {
+          "id": "7",
+          "label": "hit_edge_2",
+          "source": "3",
+          "type": "test_type_1",
+          "class": "c0",
+          "target": "0"
+        },
+        {
+          "id": "8",
+          "label": "edge_1",
+          "source": "1",
+          "type": "test_type_2",
+          "class": "c0",
+          "target": "3"
+        }
+      ]
+    }
     // allPageNum:'',
     // currentPageNum: ''
   },
   mutations:{
     set_searchResult(state, data) {
       state.searchResult = data;
+    },
+    set_searchResultDetail(state, data) {
+      state.searchResultDetail = data;
     },
     set_searchString(state, data) {
       console.log('vuex里面也修改了string')
@@ -67,6 +139,14 @@ const search={
       }
       const res=await getSearchAnswerAPI(data);
       commit('set_searchResult',res.contentList)
+    },
+    getSearchAnswerDetail: async({commit,state},data)=>{
+      console.log('search!')
+      let param={
+        label: data
+      }
+      const res=await getSearchAnswerDetailAPI(param);
+      commit('set_searchResultDetail',res)
     },
   }
 }

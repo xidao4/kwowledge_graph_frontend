@@ -18,7 +18,7 @@
     methods:{
       toHome(){
         this.$router.push({
-          path:`/search`
+          path:`/login`
         })
       }
     }

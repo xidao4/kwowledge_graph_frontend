@@ -1,6 +1,10 @@
 <template>
   <body>
-    <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/message.png" class="myBot" @click="showBox"/>
+    <div class="imgList">
+      <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/message.png" class="myBot1" @click="showBox"/>
+      <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/message.png" class="myBot2" @click="showBox"/>
+      <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/message.png" class="myBot3" @click="logoutBox"/>
+    </div>
     <form class="search-form" onkeypress="return event.keyCode !== 13;" :class="{'bgContent':isVirtual}">
       <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/搜索.png" id="searchIcon"/>
       <input v-model="searchString" placeholder="搜你想搜" class="search-input" @keydown.enter="searchContentList">
@@ -116,7 +120,8 @@
       ...mapMutations([
         'set_searchString',
         'set_roleId',
-        'set_searchResult'
+        'set_searchResult',
+        'logout'
       ]),
       ...mapActions([
         "getChatAnswer",
@@ -132,10 +137,10 @@
       },
       async searchContentList(){
         this.set_searchString(this.searchString)
+        await this.getSearchAnswer()
         this.$router.push({
           path: `/searchList`
         })
-        await this.getSearchAnswer()
       },
       async bindEnter(){
         const msg=this.inputMsg
@@ -201,7 +206,15 @@
         axios.post(`http://118.182.96.49:8001/api/graph/uploadCustomizeImg/${this.picId}/0/0`,formData,config)
           .then(response => {
             // handle success
+            console.log('上传图片后的response',response)
             console.log('success!!',response.contentList)
+            //用户这边先展示上传的图片
+            that.list.push({
+              "text": { "text": "<img data-src='"+response.data.data+"'/>" },
+              "mine": true,
+              "name": "我",
+              "img": "https://ydl8023.oss-cn-beijing.aliyuncs.com/柴犬.jpeg"
+            },)
             response.contentList=['111','222','3333']
             for(let i=0;i<response.contentList.length;i++){
               that.resList.push({
@@ -254,6 +267,9 @@
         } else if (info.file.status === 'error') {
           this.$message.error(`${info.file.name} file upload failed.`);
         }
+      },
+      logoutBox(){
+        this.logout()
       },
       uploadImage(file) {
         console.log('调用上传图片')
@@ -364,7 +380,24 @@
     margin-top: 10px;
     margin-left: 10px;
   }
-  .myBot{
+  .myBot1{
+    position: fixed;
+    top: 80%;
+    left: 73%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: #ffffff;
+    margin:40px;
+  }
+  .myBot1:hover{
+    box-shadow: 0 3px 3px rgba(51, 51, 51, .25);
+    -webkit-transform: translateY(-2px);
+    -moz-transform: translateY(-2px);
+    transform: translateY(-2px)
+  }
+  .myBot2{
     position: fixed;
     top: 80%;
     left: 80%;
@@ -372,9 +405,27 @@
     height: 60px;
     cursor: pointer;
     border-radius: 50%;
-    background-color: #000000;
+    background-color: #ffffff;
+    margin:40px;
   }
-  .myBot:hover{
+  .myBot2:hover{
+    box-shadow: 0 3px 3px rgba(51, 51, 51, .25);
+    -webkit-transform: translateY(-2px);
+    -moz-transform: translateY(-2px);
+    transform: translateY(-2px)
+  }
+  .myBot3{
+    position: fixed;
+    top: 80%;
+    left: 87%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: #ffffff;
+    margin:40px;
+  }
+  .myBot3:hover{
     box-shadow: 0 3px 3px rgba(51, 51, 51, .25);
     -webkit-transform: translateY(-2px);
     -moz-transform: translateY(-2px);

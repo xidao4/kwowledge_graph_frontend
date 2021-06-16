@@ -26,3 +26,11 @@ export function getSearchAnswerAPI(data) {
     data: data,
   })
 }
+
+export function getSearchAnswerDetailAPI(data){
+  return axios({
+    url:`${api.searchPre}/detail`,
+    method:'POST',
+    data:data
+  })
+}

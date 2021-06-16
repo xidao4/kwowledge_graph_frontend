@@ -46,6 +46,7 @@ const getters={
     userHistory: state=>state.user.userHistory,
     searchString: state=>state.search.searchString,
     searchResult: state=>state.search.searchResult,
+    searchResultDetail: state=>state.search.searchResultDetail,
     allPageNum:state=>state.search.allPageNum,
     currentPageNum: state=>state.search.currentPageNum,
 
