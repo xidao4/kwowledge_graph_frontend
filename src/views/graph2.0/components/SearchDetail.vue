@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="bgBlock">
-      <a-input-search placeholder="input search text" style="width: 400px" @search="onSearch"  class="searchEntity"/>
+<!--      <a-input-search placeholder="input search text" style="width: 400px" @search="onSearch"  class="searchEntity"/>-->
       <div id="mountNode"></div>
     </div>
   </div>
@@ -34,13 +34,13 @@
 <script>
   import {mapGetters,mapMutations,mapActions} from 'vuex'
   import G6 from '@antv/g6';
+  import { setHighlight,cancelHighlight } from '../../../components/g6/Graph.js';
 
   export default {
     name: "SearchDetail",
     data(){
       return{
-        param:{
-        }
+        myGraph: ''
       }
     },
     computed:{
@@ -53,7 +53,7 @@
         'getSearchAnswerDetail'
       ]),
       onSearch(value){
-
+        setHighlight(this.myGraph,this.searchNodes,this.searchEdges);
       },
       async initG6(){
         const initData = {
@@ -66,6 +66,15 @@
           container: 'mountNode', // 指定挂载容器
           width: 760, // 图的宽度
           height: 400, // 图的高度
+          layout: {
+            // Object，可选，布局的方法及其配置项，默认为 random 布局。
+            type: 'radial',
+            preventOverlap: true,
+            nodeSize: 30,
+            // workerEnabled: true, // 是否启用 webworker
+            // gpuEnabled: true // 是否使用 gpu 版本的布局算法，G6 4.0 支持，目前仅支持 gForce 及 fruchterman
+            // ...                    // 其他配置
+          },
           defaultNode: {
             size: 30, // 节点大小
             // ...                 // 节点的其他配置
@@ -89,16 +98,9 @@
             // ...                 // 边的其他配置
             // 边样式配置
             type: 'arc',
-            size: 2,
-            style: {
-              opacity: 0.6, // 边透明度
-              stroke: 'grey', // 边描边颜色
-            },
-            // 边上的标签文本配置
-            labelCfg: {
-            },
           },
         });
+        this.myGraph=graph;
         graph.data(initData); // 加载数据
         graph.render(); // 渲染
         graph.on('node:click', (ev) => {
@@ -157,7 +159,7 @@
   #mountNode{
     margin: 0 auto;
     width: 760px; height: 400px;
-    position: absolute; left: 50%; top: 75%;
+    position: absolute; left: 50%; top: 50%;
     transform: translate(-50%, -50%);
   }
 </style>
