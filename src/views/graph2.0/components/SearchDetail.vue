@@ -8,6 +8,8 @@
         <div class="information">
           <div class="key" v-if="this.searchResultDetail.categories===`['person']`">人物</div>
           <div class="key" v-if="this.searchResultDetail.categories===`['event']`">事件</div>
+          <div class="key" v-if="this.searchResultDetail.categories===`['location']`">地点</div>
+          <div class="key" v-if="this.searchResultDetail.categories===`['time']`">回数</div>
           <div class="value">{{this.searchResultDetail.title}}</div>
         </div>
         <div class="information">
@@ -135,7 +137,7 @@
           const node = ev.item;
           console.log('我点击了！！！',node._cfg.model.label)
           // await this.getSearchAnswerDetail(node._cfg.model.label)
-          await this.getSearchAnswerDetail('贾兰')
+          await this.getSearchAnswerDetail(node._cfg.model.label)
           console.log('重新渲染')
           const data = {
             // 点集
