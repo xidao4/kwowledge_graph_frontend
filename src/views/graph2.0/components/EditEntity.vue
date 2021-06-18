@@ -1,102 +1,40 @@
 <template>
   <div class="editEntity">
     <h3 style="margin-left:39%;padding-top:2%;padding-bottom:1%;">编辑实体</h3>
-<!--    <a-button type="primary" style="float:right;margin-bottom:2%;margin-right:2%" @click="showModal">-->
-<!--      自定义图元-->
-<!--    </a-button>-->
-<!--    <a-modal-->
-<!--      title="自定义图元"-->
-<!--      :visible="visible"-->
-<!--      @ok="handleOk"-->
-<!--      @cancel="handleCancel"-->
-<!--    >-->
-<!--      <a-upload-->
-<!--      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"-->
-<!--      list-type="picture-card"-->
-<!--      :file-list="fileList"-->
-<!--      @change="handleChange"-->
-<!--      >-->
-<!--        <div v-if="fileList.length < 1">-->
-<!--          <a-icon type="plus" />-->
-<!--          <div class="ant-upload-text">-->
-<!--            Upload-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </a-upload>-->
-<!--      <div style="float:right;margin-right:20%">-->
-<!--        <div>-->
-<!--          <span>裁剪类型：</span>-->
-<!--          <a-select style="width: 120px" @change="handleChangeShape">-->
-<!--            <a-select-option value="circle">-->
-<!--              圆形-->
-<!--            </a-select-option>-->
-<!--            <a-select-option value="rect">-->
-<!--              方形-->
-<!--            </a-select-option>-->
-<!--            <a-select-option value="ellipse">-->
-<!--              椭圆-->
-<!--            </a-select-option>-->
-<!--          </a-select>-->
-<!--        </div>-->
-<!--        <div style="margin-top:13%">-->
-<!--          <span>图元名称：</span>-->
-<!--          <a-input :value="entityName" style="width: 120px"></a-input>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </a-modal>-->
     <a-divider />
-    <span class="spanItem">自定义图元</span>
-    <a-divider />
-    <a-upload
-      name="mFile"
-      :multiple="false"
-      :headers="headers"
-      action="http://118.182.96.49:8001/api/graph/picElement"
-      :customRequest="uploadImage"
-      list-type="picture-card"
-      :file-list="fileList"
-      @change="handleChange"
-      style="margin-left: 5%;margin-top: 3%"
-    >
+<!--    <span class="spanItem">自定义图元</span>-->
+<!--    <a-divider />-->
 <!--    <a-upload-->
-<!--      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"-->
+<!--      name="mFile"-->
+<!--      :multiple="false"-->
+<!--      :headers="headers"-->
+<!--      action="http://118.182.96.49:8001/api/graph/picElement"-->
+<!--      :customRequest="uploadImage"-->
 <!--      list-type="picture-card"-->
 <!--      :file-list="fileList"-->
-<!--      @preview="handlePreview"-->
 <!--      @change="handleChange"-->
 <!--      style="margin-left: 5%;margin-top: 3%"-->
 <!--    >-->
-      <div v-if="fileList.length < 1">
-        <a-icon type="plus" />
-        <div class="ant-upload-text">
-          Upload
-        </div>
-      </div>
-    </a-upload>
-    <a-modal :visible="previewVisible" :footer="null" @cancel="handlePreviewCancel">
-      <img alt="example" style="width: 100%" :src="previewImage" />
-    </a-modal>
-    <div style="float:right;margin-top: 3%;margin-right: 0%;width:50%">
-<!--      <div>-->
-<!--        <span>裁剪类型：</span>-->
-<!--        <a-select style="width: 40%" @change="handleChangeShape">-->
-<!--          <a-select-option value="circle">-->
-<!--            圆形-->
-<!--          </a-select-option>-->
-<!--          <a-select-option value="rect">-->
-<!--            方形-->
-<!--          </a-select-option>-->
-<!--        </a-select>-->
+<!--      <div v-if="fileList.length < 1">-->
+<!--        <a-icon type="plus" />-->
+<!--        <div class="ant-upload-text">-->
+<!--          Upload-->
+<!--        </div>-->
 <!--      </div>-->
-      <div style="margin-top:3%">
-        <span>图元名称：</span>
-        <a-input v-model="entityName" style="width: 40%"></a-input>
-      </div>
-      <div style="margin-top:6%;margin-right: -20%">
-        <a-button @click="handleAddPicElement">添加图元</a-button>
-      </div>
-    </div>
-    <a-divider />
+<!--    </a-upload>-->
+<!--    <a-modal :visible="previewVisible" :footer="null" @cancel="handlePreviewCancel">-->
+<!--      <img alt="example" style="width: 100%" :src="previewImage" />-->
+<!--    </a-modal>-->
+<!--    <div style="float:right;margin-top: 3%;margin-right: 0%;width:50%">-->
+<!--      <div style="margin-top:3%">-->
+<!--        <span>图元名称：</span>-->
+<!--        <a-input v-model="entityName" style="width: 40%"></a-input>-->
+<!--      </div>-->
+<!--      <div style="margin-top:6%;margin-right: -20%">-->
+<!--        <a-button @click="handleAddPicElement">添加图元</a-button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <a-divider />-->
     <span class="spanItem">实体</span>
     <a-divider />
     <a-form
@@ -107,10 +45,7 @@
     >
       <a-form-item label="大小：">
         <a-select
-          v-decorator="[
-            'size',
-            { rules: [{ required: false, message: '请选择实体的形状!' }] },
-            ]"
+          v-model="this.size"
           @change="handleSelectChangeSize"
         >
           <a-select-option value="big">
@@ -126,11 +61,8 @@
       </a-form-item>
       <a-form-item label="形状：">
         <a-select
-            v-decorator="[
-            'shape',
-            { rules: [{ required: false, message: '请选择实体的形状!' }] },
-            ]"
             @change="handleSelectChangeShape"
+            v-model="this.shape"
         >
             <a-select-option  v-for="item in this.customizeElement" :key="item.key" :value="item.value">
             {{item.key}}
@@ -177,17 +109,17 @@
     >
       <a-form-item label="大小：">
         <a-input
-          v-decorator="['myFontSize', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
+          v-model="myFontSize"
         />
       </a-form-item>
         <a-form-item label="实体值：">
           <a-input
-            v-decorator="['content', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
+            v-model="content"
           />
         </a-form-item>
         <a-form-item label="实体类型：">
           <a-input
-            v-decorator="['entityType', { rules: [{ required: false, message: '请输入新的关系名!' }] }]"
+            v-model="entityType"
           />
         </a-form-item>
 <!--        <a-form-item label="大小：">-->
@@ -258,7 +190,13 @@ export default {
           },
           previewVisible: false,
           previewImage: '',
-          customizeImgUrl: ''
+          customizeImgUrl: '',
+          size:'',
+          shape:'',
+          myFontSize: '',
+          content: '',
+          entityType: '',
+          defaultShape: '',
       }
   },
   computed: {
@@ -280,8 +218,68 @@ export default {
     this.getPicCustomizeElements({
       picId:this.picId}
       )
+    if(this.currentItem._cfg.currentShape==='rect'){
+      if(this.currentItem._cfg.model.size[0]===30){this.size='small'}
+      else if(this.currentItem._cfg.model.size[0]===40){this.size='medium'}
+      else if(this.currentItem._cfg.model.size[0]===60){this.size='big'}
+    }
+    else if(this.currentItem._cfg.currentShape==='circle'){
+      if(this.currentItem._cfg.model.size===25){this.size='small'}
+      else if(this.currentItem._cfg.model.size===40){this.size='medium'}
+      else if(this.currentItem._cfg.model.size===60){this.size='big'}
+    }
+    else if(this.currentItem._cfg.currentShape==='ellipse'){
+      if(this.currentItem._cfg.model.size[0]===50){this.size='small'}
+      else if(this.currentItem._cfg.model.size[0]===60){this.size='medium'}
+      else if(this.currentItem._cfg.model.size[0]===80){this.size='big'}
+    }
+    else if(this.currentItem._cfg.currentShape==='diamond'){
+      if(this.currentItem._cfg.model.size[0]===50){this.size='small'}
+      else if(this.currentItem._cfg.model.size[0]===80){this.size='medium'}
+      else if(this.currentItem._cfg.model.size[0]===90){this.size='big'}
+    }
     console.log('看看传进来的参数',this.currentItem)
     console.log(this.currentItem._cfg.styles.active.fill)
+    console.log('看看mounted时能不能拿到data里面的数据',this.colors2)
+    this.colors2=this.currentItem._cfg.styles.selected.fill
+    this.myFontSize=this.currentItem._cfg.model.labelCfg.style.fontSize
+    this.content=this.currentItem._cfg.model.oriLabel
+    this.entityType=this.currentItem._cfg.model.class
+    this.shape=this.currentItem._cfg.currentShape
+  },
+  watch:{
+    currentItem:{
+      immediate:true,
+      handler(){
+        if(this.currentItem._cfg.currentShape==='rect'){
+          if(this.currentItem._cfg.model.size[0]===30){this.size='small'}
+          else if(this.currentItem._cfg.model.size[0]===40){this.size='medium'}
+          else if(this.currentItem._cfg.model.size[0]===60){this.size='big'}
+        }
+        else if(this.currentItem._cfg.currentShape==='circle'){
+          if(this.currentItem._cfg.model.size===25){this.size='small'}
+          else if(this.currentItem._cfg.model.size===40){this.size='medium'}
+          else if(this.currentItem._cfg.model.size===60){this.size='big'}
+        }
+        else if(this.currentItem._cfg.currentShape==='ellipse'){
+          if(this.currentItem._cfg.model.size[0]===50){this.size='small'}
+          else if(this.currentItem._cfg.model.size[0]===60){this.size='medium'}
+          else if(this.currentItem._cfg.model.size[0]===80){this.size='big'}
+        }
+        else if(this.currentItem._cfg.currentShape==='diamond'){
+          if(this.currentItem._cfg.model.size[0]===50){this.size='small'}
+          else if(this.currentItem._cfg.model.size[0]===80){this.size='medium'}
+          else if(this.currentItem._cfg.model.size[0]===90){this.size='big'}
+        }
+        console.log('看看传进来的参数',this.currentItem)
+        this.colors2=this.currentItem._cfg.styles.selected.fill
+        this.myFontSize=this.currentItem._cfg.model.labelCfg.style.fontSize
+        this.content=this.currentItem._cfg.model.oriLabel
+        this.entityType=this.currentItem._cfg.model.class
+        this.shape=this.currentItem._cfg.currentShape
+        console.log('为啥不变呢',this.defaultShape)
+      }
+    }
   },
   methods:{
     ...mapMutations([
@@ -296,10 +294,11 @@ export default {
       "save"
     ]),
     handleSelectChangeShape(value) {
-      console.log(value);
+      this.shape=value
     },
     handleSelectChangeSize(value){
-
+      this.size=value
+      console.log('我选择了：',this.size)
     },
     // 颜色输入框点击事件处理
     colorInputClick1 () {
@@ -331,22 +330,24 @@ export default {
         console.log('看看click时的customizeElement',this.customizeElement)
         let that=this
         let data={
-            lineWidth: that.editEntityForm1.getFieldValue('size'),
-            type: that.editEntityForm1.getFieldValue('shape'),
-            entityType: that.editEntityForm2.getFieldValue('entityType'),
+            lineWidth: that.size,
+            type: that.shape,
+            entityType: that.entityType,
             stroke: that.colors1,
             fill1: that.colors2,
-            fontSize: that.editEntityForm2.getFieldValue('myFontSize'),
-            label: that.editEntityForm2.getFieldValue('content'),
+            fontSize: that.myFontSize,
+            label: that.content,
         }
-        console.log('我的字体大小呢',data.fontSize)
-        console.log('我的大小',data.lineWidth)
-        console.log(this.currentItem)
+        if(data.lineWidth===''){
+          this.$message.error('实体大小必填！')
+          return;
+        }
+        console.log('看看能不能活的数据',data)
         let tempSize='';
         if(data.type==='circle'){
           if(data.lineWidth==='big'){tempSize=60}
           else if(data.lineWidth==='medium'){tempSize=40}
-          else if(data.lineWidth==='small'){tempSize=30}
+          else if(data.lineWidth==='small'){tempSize=25}
         }
         else if(data.type==='rect'){
           if(data.lineWidth==='big'){tempSize=[60,60]}
@@ -368,7 +369,6 @@ export default {
           else if(data.lineWidth==='medium'){tempSize=40}
           else if(data.lineWidth==='small'){tempSize=30}
         }
-        console.log('转换后的大小,',tempSize)
         this.currentGraph.clearItemStates(this.currentItem,'selected')
         let cfg={
           type: data.type,
@@ -378,7 +378,7 @@ export default {
           size: tempSize,
           style:{
             fill: data.fill1,
-            stroke: data.stroke,
+            stroke: data.fill1,
             lineWidth: 1
           },
           labelCfg: {
@@ -408,8 +408,8 @@ export default {
         if(data.type.length>9){
           cfg.img=data.type
           cfg.type='image'
-          delete cfg.style
-          delete cfg.stateStyles
+          // delete cfg.style
+          // delete cfg.stateStyles
         }
         this.currentGraph.updateItem(this.currentItem,cfg)
         this.currentGraph.setItemState(this.currentItem,'selected',true)

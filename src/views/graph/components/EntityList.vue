@@ -10,21 +10,15 @@
     >
       <a-form-item
               label="实体值："
-              :validate-status="name.validateStatus"
-              :help="name.errorMsg || nameTips"
-              
       >
         <a-input
                 v-model="name.value"
                 :maxLength="10"
                 @change="handleNameChange"
-                
         />
       </a-form-item>
       <a-form-item
               label="实体类型："
-              :validate-status="type.validateStatus"
-              :help="type.errorMsg || typeTips"
       >
         <a-input
                 v-model="type.value"
@@ -70,13 +64,12 @@ export default {
     ...mapGetters([
         "colorList",
         "picId",
-        "addEntityVisible",
         "currentGraph",
         "currentGraphData",
         "nodeId",
         "currentShowGraphData",
-        "nodesTypes",
-        'checkList',
+        // "nodesTypes",
+        // 'checkList',
         'boardTypes',
     ]),
   },
@@ -87,99 +80,97 @@ export default {
     ...mapActions(["addEntity","save"]),
     handleAdd() {
       this.name = {
-        // ...validateEntityName(this.name.value, null, this.showGraphNodes),
         value: this.name.value,
       };
       this.type = {
-        // ...validateEntityType(this.type.value),
         value: this.type.value,
       };
-
-
-
-      // if (this.name.errorMsg === null && this.type.errorMsg === null) {
-
-        let model = {
-          id:  `node-${this.nodeId}`,
-          label: this.name.value,
-          oriLabel: this.name.value,
-          class: this.type.value,
-          address: 'cq',
-          size:25,
-          x: 200+Math.random()*100,
-          y: 150+Math.random()*100,
-          style:{
-            fill:'#E65D6E',
-            stroke: '#D99CA8',
-            lineWidth: 1,
-          },
-          labelCfg:{
-            position: 'bottom',
-            offset: 5,
-            style: {
-              fill: '#191b1c',
-              fontSize: 12,
-              stroke: '#191b1c',
-              lineWidth: 0.1,
-            },
-          },
-          stateStyles:{
-            selected: {
-              shadowColor: '#E65D6E',
-              lineWidth: 0,
-              fill: '#E65D6E',
-              shadowBlur: 15,
-            },
-            highlight: {
-              fill: 'rgb(223, 234, 255)',
-              // stroke: '#4572d9',
-              stroke:'#ff0',
-              lineWidth: 2,
-              // text-shape: {
-              //     fontWeight: 500
-              // }
-            },
-          }
-        };
-        console.log('myModel',model)
-        this.currentGraph.addItem('node',model)
-        // this.currentGraph.refresh()
-        // this.currentGraphData.nodes.push({
-        //   id:  `node-${this.nodeId}`,
-        //   class: this.type.value,
-        //   label: this.name.value,
-        //   oriLabel: this.name.value,
-        // })
-        let temp=this.currentGraph.save()
-        this.set_currentShowGraphData_typesetting(temp)
-        this.set_currentGraphData(temp)
-        this.save()
-        console.log('添加完后的Data',this.currentGraphData)
-        this.set_nodeId();
-        console.log('after update',this.currentGraphData)
-        // this.set_addEntityVisible(false)
-        //类型筛选相关
-        if(this.nodesTypes.indexOf(this.type.value)===-1){
-          this.nodesTypes.push(this.type.value);
+      if(this.name.value==='' || this.type.value===''){
+        this.$message.error('请完善实体信息')
+        return ;
+      }
+      else{
+        if(this.name.value.length>=10 || this.type.value>=10){
+          this.$message.error('实体值和实体类型长度不能超过10');
+          return ;
         }
-        console.log('4444 新增节点有新类型 this.nodesTypes',this.nodesTypes);
-        this.checkList.push(true);
-
-        this.name.value = "";
-        this.type.value= "";
-        this.set_currentShowBoard(this.boardTypes.none)
-
+      }
+      //判断是否重复
+      let tempNodes=this.currentGraph.save().nodes
+      console.log('看看我的nodes',tempNodes)
+      for(let i=0;i<tempNodes.length;i++){
+        if(tempNodes[i].id===`node-${this.name.value}`){
+          this.$message.error('不能添加相同实体值的实体')
+          return ;
+        }
+      }
+      let model = {
+        id:  `node-${this.name.value}`,
+        label: this.name.value,
+        oriLabel: this.name.value,
+        class: this.type.value,
+        address: 'cq',
+        size:25,
+        x: 200+Math.random()*100,
+        y: 150+Math.random()*100,
+        style:{
+          fill:'#E65D6E',
+          stroke: '#D99CA8',
+          lineWidth: 1,
+        },
+        labelCfg:{
+          position: 'bottom',
+          offset: 5,
+          style: {
+            fill: '#191b1c',
+            fontSize: 12,
+            stroke: '#191b1c',
+            lineWidth: 0.1,
+          },
+        },
+        stateStyles:{
+          selected: {
+            shadowColor: '#E65D6E',
+            lineWidth: 0,
+            fill: '#E65D6E',
+            shadowBlur: 15,
+          },
+          highlight: {
+            fill: 'rgb(223, 234, 255)',
+            stroke:'#ff0',
+            lineWidth: 2,
+          },
+        }
+      };
+      console.log('myModel',model)
+      this.currentGraph.addItem('node',model)
+      let temp=this.currentGraph.save()
+      console.log('让我看看有什么数据',temp)
+      this.set_currentShowGraphData_typesetting(temp)
+      this.set_currentGraphData(temp)
+      this.save()
+      console.log('添加完后的Data',this.currentGraphData)
+      this.set_nodeId();
+      console.log('after update',this.currentGraphData)
+      //类型筛选相关
+      // if(this.nodesTypes.indexOf(this.type.value)===-1){
+      //   this.nodesTypes.push(this.type.value);
       // }
+      // console.log('4444 新增节点有新类型 this.nodesTypes',this.nodesTypes);
+      // this.checkList.push(true);
+
+      this.name.value = "";
+      this.type.value= "";
+      this.set_currentShowBoard(this.boardTypes.none)
+
     },
     handleNameChange() {
       this.name = {
-        // ...validateEntityName(this.name.value, null, this.showGraphNodes),
         value: this.name.value,
       };
     },
     handleTypeChange() {
       this.type = {
-        // ...validateEntityType(this.type.value),
         value: this.type.value,
       };
     },
@@ -188,7 +179,6 @@ export default {
     },
   },
   components: {
-    // ColorPicker2
   },
 };
 </script>

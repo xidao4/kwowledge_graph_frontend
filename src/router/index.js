@@ -6,13 +6,13 @@ Vue.use(VueRouter);
 
 const routes = [
   {
+    path: '/',
+    redirect: '/experience'
+  },
+  {
     path: '/login',
     name: 'login',
     component: Login
-  },
-  {
-    path: '/',
-    redirect: '/home'
   },
   {
     path: '/home',
@@ -26,6 +26,26 @@ const routes = [
         component: () => import('@/views/user/UserGraphList')
       }
     ]
+  },
+  {
+    path: '/experience',
+    name: 'experience',
+    component: ()=> import('@/views/graph2.0/components/ExperienceHome'),
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: ()=> import('@/views/graph2.0/components/SearchKG'),
+  },
+  {
+    path: '/searchList',
+    name: 'searchList',
+    component: ()=> import('@/views/graph2.0/components/SearchList'),
+  },
+  {
+    path: '/searchDetail',
+    name: 'searchDetail',
+    component: ()=> import('@/views/graph2.0/components/SearchDetail'),
   },
   {
     path: '/editor',

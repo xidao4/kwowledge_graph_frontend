@@ -44,5 +44,13 @@ const getters={
     userInfo: state=>state.user.userInfo,
     picsInfo: state=>state.user.picsInfo,
     userHistory: state=>state.user.userHistory,
+    searchString: state=>state.search.searchString,
+    searchResult: state=>state.search.searchResult,
+    searchResultDetail: state=>state.search.searchResultDetail,
+    allPageNum:state=>state.search.allPageNum,
+    currentPageNum: state=>state.search.currentPageNum,
+    roleId: state=>state.chat.roleId,
+    roleSentence: state=>state.chat.roleSentence,
+    chatAnswer: state=>state.chat.chatAnswer
 };
 export default getters
