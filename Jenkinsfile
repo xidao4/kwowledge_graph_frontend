@@ -13,14 +13,7 @@ pipeline {
                 sh 'yarn install --registry=https://registry.npm.taobao.org'
                 sh 'yarn build'
 
-                echo 'publish coverage report'
-                publishHTML([allowMissing: false,
-                    alwaysLinkToLastBuild: false,
-                    keepAll: false,
-                    reportDir: 'coverage/lcov-report',
-                    reportFiles: 'index.html',
-                    reportName: 'Jest HTML Report',
-                    reportTitles: ''])
+
             }
         }
         stage('Image Build & deploy'){
