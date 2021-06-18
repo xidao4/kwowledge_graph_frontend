@@ -12,7 +12,7 @@
           <div class="key" v-if="this.searchResultDetail.categories===`['time']`">回数</div>
           <div class="value">{{this.searchResultDetail.title}}</div>
         </div>
-        <div class="information">
+        <div class="information" v-if="this.searchResultDetail.info!==null">
           <div class="key">简介</div>
           <div class="value">{{this.searchResultDetail.info}}</div>
         </div>

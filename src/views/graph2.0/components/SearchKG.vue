@@ -1,8 +1,7 @@
 <template>
   <body>
     <div class="imgList" v-if="!(this.token===undefined || this.token==='')">
-      <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/atm.png" class="myBot1" @click="showBox"/>
-      <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/bussiness-man.png" class="myBot2" @click="showBox"/>
+      <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/atm.png" class="myBot2" @click="showBox"/>
       <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/double-arro- right.png" class="myBot3" @click="logoutBox"/>
     </div>
     <form class="search-form" onkeypress="return event.keyCode !== 13;" :class="{'bgContent':isVirtual}">
@@ -303,6 +302,7 @@
             // this.set_searchResult(response.data.data)
             that.set_searchString("")
             that.searchResult.answerList=response.data.data
+            that.searchResult.contentList=[]
             that.$router.push({
               path: `/searchList`
             })

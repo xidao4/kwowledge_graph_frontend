@@ -101,7 +101,7 @@
 .myCard{
   width: 46%;
   height: 100px;
-  margin-left: 12%;
+  margin-left: 120px;
   margin-bottom: 2%;
 }
 .demo {

@@ -27,9 +27,10 @@ const chat={
         roleId: state.roleId,
         question: data
       }
-      const res=await getChatAnswerAPI(data);
-      console.log('看看返回的内容',res)
-      commit('set_chatAnswer',res.answer)
+      console.log('看看聊天的param',param)
+      const res=await getChatAnswerAPI(param);
+      console.log('看看chat返回的内容',res)
+      commit('set_chatAnswer',res.data.answer)
     }
   }
 }
