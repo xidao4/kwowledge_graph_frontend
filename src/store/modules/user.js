@@ -12,8 +12,7 @@ const state = {
     token: '',
     userId: '',//方便测试by ljy
     userInfo: {
-        username: 'test',
-        userType: 'normal'
+        test: 'hhh'
     },
     picsInfo:{},//a
     userHistory:[],
@@ -38,7 +37,8 @@ const user = {
             state.userId = data;
         },
         set_userInfo(state, data) {
-            state.userInfo = {...data};
+            // state.userInfo = {...data};
+            state.userInfo=data;
         },
         set_picsInfo(state,data){//a
             state.picsInfo=data;
@@ -48,18 +48,20 @@ const user = {
         },
     },
     actions:{
-        login: async({commit}, data)=>{
+        login: async({commit, state}, data)=>{
             const res = await loginAPI(data);
             let resData = res.data;
             if(res.code >= 0) {
                 commit('set_userId', resData.userId);
                 commit('set_userInfo', resData);
+                console.log('resData', resData)
                 setToken(resData.token);
                 console.log('登录成功啦')
                 console.log('为什么总是报没有权限',resData.userType)
                 // 根据用户身份类型来判断会跳转到哪个页面
                 if(resData.userType!=='professional') {
                     console.log('hi')
+                    console.log('state???????????', state.userInfo)
                     router.push('/searchList');
                 }
                 else{

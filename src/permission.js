@@ -2,9 +2,9 @@ import router from './router'
 import { getToken } from '@/utils/auth'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-const whiteList = ['/login','/experience','/search','/searchList'];
-const normalUser=['/searchDetail']
-const professionalUser=['/home','/editor']
+const whiteList = ['/login','/experience','/search'];
+const normalUser=['/searchDetail','/searchList']
+const professionalUser=['/home/list','/editor']
 import user from "./store/modules/user";
 import {message} from "ant-design-vue";
 
@@ -12,7 +12,8 @@ router.beforeEach(async(to, from, next) => {
     NProgress.start();
     const hasToken = getToken();
     //测试用by ydl，之后要删掉
-    user.state.userInfo.userType='normal'
+    console.log('看看state里面的???',user)
+    console.log('permission',user.state.userInfo.userType)
     if (hasToken) {
         if (to.path === '/login') {
             // 导向首页
@@ -40,12 +41,12 @@ router.beforeEach(async(to, from, next) => {
                 }
             }
             else{
-                if(normalUser.indexOf(to.path)!==-1){
-                    message.error('没有权限访问')
-                    next({path: '/experience'});
+                if(professionalUser.indexOf(to.path)!==-1){
+                    next()
                 }
                 else{
-                    next()
+                    message.error('没有权限访问')
+                    next({path: '/experience'});
                 }
             }
             NProgress.done()
