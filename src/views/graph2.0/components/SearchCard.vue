@@ -1,10 +1,14 @@
 <template>
   <div class="myCard">
     <div class="headerBar">
-      <h2 @click="seeMore"><span class="underline-hover">{{movieName}}</span></h2>
-      <a-tag class="myTag" v-if="tag!==undefined" color="pink">{{tag}}</a-tag>
+      <h2 @click="seeMore">
+        <span class="underline-hover" v-if="signal===0">{{this.searchResult.answerList[cardIndex].title}}</span>
+        <span class="underline-hover" v-if="signal===1">{{this.searchResult.contentList[cardIndex].title}}</span>
+      </h2>
+      <a-tag class="myTag" v-if="signal===1" color="pink">{{this.searchResult.contentList[cardIndex].relation}}</a-tag>
     </div>
-    <div class="demo">{{movieDescription}}</div>
+    <div class="demo" v-if="signal===0">{{this.searchResult.answerList[cardIndex].info}}</div>
+    <div class="demo" v-if="signal===1">{{this.searchResult.contentList[cardIndex].info}}</div>
   </div>
 </template>
 
@@ -15,9 +19,8 @@
   export default {
     name: "SearchCard",
     props:{
-      movieName: String,
-      movieDescription:String,
-      tag:String
+      cardIndex: Number,
+      signal: Number
     },
     data(){
       return{
@@ -26,7 +29,8 @@
     },
     computed: {
       ...mapGetters([
-        'searchResult'
+        'searchResult',
+        'searchResultDetail'
       ]),
     },
     methods:{
@@ -36,6 +40,9 @@
       ...mapActions([
         "getSearchAnswerDetail"
       ]),
+      test(){
+        console.log(this.movieName)
+      },
       async seeMore(){
         if(this.token===undefined || this.token===''){
           message.error('没有权限访问~请先登录')
@@ -44,8 +51,12 @@
           })
           return;
         }
-        console.log('拿着props里面的movieName去迭代二里面的图谱中查找',this.movieName)
-        // await this.getSearchAnswerDetail(this.movieName)
+        if(this.signal===0) {
+          await this.getSearchAnswerDetail(this.searchResult.answerList[this.cardIndex].title)
+        }
+        else{
+          await this.getSearchAnswerDetail(this.searchResult.contentList[this.cardIndex].title)
+        }
         this.$router.push({
           path: `/searchDetail`
         })
@@ -94,13 +105,13 @@
   margin-bottom: 2%;
 }
 .demo {
-  max-height: 60px;
-  line-height: 20px;
-  overflow: hidden;
   text-indent: 2em;
-  color: black;
   font-size: 15px;
-  opacity: 1;
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 /*.demo::before{*/
 /*  float: left;*/
@@ -109,23 +120,7 @@
 /*  height: 40px;*/
 /*}*/
 
-.demo .text {
-  float: right;
-  width: 100%;
-  margin-left: -20px;
-  word-break: break-all;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-.demo::after{
-  float:right;
-  content:'...';
-  width: 20px;
-  height: 20px;
-  position: relative;
-  left:100%;
-  transform: translate(-100%,-100%);
-}
+
 .seeMore{
   font-size: 12px;
   color: blue;

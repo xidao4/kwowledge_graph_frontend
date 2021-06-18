@@ -114,6 +114,7 @@
         "roleId",
         "roleSentence",
         "chatAnswer",
+        "searchResult"
       ]),
     },
     methods:{
@@ -298,13 +299,15 @@
           .then(response => {
             // handle success
             console.log('success!!',response)
-            this.set_searchResult(response.contentList)
+            // this.set_searchResult(response.data.data)
+            that.set_searchString("")
+            that.searchResult.answerList=response.data.data
+            that.$router.push({
+              path: `/searchList`
+            })
           }).catch(error => {
           this.$message.error(`图片上传失败.`);
         }).then(() => {
-          this.$router.push({
-            path: `/searchList`
-          })
         });
       },
     },

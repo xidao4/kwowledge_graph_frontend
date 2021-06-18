@@ -7,24 +7,24 @@
       <div class="info">
         <div class="information">
           <div class="key" v-if="this.searchResultDetail.categories===`['person']`">人物</div>
-          <div class="key" v-if="this.searchResultDetail.categories==='event'">事件</div>
+          <div class="key" v-if="this.searchResultDetail.categories===`['event']`">事件</div>
           <div class="value">{{this.searchResultDetail.title}}</div>
         </div>
         <div class="information">
           <div class="key">简介</div>
           <div class="value">{{this.searchResultDetail.info}}</div>
         </div>
-        <div v-if="this.searchResultDetail.categories===`['person']` && this.searchResultDetail.ending!==null" class="information">
+        <div v-if="this.searchResultDetail.ending!==null && this.searchResultDetail.categories===`['person']` && this.searchResultDetail.ending!==null" class="information">
           <div class="key">结局</div>
           <div class="value">{{this.searchResultDetail.ending}}</div>
         </div>
-        <div v-if="this.searchResultDetail.categories===`['event']`" class="information">
+        <div v-if="this.searchResultDetail.reason!==null && this.searchResultDetail.categories===`['event']`" class="information">
           <div class="key">原因</div>
           <div class="value">{{this.searchResultDetail.reason}}</div>
         </div>
       </div>
       <div class="infoPic">
-        <img :src="this.searchResultDetail.img" :alt="this.searchResultDetail.title" />
+        <img :src="this.searchResultDetail.img" :alt="this.searchResultDetail.title" v-if="this.searchResultDetail.img!==null"/>
       </div>
     </div>
     <div class="bgBlock">
