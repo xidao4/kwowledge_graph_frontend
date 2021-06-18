@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="imgList">
-      <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/double-arro- right.png" class="myBot3" @click="logoutBox"/>
+    <div class="imgList" v-if="!(this.token===undefined || this.token==='')">
+      <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/double-arro- right (1).png" class="myBot3" @click="logoutBox"/>
     </div>
     <div class="infoBar">
       <div class="info">
         <div class="information">
-          <div class="key" v-if="this.searchResultDetail.categories==='person'">人物</div>
+          <div class="key" v-if="this.searchResultDetail.categories===`['person']`">人物</div>
           <div class="key" v-if="this.searchResultDetail.categories==='event'">事件</div>
           <div class="value">{{this.searchResultDetail.title}}</div>
         </div>
@@ -14,11 +14,11 @@
           <div class="key">简介</div>
           <div class="value">{{this.searchResultDetail.info}}</div>
         </div>
-        <div v-if="this.searchResultDetail.categories==='person'" class="information">
+        <div v-if="this.searchResultDetail.categories===`['person']` && this.searchResultDetail.ending!==null" class="information">
           <div class="key">结局</div>
           <div class="value">{{this.searchResultDetail.ending}}</div>
         </div>
-        <div v-if="this.searchResultDetail.categories==='event'" class="information">
+        <div v-if="this.searchResultDetail.categories===`['event']`" class="information">
           <div class="key">原因</div>
           <div class="value">{{this.searchResultDetail.reason}}</div>
         </div>
@@ -36,19 +36,22 @@
 
 <script>
   import {mapActions, mapGetters,mapMutations} from 'vuex'
+  import { GraphLayoutPredict } from '@antv/vis-predict-engine';
   import G6 from '@antv/g6';
   import {setHighlight} from '../../../components/g6/Graph.js';
+  import { getToken } from '@/utils/auth'
 
   export default {
     name: "SearchDetail",
     data(){
       return{
+        token:getToken(),
         myGraph: ''
       }
     },
     computed:{
       ...mapGetters([
-        'searchResultDetail'
+        'searchResultDetail',
       ])
     },
     methods:{
@@ -69,6 +72,9 @@
         processedEdges.forEach((edge) => {
           edge.type = 'arc';
           edge.curveOffset = 30;
+          edge.style={
+            lineWidth: 3
+          }
         });
         const initData = {
           // 点集
@@ -76,15 +82,28 @@
           // 边集
           edges: processedEdges,
         };
+        const { predictLayout, confidence } = await GraphLayoutPredict.predict({
+          // 点集
+          nodes: this.searchResultDetail.nodes,
+          // 边集
+          edges: processedEdges,
+        });
+        console.log(predictLayout)
         const graph = new G6.Graph({
           container: 'mountNode', // 指定挂载容器
           width: 760, // 图的宽度
-          height: 400, // 图的高度
+          height: 600, // 图的高度
+          fitCenter:true,
+          // fitView:true,
+          fitViewPadding: 20,
           layout: {
             // Object，可选，布局的方法及其配置项，默认为 random 布局。
-            type: 'radial',
+            type: predictLayout,
             preventOverlap: true,
+            linkDistance:200,
             nodeSize: 30,
+            nodeSpacing:30,
+            maxPreventOverlapIteration:400,
             // workerEnabled: true, // 是否启用 webworker
             // gpuEnabled: true // 是否使用 gpu 版本的布局算法，G6 4.0 支持，目前仅支持 gForce 及 fruchterman
             // ...                    // 其他配置
@@ -111,11 +130,22 @@
         this.myGraph=graph;
         graph.data(initData); // 加载数据
         graph.render(); // 渲染
-        graph.on('node:click', (ev) => {
+        graph.on('node:click', async (ev) => {
           const shape = ev.target;
           const node = ev.item;
           console.log('我点击了！！！',node._cfg.model.label)
-          this.getSearchAnswerDetail('林黛玉')
+          // await this.getSearchAnswerDetail(node._cfg.model.label)
+          await this.getSearchAnswerDetail('贾兰')
+          console.log('重新渲染')
+          const data = {
+            // 点集
+            nodes: this.searchResultDetail.nodes,
+            // 边集
+            edges: processedEdges,
+          };
+          graph.data(data)
+          console.log(data)
+          graph.render()
         });
       }
     },
@@ -152,12 +182,12 @@
     margin-left: 40px;
   }
   img{
-    width:60%
+    width:180px
   }
   .infoPic{
     position: absolute;
     left: 76%;
-    top: 50px;
+    top: 46px;
   }
   .searchEntity{
     position: absolute; left: 50%; top: 42%;
@@ -166,9 +196,10 @@
   }
   #mountNode{
     margin: 0 auto;
-    width: 760px; height: 400px;
-    position: absolute; left: 50%; top: 50%;
+    width: 760px; height: 600px;
+    position: absolute; left: 50%; top: 70%;
     transform: translate(-50%, -50%);
+    /*background-color: #0074D9;*/
   }
   .myBot3{
     position: fixed;

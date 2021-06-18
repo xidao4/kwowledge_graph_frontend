@@ -2,8 +2,9 @@ import router from './router'
 import { getToken } from '@/utils/auth'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-const whiteList = ['/login'];
-const normalUser=['/search','/searchList','/searchDetail','/experience']
+const whiteList = ['/login','/experience','/search','/searchList'];
+const normalUser=['/searchDetail']
+const professionalUser=['/home','/editor']
 import user from "./store/modules/user";
 import {message} from "ant-design-vue";
 
@@ -13,26 +14,28 @@ router.beforeEach(async(to, from, next) => {
     //测试用by ydl，之后要删掉
     user.state.userInfo.userType='normal'
     if (hasToken) {
-        if(to.path==='/experience'){
-            next();
-            NProgress.done()
-        }
-        else if (to.path === '/login') {
+        if (to.path === '/login') {
             // 导向首页
             if(user.state.userInfo.userType==='normal'){
-                next({path: '/search'});
+                next({path: '/searchDetail'});
             }
             else{
                 next({path: '/home'});
             }
             NProgress.done()
-        } else {
+        }
+        else if(whiteList.indexOf(to.path)!==-1){
+            next()
+            NProgress.done()
+        }
+        else {
             if(user.state.userInfo.userType==='normal'){
                 if(normalUser.indexOf(to.path)!==-1){
                     next()
                 }
                 else{
-                    message.error('没有权限访问')
+                    console.log('要去的！',to.path)
+                    message.error('没有权限访问!')
                     next({path: '/experience'});
                 }
             }
@@ -48,12 +51,7 @@ router.beforeEach(async(to, from, next) => {
             NProgress.done()
         }
     } else {
-        if(to.path==='/experience'){
-            next()
-            console.log('?????')
-            NProgress.done()
-        }
-        else if (whiteList.indexOf(to.path) !== -1) {
+        if (whiteList.indexOf(to.path) !== -1) {
             next()
         } else {
             next(`/login?redirect=${to.path}`);

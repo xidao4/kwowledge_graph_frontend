@@ -60,7 +60,7 @@ const user = {
                 // 根据用户身份类型来判断会跳转到哪个页面
                 if(resData.userType!=='professional') {
                     console.log('hi')
-                    router.push('/search');
+                    router.push('/searchList');
                 }
                 else{
                     router.push('/home');

@@ -49,7 +49,6 @@ const getters={
     searchResultDetail: state=>state.search.searchResultDetail,
     allPageNum:state=>state.search.allPageNum,
     currentPageNum: state=>state.search.currentPageNum,
-
     roleId: state=>state.chat.roleId,
     roleSentence: state=>state.chat.roleSentence,
     chatAnswer: state=>state.chat.chatAnswer

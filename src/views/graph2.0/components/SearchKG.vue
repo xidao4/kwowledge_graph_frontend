@@ -1,6 +1,6 @@
 <template>
   <body>
-    <div class="imgList">
+    <div class="imgList" v-if="!(this.token===undefined || this.token==='')">
       <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/atm.png" class="myBot1" @click="showBox"/>
       <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/bussiness-man.png" class="myBot2" @click="showBox"/>
       <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/double-arro- right.png" class="myBot3" @click="logoutBox"/>
@@ -26,7 +26,6 @@
     <JwChat-index
       :taleList="list"
       @enter="bindEnter"
-      @clickTalk="changeRole"
       v-model="inputMsg"
       :showRightBox="false"
       :config="config"
@@ -68,6 +67,7 @@
     name: "SearchKG",
     data(){
       return{
+        token:getToken(),
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           "authorization": 'authorization-text',
@@ -137,7 +137,7 @@
       },
       async searchContentList(){
         this.set_searchString(this.searchString)
-        // await this.getSearchAnswer()
+        await this.getSearchAnswer()
         this.$router.push({
           path: `/searchList`
         })
@@ -177,12 +177,15 @@
           })
         if(this.roleId===0){
           this.list.push({
-            "text": { "text": "点击用户头像还能切换不同的对话角色哟"},
+            "text": { "text": "点击左上角红楼梦还能切换不同的对话角色哟"},
             "mine": false,
             "name": that.roleSentence[that.roleId].name,
             "img": that.roleSentence[that.roleId].avatarUrl
           })
         }
+        let l=document.getElementsByClassName('el-badge')[0]
+        console.log('看看头像',l)
+        l.addEventListener('click',that.changeRole,false);
         if(this.isVirtual===false){
           this.list=[]
           this.set_roleId(0)
@@ -192,34 +195,32 @@
         console.log('切换角色')
         this.roleVisible=true
       },
-      toolEvent(type, plyload) {
+      async toolEvent(type, plyload) {
         console.log('tools', type, plyload)
         console.log('调用上传图片')
         let formData = new FormData()
-        formData.append('mFile', plyload[0])
-        console.log('myFormData',formData.get('mFile'))
+        formData.append('mfile', plyload[0])
+        console.log('myFormData',formData.get('mfile'))
         let that=this
         let config = {
           headers: that.headers
         }
-        this.picId='1111' //测试用
-        axios.post(`http://118.182.96.49:8001/api/graph/uploadCustomizeImg/${this.picId}/0/0`,formData,config)
+        axios.post(`http://118.182.96.49:8001/api/chat/uploadScene`,formData,config)
           .then(response => {
             // handle success
             console.log('上传图片后的response',response)
             console.log('success!!',response.contentList)
             //用户这边先展示上传的图片
             that.list.push({
-              "text": { "text": "<img data-src='"+response.data.data+"'/>" },
+              "text": { "text": "<img data-src='"+response.data.data.url+"'/>" },
               "mine": true,
               "name": "我",
               "img": "https://ydl8023.oss-cn-beijing.aliyuncs.com/柴犬.jpeg"
             },)
-            response.contentList=['111','222','3333']
-            for(let i=0;i<response.contentList.length;i++){
+            for(let i=0;i<response.data.data.contentList.length;i++){
               that.resList.push({
                 id: `system`+{i},
-                text: response.contentList[i]
+                text: response.data.data.contentList[i]
               })
             }
             that.list.push({
@@ -237,6 +238,18 @@
           }).catch(error => {
           this.$message.error(`图片上传失败.`);
         }).then(() => {
+          let l=document.getElementsByClassName('el-link');
+          for (let i=0;i<l.length;i++){
+            console.log('啦啦啦啦啦啦',l[i].children[0].childNodes[0].data)
+            l[i].addEventListener('click',clickx_,false);
+            async function clickx_(){
+              that.set_searchString(l[i].children[0].childNodes[0].data)
+              await this.getSearchAnswer()
+              that.$router.push({
+                path: `/searchList`
+              })
+            }
+          }
         });
       },
       handleOk(e) {
@@ -275,8 +288,8 @@
         console.log('调用上传图片')
         let formData = new FormData()
         console.log(file.file)
-        formData.append('mFile', file.file)
-        console.log('myFormData',formData.get('mFile'))
+        formData.append('mfile', file.file)
+        console.log('myFormData',formData.get('mfile'))
         let that=this
         let config = {
           headers: that.headers
@@ -284,7 +297,7 @@
         axios.post(`http://118.182.96.49:8001/api/search/uploadScene`,formData,config)
           .then(response => {
             // handle success
-            console.log('success!!',response.contentList)
+            console.log('success!!',response)
             this.set_searchResult(response.contentList)
           }).catch(error => {
           this.$message.error(`图片上传失败.`);
@@ -301,9 +314,11 @@
       }).blur(function(){
         $(this).parent().removeClass('focus');
       })
+      console.log('token',this.token)
       document.getElementsByClassName('header')[0].setAttribute('style', 'background-color: #F6CEE3 !important;')
       document.getElementsByClassName('el-button')[0].setAttribute('style', 'border-color: #F6CEE3 !important;background-color: #F6CEE3 !important')
       // document.getElementsByClassName('cover')[0].setAttribute('style', 'cursor: auto;')
+
     }
   }
 </script>
@@ -359,7 +374,7 @@
   .search-input {
     position: absolute;
     top: 10px;
-    left: 38px;
+    left: 45px;
     font-size: 18px;
     background: none;
     color: #5a6674;
