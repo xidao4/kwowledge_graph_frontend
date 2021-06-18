@@ -62,7 +62,7 @@ const user = {
                 if(resData.userType!=='professional') {
                     console.log('hi')
                     console.log('state???????????', state.userInfo)
-                    router.push('/searchList');
+                    router.push('/search');
                 }
                 else{
                     router.push('/home');

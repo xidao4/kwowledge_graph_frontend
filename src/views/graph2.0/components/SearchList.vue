@@ -7,8 +7,8 @@
       <img src="https://ydl8023.oss-cn-beijing.aliyuncs.com/double-arro- right (1).png" class="myBot3" @click="logoutBox"/>
     </div>
     <div class="bgContent">
-      <div>
-        <img src="http://i3.sinaimg.cn/gm/j/n/2008-12-30/U1850P115T9D289891F364DT20081230185442_c.jpg">
+      <div class="headBar">
+        <img class='logo' src="http://i3.sinaimg.cn/gm/j/n/2008-12-30/U1850P115T9D289891F364DT20081230185442_c.jpg" />
         <form class="search-form" onkeypress="return event.keyCode !== 13;">
           <input v-model="searchCondition" placeholder="搜你想搜" class="search-input" @keydown.enter="searchContent">
         </form>
@@ -278,23 +278,16 @@ body {
   width: 100%;
   margin: 0;
 }
-img{
-  width: 8%;
-  height: 8%;
-  margin-left: 2%;
-  margin-top: 2%;
-}
 $color: #e24040;
 .search-form {
-  position: relative;
-  margin-top: -1.8%;
-  margin-left: 32%;
+  margin-left: 300px;
+  margin-top: 36px;
   width: 600px;
   height: 50px;
   border-radius: 40px;
   border: 1px;
   box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.15);
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0);
   background: #fff;
   transition: all 0.3s ease;
 
@@ -310,7 +303,7 @@ $color: #e24040;
   font-size: 18px;
   background: none;
   color: #5a6674;
-  width: 90%;
+  width: 580px;
   height: 30px;
   border: none;
   appearance: none;
@@ -427,4 +420,19 @@ $color: #e24040;
   .page404{
     margin-left: 12%;
   }
+  .logo{
+    width: 100px;
+    height: 50px;
+    margin-top: 40px;
+  }
+  .headBar{
+    display: flex;
+    flex-direction: row;
+  }
+/*img{*/
+/*  width: 8%;*/
+/*  height: 8%;*/
+/*  margin-left: 2%;*/
+/*  margin-top: 2%;*/
+/*}*/
 </style>

@@ -244,8 +244,9 @@
             console.log('啦啦啦啦啦啦',l[i].children[0].childNodes[0].data)
             l[i].addEventListener('click',clickx_,false);
             async function clickx_(){
+              console.log(l[i].children[0].childNodes[0].data)
               that.set_searchString(l[i].children[0].childNodes[0].data)
-              await this.getSearchAnswer()
+              await that.getSearchAnswer()
               that.$router.push({
                 path: `/searchList`
               })

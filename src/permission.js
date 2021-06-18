@@ -5,19 +5,18 @@ import 'nprogress/nprogress.css'
 const whiteList = ['/login','/experience','/search'];
 const normalUser=['/searchDetail','/searchList']
 const professionalUser=['/home/list','/editor']
-import user from "./store/modules/user";
+import store from "./store";
 import {message} from "ant-design-vue";
 
 router.beforeEach(async(to, from, next) => {
     NProgress.start();
     const hasToken = getToken();
     //测试用by ydl，之后要删掉
-    console.log('看看state里面的???',user)
-    console.log('permission',user.state.userInfo.userType)
+    console.log('看看state里面的???',store.state.user.userInfo)
     if (hasToken) {
         if (to.path === '/login') {
             // 导向首页
-            if(user.state.userInfo.userType==='normal'){
+            if(store.state.user.userInfo.userType==='normal'){
                 next({path: '/searchDetail'});
             }
             else{
@@ -30,7 +29,7 @@ router.beforeEach(async(to, from, next) => {
             NProgress.done()
         }
         else {
-            if(user.state.userInfo.userType==='normal'){
+            if(store.state.user.userInfo.userType==='normal'){
                 if(normalUser.indexOf(to.path)!==-1){
                     next()
                 }
