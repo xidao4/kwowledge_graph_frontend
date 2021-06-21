@@ -9,7 +9,7 @@ import {getUserPicsAPI} from "../../api/user";
 
 const search={
   state:{
-    searchString: '贾宝玉喜欢谁',
+    searchString: '',
     // searchResult1:[
     //   {title:'唐人街探案3',info:"继曼谷、纽约之后，东京再出大案。唐人街神探唐仁（王宝强 饰）、秦风（刘昊然 饰）" +
     //       "受侦探野田昊（妻夫木聪 饰）的邀请前往破案。“CRIMASTER世界侦探排行榜”中的侦探们闻讯后也齐聚东京，加入挑战，" +

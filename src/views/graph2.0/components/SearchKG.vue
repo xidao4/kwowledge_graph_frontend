@@ -205,6 +205,7 @@
         let config = {
           headers: that.headers
         }
+        that.resList=[]
         axios.post(`http://118.182.96.49:8001/api/chat/uploadScene`,formData,config)
           .then(response => {
             // handle success
@@ -292,6 +293,13 @@
         formData.append('mfile', file.file)
         console.log('myFormData',formData.get('mfile'))
         let that=this
+        if(!getToken()){
+          message.error('请先登录！')
+          that.$router.push({
+            path: `/login`
+          })
+          return;
+        }
         let config = {
           headers: that.headers
         }
@@ -302,6 +310,7 @@
             // this.set_searchResult(response.data.data)
             that.set_searchString("")
             that.searchResult.answerList=response.data.data
+            that.searchResult.code=0
             that.searchResult.contentList=[]
             that.$router.push({
               path: `/searchList`

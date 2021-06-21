@@ -16,9 +16,6 @@
                     <div class="block" style="overflow: hidden;">
                         <TypesettingGraph v-if="currentGraphId === graphIds.typesetting" @finished="stopSpinning"></TypesettingGraph>
                         <ForceGraph v-if="currentGraphId === graphIds.force" @finished="stopSpinning"></ForceGraph>
-<!--                                            <TypesettingGraph v-show="false"></TypesettingGraph>-->
-<!--                                            <ForceGraph v-if="false"></ForceGraph>-->
-<!--                        <LargeGraph v-if="true" @finished="stopSpinning"></LargeGraph>-->
                     </div>
                 </a-col>
                 <a-col :md="0" :lg="7" :xl="7" xxl="4" v-show="!showModal">
@@ -72,7 +69,6 @@
     import RelationList from "@/views/graph/components/RelationList"
     import Pie from "./components/Pie";
     import TypeFilter from "./components/TypeFilter";
-    import LargeGraph from "./components/LargeGraph";
     import EditEntity from "@/views/graph2.0/components/EditEntity"
     import EditRelation from './components/EditRelation.vue';
     import PieBottom from "./components/PieBottom";
@@ -89,7 +85,6 @@
         },
         components: {
           PieBottom,
-            LargeGraph,
             ACol,
             ARow,
             LayoutBlock,

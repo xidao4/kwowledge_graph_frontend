@@ -5,7 +5,7 @@
         <span class="underline-hover" v-if="signal===0">{{this.searchResult.answerList[cardIndex].title}}</span>
         <span class="underline-hover" v-if="signal===1">{{this.searchResult.contentList[cardIndex].title}}</span>
       </h2>
-      <a-tag class="myTag" v-if="signal===1" color="pink">{{this.searchResult.contentList[cardIndex].relation}}</a-tag>
+      <a-tag class="myTag" v-if="signal===1" color="red">{{this.searchResult.contentList[cardIndex].relation}}</a-tag>
     </div>
     <div class="demo" v-if="signal===0">{{this.searchResult.answerList[cardIndex].info}}</div>
     <div class="demo" v-if="signal===1">{{this.searchResult.contentList[cardIndex].info}}</div>
@@ -78,7 +78,7 @@
     position:relative;
   &::before,&::after {
      content: "";
-     background: #cd6657;
+     background: #D99CA8;
      position: absolute;
      height: 2px;
      bottom: 0;

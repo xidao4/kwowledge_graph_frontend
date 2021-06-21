@@ -72,12 +72,15 @@
       async initG6(){
         let processedEdges = [...this.searchResultDetail.edges];
         processedEdges.forEach((edge) => {
-          edge.type = 'arc';
-          edge.curveOffset = 30;
+          edge.type = 'line';
+          // edge.curveOffset = 30;
           edge.style={
-            lineWidth: 3
+            lineWidth: 1,
+            endArrow: true,
+            stroke: '#999999'
           }
         });
+        G6.Util.processParallelEdges(processedEdges);
         const initData = {
           // 点集
           nodes: this.searchResultDetail.nodes,
@@ -94,10 +97,13 @@
         const graph = new G6.Graph({
           container: 'mountNode', // 指定挂载容器
           width: 760, // 图的宽度
-          height: 600, // 图的高度
-          fitCenter:true,
-          // fitView:true,
+          height: 580, // 图的高度
+          // fitCenter:true,
+          fitView:true,
           fitViewPadding: 20,
+          modes: {
+            default: ['drag-canvas', 'zoom-canvas', 'drag-node'], // 允许拖拽画布、放缩画布、拖拽节点
+          },
           layout: {
             // Object，可选，布局的方法及其配置项，默认为 random 布局。
             type: predictLayout,
@@ -115,8 +121,8 @@
             // ...                 // 节点的其他配置
             // 节点样式配置
             style: {
-              fill: 'steelblue', // 节点填充色
-              stroke: '#666', // 节点描边色
+              fill: '#D99CA8', // 节点填充色
+              stroke: '#D99CA8', // 节点描边色
               lineWidth: 1, // 节点描边粗细
             },
             // 节点上的标签文本配置
@@ -135,10 +141,19 @@
         graph.on('node:click', async (ev) => {
           const shape = ev.target;
           const node = ev.item;
-          console.log('我点击了！！！',node._cfg.model.label)
           // await this.getSearchAnswerDetail(node._cfg.model.label)
           await this.getSearchAnswerDetail(node._cfg.model.label)
-          console.log('重新渲染')
+          processedEdges = [...this.searchResultDetail.edges];
+          processedEdges.forEach((edge) => {
+            edge.type = 'line';
+            edge.curveOffset = 30;
+            edge.style={
+              lineWidth: 1,
+              endArrow: true,
+              stroke: '#999999'
+            }
+          });
+          G6.Util.processParallelEdges(processedEdges);
           const data = {
             // 点集
             nodes: this.searchResultDetail.nodes,
@@ -146,7 +161,6 @@
             edges: processedEdges,
           };
           graph.data(data)
-          console.log(data)
           graph.render()
         });
       }
@@ -170,7 +184,7 @@
     display: flex;
     flex-direction: column;
     width: 60%;
-    position: absolute;
+    position: relative;
     left: 13%;
     top: 20px;
   }
@@ -197,11 +211,14 @@
     margin: 0 auto;
   }
   #mountNode{
-    margin: 0 auto;
-    width: 760px; height: 600px;
-    position: absolute; left: 50%; top: 70%;
-    transform: translate(-50%, -50%);
-    /*background-color: #0074D9;*/
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 760px; height: 580px;
+    position: relative;
+    /*position: absolute; left: 50%; top: 70%;*/
+    /*transform: translate(-50%, -50%);*/
+    background-color: #f3f3f3;
   }
   .myBot3{
     position: fixed;

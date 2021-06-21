@@ -1,7 +1,0 @@
-language: node_js
-node_js:
-  - 12.5.0
-cache: yarn
-script:
-  - yarn
-  - yarn run lint --no-fix && yarn run build

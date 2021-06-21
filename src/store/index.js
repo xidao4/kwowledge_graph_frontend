@@ -26,7 +26,10 @@ const PERSIST_PATHS = [
     'graph.currentGraphData',
     'graph.currentShowGraphData',
     'graph.nodeId',
-    'graph.relationId'
+    'graph.relationId',
+    'search.searchResult',
+    'search.searchString',
+    'search.searchResultDetail'
 ];
 
 const store = new Vuex.Store({

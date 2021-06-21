@@ -31,8 +31,8 @@
         </div>
       </div>
       <div id="mountNode" :class="this.searchResult.answerList.length>=4?'leftPosition':'none'" v-if="this.searchResult.code===1 || this.searchResult.code===3"></div>
-<!--      <div class="pageBox">-->
-<!--        <a-pagination :default-current="1" v-model="currentPage" :total="100" class="pageBar" :defaultPageSize="6" :hideOnSinglePage="true" @change="changePageNum"/>-->
+<!--      <div class="pageBox" v-if="this.searchResult.code===0">-->
+<!--        <a-pagination :default-current="1" v-model="currentPage" :total="this.searchResult.answerList.length" class="pageBar" :defaultPageSize="10" :hideOnSinglePage="true" @change="changePageNum"/>-->
 <!--      </div>-->
     </div>
 <!--    <JwChat-index-->
@@ -87,7 +87,8 @@
           show:[]
         },
         ifNotShowBox:true,
-        isVirtual:false
+        isVirtual:false,
+        myGraph: ''
       }
     },
     components:{
@@ -108,7 +109,93 @@
         await this.getSearchAnswer()
         console.log(this.searchResult)
         if(this.searchResult.code===1 || this.searchResult.code===3) {
-          this.initG6()
+          if(Object.keys(this.myGraph).length !== 0) {
+            console.log('最初的起点',this.myGraph)
+            this.myGraph.destroy()
+          }
+          console.log('为啥不更新')
+          let processedEdges = [...this.searchResult.showGraphData.edges];
+          processedEdges.forEach((edge) => {
+            edge.type = 'line';
+            // edge.curveOffset = 30;
+            edge.style={
+              lineWidth: 1,
+              endArrow: true,
+              stroke: '#999999'
+            }
+          });
+          G6.Util.processParallelEdges(processedEdges);
+          const data = {
+            // 点集
+            nodes: this.searchResult.showGraphData.nodes,
+            // 边集
+            edges: processedEdges,
+          };
+          const { predictLayout, confidence } = await GraphLayoutPredict.predict({
+            // 点集
+            nodes: this.searchResult.showGraphData.nodes,
+            // 边集
+            edges: processedEdges,
+          });
+          console.log(predictLayout)
+          let graph = new G6.Graph({
+            container: 'mountNode', // 指定挂载容器
+            width: 600, // 图的宽度
+            height: 400, // 图的高度
+            fitCenter:true,
+            // fitView:true,
+            fitViewPadding: 20,
+            modes: {
+              default: ['drag-canvas', 'drag-node'], // 允许拖拽画布、放缩画布、拖拽节点
+            },
+            layout: {
+              // Object，可选，布局的方法及其配置项，默认为 random 布局。
+              type: predictLayout,
+              preventOverlap: true,
+              linkDistance:200,
+              nodeSize: 30,
+              nodeSpacing:30,
+              maxPreventOverlapIteration:400,
+              // workerEnabled: true, // 是否启用 webworker
+              // gpuEnabled: true // 是否使用 gpu 版本的布局算法，G6 4.0 支持，目前仅支持 gForce 及 fruchterman
+              // ...                    // 其他配置
+            },
+            defaultNode: {
+              size: 30, // 节点大小
+              // ...                 // 节点的其他配置
+              // 节点样式配置
+              style: {
+                fill: '#D99CA8', // 节点填充色
+                stroke: '#D99CA8', // 节点描边色
+                lineWidth: 1, // 节点描边粗细
+              },
+              // 节点上的标签文本配置
+              labelCfg: {
+                // 节点上的标签文本样式配置
+                position: 'bottom',
+                style: {
+                  fill: '#000', // 节点标签文字颜色
+                },
+              },
+            },
+            defaultEdge: {
+              // ... 其他属性
+              style: {
+                lineWidth: 3,
+                // endArrow: {
+                //   path: G6.Arrow.triangle(),
+                //   fill: "#D99CA8"
+                // },
+                // ... 其他样式属性
+              },
+            },
+          });
+          this.myGraph=graph;
+          console.log('再次搜索后的图数据',data)
+          this.myGraph.data(data); // 加载数据
+          this.myGraph.render(); // 渲染
+          console.log('再次搜索后的图数据',data)
+          console.log('为啥不更新')
         }
       },
       changePageNum(pageNum,pageSize){
@@ -144,12 +231,15 @@
       async initG6(){
         let processedEdges = [...this.searchResult.showGraphData.edges];
         processedEdges.forEach((edge) => {
-          edge.type = 'arc';
-          edge.curveOffset = 30;
+          edge.type = 'line';
+          // edge.curveOffset = 30;
           edge.style={
-            lineWidth: 3
+            lineWidth: 1,
+            endArrow: true,
+            stroke: '#999999'
           }
         });
+        G6.Util.processParallelEdges(processedEdges);
         const initData = {
           // 点集
           nodes: this.searchResult.showGraphData.nodes,
@@ -163,13 +253,16 @@
           edges: processedEdges,
         });
         console.log(predictLayout)
-        const graph = new G6.Graph({
+        let graph = new G6.Graph({
           container: 'mountNode', // 指定挂载容器
           width: 600, // 图的宽度
           height: 400, // 图的高度
           fitCenter:true,
           // fitView:true,
           fitViewPadding: 20,
+          modes: {
+            default: ['drag-canvas', 'drag-node'], // 允许拖拽画布、放缩画布、拖拽节点
+          },
           layout: {
             // Object，可选，布局的方法及其配置项，默认为 random 布局。
             type: predictLayout,
@@ -187,8 +280,8 @@
             // ...                 // 节点的其他配置
             // 节点样式配置
             style: {
-              fill: 'steelblue', // 节点填充色
-              stroke: '#666', // 节点描边色
+              fill: '#D99CA8', // 节点填充色
+              stroke: '#D99CA8', // 节点描边色
               lineWidth: 1, // 节点描边粗细
             },
             // 节点上的标签文本配置
@@ -245,6 +338,7 @@
         $(this).parent().removeClass('focus');
       })
       if(this.searchResult.code===1 || this.searchResult.code===3) {
+        console.log('会渲染么')
         this.initG6()
       }
     }
@@ -387,19 +481,19 @@ $color: #e24040;
   .answer{
     font-size: 18px;
     font-family: cursive;
-    margin-left: 12%;
+    margin-left: 120px;
     width: 600px;
   }
   .question{
     color: #cd6657;
     font-size: 20px;
     font-weight: normal;
-    margin-left: 12%;
+    margin-left: 120px;
     margin-top: 20px;
     margin-bottom: -10px;
   }
 .bottomDivider{
-  margin-left: 12%;
+  margin-left: 120px;
   min-width: 600px;
   width: 30%;
 }
@@ -411,7 +505,7 @@ $color: #e24040;
     margin-top: 40px;
   }
 #mountNode{
-  margin-left: 12%;
+  margin-left: 120px;
   width: 600px; height: 400px;
   /*background-color: #0074D9;*/
 }
